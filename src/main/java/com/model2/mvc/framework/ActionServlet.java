@@ -37,7 +37,7 @@ public class ActionServlet extends HttpServlet {
 			String resultPage=action.execute(request, response);
 			String result=resultPage.substring(resultPage.indexOf(":")+1);
 			
-			if(resultPage.startsWith("forward:"))
+			if(resultPage.startsWith("forward : "))
 				HttpUtil.forward(request, response, result);
 			else
 				HttpUtil.redirect(response, result);

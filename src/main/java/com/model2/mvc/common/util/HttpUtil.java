@@ -12,8 +12,8 @@ public class HttpUtil {
 			RequestDispatcher dispatcher = request.getRequestDispatcher(path);
 			dispatcher.forward(request, response);
 		}catch(Exception ex){
-			System.out.println("forward 오류 : " + ex);
-			throw new RuntimeException("forward 오류 : " + ex);
+			System.out.println("forward error : " + ex);
+			throw new RuntimeException("forward error : " + ex);
 		}
 	}
 	
@@ -21,8 +21,8 @@ public class HttpUtil {
 		try{
 			response.sendRedirect(path);
 		}catch(Exception ex){
-			System.out.println("redirect 오류 : " + ex);
-			throw new RuntimeException("redirect 오류  : " + ex);
+			System.out.println("redirect error : " + ex);
+			throw new RuntimeException("redirect error : " + ex);
 		}
 	}
 }
