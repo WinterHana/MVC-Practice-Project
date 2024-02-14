@@ -21,7 +21,7 @@ public class RequestMapping {
 			properties.load(in);
 		}catch(Exception ex){
 			System.out.println(ex);
-			throw new RuntimeException("actionmapping.properties 파일 로딩 실패 :"  + ex);
+			throw new RuntimeException("actionmapping.properties load failed  :"  + ex);
 		}finally{
 			if(in != null){
 				try{ in.close(); } catch(Exception ex){}
@@ -51,11 +51,11 @@ public class RequestMapping {
 					map.put(path, (Action)obj);
 					action = (Action)obj;
 				}else{
-					throw new ClassCastException("Class형변환시 오류 발생  ");
+					throw new ClassCastException("ClassCastException");
 				}
 			}catch(Exception ex){
 				System.out.println(ex);
-				throw new RuntimeException("Action정보를 구하는 도중 오류 발생 : " + ex);
+				throw new RuntimeException("getAction Exception : " + ex);
 			}
 		}
 		return action;

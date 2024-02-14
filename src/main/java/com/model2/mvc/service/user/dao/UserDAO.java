@@ -89,7 +89,7 @@ public class UserDAO {
 
 		rs.last();
 		int total = rs.getRow();
-		System.out.println("로우의 수:" + total);
+		System.out.println("total column :" + total);
 
 		HashMap<String,Object> map = new HashMap<String,Object>();
 		map.put("count", new Integer(total));
