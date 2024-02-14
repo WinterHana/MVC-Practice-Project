@@ -10,14 +10,14 @@ import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 
 
-public class RequestFilter implements Filter{
+public class RequestFilter implements Filter {
 
 	public void init(FilterConfig arg0) throws ServletException {
 	}
 
-	public void doFilter(ServletRequest arg0, ServletResponse arg1,	FilterChain arg2) 
+	public void doFilter(ServletRequest arg0, ServletResponse arg1, FilterChain arg2) 
 																						throws IOException, ServletException {
-		arg0.setCharacterEncoding("euc-kr");
+		arg0.setCharacterEncoding("euc-kr");	// 전처리
 		arg2.doFilter(arg0, arg1);
 	}
 

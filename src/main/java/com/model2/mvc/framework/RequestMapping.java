@@ -51,7 +51,7 @@ public class RequestMapping {
 					map.put(path, (Action)obj);
 					action = (Action)obj;
 				}else{
-					throw new ClassCastException("ClassCastException ");
+					throw new ClassCastException("ClassCastException");
 				}
 			}catch(Exception ex){
 				System.out.println(ex);
