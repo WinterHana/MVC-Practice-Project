@@ -4,12 +4,18 @@ import javax.servlet.RequestDispatcher;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.model2.mvc.service.user.vo.UserVO;
+
 
 public class HttpUtil {
 	
 	public static void forward(HttpServletRequest request, HttpServletResponse response, String path){
 		try{
 			RequestDispatcher dispatcher = request.getRequestDispatcher(path);
+			
+			UserVO vo=(UserVO)request.getAttribute("vo");
+			System.out.println("HttpUtil.foward : vo = " + vo);
+			
 			dispatcher.forward(request, response);
 		}catch(Exception ex){
 			System.out.println("forward error : " + ex);
@@ -18,7 +24,7 @@ public class HttpUtil {
 	}
 	
 	public static void redirect(HttpServletResponse response, String path){
-		try{
+		try{			
 			response.sendRedirect(path);
 		}catch(Exception ex){
 			System.out.println("redirect error : " + ex);

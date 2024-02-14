@@ -4,6 +4,7 @@
 
 <%
 	UserVO vo=(UserVO)request.getAttribute("vo");
+	System.out.println("readUser.jsp : vo = " + vo);
 %>
 
 <html>

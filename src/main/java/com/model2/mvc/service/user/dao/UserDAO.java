@@ -43,7 +43,10 @@ public class UserDAO {
 		
 		PreparedStatement stmt = con.prepareStatement(sql);
 		stmt.setString(1, userId);
-
+		
+		// test
+		System.out.println("UserDAO.findUser : userId = " + userId);
+		
 		ResultSet rs = stmt.executeQuery();
 
 		UserVO userVO = null;
@@ -61,7 +64,10 @@ public class UserDAO {
 		}
 		
 		con.close();
-
+		
+		// test
+		System.out.println("UserDAO.findUser : userVO Infomation = " + userVO);
+		
 		return userVO;
 	}
 

@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.model2.mvc.common.util.HttpUtil;
+import com.model2.mvc.service.user.vo.UserVO;
 
 
 public class ActionServlet extends HttpServlet {
@@ -37,7 +38,13 @@ public class ActionServlet extends HttpServlet {
 			String resultPage=action.execute(request, response);
 			String result=resultPage.substring(resultPage.indexOf(":")+1);
 			
-			if(resultPage.startsWith("forward : "))
+			System.out.println("ActionServlet.service : resultPage = " + resultPage);
+			System.out.println("ActionServlet.service : result = " + result);
+			
+			UserVO vo=(UserVO)request.getAttribute("vo");
+			System.out.println("ActionServlet.service : vo = " + vo);
+			
+			if(resultPage.startsWith("forward:"))
 				HttpUtil.forward(request, response, result);
 			else
 				HttpUtil.redirect(response, result);
