@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.model2.mvc.common.util.HttpUtil;
+import com.model2.mvc.service.product.vo.ProductVO;
 import com.model2.mvc.service.user.vo.UserVO;
 
 
@@ -43,6 +44,9 @@ public class ActionServlet extends HttpServlet {
 			
 			UserVO vo=(UserVO)request.getAttribute("vo");
 			System.out.println("ActionServlet.service : vo = " + vo);
+			
+			ProductVO prodVO = (ProductVO) request.getAttribute("prodVO");
+			System.out.println("ActionServlet.service : prodVO = " + vo);
 			
 			if(resultPage.startsWith("forward:"))
 				HttpUtil.forward(request, response, result);

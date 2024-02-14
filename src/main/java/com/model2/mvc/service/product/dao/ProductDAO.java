@@ -18,8 +18,34 @@ public class ProductDAO {
 	}
 	
 	// findProduct
-	public UserVO findProduct(String userId) throws Exception {
-		return null;
+	public ProductVO findProduct(int productId) throws Exception {
+		Connection con = DBUtil.getConnection();
+		
+		System.out.println("produdctId : " + productId);
+		String sql = "SELECT * FROM product where prod_no = ?";
+		
+		PreparedStatement stmt = con.prepareStatement(sql);
+		stmt.setInt(1, productId);
+		
+		ResultSet rs = stmt.executeQuery();
+		
+		ProductVO prodVO = null;
+		
+		while (rs.next()) {
+			prodVO = new ProductVO();
+			prodVO.setProdNo(rs.getInt("PROD_NO"));
+			prodVO.setProdName(rs.getString("PROD_NAME"));
+			prodVO.setProdDetail(rs.getString("PROD_DETAIL"));
+			prodVO.setManuDate(rs.getString("MANUFACTURE_DAY"));
+			prodVO.setPrice(rs.getInt("PRICE"));
+			prodVO.setFileName(rs.getString("IMAGE_FILE"));
+			prodVO.setRegDate(rs.getDate("REG_DATE"));
+		}
+		
+		System.out.println("ProductDAO.findProduct productVO : " + prodVO);
+		con.close();
+		
+		return prodVO;
 	}
 	
 	// getProductList

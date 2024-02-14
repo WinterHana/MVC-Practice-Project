@@ -129,11 +129,11 @@ function fncGetProductList(){
 		<td align="center"><%=no++%></td>
 		<td></td>
 		<%-- 나중에 수정 --%>
-		<td align="left"><a href="/getProduct.do?prodNo=<%=vo.getProdNo()%>&menu=search"><%=vo.getProdNo()%></a></td>
+		<td align="left"><a href="/getProduct.do?prodNo=<%=vo.getProdNo()%>"><%=vo.getProdNo()%></a></td>
 		<td></td>
 		<td align="left"><%= vo.getProdName() %></td>
 		<td></td>
-		<td align="left"><%= vo.getPrice() %></td>
+		<td align="left"><%= vo.getPrice() %></td> 
 		<td></td>
 		<td align="left"><%= vo.getRegDate().toString() %></td>
 		<td></td>
@@ -148,7 +148,7 @@ function fncGetProductList(){
 		<%
 			for(int i  = 1; i <= totalPage; i++) {
 		%>
-			<a href="/listProduct.do?page=<%=i %>&menu=search"><%=i %></a>
+			<a href="/listProduct.do?page=<%=i %>"><%=i %></a>
 		<%
 			}
 		%>
