@@ -15,3 +15,12 @@
 ### 3. 판매 관리
 
 ### 4. 요구사항 외 추가 기능
+
+## 주의 사항
+1. 각각 환경에 맞는 JDBC Connector가 필요하다
+
+><예시>
+>
+>Oracle 21c XE : ojdbc.7 사용, Oracle 10c XE : ojdbc.14 사용
+>
+>여기서는 ojdbc.14를 사용하고 .gitignore로 설정한다.
