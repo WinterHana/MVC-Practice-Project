@@ -10,7 +10,7 @@ import com.model2.mvc.framework.Action;
 public class LogoutAction extends Action {
 
 	@Override
-	public String execute(	HttpServletRequest request,
+	public String execute(HttpServletRequest request,
 												HttpServletResponse response) throws Exception {
 		HttpSession session=request.getSession();
 		session.invalidate();

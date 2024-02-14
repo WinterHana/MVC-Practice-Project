@@ -17,7 +17,7 @@ public class HttpUtil {
 			System.out.println("HttpUtil.foward : vo = " + vo);
 			
 			dispatcher.forward(request, response);
-		}catch(Exception ex){
+		}catch(Exception ex) {
 			System.out.println("forward error : " + ex);
 			throw new RuntimeException("forward error : " + ex);
 		}

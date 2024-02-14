@@ -53,7 +53,7 @@ public class RequestMapping {
 				}else{
 					throw new ClassCastException("ClassCastException");
 				}
-			}catch(Exception ex){
+			} catch(Exception ex){
 				System.out.println(ex);
 				throw new RuntimeException("getAction Exception : " + ex);
 			}

@@ -6,7 +6,7 @@ import javax.servlet.http.HttpServletResponse;
 
 
 public abstract class Action {
-	
+	// request 내의 메서드로 커버 가능
 	private ServletContext servletContext;
 	
 	public Action(){
