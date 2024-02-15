@@ -129,7 +129,9 @@ function fncGetProductList(){
 		<td class="ct_line02"></td>
 		<td class="ct_list_b">등록일</td>
 		<td class="ct_line02"></td>
-		<td class="ct_list_b">후기</td>	
+		<td class="ct_list_b">후기</td>
+		<td class="ct_line02"></td>
+		<td class="ct_list_b">상태</td>		
 	</tr>
 	<tr>
 		<td colspan="11" bgcolor="808285" height="1"></td>
@@ -152,6 +154,8 @@ function fncGetProductList(){
 		<td align="left"><%= vo.getRegDate().toString() %></td>
 		<td></td>
 		<td align="left"><%= vo.getProdDetail() %></td>		
+		<td></td>
+		<td align="left">판매 중</td>		
 	</tr>
 	<%} %>
 </table>

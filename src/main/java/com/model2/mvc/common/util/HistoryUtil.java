@@ -12,7 +12,7 @@ import javax.servlet.http.HttpServletResponse;
  */
 public class HistoryUtil {
 	
-	private static final int QUEUE_SIZE = 5;
+	private static final int DEQUE_SIZE = 5;
 	private static Deque<String> deque;
 	
 	private HistoryUtil() {
@@ -31,7 +31,7 @@ public class HistoryUtil {
 		String strProdNo = String.valueOf(prodNo);
 		deque.addFirst(strProdNo);
 		
-		if(deque.size() > QUEUE_SIZE) {
+		if(deque.size() > DEQUE_SIZE) {
 			System.out.println("삭제된 Queue : " + deque.removeLast());
 		}
 		
