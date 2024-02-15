@@ -61,4 +61,14 @@ public class ProductServiceImpl implements ProductService {
 		
 		return result;
 	}
+
+	@Override
+	public void insertProduct(ProductVO productVO) {
+		try {
+			productDAO.insertProduct(productVO);
+		} catch (Exception e) {
+			System.out.println("ProductServiceImpl.insertProduct Exception");
+			e.printStackTrace();
+		}
+	}
 }

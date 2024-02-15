@@ -114,8 +114,24 @@ public class ProductDAO {
 	}
 	
 	// insertProduct
-	public void insertProduct(UserVO userVO) throws Exception {
+	public void insertProduct(ProductVO productVO) throws Exception {
+		Connection con = DBUtil.getConnection();
 		
+		String sql = "INSERT INTO product values (seq_product_prod_no.nextval, ?, ?, ?, ?, ?, sysdate)";
+		
+		PreparedStatement stmt = con.prepareStatement(sql);
+		
+		stmt.setString(1, productVO.getProdName());
+		stmt.setString(2, productVO.getProdDetail());
+		// 문자열 크기에 맞게 파싱
+		stmt.setString(3, productVO.getManuDate().replace("-", ""));
+		stmt.setInt(4, productVO.getPrice());
+		stmt.setString(5, productVO.getFileName());
+		
+		stmt.executeUpdate();
+		
+		con.close();
 	}
+	
 	// updateProduct
 }

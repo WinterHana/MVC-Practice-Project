@@ -10,9 +10,10 @@ public interface ProductService {
 	public ProductVO findProduct(int productId);
 	
 	// getProductList
+	public HashMap<String, Object> getProductList(SearchVO searchVO);
 	
 	// insertProduct
-	public HashMap<String, Object> getProductList(SearchVO searchVO);
+	public void insertProduct(ProductVO productVO);
 	
 	// updateProduct
 	
