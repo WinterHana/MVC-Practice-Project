@@ -29,10 +29,24 @@
 			totalPage += 1;
 		}
 	}
+	
+	String menu = request.getParameter("menu");
+	String title = null;
+	String pageTarget = null;
+	if(menu != null) {
+		if(menu.equals("manage")) {
+			title = "상품 관리";
+			pageTarget = "updateProductView";
+		} else if (menu.equals("search")) {
+			title = "상품 목록 조회";
+			pageTarget = "getProduct";
+		}
+	}
+
 %>
 <html>
 <head>
-<title>상품 목록조회</title>
+<title><%=title %></title>
 
 <link rel="stylesheet" href="/css/admin.css" type="text/css">
 
@@ -47,7 +61,7 @@ function fncGetProductList(){
 
 <div style="width:98%; margin-left:10px;">
 
-<form name="detailForm" action="/listProduct.do?menu=search" method="post">
+<form name="detailForm" action="/listProduct.do?menu=<%=menu %>" method="post">
 
 <table width="100%" height="37" border="0" cellpadding="0"	cellspacing="0">
 	<tr>
@@ -57,7 +71,7 @@ function fncGetProductList(){
 		<td background="/images/ct_ttl_img02.gif" width="100%" style="padding-left:10px;">
 			<table width="100%" border="0" cellspacing="0" cellpadding="0">
 				<tr>
-					<td width="93%" class="ct_ttl01">상품 목록조회</td>
+					<td width="93%" class="ct_ttl01"><%=title %></td>
 				</tr>
 			</table>
 		</td>
@@ -129,7 +143,7 @@ function fncGetProductList(){
 		<td align="center"><%=no++%></td>
 		<td></td>
 		<%-- 나중에 수정 --%>
-		<td align="left"><a href="/getProduct.do?prodNo=<%=vo.getProdNo()%>"><%=vo.getProdNo()%></a></td>
+		<td align="left"><a href="/<%=pageTarget %>.do?prodNo=<%=vo.getProdNo()%>"><%=vo.getProdNo()%></a></td>
 		<td></td>
 		<td align="left"><%= vo.getProdName() %></td>
 		<td></td>
@@ -148,7 +162,7 @@ function fncGetProductList(){
 		<%
 			for(int i  = 1; i <= totalPage; i++) {
 		%>
-			<a href="/listProduct.do?page=<%=i %>"><%=i %></a>
+			<a href="/listProduct.do?menu=<%=menu %>&page=<%=i %>"><%=i %></a>
 		<%
 			}
 		%>

@@ -3,6 +3,7 @@ package com.model2.mvc.service.product.dao;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -130,8 +131,32 @@ public class ProductDAO {
 		
 		stmt.executeUpdate();
 		
+		Statement st = con.createStatement();
+		st.execute("commit");
+		
 		con.close();
 	}
 	
 	// updateProduct
+	public void updateProduct(ProductVO productVO) throws Exception {
+		
+		Connection con = DBUtil.getConnection();
+
+		String sql = "UPDATE product set PROD_NAME = ?, PROD_DETAIL = ?, MANUFACTURE_DAY = ?, PRICE = ?, IMAGE_FILE = ? WHERE PROD_NO = ?";
+		
+		PreparedStatement stmt = con.prepareStatement(sql);
+		stmt.setString(1, productVO.getProdName());
+		stmt.setString(2, productVO.getProdDetail());
+		stmt.setString(3, productVO.getManuDate());
+		stmt.setInt(4, productVO.getPrice());
+		stmt.setString(5, productVO.getFileName());
+		stmt.setInt(6, productVO.getProdNo());
+		
+		stmt.executeUpdate();
+		
+		Statement st = con.createStatement();
+		st.execute("commit");
+		
+		con.close();
+	}
 }

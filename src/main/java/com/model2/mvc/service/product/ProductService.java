@@ -16,5 +16,5 @@ public interface ProductService {
 	public void insertProduct(ProductVO productVO);
 	
 	// updateProduct
-	
+	public void updateProduct(ProductVO productVO);
 }

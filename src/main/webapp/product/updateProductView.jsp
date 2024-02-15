@@ -1,9 +1,17 @@
+<%@page import="com.model2.mvc.service.product.vo.ProductVO"%>
 <%@ page language="java" contentType="text/html; charset=EUC-KR"
     pageEncoding="EUC-KR"%>
 
+<% 
+	ProductVO prodVO = (ProductVO)request.getAttribute("prodVO");
+	Cookie prodNoCookie = new Cookie("prodNo", String.valueOf(prodVO.getProdNo()));
+	prodNoCookie.setMaxAge(60);
+	response.addCookie(prodNoCookie);
+%>
+
 <html>
 <head>
-<title>회원정보수정</title>
+<title>제품정보수정</title>
 
 <link rel="stylesheet" href="/css/admin.css" type="text/css">
 
@@ -11,7 +19,6 @@
 </script>
 
 <script type="text/javascript">
-<!--
 function fncAddProduct(){
 	//Form 유효성 검증
  	var name = document.detailForm.prodName.value;
@@ -39,7 +46,6 @@ function fncAddProduct(){
 	document.detailForm.action='/updateProduct.do';
 	document.detailForm.submit();
 }
--->
 </script>
 </head>
 
@@ -82,7 +88,7 @@ function fncAddProduct(){
 				<tr>
 					<td width="105">
 						<input 	type="text" name="prodName" class="ct_input_g" 
-										style="width: 100px; height: 19px" maxLength="20" value="vaio vgn FS70B">
+										style="width: 100px; height: 19px" maxLength="20" value="<%=prodVO.getProdName() %>">
 					</td>
 				</tr>
 			</table>
@@ -97,8 +103,8 @@ function fncAddProduct(){
 		</td>
 		<td bgcolor="D6D6D6" width="1"></td>
 		<td class="ct_write01">
-			<input type="text" name="prodDetail" value="소니 바이오 노트북 신동품" class="ct_input_g" 
-						style="width: 100px; height: 19px" maxLength="10"	minLength="6">
+			<input type="text" name="prodDetail" value="<%=prodVO.getProdDetail() %>" class="ct_input_g" 
+						style="width: 100px; height: 19px" maxLength="200"	minLength="1">
 		</td>
 	</tr>
 	<tr>
@@ -110,7 +116,7 @@ function fncAddProduct(){
 		</td>
 		<td bgcolor="D6D6D6" width="1"></td>
 		<td class="ct_write01">
-			<input type="text" readonly="readonly" name="manuDate" value="20120514" 	
+			<input type="text" readonly="readonly" name="manuDate" value="<%=prodVO.getManuDate() %>" 	
 						class="ct_input_g" style="width: 100px; height: 19px" maxLength="10" minLength="6">&nbsp;
 						<img 	src="../images/ct_icon_date.gif" width="15" height="15" 
 									onclick="show_calendar('document.detailForm.manuDate', document.detailForm.manuDate.value)" />
@@ -125,7 +131,7 @@ function fncAddProduct(){
 		</td>
 		<td bgcolor="D6D6D6" width="1"></td>
 		<td class="ct_write01">
-			<input type="text" name="price" value="4000000"
+			<input type="text" name="price" value="<%=prodVO.getPrice() %>"
 						class="ct_input_g" style="width: 100px; height: 19px" maxLength="50"/>&nbsp;원
 		</td>
 	</tr>
@@ -137,7 +143,7 @@ function fncAddProduct(){
 		<td bgcolor="D6D6D6" width="1"></td>
 		<td class="ct_write01">
 			<input	type="text" name="fileName" class="ct_input_g" 
-						style="width: 200px; height: 19px" maxLength="13" value="../../images/empty.GIF"/>
+						style="width: 200px; height: 19px" maxLength="13" value="<%=prodVO.getFileName() %>"/>
 		</td>
 	</tr>
 	<tr>

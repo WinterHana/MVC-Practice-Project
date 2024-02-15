@@ -71,4 +71,15 @@ public class ProductServiceImpl implements ProductService {
 			e.printStackTrace();
 		}
 	}
+
+	@Override
+	public void updateProduct(ProductVO productVO) {
+		try {
+			productDAO.updateProduct(productVO);
+		} catch (Exception e) {
+			System.out.println("ProductServiceImpl.updateProduct Exception");
+			e.printStackTrace();
+		}
+		
+	}
 }
