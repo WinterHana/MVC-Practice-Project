@@ -7,8 +7,8 @@
 
 </head>
 <body>
-	당신이 열어본 상품을 알고 있다
-<br>
+	<p>최근 본 상품 목록</p>
+	<p>최대 5개까지 저장됩니다.</p>
 <br>
 <%
 	request.setCharacterEncoding("euc-kr");
@@ -23,12 +23,12 @@
 			}
 		}
 		if (history != null) {
-			String[] h = history.split(",");
+			String[] h = history.split("/");
 			for (int i = 0; i < h.length; i++) {
 				if (!h[i].equals("null")) {
 %>
-<a href="/getProduct.do?prodNo=<%=h[i]%>&menu=search"	target="rightFrame"><%=h[i]%></a>
-<br>
+	<a href="/getProduct.do?prodNo=<%=h[i]%>&menu=search"	target="rightFrame"><%=h[i]%></a>
+	<br>
 <%
 				}
 			}
