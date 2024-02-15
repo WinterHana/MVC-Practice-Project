@@ -73,9 +73,9 @@ function fncGetProductList(){
 		
 		<td align="right">
 			<select name="searchCondition" class="ct_input_g" style="width:80px">
-				<option value="0">상품번호</option>
-				<option value="1">상품명</option>
-				<option value="2">상품가격</option>
+				<option value="prodNo">상품번호</option>
+				<option value="prodName">상품명</option>
+				<option value="price">상품가격</option>
 			</select>
 			<input type="text" name="searchKeyword"  class="ct_input_g" style="width:200px; height:19px" />
 		</td>

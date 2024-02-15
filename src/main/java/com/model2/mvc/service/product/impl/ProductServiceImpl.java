@@ -36,6 +36,22 @@ public class ProductServiceImpl implements ProductService {
 		
 		HashMap<String, Object> result = null;
 		
+		// 번호나 정수에 대해서 한글 입력에 대한 유효성 처리
+		if(searchVO != null) {
+			String searchCondition = searchVO.getSearchCondition();
+			String serachKeyword = searchVO.getSearchKeyword();
+			
+			if(searchCondition != null && serachKeyword != null &&
+					(searchCondition.equals("prodNo") || searchCondition.equals("price"))) {
+				
+				// 숫자가 아닐 경우, 임의로 숫자로 변경 (여기서는 -1)
+				if(serachKeyword.matches("^[\\D]*$")) {
+					serachKeyword = "-1";
+					searchVO.setSearchKeyword(serachKeyword);
+				}
+			}
+		}
+
 		try {
 			result = productDAO.getProductList(searchVO);
 		} catch (Exception e) {
@@ -45,7 +61,4 @@ public class ProductServiceImpl implements ProductService {
 		
 		return result;
 	}
-
-
-	
 }

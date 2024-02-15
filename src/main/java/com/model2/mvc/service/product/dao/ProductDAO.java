@@ -52,15 +52,18 @@ public class ProductDAO {
 	public HashMap<String, Object> getProductList(SearchVO searchVO) throws Exception {
 		Connection con = DBUtil.getConnection();
 		
-		// ★ 여기 알고리즘 파악할 필요가 있다.
+		// ★ 제품 검색에 대한 처리
 		String sql = "SELECT * from PRODUCT ";
 		if (searchVO.getSearchCondition() != null) {
-			if (searchVO.getSearchCondition().equals("0")) {
+			if (searchVO.getSearchCondition().equals("prodNo")) {
 				sql += " where PROD_NO='" + searchVO.getSearchKeyword()
 						+ "'";
-			} else if (searchVO.getSearchCondition().equals("1")) {
+			} else if (searchVO.getSearchCondition().equals("prodName")) {
 				sql += " where PROD_NAME='" + searchVO.getSearchKeyword()
 						+ "'";
+			} else if (searchVO.getSearchCondition().equals("price")) {
+				sql += " where PRICE='" + searchVO.getSearchKeyword()
+				+ "'";
 			}
 		}
 		sql += " order by PROD_NO";
