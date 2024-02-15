@@ -3,6 +3,7 @@ package com.model2.mvc.view.purchase;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.model2.mvc.common.util.TranStatusCode;
 import com.model2.mvc.framework.Action;
 import com.model2.mvc.service.product.ProductService;
 import com.model2.mvc.service.product.impl.ProductServiceImpl;
@@ -28,6 +29,7 @@ public class AddPurchaseAction extends Action {
 		purchaseVO.setDivyAddr((String)request.getParameter("receiverAddr"));
 		purchaseVO.setDivyRequest((String)request.getParameter("receiverRequest"));
 		purchaseVO.setDivyDate((String)request.getParameter("receiverDate"));
+		purchaseVO.setTranCode(TranStatusCode.PURCHASED.getNumber());
 		
 		// User information
 		UserService us = new UserServiceImpl();
