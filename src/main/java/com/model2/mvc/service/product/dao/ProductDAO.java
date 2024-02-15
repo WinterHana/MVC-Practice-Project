@@ -114,6 +114,8 @@ public class ProductDAO {
 	}
 	
 	// insertProduct
-	
+	public void insertProduct(UserVO userVO) throws Exception {
+		
+	}
 	// updateProduct
 }
