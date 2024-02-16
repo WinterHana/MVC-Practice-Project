@@ -36,7 +36,7 @@ public class PurchaseDAO {
 		System.out.println("searchVO.getPage():" + searchVO.getPage());
 		System.out.println("searchVO.getPageUnit():" + searchVO.getPageUnit());
 		
-		ArrayList<PurchaseVO> list = new ArrayList<ProductVO>();
+		ArrayList<PurchaseVO> list = new ArrayList<PurchaseVO>();
 		
 		if (total > 0) {
 			for (int i = 0; i < searchVO.getPageUnit(); i++) {
