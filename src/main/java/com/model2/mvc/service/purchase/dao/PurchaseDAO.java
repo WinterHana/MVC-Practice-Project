@@ -140,7 +140,7 @@ public class PurchaseDAO {
 		Connection con = DBUtil.getConnection();
 		
 		// Debugging
-		System.out.println("[PurchaseDAO.insertPurchase] : start" + purchaseVO);
+		System.out.println("[PurchaseDAO.insertPurchase] : start");
 		System.out.println("purchaseVO : " + purchaseVO);
 		
 		String sql = "INSERT INTO transaction values (seq_transaction_tran_no.nextval, ?, ?, ?, ?, ?, ?, ?, ?, sysdate, ?)";
@@ -157,16 +157,45 @@ public class PurchaseDAO {
 		
 		pstmt.executeUpdate();
 		
+		Statement st = con.createStatement();
+		st.execute("commit");
+		
+		con.close();
+		
 		System.out.println("[PurchaseDAO.insertPurchase] : end");
+	}
+	
+	
+	// updatePurchase : 구매 정보 수정
+	public PurchaseVO updatePurchase(PurchaseVO purchaseVO) throws Exception {
+		
+		System.out.println("[PurchaseDAO.updatePurchase] start");
+		
+		Connection con = DBUtil.getConnection();
+		
+		String sql = "UPDATE transaction set payment_option = ?, receiver_name = ?, receiver_phone = ?, demailaddr = ?, dlvy_request = ?, dlvy_date = ? WHERE tran_no = ?";
+		
+		PreparedStatement pstmt = con.prepareStatement(sql);
+		pstmt.setString(1, purchaseVO.getPaymentOption());
+		pstmt.setString(2, purchaseVO.getReceiverName());
+		pstmt.setString(3, purchaseVO.getReceiverPhone());
+		pstmt.setString(4, purchaseVO.getDivyAddr());
+		pstmt.setString(5, purchaseVO.getDivyRequest());
+		pstmt.setString(6, purchaseVO.getDivyDate());
+		pstmt.setInt(7, purchaseVO.getTranNo());
+		
+		pstmt.executeUpdate();
 		
 		Statement st = con.createStatement();
 		st.execute("commit");
 		
 		con.close();
+		
+		System.out.println("[PurchaseDAO.updatePurchase] end");
+		
+		
+		return purchaseVO;
 	}
-	
-	
-	// updatePurchase : 구매 정보 수정
 	
 	// updateTranCode : 구매 상태 코드 수정
 }

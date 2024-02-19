@@ -18,7 +18,7 @@
 
 <body bgcolor="#ffffff" text="#000000">
 
-<form name="updatePurchase" method="post"	action="/updatePurchase.do?tranNo=10002">
+<form name="updatePurchase" method="post"	action="/updatePurchase.do?tranNo=<%= purchaseVO.getTranNo() %>">
 
 <table width="100%" height="37" border="0" cellpadding="0" cellspacing="0">
 	<tr>
@@ -48,6 +48,7 @@
 		<td bgcolor="D6D6D6" width="1"></td>
 		<td class="ct_write01"><%=purchaseVO.getBuyer().getUserId() %></td>
 		<input type="hidden" name="buyerId" value="<%=purchaseVO.getBuyer().getUserId() %>">
+		<input type="hidden" name="tranNo" value="<%=purchaseVO.getTranNo() %>">
 	</tr>
 	<tr>
 		<td height="1" colspan="3" bgcolor="D6D6D6"></td>

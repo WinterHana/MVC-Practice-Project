@@ -68,4 +68,21 @@ public class PurchaseServiceImpl implements PurchaseService {
 		
 		return result;
 	}
+
+	@Override
+	public PurchaseVO updatePurchase(PurchaseVO purchaseVO) {
+		System.out.println("[purchaseServiceImpl.updatePurchase] start");
+		
+		PurchaseVO result = null;
+		
+		try {
+			result = purchaseDAO.updatePurchase(purchaseVO);
+		} catch (Exception e){
+			System.out.println("[purchaseServiceImpl.getPurchase] Exception");
+			e.printStackTrace();
+		}
+		System.out.println("[purchaseServiceImpl.getPurchase] end");
+		
+		return result;
+	}
 }

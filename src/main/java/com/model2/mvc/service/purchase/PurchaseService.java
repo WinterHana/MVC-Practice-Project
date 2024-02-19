@@ -18,6 +18,7 @@ public interface PurchaseService {
 	public void addPurchase(PurchaseVO purchaseVO);
 	
 	// updatePurchase
+	public PurchaseVO updatePurchase(PurchaseVO purchaseVO);
 	
 	// updateTranCode
 }
