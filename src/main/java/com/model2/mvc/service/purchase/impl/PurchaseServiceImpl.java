@@ -85,4 +85,35 @@ public class PurchaseServiceImpl implements PurchaseService {
 		
 		return result;
 	}
+
+	@Override
+	public Map<Integer, Object> getSalaList() {
+		System.out.println("[purchaseServiceImpl.getSalaList] start");
+		
+		Map<Integer, Object> result = null;
+		
+		try {
+			result = purchaseDAO.getSaleList();
+		} catch (Exception e) {
+			System.out.println("[purchaseServiceImpl.getSalaList] Exception");
+			e.printStackTrace();
+		}
+		
+		System.out.println("[purchaseServiceImpl.getSalaList] end");
+		return result;
+	}
+
+	@Override
+	public void updateTranCode(PurchaseVO purchaseVO) {
+		System.out.println("[purchaseServiceImpl.updateTranCode] start");
+		
+		try {
+			purchaseDAO.updateTranCode(purchaseVO);
+		} catch (Exception e) {
+			System.out.println("[purchaseServiceImpl.updateTranCode] Exception");
+			e.printStackTrace();
+		}
+		
+		System.out.println("[purchaseServiceImpl.updateTranCode] end");
+	}
 }

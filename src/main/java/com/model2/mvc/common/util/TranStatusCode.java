@@ -6,9 +6,9 @@ package com.model2.mvc.common.util;
 public enum TranStatusCode {
 	
 	ON_SALE("1", "판매 중", "판매 중"),
-	PURCHASED("2", "구입 완료", "판매 완료"),
-	ON_DELIVERY("3", "배송 중", "배송 중"),
-	COMPLETION("4", "배송 완료", "배송 완료");
+	PURCHASED("2", "매진", "판매 완료"),
+	ON_DELIVERY("3", "매진", "배송 중"),
+	COMPLETION("4", "매진", "배송 완료");
 	
 	private String number;
 	private String purchaseMessage;

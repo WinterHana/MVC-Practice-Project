@@ -9,10 +9,12 @@ public interface PurchaseService {
 	
 	// getPurchase
 	public PurchaseVO getPurchase(int tranNo);
+	
 	// getPurchaseList
 	public Map<String, Object> getPurchaseList(SearchVO searchVO, String userId);
 	
 	// getSaleList
+	public Map<Integer, Object> getSalaList();
 	
 	// addPurchase
 	public void addPurchase(PurchaseVO purchaseVO);
@@ -21,4 +23,5 @@ public interface PurchaseService {
 	public PurchaseVO updatePurchase(PurchaseVO purchaseVO);
 	
 	// updateTranCode
+	public void updateTranCode(PurchaseVO purchaseVO);
 }

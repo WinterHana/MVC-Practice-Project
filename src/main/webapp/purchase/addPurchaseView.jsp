@@ -49,8 +49,6 @@ function fncAddPurchase() {
 	</tr>
 </table>
 
-<input type="hidden" name="prodNo" value="10000" />
-
 <table width="600" border="0" cellspacing="0" cellpadding="0"	align="center" style="margin-top: 13px;">
 	<tr>
 		<td height="1" colspan="3" bgcolor="D6D6D6"></td>
@@ -64,7 +62,7 @@ function fncAddPurchase() {
 			<table width="100%" border="0" cellspacing="0" cellpadding="0">
 				<tr>
 					<td width="105"><%= productVO.getProdNo() %></td>
-					<td><input type="hidden" name="prodNo" value=<%= productVO.getProdNo()%> /></td>
+					<td><input type="hidden" name="prodNo" value=<%=  productVO.getProdNo() %> /></td>
 				</tr>
 			</table>
 		</td>

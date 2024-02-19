@@ -22,6 +22,8 @@ public class AddPurchaseAction extends Action {
 	public String execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		PurchaseVO purchaseVO = new PurchaseVO();
 		
+		// System.out.println("Integer.parseInt(request.getParameter()) " + Integer.parseInt(request.getParameter("prodNo")));
+		
 		// Input information
 		purchaseVO.setPaymentOption((String)request.getParameter("paymentOption"));
 		purchaseVO.setReceiverName((String)request.getParameter("receiverName"));

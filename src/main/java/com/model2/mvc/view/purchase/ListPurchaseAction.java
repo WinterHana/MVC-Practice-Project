@@ -41,11 +41,16 @@ public class ListPurchaseAction extends Action {
 		PurchaseService service = new PurchaseServiceImpl();
 		Map<String, Object> map = service.getPurchaseList(searchVO, userId);
 		
+		// PurchaseService, statue check
+		PurchaseService pservice = new PurchaseServiceImpl();
+		Map<Integer, Object> pmap = pservice.getSalaList();
+		
 		// Request control
 		request.setAttribute("map", map);
 		request.setAttribute("searchVO", searchVO);
 		request.setAttribute("userId", userId);
 		request.setAttribute("userName", userName);
+		request.setAttribute("pmap", pmap);
 		
 		System.out.println("[ListPurchaseAction.execute] end");
 		

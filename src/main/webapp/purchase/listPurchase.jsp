@@ -1,3 +1,4 @@
+<%@page import="com.model2.mvc.common.util.TranStatusCodeUtil"%>
 <%@page import="com.model2.mvc.common.util.TranStatusCode"%>
 <%@page import="java.util.Arrays"%>
 <%@page import="com.model2.mvc.service.purchase.vo.PurchaseVO"%>
@@ -12,6 +13,7 @@
 	SearchVO searchVO=(SearchVO)request.getAttribute("searchVO");
 	String userId = (String)request.getAttribute("userId");
 	String userName = (String)request.getAttribute("userName");
+	Map<Integer, Object> pmap = (Map<Integer, Object>)request.getAttribute("pmap");
 	
 	ArrayList<PurchaseVO> list = null;
 	int total = 0;
@@ -106,16 +108,17 @@
 		<td></td>
 		<td align="left"><%=vo.getReceiverPhone() %></td>
 		<td></td>
-		<td align="left">		
-		<% for(TranStatusCode tsc : TranStatusCode.values()) { %>
-			<% if(vo.getTranCode() != null && vo.getTranCode().trim().equals(tsc.getNumber())) { %>
-				<%=tsc.getPurchaseMessage()%>
-			<% }%>	
-		<% }%>
+		<td align="left">	
+		<%=TranStatusCodeUtil.getMessage(vo.getTranCode().trim()) %>	
 		</td>
 		<td></td>
 		<td align="left">
-				<!-- 정보 수정 구현하는 창인 거 같은데 빈칸임 ㅋㅋ -->
+			<% if(pmap != null && pmap.containsKey(vo.getPurchaseProd().getProdNo())) { %>
+            <% String tranCode = ((PurchaseVO)pmap.get(vo.getPurchaseProd().getProdNo())).getTranCode(); %>
+            <% int tranNo = ((PurchaseVO)pmap.get(vo.getPurchaseProd().getProdNo())).getTranNo(); %>
+            <% if(tranCode.trim().equals("3")) {%> <a href="/updateTranCode.do?tranNo=<%=tranNo %>&tranCode=<%=tranCode%>&url=listPurchase.do">배송 받기</a> <%} %>
+            <%=TranStatusCodeUtil.getMessage(tranCode) %>
+        <% } %>
 		</td>
 	</tr>
 	<tr>
@@ -129,7 +132,6 @@
 		<% for(int i  = 1; i <= totalPage; i++) {%>
 			 <a href="/listPurchase.do?page=<%=i%>"><%=i %></a> 
 		<%}%>
-		
 		</td>
 	</tr>
 </table>

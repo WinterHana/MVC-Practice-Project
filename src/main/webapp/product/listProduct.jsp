@@ -1,3 +1,6 @@
+<%@page import="com.model2.mvc.common.util.TranStatusCode"%>
+<%@page import="com.model2.mvc.common.util.TranStatusCodeUtil"%>
+<%@page import="com.model2.mvc.service.purchase.vo.PurchaseVO"%>
 <%@page import="com.model2.mvc.service.product.vo.ProductVO"%>
 <%@page import="com.model2.mvc.service.user.vo.UserVO"%>
 <%@page import="com.model2.mvc.common.SearchVO"%>
@@ -9,7 +12,8 @@
 
 
 <%
-	HashMap<String,Object> map=(HashMap<String,Object>)request.getAttribute("map");
+	Map<String, Object> map = (Map<String,Object>)request.getAttribute("map");
+	Map<Integer, Object> pmap = (Map<Integer, Object>)request.getAttribute("pmap");
 	SearchVO searchVO=(SearchVO)request.getAttribute("searchVO");
 
 	int total = 0;
@@ -34,10 +38,12 @@
 	String menu = request.getParameter("menu");
 	String title = null;
 	String pageTarget = null;
+	boolean isManager = false;
 	if(menu != null) {
 		if(menu.equals("manage")) {
 			title = "상품 관리";
 			pageTarget = "updateProductView";
+			isManager = true;
 		} else if (menu.equals("search")) {
 			title = "상품 목록 조회";
 			pageTarget = "getProduct";
@@ -132,7 +138,7 @@ function fncGetProductList(){
 		<td class="ct_line02"></td>
 		<td class="ct_list_b">후기</td>
 		<td class="ct_line02"></td>
-		<td class="ct_list_b">상태</td>		
+		<td class="ct_list_b">배송 상태</td>		
 	</tr>
 	<tr>
 		<td colspan="11" bgcolor="808285" height="1"></td>
@@ -146,7 +152,13 @@ function fncGetProductList(){
 		<td align="center"><%=no++%></td>
 		<td></td>
 		<%-- 나중에 수정 --%>
-		<td align="left"><a href="/<%=pageTarget %>.do?prodNo=<%=vo.getProdNo()%>"><%=vo.getProdNo()%></a></td>
+		<td align="left">
+		<% if(pmap != null && pmap.containsKey(vo.getProdNo())) { %>
+				<%=vo.getProdNo()%>
+		<%} else { %>
+				<a href="/<%=pageTarget %>.do?prodNo=<%=vo.getProdNo()%>"><%=vo.getProdNo()%></a>
+		<%} %>
+		</td>
 		<td></td>
 		<td align="left"><%= vo.getProdName() %></td>
 		<td></td>
@@ -156,7 +168,14 @@ function fncGetProductList(){
 		<td></td>
 		<td align="left"><%= vo.getProdDetail() %></td>		
 		<td></td>
-		<td align="left">판매 중</td>		
+		<td align="left">
+        <% if(pmap != null && pmap.containsKey(vo.getProdNo())) { %>
+            <% String tranCode = ((PurchaseVO)pmap.get(vo.getProdNo())).getTranCode(); %>
+            <% int tranNo = ((PurchaseVO)pmap.get(vo.getProdNo())).getTranNo(); %>
+            <% if(isManager && tranCode.trim().equals("2")) {%> <a href="/updateTranCode.do?tranNo=<%=tranNo %>&tranCode=<%=tranCode%>&url=listProduct.do?menu=manage">배송 시작하기</a> <%} %>
+            <%=TranStatusCodeUtil.getMessage(tranCode, isManager) %>
+        <% } %>
+		</td>		
 	</tr>
 	<%} %>
 </table>

@@ -11,6 +11,7 @@ import java.util.Map;
 
 import com.model2.mvc.common.SearchVO;
 import com.model2.mvc.common.util.DBUtil;
+import com.model2.mvc.common.util.TranStatusCodeUtil;
 import com.model2.mvc.service.product.vo.ProductVO;
 import com.model2.mvc.service.purchase.vo.PurchaseVO;
 import com.model2.mvc.service.user.dao.UserDAO;
@@ -74,13 +75,13 @@ public class PurchaseDAO {
 		String sql = "SELECT * FROM transaction WHERE buyer_id = ? ORDER BY tran_no";
 		
 		// 커서의 양방향 진행을 위한 parameter : ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE
-		PreparedStatement stmt = con.prepareStatement(sql, 
+		PreparedStatement pstmt = con.prepareStatement(sql, 
 				ResultSet.TYPE_SCROLL_INSENSITIVE, 
 				ResultSet.CONCUR_UPDATABLE);
 		
-		stmt.setString(1, userId);
+		pstmt.setString(1, userId);
 		
-		ResultSet rs = stmt.executeQuery();
+		ResultSet rs = pstmt.executeQuery();
 		
 		// 열의 개수를 가져와서 Map에 put 하기
 		rs.last();
@@ -134,17 +135,41 @@ public class PurchaseDAO {
 	}
 	
 	// getSaleList : 판매 목록 조회
+	public Map<Integer, Object> getSaleList() throws SQLException {
+		System.out.println("[PurchaseDAO.getSaleList] start");
+		
+		Connection con = DBUtil.getConnection();
+		
+		String sql = "SELECT t.tran_status_code, p.prod_no, t.tran_no FROM transaction t, product p WHERE t.prod_no = p.prod_no";
+		PreparedStatement stmt = con.prepareStatement(sql);
+		ResultSet rs = stmt.executeQuery();
+		HashMap<Integer, Object> map = new HashMap<Integer, Object>();
+		
+		while(rs.next()) {
+			PurchaseVO purchaseVO = new PurchaseVO();
+			int prodNo = rs.getInt("prod_no");
+			purchaseVO.setTranNo(rs.getInt("tran_no"));
+			purchaseVO.setTranCode(rs.getString("tran_status_code"));
+			map.put(prodNo, purchaseVO);
+		}
+		System.out.println("map.size() : " + map.size());
+		
+		System.out.println("[PurchaseDAO.getSaleList] end");
+		
+		return  map;
+	}
+	
 	
 	// addPurchase : 구매
 	public void addPurchase(PurchaseVO purchaseVO) throws SQLException {
-		Connection con = DBUtil.getConnection();
-		
-		// Debugging
 		System.out.println("[PurchaseDAO.insertPurchase] : start");
 		System.out.println("purchaseVO : " + purchaseVO);
 		
+		Connection con = DBUtil.getConnection();
+		
 		String sql = "INSERT INTO transaction values (seq_transaction_tran_no.nextval, ?, ?, ?, ?, ?, ?, ?, ?, sysdate, ?)";
 		PreparedStatement pstmt = con.prepareStatement(sql);
+		// System.out.println("purchaseVO.getPurchaseProd().getProdNo() " + purchaseVO.getPurchaseProd().getProdNo());
 		pstmt.setInt(1, purchaseVO.getPurchaseProd().getProdNo());
 		pstmt.setString(2, purchaseVO.getBuyer().getUserId());
 		pstmt.setString(3, purchaseVO.getPaymentOption());
@@ -168,7 +193,6 @@ public class PurchaseDAO {
 	
 	// updatePurchase : 구매 정보 수정
 	public PurchaseVO updatePurchase(PurchaseVO purchaseVO) throws Exception {
-		
 		System.out.println("[PurchaseDAO.updatePurchase] start");
 		
 		Connection con = DBUtil.getConnection();
@@ -198,4 +222,24 @@ public class PurchaseDAO {
 	}
 	
 	// updateTranCode : 구매 상태 코드 수정
+	public void updateTranCode(PurchaseVO purchaseVO) throws SQLException {
+		System.out.println("[PurchaseDAO.updateTranCode] start");
+		
+		Connection con = DBUtil.getConnection();
+		
+		String sql = "UPDATE transaction set tran_status_code = ? WHERE tran_no = ?";
+		PreparedStatement pstmt = con.prepareStatement(sql);
+		
+		pstmt.setString(1, TranStatusCodeUtil.getNextCode(purchaseVO.getTranCode()));
+		pstmt.setInt(2, purchaseVO.getTranNo());
+		
+		pstmt.executeUpdate();
+		
+		Statement st = con.createStatement();
+		st.execute("commit");
+		
+		con.close();
+		
+		System.out.println("[PurchaseDAO.updateTranCode] end");
+	}
 }
