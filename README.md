@@ -19,11 +19,15 @@
 - [x] 상품 수정 (관리자)
 
 ### 3. 판매 관리
-- [ ] 구매 목록 조회
-- [ ] 구매
-     - [ ] 구매 상태 수정이 가능해야 한다.
-- [ ] 판매 목록 조회
-     - [ ] 배송 상태를 변경할 수 있어야 한다.
+- [x] 구매 목록 조회(ListPurchaseAction)
+     - [x] 구매에 대한 상세 정보를 요청해야 한다. (GetPurchaseAction)
+     - [x] 구매 내역을 수정해야 한다.
+- [x] 구매 (AddPurchaseAction)
+     - [x] 구매 내역에 들어갈 때, 정보를 가지고 들어가야 한다. (AddPurchaseViewAction)
+     - [x] 구매 상태 수정이 가능해야 한다. (UpdatePurchaseAction, UpdatePurchaseViewAction)
+- [x] 판매 목록 조회 (ListSaleAction)
+     - [x] 배송 상태를 변경할 수 있어야 한다. (UpdateTranCodeAction)
+
 ### 4. 요구사항 외 추가 기능
 
 ## 주의 사항
