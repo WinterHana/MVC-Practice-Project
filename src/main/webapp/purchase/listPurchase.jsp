@@ -90,13 +90,12 @@
 		int no = 1;
 		for(int i = 0; i < list.size(); i++) {
 			PurchaseVO vo = (PurchaseVO) list.get(i);
-			System.out.println("vo.getTranCode : " + vo.getTranCode());
 	%>
 	
 	<tr class="ct_list_pop">
 		<td align="center">
 			<!-- 구매 내역 상세 보기 -->
-			<a href="/getPurchase.do?tranNo=10005"><%=no++ %>(구현 예정)</a>
+			<a href="/getPurchase.do?tranNo=<%=vo.getTranNo()%>"><%=no++ %></a>
 		</td>
 		<td></td>
 		<td align="left">
@@ -116,7 +115,7 @@
 		</td>
 		<td></td>
 		<td align="left">
-				<a href = "/">정보 수정(구현 예정)</a>
+				<!-- 정보 수정 구현하는 창인 거 같은데 빈칸임 ㅋㅋ -->
 		</td>
 	</tr>
 	<tr>

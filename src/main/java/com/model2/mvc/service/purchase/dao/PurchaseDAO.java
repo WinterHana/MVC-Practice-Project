@@ -13,10 +13,57 @@ import com.model2.mvc.common.SearchVO;
 import com.model2.mvc.common.util.DBUtil;
 import com.model2.mvc.service.product.vo.ProductVO;
 import com.model2.mvc.service.purchase.vo.PurchaseVO;
+import com.model2.mvc.service.user.dao.UserDAO;
 import com.model2.mvc.service.user.vo.UserVO;
 
 public class PurchaseDAO {
-	// findPurchase : 구매정보 상세 조회
+	
+	public PurchaseDAO() {
+		// blank
+	}
+	
+	// getPurchase : 구매정보 상세 조회
+	public PurchaseVO getPurchase(int tranNo) throws Exception {
+		System.out.println("[PurchaseDAO.getPurchase] start");
+		
+		Connection con = DBUtil.getConnection();
+		String sql = "SELECT * FROM transaction WHERE tran_no = ?";
+		
+		PreparedStatement stmt = con.prepareStatement(sql);
+		stmt.setInt(1, tranNo);
+		
+		ResultSet rs = stmt.executeQuery();
+		
+		PurchaseVO purchaseVO = null;
+		
+		while (rs.next()) {
+			purchaseVO = new PurchaseVO();
+			
+			ProductVO productVO = new ProductVO();
+			productVO.setProdNo(rs.getInt("prod_no"));
+			purchaseVO.setPurchaseProd(productVO);
+			
+			UserDAO userDAO = new UserDAO();
+			UserVO userVO = userDAO.findUser(rs.getString("buyer_id"));
+			purchaseVO.setBuyer(userVO);
+			
+			purchaseVO.setTranNo(rs.getInt("tran_no"));
+			purchaseVO.setPaymentOption(rs.getString("payment_option"));
+			purchaseVO.setReceiverName(rs.getString("receiver_name"));
+			purchaseVO.setReceiverPhone(rs.getString("receiver_phone"));
+			purchaseVO.setDivyAddr(rs.getString("demailaddr"));
+			purchaseVO.setDivyRequest(rs.getString("dlvy_request"));
+			purchaseVO.setOrderDate(rs.getDate("order_data"));
+			purchaseVO.setDivyDate(rs.getString("dlvy_date"));
+		}
+		
+		
+		System.out.println("[PurchaseDAO.getPurchase] end");
+		
+		con.close();
+		
+		return purchaseVO;
+	}
 	
 	// getPurchaseList : 구매 목록 조회
 	public Map<String, Object> getPurchaseList(SearchVO searchVO, String userId) throws SQLException {
@@ -59,6 +106,7 @@ public class PurchaseDAO {
 				
 				vo.setBuyer(userVO);
 				vo.setPurchaseProd(productVO);
+				vo.setTranNo(rs.getInt("tran_no"));
 				vo.setPaymentOption(rs.getString("payment_option"));
 				vo.setReceiverName(rs.getString("receiver_name"));
 				vo.setReceiverPhone(rs.getString("receiver_phone"));

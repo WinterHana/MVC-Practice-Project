@@ -5,16 +5,22 @@ package com.model2.mvc.common.util;
  */
 public enum PaymentOption {
 
-	CASH("1"),
-	CREDIT_CARD("2");
+	CASH("1", "현금결제"),
+	CREDIT_CARD("2", "카드결제");
 	
 	private String number;
+	private String option;
 	
-	PaymentOption(String number) {
+	PaymentOption(String number, String option) {
 		this.number = number;
+		this.option = option; 
 	}
 	
 	public String getNumber() {
 		return number;
+	}
+	
+	public String getOption() {
+		return option;
 	}
 }

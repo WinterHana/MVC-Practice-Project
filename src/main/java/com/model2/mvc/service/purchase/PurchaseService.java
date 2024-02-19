@@ -8,7 +8,7 @@ import com.model2.mvc.service.purchase.vo.PurchaseVO;
 public interface PurchaseService {
 	
 	// getPurchase
-	
+	public PurchaseVO getPurchase(int tranNo);
 	// getPurchaseList
 	public Map<String, Object> getPurchaseList(SearchVO searchVO, String userId);
 	

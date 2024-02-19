@@ -27,7 +27,7 @@ public class PurchaseServiceImpl implements PurchaseService {
 		try {
 			purchaseDAO.addPurchase(purchaseVO);
 		} catch (SQLException e) {
-			System.out.println("PurchaseServiceImpl.addPurchase Exception");
+			System.out.println("[PurchaseServiceImpl.addPurchase] Exception");
 			e.printStackTrace();
 		}
 		
@@ -36,7 +36,7 @@ public class PurchaseServiceImpl implements PurchaseService {
 
 	@Override
 	public Map<String, Object> getPurchaseList(SearchVO searchVO, String userId) {
-		System.out.println("purchaseServiceImpl.getPurchaseList start");
+		System.out.println("[purchaseServiceImpl.getPurchaseList] start");
 		
 		Map<String, Object> result = null;
 		
@@ -48,6 +48,23 @@ public class PurchaseServiceImpl implements PurchaseService {
 		}
 		
 		System.out.println("[PurchaseServiceImpl.getPurchaseList] end");
+		
+		return result;
+	}
+
+	@Override
+	public PurchaseVO getPurchase(int tranNo) {
+		System.out.println("[purchaseServiceImpl.getPurchase] start");
+		
+		PurchaseVO result = null;
+		
+		try {
+			result = purchaseDAO.getPurchase(tranNo);
+		} catch (Exception e){
+			System.out.println("[purchaseServiceImpl.getPurchase] Exception");
+			e.printStackTrace();
+		}
+		System.out.println("[purchaseServiceImpl.getPurchase] end");
 		
 		return result;
 	}
