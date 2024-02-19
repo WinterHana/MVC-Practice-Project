@@ -4,8 +4,10 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
 
 import com.model2.mvc.common.SearchVO;
 import com.model2.mvc.common.util.DBUtil;
@@ -17,12 +19,20 @@ public class PurchaseDAO {
 	// findPurchase : 구매정보 상세 조회
 	
 	// getPurchaseList : 구매 목록 조회
-	public HashMap<String, Object> getPurchaseList(SearchVO searchVO) throws SQLException {
+	public Map<String, Object> getPurchaseList(SearchVO searchVO, String userId) throws SQLException {
+		System.out.println("[PurchaseDAO.getPurchaseList] start");
+		
 		Connection con = DBUtil.getConnection();
+				
+		String sql = "SELECT * FROM transaction WHERE buyer_id = ? ORDER BY tran_no";
 		
-		String sql = "SELECT * FROM TRANSACTION ORDER BY TRAN_NO";
+		// 커서의 양방향 진행을 위한 parameter : ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE
+		PreparedStatement stmt = con.prepareStatement(sql, 
+				ResultSet.TYPE_SCROLL_INSENSITIVE, 
+				ResultSet.CONCUR_UPDATABLE);
 		
-		PreparedStatement stmt = con.prepareStatement(sql);
+		stmt.setString(1, userId);
+		
 		ResultSet rs = stmt.executeQuery();
 		
 		// 열의 개수를 가져와서 Map에 put 하기
@@ -49,15 +59,14 @@ public class PurchaseDAO {
 				
 				vo.setBuyer(userVO);
 				vo.setPurchaseProd(productVO);
-				vo.setPaymentOption(rs.getString("PAYMENT_OPTION"));
-				vo.setReceiverName(rs.getString("RECEIVER_NAME"));
-				vo.setReceiverPhone(rs.getString("RECEIVER_PHONE"));
-				vo.setDivyAddr(rs.getString("DLVY_ADDR"));
-				vo.setDivyRequest(rs.getString("DLVY_REQUEST"));
-				vo.setTranCode(rs.getString("TRAN_STATUS_CODE"));
-				vo.setOrderDate(rs.getDate("ORDER_DATE"));
-				vo.setDivyDate(rs.getString("DLVY_DATE"));
-				
+				vo.setPaymentOption(rs.getString("payment_option"));
+				vo.setReceiverName(rs.getString("receiver_name"));
+				vo.setReceiverPhone(rs.getString("receiver_phone"));
+				vo.setDivyAddr(rs.getString("demailaddr"));
+				vo.setDivyRequest(rs.getString("dlvy_request"));
+				vo.setTranCode(rs.getString("tran_status_code"));
+				vo.setOrderDate(rs.getDate("order_data"));
+				vo.setDivyDate(rs.getString("dlvy_date"));
 				list.add(vo);
 				
 				if (!rs.next())
@@ -70,9 +79,12 @@ public class PurchaseDAO {
 		System.out.println("map().size() : "+ map.size());
 
 		con.close();
+		
+		System.out.println("[PurchaseDAO.getPurchaseList] end");
 			
 		return map;
 	}
+	
 	// getSaleList : 판매 목록 조회
 	
 	// addPurchase : 구매
@@ -80,7 +92,8 @@ public class PurchaseDAO {
 		Connection con = DBUtil.getConnection();
 		
 		// Debugging
-		System.out.println("[Start] PurchaseDAO.insertPurchase : PurchaseVO" + purchaseVO);
+		System.out.println("[PurchaseDAO.insertPurchase] : start" + purchaseVO);
+		System.out.println("purchaseVO : " + purchaseVO);
 		
 		String sql = "INSERT INTO transaction values (seq_transaction_tran_no.nextval, ?, ?, ?, ?, ?, ?, ?, ?, sysdate, ?)";
 		PreparedStatement pstmt = con.prepareStatement(sql);
@@ -95,6 +108,11 @@ public class PurchaseDAO {
 		pstmt.setString(9, purchaseVO.getDivyDate());
 		
 		pstmt.executeUpdate();
+		
+		System.out.println("[PurchaseDAO.insertPurchase] : end");
+		
+		Statement st = con.createStatement();
+		st.execute("commit");
 		
 		con.close();
 	}
