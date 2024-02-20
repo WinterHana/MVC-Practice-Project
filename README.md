@@ -38,3 +38,12 @@
 >Oracle 21c XE : ojdbc.7 사용, Oracle 10c XE : ojdbc.14 사용
 >
 >여기서는 ojdbc.14를 사용하고 .gitignore로 설정한다.
+
+## Refactoring 내역
+1. 240219 - 240220 코드 최적화
+- [x] 페이지를 눌러도 검색 조건을 유지할 수 있도록 하기
+- [x] 페이지 전체가 뜨던 상황을 다시 바꾸기
+- [x] 페이지를 가져오는 것에 대한 효율적인 쿼리문 변경 : userDAO의 makeCurrentPages() 확인
+- [x] UserSerivce의 return값을 Interface로 변경
+- [x] VO 관련 패키지를 domain으로 변경
+- [x] Util Bean으로 null exception 대비
