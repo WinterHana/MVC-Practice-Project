@@ -1,10 +1,11 @@
 package com.model2.mvc.view.user;
 
-import java.util.HashMap;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.model2.mvc.common.Page;
 import com.model2.mvc.common.SearchVO;
 import com.model2.mvc.framework.Action;
 import com.model2.mvc.service.user.UserService;
@@ -16,24 +17,45 @@ public class ListUserAction extends Action {
 	@Override
 	public String execute(	HttpServletRequest request,
 												HttpServletResponse response) throws Exception {
+		System.out.println("[ListUserAction.execute] start");
+		
 		SearchVO searchVO=new SearchVO();
 		
-		int page=1;
-		if(request.getParameter("page") != null)
-			page=Integer.parseInt(request.getParameter("page"));
+		// currentPage
+		int currentPage = 1;
+		String getCurrentPage = request.getParameter("currentPage");
+		System.out.println("getCurrentPage : " + getCurrentPage);
 		
-		searchVO.setPage(page);
+		if(getCurrentPage != null) {
+			if(getCurrentPage.equals("undefined") == false) {
+				currentPage=Integer.parseInt(getCurrentPage);
+			}
+		}
+			
+		// searchVO
+		searchVO.setPage(currentPage);
 		searchVO.setSearchCondition(request.getParameter("searchCondition"));
 		searchVO.setSearchKeyword(request.getParameter("searchKeyword"));
+		int pageSize = Integer.parseInt( getServletContext().getInitParameter("pageSize"));
+		int pageUnit  =  Integer.parseInt(getServletContext().getInitParameter("pageUnit"));
+		searchVO.setPageSize(pageSize);
+		searchVO.setPageUnit(pageUnit);
 		
-		String pageUnit=getServletContext().getInitParameter("pageSize");
-		searchVO.setPageUnit(Integer.parseInt(pageUnit));
-		
+		// service
 		UserService service=new UserServiceImpl();
-		HashMap<String,Object> map=service.getUserList(searchVO);
+		Map<String,Object> map=service.getUserList(searchVO);
 
-		request.setAttribute("map", map);
+		// resultPage
+		Page resultPage	= 
+				new Page( currentPage, ((Integer)map.get("totalCount")).intValue(), pageUnit, pageSize);
+		System.out.println("ListUserAction ::"+resultPage);
+	
+		// request
+		request.setAttribute("list", map.get("list"));
+		request.setAttribute("resultPage", resultPage);
 		request.setAttribute("searchVO", searchVO);
+		
+		System.out.println("[ListUserAction.execute] end");
 		
 		return "forward:/user/listUser.jsp";
 	}

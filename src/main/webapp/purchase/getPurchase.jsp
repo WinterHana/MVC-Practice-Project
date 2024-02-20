@@ -1,5 +1,5 @@
 <%@page import="com.model2.mvc.common.util.PaymentOption"%>
-<%@page import="com.model2.mvc.service.purchase.vo.PurchaseVO"%>
+<%@page import="com.model2.mvc.service.purchase.domain.PurchaseVO"%>
 <%@ page language="java" contentType="text/html; charset=EUC-KR"
     pageEncoding="EUC-KR"%>
 <%

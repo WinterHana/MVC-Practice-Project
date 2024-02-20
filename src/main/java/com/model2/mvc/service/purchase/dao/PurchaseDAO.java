@@ -12,10 +12,10 @@ import java.util.Map;
 import com.model2.mvc.common.SearchVO;
 import com.model2.mvc.common.util.DBUtil;
 import com.model2.mvc.common.util.TranStatusCodeUtil;
-import com.model2.mvc.service.product.vo.ProductVO;
-import com.model2.mvc.service.purchase.vo.PurchaseVO;
+import com.model2.mvc.service.product.domain.ProductVO;
+import com.model2.mvc.service.purchase.domain.PurchaseVO;
 import com.model2.mvc.service.user.dao.UserDAO;
-import com.model2.mvc.service.user.vo.UserVO;
+import com.model2.mvc.service.user.domain.UserVO;
 
 public class PurchaseDAO {
 	
@@ -67,71 +67,98 @@ public class PurchaseDAO {
 	}
 	
 	// getPurchaseList : 구매 목록 조회
-	public Map<String, Object> getPurchaseList(SearchVO searchVO, String userId) throws SQLException {
+	public Map<String, Object> getPurchaseList(SearchVO searchVO, String userId) throws Exception {
 		System.out.println("[PurchaseDAO.getPurchaseList] start");
 		
 		Connection con = DBUtil.getConnection();
 				
-		String sql = "SELECT * FROM transaction WHERE buyer_id = ? ORDER BY tran_no";
+		String sql = "SELECT * FROM transaction WHERE buyer_id = '" + userId + "' ORDER BY tran_no";
 		
+		System.out.println("Inner table SQL : " + sql);
+		
+		int totalCount = this.getTotalCount(sql);
+		
+		System.out.println("totalCount : " + totalCount);
+		/*
 		// 커서의 양방향 진행을 위한 parameter : ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE
 		PreparedStatement pstmt = con.prepareStatement(sql, 
 				ResultSet.TYPE_SCROLL_INSENSITIVE, 
 				ResultSet.CONCUR_UPDATABLE);
+		*/
 		
-		pstmt.setString(1, userId);
-		
+		sql = makeCurrentPageSql(sql, searchVO);
+		PreparedStatement pstmt = con.prepareStatement(sql);
+		// pstmt.setString(1, userId);
 		ResultSet rs = pstmt.executeQuery();
 		
-		// 열의 개수를 가져와서 Map에 put 하기
-		rs.last();
-		int total = rs.getRow();
-		
 		HashMap<String,Object> map = new HashMap<String,Object>();
-		map.put("count", new Integer(total));
-		
-		rs.absolute(searchVO.getPage() * searchVO.getPageUnit() - searchVO.getPageUnit() + 1);
-		System.out.println("searchVO.getPage():" + searchVO.getPage());
-		System.out.println("searchVO.getPageUnit():" + searchVO.getPageUnit());
+		map.put("totalCount", totalCount);
 		
 		ArrayList<PurchaseVO> list = new ArrayList<PurchaseVO>();
 		
-		if (total > 0) {
-			for (int i = 0; i < searchVO.getPageUnit(); i++) {
-				PurchaseVO vo = new PurchaseVO();
-				UserVO userVO = new UserVO();
-				ProductVO productVO = new ProductVO();
-				
-				userVO.setUserId(rs.getString("BUYER_ID"));
-				productVO.setProdNo(rs.getInt("PROD_NO"));
-				
-				vo.setBuyer(userVO);
-				vo.setPurchaseProd(productVO);
-				vo.setTranNo(rs.getInt("tran_no"));
-				vo.setPaymentOption(rs.getString("payment_option"));
-				vo.setReceiverName(rs.getString("receiver_name"));
-				vo.setReceiverPhone(rs.getString("receiver_phone"));
-				vo.setDivyAddr(rs.getString("demailaddr"));
-				vo.setDivyRequest(rs.getString("dlvy_request"));
-				vo.setTranCode(rs.getString("tran_status_code"));
-				vo.setOrderDate(rs.getDate("order_data"));
-				vo.setDivyDate(rs.getString("dlvy_date"));
-				list.add(vo);
-				
-				if (!rs.next())
-					break;
-			}
+		while(rs.next()) {
+			PurchaseVO vo = new PurchaseVO();
+			UserVO userVO = new UserVO();
+			ProductVO productVO = new ProductVO();
+			
+			userVO.setUserId(rs.getString("BUYER_ID"));
+			productVO.setProdNo(rs.getInt("PROD_NO"));
+			
+			vo.setBuyer(userVO);
+			vo.setPurchaseProd(productVO);
+			vo.setTranNo(rs.getInt("tran_no"));
+			vo.setPaymentOption(rs.getString("payment_option"));
+			vo.setReceiverName(rs.getString("receiver_name"));
+			vo.setReceiverPhone(rs.getString("receiver_phone"));
+			vo.setDivyAddr(rs.getString("demailaddr"));
+			vo.setDivyRequest(rs.getString("dlvy_request"));
+			vo.setTranCode(rs.getString("tran_status_code"));
+			vo.setOrderDate(rs.getDate("order_data"));
+			vo.setDivyDate(rs.getString("dlvy_date"));
+			list.add(vo);
 		}
 		
-		System.out.println("list.size() : "+ list.size());
+		System.out.println("list size : " + list.size());
 		map.put("list", list);
-		System.out.println("map().size() : "+ map.size());
 
+		rs.close();
+		pstmt.close();
 		con.close();
 		
 		System.out.println("[PurchaseDAO.getPurchaseList] end");
 			
 		return map;
+	}
+	
+	private int getTotalCount(String sql) throws Exception {
+		Connection con = DBUtil.getConnection();
+		
+		sql = "SELECT COUNT(*) FROM (" + sql + ") countTable";
+		PreparedStatement pstmt = con.prepareStatement(sql);
+		ResultSet rs = pstmt.executeQuery();
+		
+		int totalCount = 0;
+		if(rs.next()) {
+			totalCount = rs.getInt(1);
+		}
+		
+		pstmt.close();
+		con.close();
+		rs.close();
+		
+		return totalCount;
+	}
+	
+	private String makeCurrentPageSql(String sql, SearchVO searchVO) {
+		sql = 	"SELECT * "+ 
+				"FROM (		SELECT inner_table. * ,  ROWNUM AS row_seq " +
+								" 	FROM (	"+ sql +" ) inner_table "+
+								"	WHERE ROWNUM <="+searchVO.getPage()*searchVO.getPageSize()+" ) " +
+				"WHERE row_seq BETWEEN "+((searchVO.getPage()-1)*searchVO.getPageSize()+1) +" AND "+ searchVO.getPage() * searchVO.getPageSize();
+	
+		System.out.println("UserDAO :: make SQL :: "+ sql);	
+	
+		return sql;
 	}
 	
 	// getSaleList : 판매 목록 조회

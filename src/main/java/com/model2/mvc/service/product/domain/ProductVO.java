@@ -1,4 +1,4 @@
-package com.model2.mvc.service.product.vo;
+package com.model2.mvc.service.product.domain;
 
 import java.sql.Date;
 

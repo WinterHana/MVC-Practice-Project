@@ -1,11 +1,13 @@
 package com.model2.mvc.service.product.impl;
 
 import java.util.HashMap;
+import java.util.Map;
 
 import com.model2.mvc.common.SearchVO;
+import com.model2.mvc.common.util.CommonUtil;
 import com.model2.mvc.service.product.ProductService;
 import com.model2.mvc.service.product.dao.ProductDAO;
-import com.model2.mvc.service.product.vo.ProductVO;
+import com.model2.mvc.service.product.domain.ProductVO;
 
 public class ProductServiceImpl implements ProductService {
 	
@@ -32,23 +34,25 @@ public class ProductServiceImpl implements ProductService {
 	}
 	
 	@Override
-	public HashMap<String, Object> getProductList(SearchVO searchVO) {
+	public Map<String, Object> getProductList(SearchVO searchVO) {
+		System.out.println("[ProductServiceImpl.getProductList] start");
 		
-		HashMap<String, Object> result = null;
+		Map<String, Object> result = null;
 		
 		// 번호나 정수에 대해서 한글 입력에 대한 유효성 처리
 		if(searchVO != null) {
 			String searchCondition = searchVO.getSearchCondition();
 			String serachKeyword = searchVO.getSearchKeyword();
 			
-			if(searchCondition != null && serachKeyword != null &&
-					(searchCondition.equals("prodNo") || searchCondition.equals("price"))) {
-				
-				// 숫자가 아닐 경우, 임의로 숫자로 변경 (여기서는 -1)
-				if(serachKeyword.matches("^[\\D]*$")) {
-					serachKeyword = "-1";
-					searchVO.setSearchKeyword(serachKeyword);
+			if(searchCondition != null && serachKeyword != null) {
+				if (searchCondition.equals("prodNo") || searchCondition.equals("price")) {
+					serachKeyword = CommonUtil.notNumToNum(serachKeyword);
+				} else if (searchCondition.equals("prodName")) {
+					serachKeyword = CommonUtil.null2str(serachKeyword);
 				}
+				System.out.println("searchKeyword : " + serachKeyword);
+				
+				searchVO.setSearchKeyword(serachKeyword);
 			}
 		}
 
@@ -58,6 +62,8 @@ public class ProductServiceImpl implements ProductService {
 			System.out.println("ProductServiceImpl.getUserList Exception");
 			e.printStackTrace();
 		}
+		
+		System.out.println("[ProductServiceImpl.getProductList] end");
 		
 		return result;
 	}

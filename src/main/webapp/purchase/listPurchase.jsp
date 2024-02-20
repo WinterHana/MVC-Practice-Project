@@ -1,7 +1,10 @@
+<%@page import="com.model2.mvc.common.util.CommonUtil"%>
+<%@page import="com.model2.mvc.common.Page"%>
+<%@page import="java.util.List"%>
 <%@page import="com.model2.mvc.common.util.TranStatusCodeUtil"%>
 <%@page import="com.model2.mvc.common.util.TranStatusCode"%>
 <%@page import="java.util.Arrays"%>
-<%@page import="com.model2.mvc.service.purchase.vo.PurchaseVO"%>
+<%@page import="com.model2.mvc.service.purchase.domain.PurchaseVO"%>
 <%@page import="java.util.ArrayList"%>
 <%@page import="com.model2.mvc.common.SearchVO"%>
 <%@page import="java.util.Map"%>
@@ -9,29 +12,15 @@
     pageEncoding="EUC-KR"%>
 
 <%
-	Map<String, Object> map = (Map<String, Object>) request.getAttribute("map");
+	List<PurchaseVO> list=(List<PurchaseVO>)request.getAttribute("list");
+	Page resultPage=(Page)request.getAttribute("resultPage");
 	SearchVO searchVO=(SearchVO)request.getAttribute("searchVO");
 	String userId = (String)request.getAttribute("userId");
 	String userName = (String)request.getAttribute("userName");
 	Map<Integer, Object> pmap = (Map<Integer, Object>)request.getAttribute("pmap");
 	
-	ArrayList<PurchaseVO> list = null;
-	int total = 0;
-	
-	if(map != null) {
-		total = ((Integer)map.get("count")).intValue();
-		list = (ArrayList<PurchaseVO>) map.get("list");
-	}
-	
-	int currentPage = searchVO.getPage();
-	
-	int totalPage = 0;
-	if(total > 0) {
-		totalPage = total / searchVO.getPageUnit();
-		if(total % searchVO.getPageUnit() > 0) {
-			totalPage += 1;
-		}
-	}
+	String searchCondition = CommonUtil.null2str(searchVO.getSearchCondition());
+	String searchKeyword = CommonUtil.null2str(searchVO.getSearchKeyword());
 %>
 
 <html>
@@ -41,9 +30,10 @@
 <link rel="stylesheet" href="/css/admin.css" type="text/css">
 
 <script type="text/javascript">
-	function fncGetUserList() {
-		document.detailForm.submit();
-	}
+function fncGetPurchaseList(currentPage) {
+	document.getElementById("currentPage").value = currentPage;
+   	document.detailForm.submit();		
+}
 </script>
 </head>
 
@@ -51,7 +41,7 @@
 
 <div style="width: 98%; margin-left: 10px;">
 
-<form name="detailForm" action="/listUser.do" method="post">
+<form name="detailForm" action="/listPurchase.do" method="post">
 
 <table width="100%" height="37" border="0" cellpadding="0"	cellspacing="0">
 	<tr>
@@ -69,7 +59,7 @@
 
 <table width="100%" border="0" cellspacing="0" cellpadding="0"	style="margin-top: 10px;">
 	<tr>
-		<td colspan="11">전체 <%=total %> 건수, 현재 <%=currentPage %> 페이지</td>
+		<td colspan="11">전체 <%=resultPage.getTotalCount() %> 건수, 현재 <%=resultPage.getCurrentPage() %> 페이지</td>
 	</tr>
 	<tr>
 		<td class="ct_list_b" width="100">No</td>
@@ -129,9 +119,20 @@
 <table width="100%" border="0" cellspacing="0" cellpadding="0" style="margin-top: 10px;">
 	<tr>
 		<td align="center">
-		<% for(int i  = 1; i <= totalPage; i++) {%>
-			 <a href="/listPurchase.do?page=<%=i%>"><%=i %></a> 
-		<%}%>
+			<% if( resultPage.getCurrentPage() <= resultPage.getPageUnit() ){ %>
+					◀ 이전
+			<% }else{ %>
+					<a href="javascript:fncGetPurchaseList('<%=resultPage.getCurrentPage()-1%>')">◀ 이전</a>
+			<% } %>
+			<%	for(int i=resultPage.getBeginUnitPage(); i <= resultPage.getEndUnitPage(); i++){	%>
+					<input type="hidden"  id = "currentPage" name = "currentPage" value ="<%=i %>"/>
+					<a href="javascript:fncGetPurchaseList('<%=i %>');"><%=i %></a>
+			<% 	}  %>
+			<% if( resultPage.getEndUnitPage() >= resultPage.getMaxPage() ){ %>
+					이후 ▶
+			<% }else{ %>
+					<a href="javascript:fncGetPurchaseList('<%=resultPage.getEndUnitPage()+1%>')">이후 ▶</a>
+			<% } %>
 		</td>
 	</tr>
 </table>

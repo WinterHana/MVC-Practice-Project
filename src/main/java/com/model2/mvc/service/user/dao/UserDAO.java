@@ -5,10 +5,11 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
 
 import com.model2.mvc.common.SearchVO;
 import com.model2.mvc.common.util.DBUtil;
-import com.model2.mvc.service.user.vo.UserVO;
+import com.model2.mvc.service.user.domain.UserVO;
 
 
 public class UserDAO {
@@ -71,67 +72,94 @@ public class UserDAO {
 		return userVO;
 	}
 
-	public HashMap<String,Object> getUserList(SearchVO searchVO) throws Exception {
+	public Map<String,Object> getUserList(SearchVO searchVO) throws Exception {
+		System.out.println("[UserDAO.getUserList] start");
 		
 		Connection con = DBUtil.getConnection();
 		
+		// Inner table sql
 		String sql = "select * from USERS ";
 		if (searchVO.getSearchCondition() != null) {
-			if (searchVO.getSearchCondition().equals("0")) {
-				sql += " where USER_ID='" + searchVO.getSearchKeyword()
-						+ "'";
-			} else if (searchVO.getSearchCondition().equals("1")) {
-				sql += " where USER_NAME='" + searchVO.getSearchKeyword()
-						+ "'";
+			if (searchVO.getSearchCondition().equals("0") && !searchVO.getSearchKeyword().equals("") ) {
+				sql += " where USER_ID = '" + searchVO.getSearchKeyword() + "'";
+			} else if (searchVO.getSearchCondition().equals("1") && !searchVO.getSearchKeyword().equals("")) {
+				sql += " where USER_NAME = '" + searchVO.getSearchKeyword()  + "'";
 			}
 		}
 		sql += " order by USER_ID";
-
-		PreparedStatement stmt = 
-			con.prepareStatement(	sql,
-														ResultSet.TYPE_SCROLL_INSENSITIVE,
-														ResultSet.CONCUR_UPDATABLE);
-		ResultSet rs = stmt.executeQuery();
-
-		rs.last();
-		int total = rs.getRow();
-		System.out.println("total column :" + total);
-
+		
+		System.out.println("Inner table SQL : " + sql);
+		
+		int totalCount = this.getTotalCount(sql);
+		
+		System.out.println("totalCount : " + totalCount);
+		
+		sql = makeCurrentPageSql(sql, searchVO);
+		PreparedStatement pstmt = con.prepareStatement(sql);
+		ResultSet rs = pstmt.executeQuery();
+		
 		HashMap<String,Object> map = new HashMap<String,Object>();
-		map.put("count", new Integer(total));
-
-		rs.absolute(searchVO.getPage() * searchVO.getPageUnit() - searchVO.getPageUnit()+1);
-		System.out.println("searchVO.getPage():" + searchVO.getPage());
-		System.out.println("searchVO.getPageUnit():" + searchVO.getPageUnit());
+		map.put("totalCount", totalCount);
 
 		ArrayList<UserVO> list = new ArrayList<UserVO>();
-		if (total > 0) {
-			for (int i = 0; i < searchVO.getPageUnit(); i++) {
-				UserVO vo = new UserVO();
-				vo.setUserId(rs.getString("USER_ID"));
-				vo.setUserName(rs.getString("USER_NAME"));
-				vo.setPassword(rs.getString("PASSWORD"));
-				vo.setRole(rs.getString("ROLE"));
-				vo.setSsn(rs.getString("SSN"));
-				vo.setPhone(rs.getString("CELL_PHONE"));
-				vo.setAddr(rs.getString("ADDR"));
-				vo.setEmail(rs.getString("EMAIL"));
-				vo.setRegDate(rs.getDate("REG_DATE"));
-
-				list.add(vo);
-				if (!rs.next())
-					break;
-			}
+		while(rs.next()) {
+			UserVO userVO = new UserVO();
+			userVO.setUserId(rs.getString("USER_ID"));
+			userVO.setUserName(rs.getString("USER_NAME"));
+			userVO.setPassword(rs.getString("PASSWORD"));
+			userVO.setRole(rs.getString("ROLE"));
+			userVO.setSsn(rs.getString("SSN"));
+			userVO.setPhone(rs.getString("CELL_PHONE"));
+			userVO.setAddr(rs.getString("ADDR"));
+			userVO.setEmail(rs.getString("EMAIL"));
+			userVO.setRegDate(rs.getDate("REG_DATE"));
+			
+			list.add(userVO);
 		}
-		System.out.println("list.size() : "+ list.size());
+		
+		System.out.println("list size : " + list.size());
 		map.put("list", list);
-		System.out.println("map().size() : "+ map.size());
 
+		rs.close();
+		pstmt.close();
 		con.close();
 			
+		System.out.println("[UserDAO.getUserList] end");
+		
 		return map;
 	}
-
+	
+	private int getTotalCount(String sql) throws Exception {
+		Connection con = DBUtil.getConnection();
+		
+		sql = "SELECT COUNT(*) FROM (" + sql + ") countTable";
+		PreparedStatement pstmt = con.prepareStatement(sql);
+		ResultSet rs = pstmt.executeQuery();
+		
+		int totalCount = 0;
+		if(rs.next()) {
+			totalCount = rs.getInt(1);
+		}
+		
+		pstmt.close();
+		con.close();
+		rs.close();
+		
+		return totalCount;
+	}
+	
+	private String makeCurrentPageSql(String sql, SearchVO searchVO) {
+		sql = 	"SELECT * "+ 
+				"FROM (		SELECT inner_table. * ,  ROWNUM AS row_seq " +
+								" 	FROM (	"+ sql +" ) inner_table "+
+								"	WHERE ROWNUM <="+searchVO.getPage()*searchVO.getPageSize()+" ) " +
+				"WHERE row_seq BETWEEN "+((searchVO.getPage()-1)*searchVO.getPageSize()+1) +" AND "+ searchVO.getPage() * searchVO.getPageSize();
+	
+		System.out.println("UserDAO :: make SQL :: "+ sql);	
+	
+		return sql;
+	}
+	
 	public void updateUser(UserVO userVO) throws Exception {
 		
 		Connection con = DBUtil.getConnection();
