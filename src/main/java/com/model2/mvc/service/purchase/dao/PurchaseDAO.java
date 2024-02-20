@@ -12,10 +12,10 @@ import java.util.Map;
 import com.model2.mvc.common.SearchVO;
 import com.model2.mvc.common.util.DBUtil;
 import com.model2.mvc.common.util.TranStatusCodeUtil;
-import com.model2.mvc.service.product.vo.ProductVO;
-import com.model2.mvc.service.purchase.vo.PurchaseVO;
+import com.model2.mvc.service.product.domain.ProductVO;
+import com.model2.mvc.service.purchase.domain.PurchaseVO;
 import com.model2.mvc.service.user.dao.UserDAO;
-import com.model2.mvc.service.user.vo.UserVO;
+import com.model2.mvc.service.user.domain.UserVO;
 
 public class PurchaseDAO {
 	

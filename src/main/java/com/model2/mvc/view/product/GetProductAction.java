@@ -6,8 +6,8 @@ import javax.servlet.http.HttpServletResponse;
 import com.model2.mvc.common.util.HistoryUtil;
 import com.model2.mvc.framework.Action;
 import com.model2.mvc.service.product.ProductService;
+import com.model2.mvc.service.product.domain.ProductVO;
 import com.model2.mvc.service.product.impl.ProductServiceImpl;
-import com.model2.mvc.service.product.vo.ProductVO;
 
 public class GetProductAction extends Action {
 

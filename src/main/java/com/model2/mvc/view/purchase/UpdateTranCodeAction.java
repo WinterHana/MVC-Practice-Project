@@ -5,8 +5,8 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.model2.mvc.framework.Action;
 import com.model2.mvc.service.purchase.PurchaseService;
+import com.model2.mvc.service.purchase.domain.PurchaseVO;
 import com.model2.mvc.service.purchase.impl.PurchaseServiceImpl;
-import com.model2.mvc.service.purchase.vo.PurchaseVO;
 
 public class UpdateTranCodeAction extends Action {
 

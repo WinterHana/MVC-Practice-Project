@@ -1,12 +1,15 @@
 <%@ page contentType="text/html; charset=euc-kr" %>
 
 <%@ page import="java.util.*"  %>
-<%@ page import="com.model2.mvc.service.user.vo.*" %>
+<%@ page import="com.model2.mvc.service.user.domain.*" %>
 <%@ page import="com.model2.mvc.common.*" %>
 
 <%
 	HashMap<String,Object> map=(HashMap<String,Object>)request.getAttribute("map");
 	SearchVO searchVO=(SearchVO)request.getAttribute("searchVO");
+	
+	String searchCondition = searchVO.getSearchCondition();
+	String searchKeyword = searchVO.getSearchKeyword();
 	
 	int total=0;
 	ArrayList<UserVO> list=null;
@@ -67,23 +70,18 @@ function fncGetUserList(){
 	<%
 		if(searchVO.getSearchCondition() != null) {
 	%>
+	<!-- 여기 주목 -->
 		<td align="right">
 			<select name="searchCondition" class="ct_input_g" style="width:80px">
-		<%
-				if(searchVO.getSearchCondition().equals("0")){
-		%>
+		<% if(searchVO.getSearchCondition().equals("0")){ %>
 				<option value="0" selected>회원ID</option>
 				<option value="1">회원명</option>
-		<%
-				}else {
-		%>
+		<% }else { %>
 				<option value="0">회원ID</option>
 				<option value="1" selected>회원명</option>
-		<%
-				}
-		%>
+		<%}%>
 			</select>
-			<input 	type="text" name="searchKeyword"  value="<%=searchVO.getSearchKeyword() %>" 
+			<input 	type="text" name="searchKeyword"  value="<%= searchKeyword %>" 
 							class="ct_input_g" style="width:200px; height:19px" >
 		</td>
 	<%
@@ -119,7 +117,7 @@ function fncGetUserList(){
 
 <table width="100%" border="0" cellspacing="0" cellpadding="0" style="margin-top:10px;">
 	<tr>
-		<td colspan="11" >전체  <%= total%> 건수, 현재 <%=currentPage %> 페이지</td>
+		<td colspan="11" >전체  <%=total%> 건수, 현재 <%=currentPage %> 페이지</td>
 	</tr>
 	<tr>
 		<td class="ct_list_b" width="100">No</td>

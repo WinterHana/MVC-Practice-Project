@@ -5,10 +5,11 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
 
 import com.model2.mvc.common.SearchVO;
 import com.model2.mvc.common.util.DBUtil;
-import com.model2.mvc.service.user.vo.UserVO;
+import com.model2.mvc.service.user.domain.UserVO;
 
 
 public class UserDAO {
@@ -71,7 +72,7 @@ public class UserDAO {
 		return userVO;
 	}
 
-	public HashMap<String,Object> getUserList(SearchVO searchVO) throws Exception {
+	public Map<String,Object> getUserList(SearchVO searchVO) throws Exception {
 		
 		Connection con = DBUtil.getConnection();
 		

@@ -6,11 +6,12 @@ import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
 
 import com.model2.mvc.common.SearchVO;
 import com.model2.mvc.common.util.DBUtil;
-import com.model2.mvc.service.product.vo.ProductVO;
-import com.model2.mvc.service.user.vo.UserVO;
+import com.model2.mvc.service.product.domain.ProductVO;
+import com.model2.mvc.service.user.domain.UserVO;
 
 public class ProductDAO {
 	
@@ -50,21 +51,18 @@ public class ProductDAO {
 	}
 	
 	// getProductList
-	public HashMap<String, Object> getProductList(SearchVO searchVO) throws Exception {
+	public Map<String, Object> getProductList(SearchVO searchVO) throws Exception {
 		Connection con = DBUtil.getConnection();
 		
 		// ★ 제품 검색에 대한 처리
 		String sql = "SELECT * from PRODUCT ";
 		if (searchVO.getSearchCondition() != null) {
 			if (searchVO.getSearchCondition().equals("prodNo")) {
-				sql += " where PROD_NO='" + searchVO.getSearchKeyword()
-						+ "'";
+				sql += " where PROD_NO='" + searchVO.getSearchKeyword() + "'";
 			} else if (searchVO.getSearchCondition().equals("prodName")) {
-				sql += " where PROD_NAME='" + searchVO.getSearchKeyword()
-						+ "'";
+				sql += " where PROD_NAME='" + searchVO.getSearchKeyword() + "'";
 			} else if (searchVO.getSearchCondition().equals("price")) {
-				sql += " where PRICE='" + searchVO.getSearchKeyword()
-				+ "'";
+				sql += " where PRICE='" + searchVO.getSearchKeyword() + "'";
 			}
 		}
 		sql += " order by PROD_NO";

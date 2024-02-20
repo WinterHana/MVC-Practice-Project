@@ -1,4 +1,4 @@
-<%@page import="com.model2.mvc.service.product.vo.ProductVO"%>
+<%@page import="com.model2.mvc.service.product.domain.ProductVO"%>
 <%@ page language="java" contentType="text/html; charset=EUC-KR"
     pageEncoding="EUC-KR"%>
 <html>

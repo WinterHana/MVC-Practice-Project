@@ -1,7 +1,7 @@
 <%@page import="com.model2.mvc.common.util.TranStatusCodeUtil"%>
 <%@page import="com.model2.mvc.common.util.TranStatusCode"%>
 <%@page import="java.util.Arrays"%>
-<%@page import="com.model2.mvc.service.purchase.vo.PurchaseVO"%>
+<%@page import="com.model2.mvc.service.purchase.domain.PurchaseVO"%>
 <%@page import="java.util.ArrayList"%>
 <%@page import="com.model2.mvc.common.SearchVO"%>
 <%@page import="java.util.Map"%>

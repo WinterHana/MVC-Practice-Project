@@ -1,8 +1,9 @@
+<%@page import="com.model2.mvc.common.util.CommonUtil"%>
 <%@page import="com.model2.mvc.common.util.TranStatusCode"%>
 <%@page import="com.model2.mvc.common.util.TranStatusCodeUtil"%>
-<%@page import="com.model2.mvc.service.purchase.vo.PurchaseVO"%>
-<%@page import="com.model2.mvc.service.product.vo.ProductVO"%>
-<%@page import="com.model2.mvc.service.user.vo.UserVO"%>
+<%@page import="com.model2.mvc.service.purchase.domain.PurchaseVO"%>
+<%@page import="com.model2.mvc.service.product.domain.ProductVO"%>
+<%@page import="com.model2.mvc.service.user.domain.UserVO"%>
 <%@page import="com.model2.mvc.common.SearchVO"%>
 <%@ page import="java.util.*"  %>
 
@@ -15,7 +16,7 @@
 	Map<String, Object> map = (Map<String,Object>)request.getAttribute("map");
 	Map<Integer, Object> pmap = (Map<Integer, Object>)request.getAttribute("pmap");
 	SearchVO searchVO=(SearchVO)request.getAttribute("searchVO");
-
+			
 	int total = 0;
 	ArrayList<ProductVO> list = null;
 	
@@ -100,8 +101,6 @@ function fncGetProductList(){
 			</select>
 			<input type="text" name="searchKeyword"  class="ct_input_g" style="width:200px; height:19px" />
 		</td>
-	
-		
 		<td align="right" width="70">
 			<table border="0" cellspacing="0" cellpadding="0">
 				<tr>

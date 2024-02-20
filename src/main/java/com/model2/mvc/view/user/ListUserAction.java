@@ -1,6 +1,6 @@
 package com.model2.mvc.view.user;
 
-import java.util.HashMap;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -30,7 +30,7 @@ public class ListUserAction extends Action {
 		searchVO.setPageUnit(Integer.parseInt(pageUnit));
 		
 		UserService service=new UserServiceImpl();
-		HashMap<String,Object> map=service.getUserList(searchVO);
+		Map<String,Object> map=service.getUserList(searchVO);
 
 		request.setAttribute("map", map);
 		request.setAttribute("searchVO", searchVO);
