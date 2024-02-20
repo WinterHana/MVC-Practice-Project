@@ -6,6 +6,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import com.model2.mvc.common.Page;
 import com.model2.mvc.common.SearchVO;
 import com.model2.mvc.framework.Action;
 import com.model2.mvc.service.purchase.PurchaseService;
@@ -20,16 +21,25 @@ public class ListPurchaseAction extends Action {
 		
 		SearchVO searchVO = new SearchVO();
 		
-		// Page information
-		int page = 1;
-		if(request.getParameter("page") != null) {
-			page =  Integer.parseInt(request.getParameter("page"));
+		// currentPage
+		int currentPage = 1;
+		String getCurrentPage = request.getParameter("currentPage");
+		System.out.println("getCurrentPage : " + getCurrentPage);
+		
+		if(getCurrentPage != null) {
+			if(getCurrentPage.equals("undefined") == false) {
+				currentPage=Integer.parseInt(getCurrentPage);
+			}
 		}
 		
-		searchVO.setPage(page);
-		
-		String pageUnit = request.getServletContext().getInitParameter("pageSize");
-		searchVO.setPageUnit(Integer.parseInt(pageUnit));
+		// searchVO
+		searchVO.setPage(currentPage);
+		searchVO.setSearchCondition(request.getParameter("searchCondition"));
+		searchVO.setSearchKeyword(request.getParameter("searchKeyword"));
+		int pageSize = Integer.parseInt( getServletContext().getInitParameter("pageSize"));
+		int pageUnit  =  Integer.parseInt(getServletContext().getInitParameter("pageUnit"));
+		searchVO.setPageSize(pageSize);
+		searchVO.setPageUnit(pageUnit);
 		
 		// User information
 		HttpSession session = request.getSession();
@@ -45,8 +55,14 @@ public class ListPurchaseAction extends Action {
 		PurchaseService pservice = new PurchaseServiceImpl();
 		Map<Integer, Object> pmap = pservice.getSalaList();
 		
+		// resultPage
+		Page resultPage	= 
+				new Page( currentPage, ((Integer)map.get("totalCount")).intValue(), pageUnit, pageSize);
+		System.out.println("ListUserAction ::"+resultPage);
+		
 		// Request control
-		request.setAttribute("map", map);
+		request.setAttribute("list", map.get("list"));
+		request.setAttribute("resultPage", resultPage);
 		request.setAttribute("searchVO", searchVO);
 		request.setAttribute("userId", userId);
 		request.setAttribute("userName", userName);

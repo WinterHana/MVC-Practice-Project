@@ -1,3 +1,4 @@
+<%@page import="com.model2.mvc.common.Page"%>
 <%@page import="com.model2.mvc.common.util.CommonUtil"%>
 <%@page import="com.model2.mvc.common.util.TranStatusCode"%>
 <%@page import="com.model2.mvc.common.util.TranStatusCodeUtil"%>
@@ -13,28 +14,13 @@
 
 
 <%
-	Map<String, Object> map = (Map<String,Object>)request.getAttribute("map");
+	List<ProductVO> list=(List<ProductVO>)request.getAttribute("list");
+	Page resultPage=(Page)request.getAttribute("resultPage");
 	Map<Integer, Object> pmap = (Map<Integer, Object>)request.getAttribute("pmap");
 	SearchVO searchVO=(SearchVO)request.getAttribute("searchVO");
-			
-	int total = 0;
-	ArrayList<ProductVO> list = null;
 	
-	if(map != null) {
-		total = ((Integer)map.get("count")).intValue();
-		list = (ArrayList<ProductVO>) map.get("list");
-	}
-	
-	int currentPage = searchVO.getPage();
-	
-	int totalPage = 0;
-	if(total > 0) {
-		totalPage = total / searchVO.getPageUnit();
-		if(total % searchVO.getPageUnit() > 0) {
-			totalPage += 1;
-		}
-	}
-	
+	String searchCondition = CommonUtil.null2str(searchVO.getSearchCondition());
+	String searchKeyword = CommonUtil.null2str(searchVO.getSearchKeyword());
 	
 	String menu = request.getParameter("menu");
 	String title = null;
@@ -59,8 +45,9 @@
 <link rel="stylesheet" href="/css/admin.css" type="text/css">
 
 <script type="text/javascript">
-function fncGetProductList(){
-	document.detailForm.submit();
+function fncGetProductList(currentPage) {
+	document.getElementById("currentPage").value = currentPage;
+   	document.detailForm.submit();		
 }
 </script>
 </head>
@@ -92,14 +79,14 @@ function fncGetProductList(){
 
 <table width="100%" border="0" cellspacing="0" cellpadding="0" style="margin-top:10px;">
 	<tr>
-		
 		<td align="right">
 			<select name="searchCondition" class="ct_input_g" style="width:80px">
-				<option value="prodNo">상품번호</option>
-				<option value="prodName">상품명</option>
-				<option value="price">상품가격</option>
+				<option value="prodNo" <%= (searchCondition.equals("prodNo") ? "selected" : "") %>>상품번호</option>
+				<option value="prodName" <%= (searchCondition.equals("prodName") ? "selected" : "") %>>상품명</option>
+				<option value="price" <%= (searchCondition.equals("price") ? "selected" : "") %>>상품가격</option>
 			</select>
-			<input type="text" name="searchKeyword"  class="ct_input_g" style="width:200px; height:19px" />
+			<input type="text" name="searchKeyword"  value="<%= searchKeyword %>"  
+					class=ct_input_g" style="width:200px; height:19px">
 		</td>
 		<td align="right" width="70">
 			<table border="0" cellspacing="0" cellpadding="0">
@@ -122,7 +109,7 @@ function fncGetProductList(){
 
 <table width="100%" border="0" cellspacing="0" cellpadding="0" style="margin-top:10px;">
 	<tr>
-		<td colspan="11" >전체 <%=total %>건수, 현재 <%= currentPage %> 페이지</td>
+		<td colspan="11" >전체 <%=resultPage.getTotalCount() %>건수, 현재 <%= resultPage.getCurrentPage() %> 페이지</td>
 	</tr>
 	<tr>
 		<td class="ct_list_b" width="100">No</td>
@@ -173,8 +160,11 @@ function fncGetProductList(){
             <% int tranNo = ((PurchaseVO)pmap.get(vo.getProdNo())).getTranNo(); %>
             <% if(isManager && tranCode.trim().equals("2")) {%> <a href="/updateTranCode.do?tranNo=<%=tranNo %>&tranCode=<%=tranCode%>&url=listProduct.do?menu=manage">배송 시작하기</a> <%} %>
             <%=TranStatusCodeUtil.getMessage(tranCode, isManager) %>
-        <% } %>
+        <% } else { %>
+        	<%=TranStatusCodeUtil.getMessage(TranStatusCode.ON_SALE.getNumber(), isManager) %>
+        <% }%>
 		</td>		
+		<td></td>
 	</tr>
 	<%} %>
 </table>
@@ -182,13 +172,20 @@ function fncGetProductList(){
 <table width="100%" border="0" cellspacing="0" cellpadding="0" style="margin-top:10px;">
 	<tr>
 		<td align="center">
-		<%
-			for(int i  = 1; i <= totalPage; i++) {
-		%>
-			<a href="/listProduct.do?menu=<%=menu %>&page=<%=i %>"><%=i %></a>
-		<%
-			}
-		%>
+			<% if( resultPage.getCurrentPage() <= resultPage.getPageUnit() ){ %>
+					◀ 이전
+			<% }else{ %>
+					<a href="javascript:fncGetProductList('<%=resultPage.getCurrentPage()-1%>')">◀ 이전</a>
+			<% } %>
+			<%	for(int i=resultPage.getBeginUnitPage(); i <= resultPage.getEndUnitPage(); i++){	%>
+					<input type="hidden"  id = "currentPage" name = "currentPage" value ="<%=i %>"/>
+					<a href="javascript:fncGetProductList('<%=i %>');"><%=i %></a>
+			<% 	}  %>
+			<% if( resultPage.getEndUnitPage() >= resultPage.getMaxPage() ){ %>
+					이후 ▶
+			<% }else{ %>
+					<a href="javascript:fncGetProductList('<%=resultPage.getEndUnitPage()+1%>')">이후 ▶</a>
+			<% } %>
     	</td>
 	</tr>
 </table>

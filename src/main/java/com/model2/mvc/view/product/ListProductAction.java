@@ -5,6 +5,7 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.model2.mvc.common.Page;
 import com.model2.mvc.common.SearchVO;
 import com.model2.mvc.framework.Action;
 import com.model2.mvc.service.product.ProductService;
@@ -20,28 +21,42 @@ public class ListProductAction extends Action {
 	public String execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		SearchVO searchVO = new SearchVO();
 		
-		// List Indexing
-		int page = 1;
-		if(request.getParameter("page") != null) {
-			page = Integer.parseInt(request.getParameter("page"));
-		}
+		// currentPage
+		int currentPage = 1;
+		String getCurrentPage = request.getParameter("currentPage");
+		System.out.println("getCurrentPage : " + getCurrentPage);
 		
-		searchVO.setPage(page);
+		if(getCurrentPage != null) {
+			if(getCurrentPage.equals("undefined") == false) {
+				currentPage=Integer.parseInt(getCurrentPage);
+			}
+		}
+			
+		// searchVO
+		searchVO.setPage(currentPage);
 		searchVO.setSearchCondition(request.getParameter("searchCondition"));
 		searchVO.setSearchKeyword(request.getParameter("searchKeyword"));
-	
-		String pageUnit = request.getServletContext().getInitParameter("pageSize");
-		searchVO.setPageUnit(Integer.parseInt(pageUnit));
+		int pageSize = Integer.parseInt( getServletContext().getInitParameter("pageSize"));
+		int pageUnit  =  Integer.parseInt(getServletContext().getInitParameter("pageUnit"));
+		searchVO.setPageSize(pageSize);
+		searchVO.setPageUnit(pageUnit);
 		
 		// ProductService
 		ProductService service=new ProductServiceImpl();
 		Map<String,Object> map=service.getProductList(searchVO);
 		
-		// PurchaseService, statue check
+		// PurchaseService, status check
 		PurchaseService pservice = new PurchaseServiceImpl();
 		Map<Integer, Object> pmap = pservice.getSalaList();
 		
-		request.setAttribute("map", map);
+		// resultPage
+		Page resultPage	= 
+				new Page( currentPage, ((Integer)map.get("totalCount")).intValue(), pageUnit, pageSize);
+		System.out.println("ListUserAction ::"+resultPage);
+		
+		// request
+		request.setAttribute("list", map.get("list"));
+		request.setAttribute("resultPage", resultPage);
 		request.setAttribute("pmap", pmap);
 		request.setAttribute("searchVO", searchVO);
 		

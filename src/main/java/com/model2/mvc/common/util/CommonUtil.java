@@ -107,11 +107,11 @@ public class CommonUtil {
 		}
 	}
 	
-	// 숫자가 아닐 경우, 임의로 숫자로 변경 (여기서는 -1)
+	// 숫자가 아닐 경우, 임의로 값으로 변경 (여기서는 nullString)
 	public static String notNumToNum(String str) {
 		String result = str;
 		if(!str.matches("[0-9]+")) {
-			result = "-1";
+			result = "";
 		}
 
 		return result;

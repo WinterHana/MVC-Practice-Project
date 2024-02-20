@@ -52,64 +52,92 @@ public class ProductDAO {
 	
 	// getProductList
 	public Map<String, Object> getProductList(SearchVO searchVO) throws Exception {
+		System.out.println("[ProductDAO.getProductList] start");
+		
 		Connection con = DBUtil.getConnection();
 		
 		// ★ 제품 검색에 대한 처리
 		String sql = "SELECT * from PRODUCT ";
 		if (searchVO.getSearchCondition() != null) {
-			if (searchVO.getSearchCondition().equals("prodNo")) {
-				sql += " where PROD_NO='" + searchVO.getSearchKeyword() + "'";
-			} else if (searchVO.getSearchCondition().equals("prodName")) {
-				sql += " where PROD_NAME='" + searchVO.getSearchKeyword() + "'";
-			} else if (searchVO.getSearchCondition().equals("price")) {
-				sql += " where PRICE='" + searchVO.getSearchKeyword() + "'";
+			if (searchVO.getSearchCondition().equals("prodNo") && !searchVO.getSearchKeyword().equals("")) {
+				sql += " where PROD_NO= '" + searchVO.getSearchKeyword() + "'";
+			} else if (searchVO.getSearchCondition().equals("prodName") && !searchVO.getSearchKeyword().equals("")) {
+				sql += " where PROD_NAME= '" + searchVO.getSearchKeyword() + "'";
+			} else if (searchVO.getSearchCondition().equals("price") && !searchVO.getSearchKeyword().equals("")) {
+				sql += " where PRICE= '" + searchVO.getSearchKeyword() + "'";
 			}
 		}
 		sql += " order by PROD_NO";
 		
-		PreparedStatement stmt = 
-				con.prepareStatement(sql,
-															ResultSet.TYPE_SCROLL_INSENSITIVE,
-															ResultSet.CONCUR_UPDATABLE);
-		ResultSet rs = stmt.executeQuery();
+		System.out.println("Inner table SQL : " + sql);
 		
-		// 열의 개수를 가져와서 Map에 put 하기
-		rs.last();
-		int total = rs.getRow();
+		int totalCount = this.getTotalCount(sql);
+		
+		System.out.println("totalCount : " + totalCount);
+		
+		sql = makeCurrentPageSql(sql, searchVO);
+		PreparedStatement pstmt = con.prepareStatement(sql);
+		ResultSet rs = pstmt.executeQuery();
 		
 		HashMap<String,Object> map = new HashMap<String,Object>();
-		map.put("count", new Integer(total));
-		
-		rs.absolute(searchVO.getPage() * searchVO.getPageUnit() - searchVO.getPageUnit()+1);
-		System.out.println("searchVO.getPage():" + searchVO.getPage());
-		System.out.println("searchVO.getPageUnit():" + searchVO.getPageUnit());
+		map.put("totalCount", totalCount);
 		
 		ArrayList<ProductVO> list = new ArrayList<ProductVO>();
 		
-		if (total > 0) {
-			for (int i = 0; i < searchVO.getPageUnit(); i++) {
-				ProductVO vo = new ProductVO();
-				vo.setProdNo(rs.getInt("PROD_NO"));
-				vo.setProdName(rs.getString("PROD_NAME"));
-				vo.setProdDetail(rs.getString("PROD_DETAIL"));
-				vo.setManuDate(rs.getString("MANUFACTURE_DAY"));
-				vo.setPrice(rs.getInt("PRICE"));
-				vo.setFileName(rs.getString("IMAGE_FILE"));
-				vo.setRegDate(rs.getDate("REG_DATE"));
-				
-				list.add(vo);
-				if (!rs.next())
-					break;
-			}
+		while(rs.next()) {
+			ProductVO vo = new ProductVO();
+			vo.setProdNo(rs.getInt("PROD_NO"));
+			vo.setProdName(rs.getString("PROD_NAME"));
+			vo.setProdDetail(rs.getString("PROD_DETAIL"));
+			vo.setManuDate(rs.getString("MANUFACTURE_DAY"));
+			vo.setPrice(rs.getInt("PRICE"));
+			vo.setFileName(rs.getString("IMAGE_FILE"));
+			vo.setRegDate(rs.getDate("REG_DATE"));
+			
+			list.add(vo);
 		}
 		
-		System.out.println("list.size() : "+ list.size());
+		System.out.println("list size : " + list.size());
 		map.put("list", list);
-		System.out.println("map().size() : "+ map.size());
 
+		rs.close();
+		pstmt.close();
 		con.close();
-			
+		
+		System.out.println("[ProductDAO.getProductList] end");
+		
 		return map;
+	}
+	
+	private int getTotalCount(String sql) throws Exception {
+		Connection con = DBUtil.getConnection();
+		
+		sql = "SELECT COUNT(*) FROM (" + sql + ") countTable";
+		PreparedStatement pstmt = con.prepareStatement(sql);
+		ResultSet rs = pstmt.executeQuery();
+		
+		int totalCount = 0;
+		if(rs.next()) {
+			totalCount = rs.getInt(1);
+		}
+		
+		pstmt.close();
+		con.close();
+		rs.close();
+		
+		return totalCount;
+	}
+	
+	private String makeCurrentPageSql(String sql, SearchVO searchVO) {
+		sql = 	"SELECT * "+ 
+				"FROM (		SELECT inner_table. * ,  ROWNUM AS row_seq " +
+								" 	FROM (	"+ sql +" ) inner_table "+
+								"	WHERE ROWNUM <="+searchVO.getPage()*searchVO.getPageSize()+" ) " +
+				"WHERE row_seq BETWEEN "+((searchVO.getPage()-1)*searchVO.getPageSize()+1) +" AND "+ searchVO.getPage() * searchVO.getPageSize();
+	
+		System.out.println("UserDAO :: make SQL :: "+ sql);	
+	
+		return sql;
 	}
 	
 	// insertProduct
