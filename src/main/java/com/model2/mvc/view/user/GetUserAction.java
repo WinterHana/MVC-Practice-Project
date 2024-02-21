@@ -17,11 +17,11 @@ public class GetUserAction extends Action{
 		String userId=request.getParameter("userId");
 		
 		UserService service=new UserServiceImpl();
-		UserVO vo=service.getUser(userId);
+		UserVO userVO = service.getUser(userId);
 		
-		System.out.println("GetUserAction.execute : vo = " + vo);
+		System.out.println("GetUserAction.execute : userVO = " + userVO);
 		
-		request.setAttribute("vo", vo);
+		request.setAttribute("userVO", userVO);
 
 		return "forward:/user/readUser.jsp";
 	}

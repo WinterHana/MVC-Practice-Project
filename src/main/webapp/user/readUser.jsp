@@ -1,12 +1,15 @@
 <%@ page contentType="text/html; charset=euc-kr" %>
 
-<%@ page import="com.model2.mvc.service.user.domain.*" %>
+<%@ taglib prefix = "c" uri = "http://java.sun.com/jsp/jstl/core" %>
 
+<%--
+<%@ page import="com.model2.mvc.service.user.domain.*" %>W
 <%
-	UserVO vo=(UserVO)request.getAttribute("vo");
-	System.out.println("readUser.jsp : vo = " + vo);
+	UserVO userVO=(UserVO)request.getAttribute("userVO");
+	System.out.println("readUser.jsp : userVO = " + userVO);
 %>
-
+ --%>
+ 
 <html>
 <head>
 <title>회원정보조회</title>
@@ -46,7 +49,7 @@
 		<td class="ct_write01">
 			<table width="100%" border="0" cellspacing="0" cellpadding="0">
 				<tr>
-					<td width="105"><%=vo.getUserId() %></td>
+					<td width="105">${userVO.userId}</td>
 					<td>	</td>
 				</tr>
 			</table>
@@ -61,7 +64,7 @@
 			이름 <img src="/images/ct_icon_red.gif" width="3" height="3" align="absmiddle">
 		</td>
 		<td bgcolor="D6D6D6" width="1"></td>
-		<td class="ct_write01"><%=vo.getUserName() %></td>
+		<td class="ct_write01">${userVO.userName}</td>
 	</tr>
 	<tr>
 		<td height="1" colspan="3" bgcolor="D6D6D6"></td>
@@ -70,7 +73,7 @@
 	<tr>
 		<td width="104" class="ct_write">주소</td>
 		<td bgcolor="D6D6D6" width="1"></td>
-		<td class="ct_write01"><%=vo.getAddr() %></td>
+		<td class="ct_write01">${userVO.addr}</td>
 	</tr>
 	<tr>
 		<td height="1" colspan="3" bgcolor="D6D6D6"></td>
@@ -78,7 +81,7 @@
 	<tr>
 		<td width="104" class="ct_write">휴대전화번호</td>
 		<td bgcolor="D6D6D6" width="1"></td>
-		<td class="ct_write01"><%=vo.getPhone() %></td>
+		<td class="ct_write01">${not empty userVO.phone ? userVO.phone : ''}</td>
 	</tr>
 
 	<tr>
@@ -90,7 +93,7 @@
 		<td class="ct_write01">
 			<table border="0" cellspacing="0" cellpadding="0">
 				<tr>
-					<td height="26"><%=vo.getEmail() %></td>
+					<td height="26">${userVO.email}</td>
 				</tr>
 			</table>
 		</td>
@@ -102,7 +105,7 @@
 	<tr>
 		<td width="104" class="ct_write">가입일자</td>
 		<td bgcolor="D6D6D6" width="1"></td>
-		<td class="ct_write01"><%=vo.getRegDate() %></td>
+		<td class="ct_write01">${userVO.regDate}</td>
 	</tr>
 
 	<tr>
@@ -120,7 +123,7 @@
 						<img src="/images/ct_btnbg01.gif" width="17" height="23"/>
 					</td>
 					<td background="/images/ct_btnbg02.gif" class="ct_btn01" style="padding-top:3px;">
-						<a href="/updateUserView.do?userId=<%=vo.getUserId() %>">수정</a>
+						<a href="/updateUserView.do?userId=${userVO.userId}">수정</a>
 					</td>
 					<td width="14" height="23">
 						<img src="/images/ct_btnbg03.gif" width="14" height="23"/>
