@@ -46,10 +46,10 @@ public class TranStatusCodeUtil {
 	
 	// 다음 배송 상태를 받을 때 사용
 	public static String getNextCode(String tranCode) {
-		if(tranCode.trim().equals("2")) {
-			return "3";
-		} else if (tranCode.trim().equals("3")) {
-			return "4";
+		if(tranCode.trim().equals("002")) {
+			return "003";
+		} else if (tranCode.trim().equals("003")) {
+			return "004";
 		} else {
 			return null;
 		}

@@ -101,7 +101,7 @@ function fncGetUserList(currentPage) {
 	<c:set var = "no" value = "0"/>
 	<c:forEach var = "user" items = "${list}">
 		<c:set var = "no" value = "${no + 1}"/>
-	<tr class="ct_list_pop">
+		<tr class="ct_list_pop">
 		<td align="center">${no}</td>
 		<td></td>
 		<td align="left"><a href="/getUser.do?userId=${user.userId}">${user.userId}</a></td>
@@ -126,6 +126,5 @@ function fncGetUserList(currentPage) {
 <!--  페이지 Navigator 끝 -->
 </form>
 </div>
-
 </body>
 </html>

@@ -1,3 +1,9 @@
+<%@ page language="java" contentType="text/html; charset=EUC-KR"
+    pageEncoding="EUC-KR"%>
+    
+<%@ taglib prefix = "c" uri = "http://java.sun.com/jsp/jstl/core" %>
+
+<%--
 <%@page import="com.model2.mvc.common.Page"%>
 <%@page import="com.model2.mvc.common.util.CommonUtil"%>
 <%@page import="com.model2.mvc.common.util.TranStatusCode"%>
@@ -7,12 +13,6 @@
 <%@page import="com.model2.mvc.service.user.domain.UserVO"%>
 <%@page import="com.model2.mvc.common.SearchVO"%>
 <%@ page import="java.util.*"  %>
-
-<%@ page language="java" contentType="text/html; charset=EUC-KR"
-    pageEncoding="EUC-KR"%>
-
-
-
 <%
 	List<ProductVO> list=(List<ProductVO>)request.getAttribute("list");
 	Page resultPage=(Page)request.getAttribute("resultPage");
@@ -21,26 +21,12 @@
 	
 	String searchCondition = CommonUtil.null2str(searchVO.getSearchCondition());
 	String searchKeyword = CommonUtil.null2str(searchVO.getSearchKeyword());
-	
-	String menu = request.getParameter("menu");
-	String title = null;
-	String pageTarget = null;
-	boolean isManager = false;
-	if(menu != null) {
-		if(menu.equals("manage")) {
-			title = "상품 관리";
-			pageTarget = "updateProductView";
-			isManager = true;
-		} else if (menu.equals("search")) {
-			title = "상품 목록 조회";
-			pageTarget = "getProduct";
-		}
-	}
-
 %>
+--%>
+
 <html>
 <head>
-<title><%=title %></title>
+<title>${title}</title>
 
 <link rel="stylesheet" href="/css/admin.css" type="text/css">
 
@@ -56,7 +42,7 @@ function fncGetProductList(currentPage) {
 
 <div style="width:98%; margin-left:10px;">
 
-<form name="detailForm" action="/listProduct.do?menu=<%=menu %>" method="post">
+<form name="detailForm" action="/listProduct.do?menu=${menu}" method="post">
 
 <table width="100%" height="37" border="0" cellpadding="0"	cellspacing="0">
 	<tr>
@@ -66,7 +52,7 @@ function fncGetProductList(currentPage) {
 		<td background="/images/ct_ttl_img02.gif" width="100%" style="padding-left:10px;">
 			<table width="100%" border="0" cellspacing="0" cellpadding="0">
 				<tr>
-					<td width="93%" class="ct_ttl01"><%=title %></td>
+					<td width="93%" class="ct_ttl01">${title}</td>
 				</tr>
 			</table>
 		</td>
@@ -81,11 +67,11 @@ function fncGetProductList(currentPage) {
 	<tr>
 		<td align="right">
 			<select name="searchCondition" class="ct_input_g" style="width:80px">
-				<option value="prodNo" <%= (searchCondition.equals("prodNo") ? "selected" : "") %>>상품번호</option>
-				<option value="prodName" <%= (searchCondition.equals("prodName") ? "selected" : "") %>>상품명</option>
-				<option value="price" <%= (searchCondition.equals("price") ? "selected" : "") %>>상품가격</option>
+				<option value="prodNo"  ${not empty searchVO.searchCondition && searchVO.searchCondition == "prodNo" ? "selected" : '' }>상품번호</option>
+				<option value="prodName"  ${not empty searchVO.searchCondition && searchVO.searchCondition == "prodName" ? "selected" : '' }>상품명</option>
+				<option value="price"  ${not empty searchVO.searchCondition && searchVO.searchCondition == "price" ? "selected" : '' }>상품가격</option>
 			</select>
-			<input type="text" name="searchKeyword"  value="<%= searchKeyword %>"  
+			<input type="text" name="searchKeyword"  value="${searchVO.searchKeyword}"
 					class=ct_input_g" style="width:200px; height:19px">
 		</td>
 		<td align="right" width="70">
@@ -109,7 +95,7 @@ function fncGetProductList(currentPage) {
 
 <table width="100%" border="0" cellspacing="0" cellpadding="0" style="margin-top:10px;">
 	<tr>
-		<td colspan="11" >전체 <%=resultPage.getTotalCount() %>건수, 현재 <%= resultPage.getCurrentPage() %> 페이지</td>
+		<td colspan="11" >전체 ${resultPage.totalCount} 건수, 현재 ${resultPage.currentPage} 페이지</td>
 	</tr>
 	<tr>
 		<td class="ct_list_b" width="100">No</td>
@@ -129,63 +115,59 @@ function fncGetProductList(currentPage) {
 	<tr>
 		<td colspan="11" bgcolor="808285" height="1"></td>
 	</tr>
-	<% 	
-		int no = 1;
-		for(int i=0; i<list.size(); i++) {
-			ProductVO vo = (ProductVO) list.get(i);
-	%>
-	<tr class="ct_list_pop">
-		<td align="center"><%=no++%></td>
+	<c:set var = "no" value = "0"/>
+	<c:forEach var = "product" items = "${list}">
+		<c:set var = "no" value = "${no + 1}"/>
+		<tr class="ct_list_pop">
+		<td align="center">${no}</td>
 		<td></td>
-		<%-- 나중에 수정 --%>
 		<td align="left">
-		<% if(pmap != null && pmap.containsKey(vo.getProdNo())) { %>
-				<%=vo.getProdNo()%>
-		<%} else { %>
-				<a href="/<%=pageTarget %>.do?prodNo=<%=vo.getProdNo()%>"><%=vo.getProdNo()%></a>
-		<%} %>
+		<c:set var = "flag" value = "false"/>
+		<c:forEach var = "entry"  items = "${pmap}">
+			<c:if test="${entry.key == product.prodNo}">
+				${product.prodNo}
+				<c:set var = "flag" value = "true"/>
+			</c:if>
+		</c:forEach>
+		<c:if test="${not flag}">
+			<a href="/${pageTarget}.do?prodNo=${product.prodNo}">${product.prodNo}</a>
+		</c:if>
 		</td>
 		<td></td>
-		<td align="left"><%= vo.getProdName() %></td>
+		<td align="left">${product.prodName}</td>
 		<td></td>
-		<td align="left"><%= vo.getPrice() %></td> 
+		<td align="left">${product.price}</td> 
 		<td></td>
-		<td align="left"><%= vo.getRegDate().toString() %></td>
+		<td align="left">${product.regDate}</td>
 		<td></td>
-		<td align="left"><%= vo.getProdDetail() %></td>		
+		<td align="left">${product.prodDetail}</td>		
 		<td></td>
 		<td align="left">
-        <% if(pmap != null && pmap.containsKey(vo.getProdNo())) { %>
-            <% String tranCode = ((PurchaseVO)pmap.get(vo.getProdNo())).getTranCode(); %>
-            <% int tranNo = ((PurchaseVO)pmap.get(vo.getProdNo())).getTranNo(); %>
-            <% if(isManager && tranCode.trim().equals("2")) {%> <a href="/updateTranCode.do?tranNo=<%=tranNo %>&tranCode=<%=tranCode%>&url=listProduct.do?menu=manage">배송 시작하기</a> <%} %>
-            <%=TranStatusCodeUtil.getMessage(tranCode, isManager) %>
-        <% } else { %>
-        	<%=TranStatusCodeUtil.getMessage(TranStatusCode.ON_SALE.getNumber(), isManager) %>
-        <% }%>
+		<c:set var = "isContain" value = "false"/>
+		<c:forEach var = "entry"  items = "${pmap}">
+			<c:if test="${entry.key == product.prodNo}">
+				<c:set var = "tranCode"  value = "${pmap[product.prodNo].tranCode}"/>
+				<c:set var = "tranNo" value = "${pmap[product.prodNo].tranNo}"/>
+				${messageMap[product.prodNo]}
+				<c:if test="${isManager && tranCode == 002}">
+					<a href="/updateTranCode.do?tranNo= ${tranNo}&tranCode=${tranCode}&url=listProduct.do?menu=manage">배송 시작하기</a>
+				</c:if>
+				<c:set var = "isContain" value = "true"/>
+			</c:if>
+		</c:forEach>
+		<c:if test="${not isContain}">
+			판매중
+		</c:if>
 		</td>		
 		<td></td>
-	</tr>
-	<%} %>
+		</tr>
+	</c:forEach>
 </table>
 
 <table width="100%" border="0" cellspacing="0" cellpadding="0" style="margin-top:10px;">
 	<tr>
 		<td align="center">
-			<% if( resultPage.getCurrentPage() <= resultPage.getPageUnit() ){ %>
-					◀ 이전
-			<% }else{ %>
-					<a href="javascript:fncGetProductList('<%=resultPage.getCurrentPage()-1%>')">◀ 이전</a>
-			<% } %>
-			<%	for(int i=resultPage.getBeginUnitPage(); i <= resultPage.getEndUnitPage(); i++){	%>
-					<input type="hidden"  id = "currentPage" name = "currentPage" value ="<%=i %>"/>
-					<a href="javascript:fncGetProductList('<%=i %>');"><%=i %></a>
-			<% 	}  %>
-			<% if( resultPage.getEndUnitPage() >= resultPage.getMaxPage() ){ %>
-					이후 ▶
-			<% }else{ %>
-					<a href="javascript:fncGetProductList('<%=resultPage.getEndUnitPage()+1%>')">이후 ▶</a>
-			<% } %>
+			<jsp:include page = "../common/pageNavigator.jsp"/>
     	</td>
 	</tr>
 </table>

@@ -49,11 +49,12 @@ public class ListUserAction extends Action {
 		Page resultPage	= 
 				new Page( currentPage, ((Integer)map.get("totalCount")).intValue(), pageUnit, pageSize);
 		System.out.println("ListUserAction ::"+resultPage);
-	
+		
 		// request
 		request.setAttribute("list", map.get("list"));
 		request.setAttribute("resultPage", resultPage);
 		request.setAttribute("searchVO", searchVO);
+		request.setAttribute("getList", "fncGetUserList");		// 이전이나 다음 리스트로 이동할 URL 제공
 		
 		System.out.println("[ListUserAction.execute] end");
 		
