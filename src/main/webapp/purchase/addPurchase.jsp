@@ -1,6 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=EUC-KR"
     pageEncoding="EUC-KR"%>
 
+<%@ taglib prefix = "c" uri = "http://java.sun.com/jsp/jstl/core" %>
+
 <%--
 <%@page import="com.model2.mvc.common.util.PaymentOption"%>
 <%@page import="com.model2.mvc.service.purchase.domain.PurchaseVO"%>
@@ -27,43 +29,44 @@
 	</tr>
 	<tr>
 		<td>구매자아이디</td>
-		<td><%=purchaseVO.getBuyer().getUserId() %></td>
+		<td>${purchaseVO.buyer.userId}</td>
 		<td></td>
 	</tr>
 	<tr>
 		<td>구매방법</td>
 		<td>
-		<% if(purchaseVO.getPaymentOption().equals(PaymentOption.CASH.getNumber())) {%>
-				현금결제
-		<% } else { %>
-				카드결제
-		<% } %>
+		<c:if test="${purchaseVO.paymentOption == 1}">
+			현금 결제
+		</c:if> 
+				<c:if test="${purchaseVO.paymentOption == 2}">
+			카드 결제
+		</c:if> 
 		</td>
 		<td></td>
 	</tr>
 	<tr>
 		<td>구매자이름</td>
-		<td><%=purchaseVO.getReceiverName() %></td>
+		<td>${purchaseVO.receiverName}</td>
 		<td></td>
 	</tr>
 	<tr>
 		<td>구매자연락처</td>
-		<td><%=purchaseVO.getReceiverPhone() %></td>
+		<td>${purchaseVO.receiverPhone}</td>
 		<td></td>
 	</tr>
 	<tr>
 		<td>구매자주소</td>
-		<td><%=purchaseVO.getDivyAddr() %></td>
+		<td>${purchaseVO.divyAddr}</td>
 		<td></td>
 	</tr>
 		<tr>
 		<td>구매요청사항</td>
-		<td><%=purchaseVO.getDivyRequest() %></td>
+		<td>${purchaseVO.divyRequest}</td>
 		<td></td>
 	</tr>
 	<tr>
 		<td>배송희망일자</td>
-		<td><%=purchaseVO.getDivyDate() %></td>
+		<td>${purchaseVO.divyDate}</td>
 		<td></td>
 	</tr>
 </table>

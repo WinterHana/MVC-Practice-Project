@@ -2,7 +2,7 @@
     pageEncoding="EUC-KR"%>
 
 <%@ taglib prefix = "c" uri = "http://java.sun.com/jsp/jstl/core" %>
-
+<%--
 <%@page import="com.model2.mvc.common.util.CommonUtil"%>
 <%@page import="com.model2.mvc.common.Page"%>
 <%@page import="java.util.List"%>
@@ -24,7 +24,8 @@
 	String searchCondition = CommonUtil.null2str(searchVO.getSearchCondition());
 	String searchKeyword = CommonUtil.null2str(searchVO.getSearchKeyword());
 %>
-
+ --%>
+ 
 <html>
 <head>
 <title>구매 목록조회</title>
@@ -102,7 +103,7 @@ function fncGetPurchaseList(currentPage) {
 				<c:set var = "tranNo" value = "${pmap[purchase.purchaseProd.prodNo].tranNo}"/>
 				${messageMap[purchase.purchaseProd.prodNo]}
 				<c:if test="${tranCode == 003}">
-					<a href="/updateTranCode.do?tranNo= ${tranNo}&tranCode=${tranCode}&url=listProduct.do?menu=manage">배송 시작하기</a>
+					<a href="/updateTranCode.do?tranNo= ${tranNo}&tranCode=${tranCode}&url=listPurchase.do?menu=manage">배송 받기</a>
 				</c:if>
 				<c:set var = "isContain" value = "true"/>
 			</c:if>
