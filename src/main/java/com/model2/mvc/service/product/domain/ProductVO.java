@@ -20,48 +20,63 @@ public class ProductVO {
 	public String getProTranCode() {
 		return proTranCode;
 	}
+	
 	public void setProTranCode(String proTranCode) {
 		this.proTranCode = proTranCode;
 	}
+	
 	public String getFileName() {
 		return fileName;
 	}
+	
 	public void setFileName(String fileName) {
 		this.fileName = fileName;
 	}
+	
 	public String getManuDate() {
 		return manuDate;
 	}
+	
 	public void setManuDate(String manuDate) {
 		this.manuDate = manuDate;
 	}
+	
 	public int getPrice() {
 		return price;
 	}
+	
 	public void setPrice(int price) {
 		this.price = price;
 	}
+	
 	public String getProdDetail() {
 		return prodDetail;
 	}
+	
 	public void setProdDetail(String prodDetail) {
 		this.prodDetail = prodDetail;
 	}
+	
 	public String getProdName() {
 		return prodName;
 	}
+	
 	public void setProdName(String prodName) {
 		this.prodName = prodName;
 	}
+	
 	public int getProdNo() {
 		return prodNo;
 	}
+	
 	public void setProdNo(int prodNo) {
 		this.prodNo = prodNo;
 	}
+	
 	public Date getRegDate() {
 		return regDate;
 	}
+	
 	public void setRegDate(Date regDate) {
 		this.regDate = regDate;
 	}

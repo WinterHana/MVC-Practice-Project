@@ -178,7 +178,7 @@ public class PurchaseDAO {
 			purchaseVO.setTranNo(rs.getInt("tran_no"));
 			purchaseVO.setTranCode(rs.getString("tran_status_code"));
 			map.put(prodNo, purchaseVO);
-		}
+		} 
 		System.out.println("map.size() : " + map.size());
 		
 		System.out.println("[PurchaseDAO.getSaleList] end");
@@ -204,7 +204,7 @@ public class PurchaseDAO {
 		pstmt.setString(5, purchaseVO.getReceiverPhone());
 		pstmt.setString(6, purchaseVO.getDivyAddr());
 		pstmt.setString(7, purchaseVO.getDivyRequest());
-		pstmt.setString(8, purchaseVO.getTranCode());
+		pstmt.setString(8, purchaseVO.getTranCode().trim());
 		pstmt.setString(9, purchaseVO.getDivyDate());
 		
 		pstmt.executeUpdate();

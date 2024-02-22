@@ -1,5 +1,8 @@
 <%@ page contentType="text/html; charset=euc-kr" %>
 
+<%@ taglib prefix = "c" uri = "http://java.sun.com/jsp/jstl/core" %>
+
+<%--
 <%
 	boolean result=false;
 	if(request.getAttribute("result") != null){
@@ -7,15 +10,15 @@
 	}
 	String userId=(String)request.getAttribute("userId");
 %>
-
+ --%>
 <html>
 <head>
 <title>아이디 중복 확인</title>
 
 <link rel="stylesheet" href="/css/admin.css" type="text/css">
 
+<%-- javascript start --%>
 <script type="text/javascript">
-<!--
 window.onload = function(){
 	document.getElementById("userId").focus();
 	document.getElementById("userId").onkeydown = function(){
@@ -37,14 +40,14 @@ function fncCheckDuplication() {
 
 function fncUseId() {
 	if(opener) {
-		opener.document.detailForm.userId.value = "<%=userId%>";
+		opener.document.detailForm.userId.value = "${userId}";
 	}
 	window.close();
 }
--->
 </script>
-</head>
+<%-- javascript end --%>
 
+</head>
 <body bgcolor="#ffffff" text="#000000">
 
 <form name="detailForm"  method="post">
@@ -82,22 +85,9 @@ function fncUseId() {
 						<img src="/images/ct_bot_ttl01.gif" width="4" height="7">
 					</td>
 					<td class="ct_ttl02">
-				<%
-					if(request.getAttribute("result") != null){
-				%>
-					<%=userId %>
-					<%
-						if(result){
-					%>
-							는 사용 가능합니다.
-					<%
-						}else{
-					%>
-							는 사용이 불가능합니다.
-					<%
-						}
-					}
-					%>
+						<c:if test = "${not empty result}" >
+							${userId} 는 사용 ${result ? "" : "불"}가능합니다.
+						</c:if>
 					</td>
 				</tr>
 			</table>
@@ -124,17 +114,10 @@ function fncUseId() {
 			<table width="100%" border="0" cellspacing="0" cellpadding="0">
 				<tr>
 					<td width="105">
-					<%
-						if(result) {
-					%>
-						<input type="text" name="userId" id="userId" value="<%=userId %>" class="ct_input_g" style="width:100px; height:19px"  maxLength="20" />
-					<%
-						}else {
-					%>			
-						<input type="text" name="userId" id="userId" class="ct_input_g" style="width:100px; height:19px"  maxLength="20" />
-					<%
-						}
-					%>		
+						<input type="text" name="userId" id="userId" 
+						value="${not empty result && result ? userId : ''}" 
+						class="ct_input_g" 
+						style="width:100px; height:19px"  maxLength="20" />	
 					</td>
 					<td>
 						<table border="0" cellspacing="0" cellpadding="0">
@@ -169,9 +152,7 @@ function fncUseId() {
 		<td align="center">
 			<table border="0" cellspacing="0" cellpadding="0">
 				<tr>
-				<%
-					if(result){
-				%>			
+				<c:if test = "${not empty result && result}">
 					<td width="17" height="23">
 						<img src="/images/ct_btnbg01.gif" width="17" height="23"/>
 					</td>
@@ -181,9 +162,7 @@ function fncUseId() {
 					<td width="14" height="23">
 						<img src="/images/ct_btnbg03.gif" width="14" height="23"/>
 					</td>
-				<%
-					}
-				%>				
+				</c:if>			
 					<td width="30"></td>					
 					<td width="17" height="23">
 						<img src="/images/ct_btnbg01.gif" width="17" height="23"/>

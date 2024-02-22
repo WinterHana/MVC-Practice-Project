@@ -1,6 +1,8 @@
-<%@page import="com.model2.mvc.common.util.CommonUtil"%>
 <%@ page contentType="text/html; charset=euc-kr" %>
 
+<%@ taglib prefix = "c" uri = "http://java.sun.com/jsp/jstl/core" %>
+<%--
+<%@page import="com.model2.mvc.common.util.CommonUtil"%>
 <%@ page import="java.util.*"  %>
 <%@ page import="com.model2.mvc.service.user.domain.*" %>
 <%@ page import="com.model2.mvc.common.*" %>
@@ -13,7 +15,8 @@
 	String searchCondition = CommonUtil.null2str(searchVO.getSearchCondition());
 	String searchKeyword = CommonUtil.null2str(searchVO.getSearchKeyword());
 %>
-
+ --%>
+ 
 <html>
 <head>
 <title>회원 목록조회</title>
@@ -56,9 +59,9 @@ function fncGetUserList(currentPage) {
 	<tr>
 		<td align="right">
 			<select name="searchCondition" class="ct_input_g" style="width:80px">
-				<option value = "0" <%= (searchCondition.equals("0") ? "selected" : "") %>>회원ID</option>
-				<option value = "1" <%= (searchCondition.equals("1") ? "selected" : "") %>>회원명</option>
-				<input type="text" name="searchKeyword"  value="<%= searchKeyword %>"  
+				<option value = "0" ${not empty searchVO.searchCondition && searchVO.searchCondition == 0 ? "selected" : '' }>회원ID</option>
+				<option value = "1" ${not empty searchVO.searchCondition && searchVO.searchCondition == 1 ? "selected" : '' }>회원명</option>
+				<input type="text" name="searchKeyword"  value="${not empty searchVO.searchKeyword ? searchVO.searchKeyword : ''}"  
 					class="ct_input_g" style="width:200px; height:19px" >
 		</td>
 		<td align="right" width="70">
@@ -81,7 +84,7 @@ function fncGetUserList(currentPage) {
 
 <table width="100%" border="0" cellspacing="0" cellpadding="0" style="margin-top:10px;">
 	<tr>
-		<td colspan="11" >전체  <%=resultPage.getTotalCount() %> 건수, 현재 <%=resultPage.getCurrentPage() %> 페이지</td>
+		<td colspan="11" >전체  ${resultPage.totalCount} 건수, 현재  ${resultPage.currentPage} 페이지 </td>
 	</tr>
 	<tr>
 		<td class="ct_list_b" width="100">No</td>
@@ -95,52 +98,33 @@ function fncGetUserList(currentPage) {
 	<tr>
 		<td colspan="11" bgcolor="808285" height="1"></td>
 	</tr>
-	<% 	
-		int no= 1;
-		for(int i=0; i<list.size(); i++) {
-			UserVO vo = (UserVO)list.get(i);
-	%>
-	<tr class="ct_list_pop">
-		<td align="center"><%=no++%></td>
+	<c:set var = "no" value = "0"/>
+	<c:forEach var = "user" items = "${list}">
+		<c:set var = "no" value = "${no + 1}"/>
+		<tr class="ct_list_pop">
+		<td align="center">${no}</td>
 		<td></td>
-		<td align="left">
-			<a href="/getUser.do?userId=<%= vo.getUserId() %>"><%= vo.getUserId() %></a>
-		</td>
+		<td align="left"><a href="/getUser.do?userId=${user.userId}">${user.userId}</a></td>
 		<td></td>
-		<td align="left"><%= vo.getUserName() %></td>
+		<td align="left">${user.userName}</td>
 		<td></td>
-		<td align="left"><%= vo.getEmail() %>
-		</td>		
+		<td align="left">${user.email}</td>		
 	</tr>
 	<tr>
 		<td colspan="11" bgcolor="D6D7D6" height="1"></td>
 	</tr>
-	<% } %>
+	</c:forEach>
 </table>
 
 <table width="100%" border="0" cellspacing="0" cellpadding="0" style="margin-top:10px;">
 	<tr>
 		<td align="center">
-			<% if( resultPage.getCurrentPage() <= resultPage.getPageUnit() ){ %>
-					◀ 이전
-			<% }else{ %>
-					<a href="javascript:fncGetUserList('<%=resultPage.getCurrentPage()-1%>')">◀ 이전</a>
-			<% } %>
-			<%	for(int i=resultPage.getBeginUnitPage(); i <= resultPage.getEndUnitPage(); i++){	%>
-					<input type="hidden"  id = "currentPage" name = "currentPage" value ="<%=i %>"/>
-					<a href="javascript:fncGetUserList('<%=i %>');"><%=i %></a>
-			<% 	}  %>
-			<% if( resultPage.getEndUnitPage() >= resultPage.getMaxPage() ){ %>
-					이후 ▶
-			<% }else{ %>
-					<a href="javascript:fncGetUserList('<%=resultPage.getEndUnitPage()+1%>')">이후 ▶</a>
-			<% } %>
+			<jsp:include page = "../common/pageNavigator.jsp"/>
     	</td>
 	</tr>
 </table>
 <!--  페이지 Navigator 끝 -->
 </form>
 </div>
-
 </body>
 </html>

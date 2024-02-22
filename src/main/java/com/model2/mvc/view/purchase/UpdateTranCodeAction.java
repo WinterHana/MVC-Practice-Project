@@ -17,7 +17,7 @@ public class UpdateTranCodeAction extends Action {
 		// getParameter
 		int tranNo = 0;
 		try {
-			tranNo = Integer.parseInt(request.getParameter("tranNo"));
+			tranNo = Integer.parseInt(request.getParameter("tranNo").trim());
 		} catch (Exception e) {
 			System.out.println("Integer.parseInt Exception");
 			e.printStackTrace();
