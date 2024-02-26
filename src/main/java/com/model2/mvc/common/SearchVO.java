@@ -6,6 +6,7 @@ public class SearchVO {
 	private int page;
 	String searchCondition;
 	String searchKeyword;
+	String searchKeywordSub;
 	int pageUnit;
 	int pageSize;
 	
@@ -44,6 +45,14 @@ public class SearchVO {
 		this.searchKeyword = searchKeyword;
 	}
 	
+	public String getSearchKeywordSub() {
+		return searchKeywordSub;
+	}
+
+	public void setSearchKeywordSub(String searchKeywordSub) {
+		this.searchKeywordSub = searchKeywordSub;
+	}
+
 	public int getPageSize() {
 		return pageSize;
 	}

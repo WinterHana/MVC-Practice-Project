@@ -60,9 +60,9 @@ public class ProductDAO {
 		String sql = "SELECT * from PRODUCT ";
 		if (searchVO.getSearchCondition() != null) {
 			if (searchVO.getSearchCondition().equals("prodNo") && !searchVO.getSearchKeyword().equals("")) {
-				sql += " where PROD_NO= '" + searchVO.getSearchKeyword() + "'";
+				sql += " where PROD_NO LIKE '%" + searchVO.getSearchKeyword() + "%'";
 			} else if (searchVO.getSearchCondition().equals("prodName") && !searchVO.getSearchKeyword().equals("")) {
-				sql += " where PROD_NAME= '" + searchVO.getSearchKeyword() + "'";
+				sql += " where PROD_NAME LIKE '%" + searchVO.getSearchKeyword() + "%'";
 			} else if (searchVO.getSearchCondition().equals("price") && !searchVO.getSearchKeyword().equals("")) {
 				sql += " where PRICE= '" + searchVO.getSearchKeyword() + "'";
 			}
