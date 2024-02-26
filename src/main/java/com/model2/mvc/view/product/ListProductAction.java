@@ -99,9 +99,12 @@ public class ListProductAction extends Action {
 		request.setAttribute("isManager", isManager);
 		request.setAttribute("messageMap", messageMap);
 		
-		System.out.println("[ListProductAction.execute] end");
+		System.out.println("[ListProductAction.execute] end... isManager = " + isManager);
 		
-		return "forward:/product/listProduct.jsp";
+		if(isManager) {
+			return "forward:/product/listManagerProduct.jsp";
+		} else {
+			return "forward:/product/listUserProduct.jsp";
+		}
 	}
-
 }
