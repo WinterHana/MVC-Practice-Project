@@ -4,12 +4,6 @@
 <html>
 <head>
 
-<%-- 
-<%@page import="com.model2.mvc.service.product.domain.ProductVO"%>
-<% 
-	ProductVO prodVO = (ProductVO)request.getAttribute("prodVO"); 
-%>
---%>
 
 <link rel="stylesheet" href="/css/admin.css" type="text/css">
 

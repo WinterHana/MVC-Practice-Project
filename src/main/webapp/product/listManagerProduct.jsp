@@ -3,26 +3,6 @@
     
 <%@ taglib prefix = "c" uri = "http://java.sun.com/jsp/jstl/core" %>
 
-<%--
-<%@page import="com.model2.mvc.common.Page"%>
-<%@page import="com.model2.mvc.common.util.CommonUtil"%>
-<%@page import="com.model2.mvc.common.util.TranStatusCode"%>
-<%@page import="com.model2.mvc.common.util.TranStatusCodeUtil"%>
-<%@page import="com.model2.mvc.service.purchase.domain.PurchaseVO"%>
-<%@page import="com.model2.mvc.service.product.domain.ProductVO"%>
-<%@page import="com.model2.mvc.service.user.domain.UserVO"%>
-<%@page import="com.model2.mvc.common.SearchVO"%>
-<%@ page import="java.util.*"  %>
-<%
-	List<ProductVO> list=(List<ProductVO>)request.getAttribute("list");
-	Page resultPage=(Page)request.getAttribute("resultPage");
-	Map<Integer, Object> pmap = (Map<Integer, Object>)request.getAttribute("pmap");
-	SearchVO searchVO=(SearchVO)request.getAttribute("searchVO");
-	
-	String searchCondition = CommonUtil.null2str(searchVO.getSearchCondition());
-	String searchKeyword = CommonUtil.null2str(searchVO.getSearchKeyword());
-%>
---%>
 
 <html>
 <head>
@@ -66,6 +46,7 @@ function fncGetProductList(currentPage) {
 <table width="100%" border="0" cellspacing="0" cellpadding="0" style="margin-top:10px;">
 	<tr>
 		<td align="right">
+
 			<select name="searchCondition" class="ct_input_g" style="width:80px">
 				<option value="prodNo"  ${not empty searchVO.searchCondition && searchVO.searchCondition == "prodNo" ? "selected" : '' }>상품번호</option>
 				<option value="prodName"  ${not empty searchVO.searchCondition && searchVO.searchCondition == "prodName" ? "selected" : '' }>상품명</option>
@@ -98,9 +79,11 @@ function fncGetProductList(currentPage) {
 		<td colspan="11" >전체 ${resultPage.totalCount} 건수, 현재 ${resultPage.currentPage} 페이지</td>
 	</tr>
 	<tr>
-		<td class="ct_list_b" width="100">No</td>
+		<td class="ct_list_b" width="50">No</td>
 		<td class="ct_line02"></td>
-		<td class="ct_list_b" width="150">상품번호</td>
+		<td class="ct_list_b" width="50">상품번호</td>
+		<td class="ct_line02"></td>
+		<td class="ct_list_b" width="150">사진</td>
 		<td class="ct_line02"></td>
 		<td class="ct_list_b" width="150">상품명</td>
 		<td class="ct_line02"></td>
@@ -121,28 +104,41 @@ function fncGetProductList(currentPage) {
 		<tr class="ct_list_pop">
 		<td align="center">${no}</td>
 		<td></td>
-		<td align="left">
 		<c:set var = "flag" value = "false"/>
 		<c:forEach var = "entry"  items = "${pmap}">
 			<c:if test="${entry.key == product.prodNo}">
-				${product.prodNo}
+				<td align="center">${product.prodNo}</td>
+				<td></td>
+				<td align="center">
+				<img src = "images/uploadFiles/${product.fileName}" width = "120" height = "90"/>
+				</td>
+				<td></td>
+				<td align = "center">${product.prodName}</td>
 				<c:set var = "flag" value = "true"/>
+				<td></td>
 			</c:if>
 		</c:forEach>
 		<c:if test="${not flag}">
-			<a href="/${pageTarget}.do?prodNo=${product.prodNo}">${product.prodNo}</a>
+			<td align="center">${product.prodNo}</td>
+			<td></td>
+			<td align="center">
+			<a href="/${pageTarget}.do?prodNo=${product.prodNo}">
+			<img src = "images/uploadFiles/${product.fileName}" width = "120" height = "90"/>
+			</a>
+			</td>
+			<td></td>
+			<td align = "center">
+			<a href="/${pageTarget}.do?prodNo=${product.prodNo}">${product.prodName}</a>
+			</td>
+			<td></td>
 		</c:if>
-		</td>
+		<td align="center">${product.price}</td> 
 		<td></td>
-		<td align="left">${product.prodName}</td>
+		<td align="center">${product.regDate}</td>
 		<td></td>
-		<td align="left">${product.price}</td> 
+		<td align="center">${product.prodDetail}</td>		
 		<td></td>
-		<td align="left">${product.regDate}</td>
-		<td></td>
-		<td align="left">${product.prodDetail}</td>		
-		<td></td>
-		<td align="left">
+		<td align="center">
 		<c:set var = "isContain" value = "false"/>
 		<c:forEach var = "entry"  items = "${pmap}">
 			<c:if test="${entry.key == product.prodNo}">
