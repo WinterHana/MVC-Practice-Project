@@ -9,7 +9,7 @@ import java.util.Map;
 
 import com.model2.mvc.common.SearchVO;
 import com.model2.mvc.common.util.DBUtil;
-import com.model2.mvc.service.user.domain.UserVO;
+import com.model2.mvc.service.domain.UserVO;
 
 
 public class UserDAO {

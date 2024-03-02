@@ -5,9 +5,9 @@ import java.util.Map;
 
 import com.model2.mvc.common.SearchVO;
 import com.model2.mvc.common.util.CommonUtil;
+import com.model2.mvc.service.domain.ProductVO;
 import com.model2.mvc.service.product.ProductService;
 import com.model2.mvc.service.product.dao.ProductDAO;
-import com.model2.mvc.service.product.domain.ProductVO;
 
 public class ProductServiceImpl implements ProductService {
 	

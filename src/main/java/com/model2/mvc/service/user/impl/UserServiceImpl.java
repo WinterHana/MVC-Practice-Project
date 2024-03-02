@@ -5,9 +5,9 @@ import java.util.Map;
 
 import com.model2.mvc.common.SearchVO;
 import com.model2.mvc.common.util.CommonUtil;
+import com.model2.mvc.service.domain.UserVO;
 import com.model2.mvc.service.user.UserService;
 import com.model2.mvc.service.user.dao.UserDAO;
-import com.model2.mvc.service.user.domain.UserVO;
 
 
 public class UserServiceImpl implements UserService{

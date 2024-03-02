@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!-- 
+	Main point of MyBatis Framework 
+	- JDBC Connection
+	- Mapper : SQL meta-data
+-->
+
+<!DOCTYPE configuration
+  PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-config.dtd">
+  
+ <configuration>	
+ 	<!-- Bean Type Aliases -->
+ 	<typeAliases>
+ 		<typeAlias alias = "user" type = "mybatis.service.domain.User"/>
+ 		<typeAlias alias = "search" type = "mybatis.service.domain.Search"/>
+ 		<typeAlias alias = "userVO" type = "mybatis.service.domain.UserVO"/>
+ 		<typeAlias alias = "searchVO" type = "mybatis.service.domain.SearchVO"/>
+ 	</typeAliases>
+
+	  
+	<!-- SQL mapping -->
+	<mappers>
+		<mapper resource = "sql/user/UserMapper.xml"/>
+		<mapper resource = "sql/user/ProjectUserMapper.xml"/>
+	</mappers>
+	
+ </configuration>

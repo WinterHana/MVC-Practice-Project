@@ -8,8 +8,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.model2.mvc.common.util.HttpUtil;
-import com.model2.mvc.service.product.domain.ProductVO;
-import com.model2.mvc.service.user.domain.UserVO;
+import com.model2.mvc.service.domain.ProductVO;
+import com.model2.mvc.service.domain.UserVO;
 
 
 public class ActionServlet extends HttpServlet {

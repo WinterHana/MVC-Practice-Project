@@ -3,7 +3,7 @@ package com.model2.mvc.service.purchase;
 import java.util.Map;
 
 import com.model2.mvc.common.SearchVO;
-import com.model2.mvc.service.purchase.domain.PurchaseVO;
+import com.model2.mvc.service.domain.PurchaseVO;
 
 public interface PurchaseService {
 	

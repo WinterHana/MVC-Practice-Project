@@ -4,7 +4,8 @@ import javax.servlet.RequestDispatcher;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.model2.mvc.service.user.domain.UserVO;
+import com.model2.mvc.service.domain.UserVO;
+
 
 
 public class HttpUtil {

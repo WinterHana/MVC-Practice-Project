@@ -4,7 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import com.model2.mvc.common.SearchVO;
-import com.model2.mvc.service.product.domain.ProductVO;
+import com.model2.mvc.service.domain.ProductVO;
 
 public interface ProductService {
 	// findProduct

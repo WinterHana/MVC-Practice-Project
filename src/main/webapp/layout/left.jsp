@@ -1,6 +1,5 @@
+<%@page import="com.model2.mvc.service.domain.UserVO"%>
 <%@ page contentType="text/html; charset=euc-kr" %>
-
-<%@ page import="com.model2.mvc.service.user.domain.*" %>
 
 <%
 	UserVO vo=(UserVO)session.getAttribute("user");
