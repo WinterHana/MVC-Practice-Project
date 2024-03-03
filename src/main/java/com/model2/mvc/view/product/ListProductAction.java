@@ -63,8 +63,8 @@ public class ListProductAction extends Action {
 		searchVO.setPageUnit(pageUnit);
 		
 		// ProductService
-		ProductService service=new ProductServiceImpl();
-		Map<String,Object> map = service.getProductList(searchVO);
+		// ProductService service=new ProductServiceImpl();
+		Map<String,Object> map = productService.getProductList(searchVO);
 		
 		// PurchaseService, status check
 		PurchaseService pservice = new PurchaseServiceImpl();

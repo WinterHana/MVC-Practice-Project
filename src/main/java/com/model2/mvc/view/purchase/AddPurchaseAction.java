@@ -40,7 +40,7 @@ public class AddPurchaseAction extends Action {
 		
 		// Product information
 		ProductService productService = new ProductServiceImpl();
-		ProductVO productVO = productService.findProduct(Integer.parseInt(request.getParameter("prodNo")));
+		ProductVO productVO = productService.getProduct(Integer.parseInt(request.getParameter("prodNo")));
 		purchaseVO.setPurchaseProd(productVO);
 		
 		// Debugging

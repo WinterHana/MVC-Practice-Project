@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE mapper
+		PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+		"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+				
+<mapper namespace="ProductMapper">
+	<resultMap id = "productSelectMap" type = "productVO">
+  		<result property = "fileName" column = "image_file" jdbcType="VARCHAR"/>
+  		<result property = "manuDate" column = "manufacture_day" jdbcType="VARCHAR"/>
+  		<result property = "price" column = "price" jdbcType="NUMERIC"/>
+  		<result property = "prodDetail" column = "prod_detail" jdbcType="VARCHAR"/>
+  		<result property = "prodName" column = "prod_name" jdbcType = "VARCHAR"/>
+  		<result property = "prodNo" column = "prod_no" jdbcType = "NUMERIC"/>
+  		<result property = "regDate" column = "reg_date" jdbcType = "DATE"/>
+	</resultMap>
+	
+  	<sql id = "getProductListSelect">
+  		 SELECT * FROM product 
+  		<where>
+  			<if test = "searchCondition == 'prodNo'">
+  				prod_no LIKE '%'||#{searchKeyword}||'%'
+  			</if>
+  			<if test = "searchCondition == 'prodName'">
+				prod_name LIKE '%'||#{searchKeyword}||'%'
+  			</if>
+  			  <if test = "searchCondition == 'price'">
+				price = #{searchKeyword}
+  			</if>
+  		</where>
+  		ORDER BY prod_no
+  	</sql>
+  	
+  	 <select id="addProduct"  parameterType = "productVO">
+  		INSERT
+  		INTO product
+  		VALUES(
+  			seq_product_prod_no.nextval,
+  			#{prodName:VARCHAR},
+  			#{prodDetail:VARCHAR},
+  			#{manuDate:VARCHAR},
+  			#{price:NUMERIC},
+  			#{fileName:VARCHAR},
+  			SYSDATE
+  		)					
+  	</select>
+  	
+  	 <select id="getProduct"  parameterType = "int"  resultMap = "productSelectMap">
+		SELECT *
+		FROM product   				
+		WHERE prod_no = #{prod_no:NUMERIC}							
+  	</select>
+  	
+  	 <update id = "updateProduct" parameterType = "productVO">
+  		UPDATE product
+  		<set>
+  			<if test = "prodName != null" >prod_name = #{prodName:VARCHAR},</if>
+  			<if test = "prodDetail != null"> prod_detail = #{prodDetail:VARCHAR},</if>
+  			<if test = "manuDate != null"> manufacture_day = #{manuDate:VARCHAR},</if>
+  			<if test = "price != null"> price = #{price:NUMERIC},</if>
+  			<if test = "fileName != null"> image_file = #{fileName:VARCHAR}</if>
+  		</set>
+  		WHERE prod_no = #{prodNo:NUMERIC}
+  	</update>
+  	
+  	<select id = "deleteProduct" parameterType = "string">
+  		DELETE
+  		FROM product
+  		WHERE prod_name = #{prodName:VARCHAR}
+  	</select>
+  	
+  	<select id = "getProductList"  parameterType = "searchVO"  resultMap = "productSelectMap">
+  		SELECT *
+  		FROM
+  		( SELECT inner_table.*, ROWNUM AS row_seq 
+  		  FROM ( <include refid = "getProductListSelect"/> ) inner_table
+  		WHERE ROWNUM &lt; #{page} * #{pageSize} + 1 )
+  		WHERE row_seq BETWEEN (#{page} - 1) * (#{pageSize} + 1) AND #{page} * #{pageSize}
+  	</select>
+  	
+  	<select id = "getProductCount" parameterType = "searchVO"  resultType = "int">
+  		SELECT COUNT(*) FROM (
+			<include refid = "getProductListSelect"/>
+		)
+	</select>
+	
+</mapper>

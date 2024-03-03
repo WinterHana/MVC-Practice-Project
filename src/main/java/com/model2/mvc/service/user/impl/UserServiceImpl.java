@@ -81,7 +81,7 @@ public class UserServiceImpl implements UserService{
 	}
 
 	public Map<String,Object> getUserList(SearchVO searchVO) {
-		HashMap<String, Object> hashMap = new HashMap<String, Object>();
+		Map<String, Object> map = new HashMap<String, Object>();
 		List<UserVO> list = null;
 		int totalCount = 0;
 		
@@ -107,10 +107,10 @@ public class UserServiceImpl implements UserService{
 			e.printStackTrace();
 		}
 
-		hashMap.put("totalCount", totalCount);
-		hashMap.put("list", list);
+		map.put("totalCount", totalCount);
+		map.put("list", list);
 		
-		return hashMap;
+		return map;
 	}
 
 	public int updateUser(UserVO userVO) {

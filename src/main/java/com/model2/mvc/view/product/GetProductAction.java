@@ -22,8 +22,8 @@ public class GetProductAction extends Action {
 			e.printStackTrace();
 		}
 		
-		ProductService service = new ProductServiceImpl();
-		ProductVO prodVO = service.findProduct(prodId);
+		// ProductService service = new ProductServiceImpl();
+		ProductVO prodVO = productService.getProduct(prodId);
 		
 		HistoryUtil.saveHistory(response, prodId);
 		request.setAttribute("prodVO", prodVO);

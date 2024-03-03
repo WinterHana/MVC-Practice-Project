@@ -23,8 +23,8 @@ public class AddProductAction extends Action {
 		// Test
 		System.out.println(productVO);
 		
-		ProductService service = new ProductServiceImpl();
-		service.insertProduct(productVO);
+		// ProductService service = new ProductServiceImpl();
+		productService.addProduct(productVO);
 		
 		return "redirect:/product/completeAddView.jsp";
 	}

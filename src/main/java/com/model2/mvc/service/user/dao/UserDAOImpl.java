@@ -54,7 +54,7 @@ public class UserDAOImpl implements UserDAO {
 	@Override
 	public int deleteUser(String userId) {
 		System.out.println("[" + getClass().getName() + ".removeUser] Call");
-		return sqlSession.delete("UserMapper.removeUser", userId);
+		return sqlSession.delete("UserMapper.deleteUser", userId);
 	}
 
 	@Override

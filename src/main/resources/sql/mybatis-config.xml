@@ -18,6 +18,7 @@
  	<typeAliases>
  		<typeAlias alias = "userVO" type = "com.model2.mvc.service.domain.UserVO"/>
  		<typeAlias alias = "searchVO" type = "com.model2.mvc.common.SearchVO"/>
+ 		<typeAlias alias = "productVO" type = "com.model2.mvc.service.domain.ProductVO"/>
  	</typeAliases>
  
 	 <!-- JDBC setting --> 
@@ -40,6 +41,7 @@
 	<!-- SQL mapping -->
 	<mappers>
 		<mapper resource = "sql/user/UserMapper.xml"/>
+		<mapper resource = "sql/product/ProductMapper.xml"/>
 	</mappers>
 	
  </configuration>

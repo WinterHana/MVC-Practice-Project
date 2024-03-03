@@ -8,6 +8,7 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import com.model2.mvc.service.product.ProductService;
+import com.model2.mvc.service.product.impl.ProductServiceImpl;
 import com.model2.mvc.service.purchase.PurchaseService;
 import com.model2.mvc.service.user.UserService;
 import com.model2.mvc.service.user.impl.UserServiceImpl;
@@ -26,6 +27,7 @@ public abstract class Action {
 						new String[] {"/config/commonservice.xml" }
 				);
 		userService = (UserServiceImpl)context.getBean("userServiceImpl");
+		productService = (ProductServiceImpl)context.getBean("productServiceImpl");
 	}
 	
 	public ServletContext getServletContext() {

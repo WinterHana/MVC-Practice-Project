@@ -21,8 +21,8 @@ public class UpdateProductViewAction extends Action {
 			e.printStackTrace();
 		}
 		
-		ProductService service = new ProductServiceImpl();
-		ProductVO prodVO = service.findProduct(prodId);
+		// ProductService service = new ProductServiceImpl();
+		ProductVO prodVO = productService.getProduct(prodId);
 		
 		request.setAttribute("prodVO", prodVO);
 		

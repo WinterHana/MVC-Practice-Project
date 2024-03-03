@@ -28,8 +28,8 @@ public class UpdateProductAction extends Action {
 			e.printStackTrace();
 		} 
 		
-		ProductService service = new ProductServiceImpl();
-		service.updateProduct(productVO);
+		// ProductService service = new ProductServiceImpl();
+		productService.updateProduct(productVO);
 		
 		return "redirect:/product/completeUpdateView.jsp";
 	}
