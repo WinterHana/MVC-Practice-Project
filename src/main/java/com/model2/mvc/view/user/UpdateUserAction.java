@@ -24,8 +24,8 @@ public class UpdateUserAction extends Action {
 		userVO.setPhone(request.getParameter("phone"));
 		userVO.setEmail(request.getParameter("email"));
 		
-		UserService service=new UserServiceImpl();
-		service.updateUser(userVO);
+		// UserService service=new UserServiceImpl();
+		userService.updateUser(userVO);
 		
 		HttpSession session=request.getSession();
 		String sessionId=((UserVO)session.getAttribute("user")).getUserId();

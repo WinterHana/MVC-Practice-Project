@@ -42,8 +42,8 @@ public class ListUserAction extends Action {
 		searchVO.setPageUnit(pageUnit);
 		
 		// service
-		UserService service=new UserServiceImpl();
-		Map<String,Object> map=service.getUserList(searchVO);
+		// UserService service=new UserServiceImpl();
+		Map<String,Object> map = userService.getUserList(searchVO);
 
 		// resultPage
 		Page resultPage	= 

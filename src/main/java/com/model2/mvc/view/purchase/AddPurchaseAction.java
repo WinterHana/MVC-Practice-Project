@@ -13,7 +13,7 @@ import com.model2.mvc.service.product.impl.ProductServiceImpl;
 import com.model2.mvc.service.purchase.PurchaseService;
 import com.model2.mvc.service.purchase.impl.PurchaseServiceImpl;
 import com.model2.mvc.service.user.UserService;
-import com.model2.mvc.service.user.dao.UserDAO;
+import com.model2.mvc.service.user.dao.UserDAOImpl;
 import com.model2.mvc.service.user.impl.UserServiceImpl;
 
 public class AddPurchaseAction extends Action {

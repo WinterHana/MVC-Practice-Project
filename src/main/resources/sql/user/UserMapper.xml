@@ -5,7 +5,7 @@
 		"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 				
 <mapper namespace="UserMapper">
-	<resultMap id = "userSelectMap" type = "user">
+	<resultMap id = "userSelectMap" type = "userVO">
   		<result property = "userId" column = "user_id" jdbcType="VARCHAR"/>
   		<result property = "userName" column = "user_name" jdbcType="VARCHAR"/>
   		<result property = "password" column = "password" jdbcType="VARCHAR"/>
@@ -55,7 +55,7 @@
 		WHERE user_id = #{userId}							
   	</select>
   	
-  	 <update id = "updateUser" parameterType = "user">
+  	 <update id = "updateUser" parameterType = "userVO">
   		UPDATE users
   		<set>
   			<if test = "userName != null" >user_name = #{userName},</if>
@@ -72,7 +72,7 @@
   		WHERE user_id = #{value}
   	</select>
   	
-  	<select id = "getUserList"  parameterType = "search"  resultMap = "userSelectMap">
+  	<select id = "getUserList"  parameterType = "searchVO"  resultMap = "userSelectMap">
   		SELECT *
   		FROM
   		( SELECT inner_table.*, ROWNUM AS row_seq 
@@ -81,9 +81,10 @@
   		WHERE row_seq BETWEEN (#{page} - 1) * (#{pageSize} + 1) AND #{page} * #{pageSize}
   	</select>
   	
-  	<select id = "getUserCount" parameterType = "search"  resultType = "int">
+  	<select id = "getUserCount" parameterType = "searchVO"  resultType = "int">
   		SELECT COUNT(*) FROM (
 			<include refid = "getUserListSelect"/>
 		)
 	</select>
+	
 </mapper>

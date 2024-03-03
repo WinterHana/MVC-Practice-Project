@@ -16,8 +16,8 @@ public class GetUserAction extends Action{
 												HttpServletResponse response) throws Exception {
 		String userId=request.getParameter("userId");
 		
-		UserService service=new UserServiceImpl();
-		UserVO userVO = service.getUser(userId);
+		// UserService service = new UserServiceImpl();
+		UserVO userVO = userService.getUser(userId);
 		
 		System.out.println("GetUserAction.execute : userVO = " + userVO);
 		

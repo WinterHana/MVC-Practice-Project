@@ -9,7 +9,7 @@ import com.model2.mvc.service.domain.PurchaseVO;
 import com.model2.mvc.service.product.ProductService;
 import com.model2.mvc.service.purchase.PurchaseService;
 import com.model2.mvc.service.purchase.dao.PurchaseDAO;
-import com.model2.mvc.service.user.dao.UserDAO;
+import com.model2.mvc.service.user.dao.UserDAOImpl;
 
 public class PurchaseServiceImpl implements PurchaseService {
 	

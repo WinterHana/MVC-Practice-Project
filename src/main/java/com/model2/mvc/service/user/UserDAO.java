@@ -1,25 +1,20 @@
 package com.model2.mvc.service.user;
 
-import java.util.Map;
+import java.util.List;
 
 import com.model2.mvc.common.SearchVO;
 import com.model2.mvc.service.domain.UserVO;
 
-
-public interface UserService {
-	
+public interface UserDAO {
 	public int addUser(UserVO userVO);
 	
-	public UserVO loginUser(UserVO userVO);
-	
 	public UserVO getUser(String userId);
-	
-	public Map<String, Object> getUserList(SearchVO searchVO);
 	
 	public int updateUser(UserVO userVO);
 	
 	public int deleteUser(String userId);
 	
-	public boolean checkDuplication(String userId);
+	public List<UserVO> getUserList(SearchVO searchVO);
 	
+	public int getUserCount(SearchVO searchVO);
 }

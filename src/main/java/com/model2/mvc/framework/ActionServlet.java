@@ -47,7 +47,7 @@ public class ActionServlet extends HttpServlet {
 			
 			ProductVO prodVO = (ProductVO) request.getAttribute("prodVO");
 			System.out.println("ActionServlet.service : prodVO = " + vo);
-			
+		
 			if(resultPage.startsWith("forward:"))
 				HttpUtil.forward(request, response, result);
 			else

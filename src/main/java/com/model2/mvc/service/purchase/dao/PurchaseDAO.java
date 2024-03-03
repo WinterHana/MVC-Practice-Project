@@ -15,7 +15,7 @@ import com.model2.mvc.common.util.TranStatusCodeUtil;
 import com.model2.mvc.service.domain.ProductVO;
 import com.model2.mvc.service.domain.PurchaseVO;
 import com.model2.mvc.service.domain.UserVO;
-import com.model2.mvc.service.user.dao.UserDAO;
+import com.model2.mvc.service.user.dao.UserDAOImpl;
 
 public class PurchaseDAO {
 	
@@ -44,8 +44,8 @@ public class PurchaseDAO {
 			productVO.setProdNo(rs.getInt("prod_no"));
 			purchaseVO.setPurchaseProd(productVO);
 			
-			UserDAO userDAO = new UserDAO();
-			UserVO userVO = userDAO.findUser(rs.getString("buyer_id"));
+			UserDAOImpl userDAO = new UserDAOImpl();
+			UserVO userVO = userDAO.getUser(rs.getString("buyer_id"));
 			purchaseVO.setBuyer(userVO);
 			
 			purchaseVO.setTranNo(rs.getInt("tran_no"));
