@@ -102,7 +102,7 @@
   		( SELECT inner_table.*, ROWNUM AS row_seq 
   		  FROM ( <include refid = "getPurchaseListSelect"/> ) inner_table
   		WHERE ROWNUM &lt; #{searchVO.page} * #{searchVO.pageSize} + 1 )
-  		WHERE row_seq BETWEEN (#{searchVO.page} - 1) * (#{searchVO.pageSize} + 1) AND #{searchVO.page} * #{searchVO.pageSize}
+  		WHERE row_seq BETWEEN (#{searchVO.page} - 1) * #{searchVO.pageSize} + 1 AND #{searchVO.page} * #{searchVO.pageSize}
   	</select>
   	
   	<select id = "getPurchaseCount" parameterType = "string"  resultType = "int">

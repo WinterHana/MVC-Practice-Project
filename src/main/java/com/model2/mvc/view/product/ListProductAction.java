@@ -57,6 +57,9 @@ public class ListProductAction extends Action {
 		searchVO.setPage(currentPage);
 		searchVO.setSearchCondition(request.getParameter("searchCondition"));
 		searchVO.setSearchKeyword(request.getParameter("searchKeyword"));
+		searchVO.setSearchKeywordSub(request.getParameter("searchKeywordSub"));
+		searchVO.setSearchKeywordThird(request.getParameter("searchKeywordThird"));
+		searchVO.setSortCondition(request.getParameter("sortCondition"));
 		int pageSize = Integer.parseInt( getServletContext().getInitParameter("pageSize"));
 		int pageUnit  =  Integer.parseInt(getServletContext().getInitParameter("pageUnit"));
 		searchVO.setPageSize(pageSize);

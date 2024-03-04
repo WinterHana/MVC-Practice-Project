@@ -15,6 +15,25 @@ function fncGetProductList(currentPage) {
 	document.getElementById("currentPage").value = currentPage;
    	document.detailForm.submit();		
 }
+
+function submitDetailForm() {
+	document.detailForm.submit();	
+}
+
+function showContentBySelectBox() {
+	var selectOption = document.getElementById("searchCondition").value;
+	
+	if(selectOption === "price") {
+		document.getElementById("content").style.display = "none";
+		document.getElementById("priceContent").style.display = "block";
+	} 
+	else {
+		document.getElementById("content").style.display = "block";
+		document.getElementById("priceContent").style.display = "none";
+	}
+}
+
+window.onload = showContentBySelectBox;
 </script>
 </head>
 
@@ -45,15 +64,35 @@ function fncGetProductList(currentPage) {
 
 <table width="100%" border="0" cellspacing="0" cellpadding="0" style="margin-top:10px;">
 	<tr>
-		<td align="right">
-
-			<select name="searchCondition" class="ct_input_g" style="width:80px">
+		<td  align = "left" width = "1200" height = 20>
+			정렬 기준
+			<select name="sortCondition"  id = "sortCondition" class="ct_input_g" style="width:80px" onchange = "submitDetailForm()">
+				<option value="prodNo"  ${not empty searchVO.sortCondition && searchVO.sortCondition == "prodNo" ? "selected" : '' }>상품 번호</option>
+				<option value="prodName"  ${not empty searchVO.sortCondition && searchVO.sortCondition == "prodName" ? "selected" : '' }>상품 이름</option>
+				<option value="price"  ${not empty searchVO.sortCondition && searchVO.sortCondition == "price" ? "selected" : '' }>상품 가격</option>
+			</select>
+		</td>
+		<td align="right" width = "400" height = 20>
+			<div id = "content">
+				<input type="text" name="searchKeyword"  value="${searchVO.searchKeyword}"
+					class=ct_input_g" style="width:150px; height:19px">
+			</div>
+			<div id = "priceContent">
+				<input type="text" name="searchKeywordSub"  value="${searchVO.searchKeywordSub}"
+					class=ct_input_g" style="width:100px; height:19px">
+				~
+				<input type="text" name="searchKeywordThird"  value="${searchVO.searchKeywordThird}"
+					class=ct_input_g" style="width:100px; height:19px">
+			</div>
+		</td>
+		<td align="right" width = "100"  height = 20>
+			<select name="searchCondition"  id = "searchCondition"  class="ct_input_g" style="width:80px" onchange = "showContentBySelectBox()">
 				<option value="prodNo"  ${not empty searchVO.searchCondition && searchVO.searchCondition == "prodNo" ? "selected" : '' }>상품번호</option>
 				<option value="prodName"  ${not empty searchVO.searchCondition && searchVO.searchCondition == "prodName" ? "selected" : '' }>상품명</option>
 				<option value="price"  ${not empty searchVO.searchCondition && searchVO.searchCondition == "price" ? "selected" : '' }>상품가격</option>
 			</select>
-			<input type="text" name="searchKeyword"  value="${searchVO.searchKeyword}"
-					class=ct_input_g" style="width:200px; height:19px">
+		</td>
+		<td width = "30" height = 20>
 		</td>
 		<td align="right" width="70">
 			<table border="0" cellspacing="0" cellpadding="0">
