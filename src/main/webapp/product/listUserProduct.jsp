@@ -16,6 +16,10 @@ function fncGetProductList(currentPage) {
    	document.detailForm.submit();		
 }
 
+function submitDetailForm() {
+	document.detailForm.submit();	
+}
+
 function showContentBySelectBox() {
 	var selectOption = document.getElementById("searchCondition").value;
 	
@@ -60,7 +64,12 @@ window.onload = showContentBySelectBox;
 
 <table width="100%" border="0" cellspacing="0" cellpadding="0" style="margin-top:10px;">
 	<tr>			
-		<td width = "1200" height = 20>
+		<td align = "left" width = "1200" height = 20>
+			정렬 기준
+			<select name="sortCondition"  id = "sortCondition" class="ct_input_g" style="width:80px" onchange = "submitDetailForm()">
+				<option value="prodName"  ${not empty searchVO.sortCondition && searchVO.sortCondition == "prodName" ? "selected" : '' }>상품 이름</option>
+				<option value="price"  ${not empty searchVO.sortCondition && searchVO.sortCondition == "price" ? "selected" : '' }>상품 가격</option>
+			</select>
 		</td>
 		<td align="right" width = "400" height = 20>
 			<div id = "prodNameContent">
@@ -77,8 +86,8 @@ window.onload = showContentBySelectBox;
 		</td>
 		<td align = "right" width = "100"  height = 20>	
 			<select name="searchCondition"  id = "searchCondition" class="ct_input_g" style="width:80px" onchange = "showContentBySelectBox()">
-				<option value="prodName"  ${not empty searchVO.searchCondition && searchVO.searchCondition == "prodName" ? "selected" : '' }>상품명</option>
-				<option value="price"  ${not empty searchVO.searchCondition && searchVO.searchCondition == "price" ? "selected" : '' }>상품가격</option>
+				<option value="prodName"  ${not empty searchVO.searchCondition && searchVO.searchCondition == "prodName" ? "selected" : '' }>상품 이름</option>
+				<option value="price"  ${not empty searchVO.searchCondition && searchVO.searchCondition == "price" ? "selected" : '' }>상품 가격</option>
 			</select>
 		</td>
 		<td width = "30" height = 20>

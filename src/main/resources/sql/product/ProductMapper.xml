@@ -28,7 +28,15 @@
 				price BETWEEN #{searchKeywordSub:NUMERIC} AND #{searchKeywordThird:NUMERIC}
   			</if>
   		</where>
-  		ORDER BY prod_no
+  		  	<if test = "sortCondition == 'prodNo' ">
+  				ORDER BY prod_no
+  			</if>
+  			<if test = "sortCondition == 'prodName' ">
+  				ORDER BY prod_name
+  			</if>
+  		  	<if test = "sortCondition == 'price' ">
+  				ORDER BY price
+  			</if>
   	</sql>
   	
   	 <select id="addProduct"  parameterType = "productVO">
@@ -75,7 +83,7 @@
   		( SELECT inner_table.*, ROWNUM AS row_seq 
   		  FROM ( <include refid = "getProductListSelect"/> ) inner_table
   		WHERE ROWNUM &lt; #{page} * #{pageSize} + 1 )
-  		WHERE row_seq BETWEEN (#{page} - 1) * (#{pageSize} + 1) AND #{page} * #{pageSize}
+  		WHERE row_seq BETWEEN (#{page} - 1) * #{pageSize} + 1 AND #{page} * #{pageSize}
   	</select>
   	
   	<select id = "getProductCount" parameterType = "searchVO"  resultType = "int">

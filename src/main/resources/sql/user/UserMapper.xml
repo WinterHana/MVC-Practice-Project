@@ -78,7 +78,7 @@
   		( SELECT inner_table.*, ROWNUM AS row_seq 
   		  FROM ( <include refid = "getUserListSelect"/> ) inner_table
   		WHERE ROWNUM &lt; #{page} * #{pageSize} + 1 )
-  		WHERE row_seq BETWEEN (#{page} - 1) * (#{pageSize} + 1) AND #{page} * #{pageSize}
+  		WHERE row_seq BETWEEN (#{page} - 1) * #{pageSize} + 1 AND #{page} * #{pageSize}
   	</select>
   	
   	<select id = "getUserCount" parameterType = "searchVO"  resultType = "int">
