@@ -10,6 +10,7 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 import com.model2.mvc.service.product.ProductService;
 import com.model2.mvc.service.product.impl.ProductServiceImpl;
 import com.model2.mvc.service.purchase.PurchaseService;
+import com.model2.mvc.service.purchase.impl.PurchaseServiceImpl;
 import com.model2.mvc.service.user.UserService;
 import com.model2.mvc.service.user.impl.UserServiceImpl;
 
@@ -28,6 +29,7 @@ public abstract class Action {
 				);
 		userService = (UserServiceImpl)context.getBean("userServiceImpl");
 		productService = (ProductServiceImpl)context.getBean("productServiceImpl");
+		purchaseService = (PurchaseServiceImpl)context.getBean("purchaseServiceImpl");
 	}
 	
 	public ServletContext getServletContext() {

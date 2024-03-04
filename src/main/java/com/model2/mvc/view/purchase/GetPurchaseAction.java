@@ -25,8 +25,8 @@ public class GetPurchaseAction extends Action {
 		}
 		
 		// Set Service and setAttribute
-		PurchaseService service = new PurchaseServiceImpl();
-		PurchaseVO purchaseVO = service.getPurchase(tranNo);
+		// PurchaseService service = new PurchaseServiceImpl();
+		PurchaseVO purchaseVO = purchaseService.getPurchase(tranNo);
 		
 		for(PaymentOption po : PaymentOption.values()) {
 			if(purchaseVO.getPaymentOption().trim().equals(po.getNumber())) {

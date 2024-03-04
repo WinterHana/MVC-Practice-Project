@@ -30,10 +30,10 @@ public class UpdateTranCodeAction extends Action {
 		purchaseVO.setTranCode(tranCode);
 		purchaseVO.setTranNo(tranNo);
 		
-		PurchaseService ps = new PurchaseServiceImpl();
-		ps.updateTranCode(purchaseVO);
+		// PurchaseService ps = new PurchaseServiceImpl();
+		purchaseService.updateTranCode(purchaseVO);
 		
-		System.out.println("[UpdateTranCodeAction] start");
+		System.out.println("[UpdateTranCodeAction] end");
 		
 		return "forward:/" + url;
 	}

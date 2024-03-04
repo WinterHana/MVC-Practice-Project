@@ -34,19 +34,19 @@ public class AddPurchaseAction extends Action {
 		purchaseVO.setTranCode(TranStatusCode.PURCHASED.getNumber());
 		
 		// User information
-		UserService us = new UserServiceImpl();
-		UserVO userVO = us.getUser(request.getParameter("buyerId"));
+		// UserService us = new UserServiceImpl();
+		UserVO userVO = userService.getUser(request.getParameter("buyerId"));
 		purchaseVO.setBuyer(userVO);
 		
 		// Product information
-		ProductService productService = new ProductServiceImpl();
+		// ProductService productService = new ProductServiceImpl();
 		ProductVO productVO = productService.getProduct(Integer.parseInt(request.getParameter("prodNo")));
 		purchaseVO.setPurchaseProd(productVO);
 		
 		// Debugging
 		System.out.println("AddPurchaseAction.execute purchaseVO : " + purchaseVO);
 		
-		PurchaseService purchaseService = new PurchaseServiceImpl();
+		// PurchaseService purchaseService = new PurchaseServiceImpl();
 		purchaseService.addPurchase(purchaseVO);
 		
 		request.setAttribute("purchaseVO", purchaseVO);

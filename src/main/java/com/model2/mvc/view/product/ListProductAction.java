@@ -67,8 +67,8 @@ public class ListProductAction extends Action {
 		Map<String,Object> map = productService.getProductList(searchVO);
 		
 		// PurchaseService, status check
-		PurchaseService pservice = new PurchaseServiceImpl();
-		Map<Integer, Object> pmap = pservice.getSalaList();
+		// PurchaseService pservice = new PurchaseServiceImpl();
+		Map<Integer, Object> pmap = purchaseService.getSalaList();
 		
 		// resultPage
 		Page resultPage	= 

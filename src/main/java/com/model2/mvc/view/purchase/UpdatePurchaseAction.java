@@ -15,12 +15,14 @@ public class UpdatePurchaseAction extends Action {
 		System.out.println("[UpdatePurchaseAction.execute] start");
 		
 		PurchaseVO purchaseVO = new PurchaseVO();
+		
 		try {
 			purchaseVO.setTranNo(Integer.parseInt(request.getParameter("tranNo")));
 		} catch (Exception e) {
 			System.out.println("Integer.parseInt Exception");
 			e.printStackTrace();
 		}
+		
 		purchaseVO.setPaymentOption(request.getParameter("paymentOption"));
 		purchaseVO.setReceiverName(request.getParameter("receiverName"));
 		purchaseVO.setReceiverPhone(request.getParameter("receiverPhone"));
@@ -28,8 +30,8 @@ public class UpdatePurchaseAction extends Action {
 		purchaseVO.setDivyRequest(request.getParameter("receiverRequest"));
 		purchaseVO.setDivyDate(request.getParameter("divyDate"));
 		
-		PurchaseService ps = new PurchaseServiceImpl();
-		ps.updatePurchase(purchaseVO);
+		// PurchaseService ps = new PurchaseServiceImpl();
+		purchaseService.updatePurchase(purchaseVO);
 		
 		System.out.println("[UpdatePurchaseAction.execute] end");
 		

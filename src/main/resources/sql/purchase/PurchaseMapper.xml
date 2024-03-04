@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE mapper
+		PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+		"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+				
+<mapper namespace="PurchaseMapper">
+	<resultMap id = "purchaseSelectMap" type = "purchaseVO">
+		<result property = "divyAddr" column = "demailaddr" jdbcType="VARCHAR"/>
+		<result property = "divyDate" column = "dlvy_date" jdbcType="VARCHAR"/>
+		<result property = "divyRequest" column = "dlvy_request" jdbcType="VARCHAR"/>
+		<result property = "orderDate" column = "order_date"  jdbcType="DATE"/>
+		<result property = "paymentOption" column = "payment_option"  jdbcType="VARCHAR"/>
+		<result property = "receiverName" column = "receiver_name"  jdbcType="VARCHAR"/>
+		<result property = "receiverPhone" column = "receiver_phone"  jdbcType="VARCHAR"/>
+		<result property = "tranCode" column = "tran_status_code"  jdbcType="VARCHAR"/>
+		<result property = "tranNo" column = "tran_no"  jdbcType="NUMERIC"/>
+		<association property="buyer" resultMap="userSelectMap" />
+		<association property="purchaseProd" resultMap="productSelectMap" />
+	</resultMap>
+	
+	<resultMap id = "productSelectMap" type = "productVO">
+  		<result property = "fileName" column = "image_file" jdbcType="VARCHAR"/>
+  		<result property = "manuDate" column = "manufacture_day" jdbcType="VARCHAR"/>
+  		<result property = "price" column = "price" jdbcType="NUMERIC"/>
+  		<result property = "prodDetail" column = "prod_detail" jdbcType="VARCHAR"/>
+  		<result property = "prodName" column = "prod_name" jdbcType = "VARCHAR"/>
+  		<result property = "prodNo" column = "prod_no" jdbcType = "NUMERIC"/>
+  		<result property = "regDate" column = "reg_date" jdbcType = "DATE"/>
+	</resultMap>
+	
+	<resultMap id = "userSelectMap" type = "userVO">
+  		<result property = "userId" column = "user_id" jdbcType="VARCHAR"/>
+  		<result property = "userName" column = "user_name" jdbcType="VARCHAR"/>
+  		<result property = "password" column = "password" jdbcType="VARCHAR"/>
+  		<result property = "role" column = "role" jdbcType="VARCHAR"/>
+  		<result property = "ssn" column = "ssn" jdbcType = "VARCHAR"/>
+  		<result property = "phone" column = "phone" jdbcType = "VARCHAR"/>
+  		<result property = "addr" column = "addr" jdbcType = "VARCHAR"/>
+  		<result property = "email" column = "email" jdbcType = "VARCHAR"/>
+  		<result property = "regDate" column = "reg_date"  jdbcType = "DATE"/>
+  		<result property = "phone1" column = "phone1"  jdbcType = "VARCHAR"/>
+  		<result property = "phone2" column = "phone2"  jdbcType = "VARCHAR"/>
+  		<result property = "phone3" column = "phone3"  jdbcType = "VARCHAR"/>
+	</resultMap>
+	
+  	<sql id = "getPurchaseListSelect">
+  		 SELECT * FROM transaction 
+  		<where>
+  			buyer_id = #{userId}
+  		</where>
+  		ORDER BY tran_no
+  	</sql>
+  	
+  	<select id="addPurchase"  parameterType = "purchaseVO">
+  		INSERT
+  		INTO transaction
+  		VALUES(
+  			seq_transaction_tran_no.nextval,
+  			#{purchaseProd.prodNo:NUMERIC},
+  			#{buyer.userId:VARCHAR},
+  			#{paymentOption:VARCHAR},
+  			#{receiverName:VARCHAR},
+  			#{receiverPhone:VARCHAR},
+  			#{divyAddr:VARCHAR},
+  			#{divyRequest:VARCHAR},
+  			#{tranCode:VARCHAR},
+  			SYSDATE,
+  			#{divyDate:VARCHAR}
+  		)					
+  	</select>
+  	
+  	 <select id="getPurchase"  parameterType = "int"  resultMap = "purchaseSelectMap">
+		SELECT *
+		FROM transaction   				
+		WHERE tran_no = #{tran_no}							
+  	</select>
+  	
+  	 <update id = "updatePurchase" parameterType = "purchaseVO">
+  		UPDATE transaction
+  		<set>
+  			<if test = "paymentOption != null" >payment_option = #{paymentOption:VARCHAR},</if>
+  			<if test = "receiverName != null"> receiver_name = #{receiverName:VARCHAR},</if>
+  			<if test = "receiverPhone != null"> receiver_phone = #{receiverPhone:VARCHAR},</if>
+  			<if test = "divyAddr != null"> demailaddr = #{divyAddr:VARCHAR},</if>
+  			<if test = "divyRequest != null"> dlvy_request = #{divyRequest:VARCHAR},</if>
+  			<if test = "divyDate != null"> dlvy_date = #{divyDate:VARCHAR}</if>
+  		</set>
+  		WHERE tran_no = #{tranNo:NUMERIC}
+  	</update>
+  	
+  	<!-- DAO 단위에서까지 만들고 나중에 필요할 때 사용하기 -->
+  	<select id = "deletePurchase" parameterType = "int">
+  		DELETE
+  		FROM transaction
+  		WHERE tran_no = #{tran_no:NUMERIC}
+  	</select>
+  	
+  	<select id = "getPurchaseList"  parameterType = "map"  resultMap = "purchaseSelectMap">
+  		SELECT *
+  		FROM
+  		( SELECT inner_table.*, ROWNUM AS row_seq 
+  		  FROM ( <include refid = "getPurchaseListSelect"/> ) inner_table
+  		WHERE ROWNUM &lt; #{searchVO.page} * #{searchVO.pageSize} + 1 )
+  		WHERE row_seq BETWEEN (#{searchVO.page} - 1) * (#{searchVO.pageSize} + 1) AND #{searchVO.page} * #{searchVO.pageSize}
+  	</select>
+  	
+  	<select id = "getPurchaseCount" parameterType = "string"  resultType = "int">
+  		SELECT COUNT(*) FROM (
+			<include refid = "getPurchaseListSelect"/>
+		)
+	</select>
+	
+	<!-- 여기 주의 -->
+	<select id = "getSaleList"  resultType = "map">
+		SELECT t.tran_status_code, p.prod_no, t.tran_no 
+		FROM transaction t, product p 
+		WHERE t.prod_no = p.prod_no
+		ORDER BY tran_no
+	</select>
+	
+	<select id = "updateTranCode"  parameterType= "map"  resultMap = "purchaseSelectMap">
+		UPDATE transaction
+		<set>
+			tran_status_code = #{nextCode}
+		</set>
+			WHERE tran_no = #{tranNo}
+	</select>
+</mapper>

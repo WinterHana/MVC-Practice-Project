@@ -22,8 +22,8 @@ public class AddPurchaseViewAction extends Action {
 		String userId = userVO.getUserId();
 		
 		// Get product information
-		ProductService ps = new ProductServiceImpl();
-		ProductVO productVO = ps.getProduct(prodNo);
+		// ProductService ps = new ProductServiceImpl();
+		ProductVO productVO = productService.getProduct(prodNo);
 		
 		// Set attribute in request
 		request.setAttribute("productVO", productVO);

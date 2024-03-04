@@ -17,11 +17,11 @@ public interface PurchaseService {
 	public Map<Integer, Object> getSalaList();
 	
 	// addPurchase
-	public void addPurchase(PurchaseVO purchaseVO);
+	public int addPurchase(PurchaseVO purchaseVO);
 	
 	// updatePurchase
-	public PurchaseVO updatePurchase(PurchaseVO purchaseVO);
+	public int updatePurchase(PurchaseVO purchaseVO);
 	
 	// updateTranCode
-	public void updateTranCode(PurchaseVO purchaseVO);
+	public int updateTranCode(PurchaseVO purchaseVO);
 }

@@ -24,8 +24,8 @@ public class UpdatePurchaseViewAction extends Action {
 		}
 		
 		// Set Service and setAttribute
-		PurchaseService service = new PurchaseServiceImpl();
-		PurchaseVO purchaseVO = service.getPurchase(tranNo);
+		// PurchaseService service = new PurchaseServiceImpl();
+		PurchaseVO purchaseVO = purchaseService.getPurchase(tranNo);
 		
 		// System.out.println("[UpdatePurchaseViewAction.execute] purchaseVO " + purchaseVO);
 		request.setAttribute("purchaseVO", purchaseVO);

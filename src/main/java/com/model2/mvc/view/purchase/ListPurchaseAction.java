@@ -52,12 +52,12 @@ public class ListPurchaseAction extends Action {
 		String userName = userVO.getUserName();
 		
 		// DAO control
-		PurchaseService service = new PurchaseServiceImpl();
-		Map<String, Object> map = service.getPurchaseList(searchVO, userId);
+		// PurchaseService service = new PurchaseServiceImpl();
+		Map<String, Object> map = purchaseService.getPurchaseList(searchVO, userId);
 		
 		// PurchaseService, statue check
-		PurchaseService pservice = new PurchaseServiceImpl();
-		Map<Integer, Object> pmap = pservice.getSalaList();
+		// PurchaseService pservice = new PurchaseServiceImpl();
+		Map<Integer, Object> pmap = purchaseService.getSalaList();
 		
 		// resultPage
 		Page resultPage	= 
