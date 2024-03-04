@@ -25,7 +25,7 @@
 				prod_name LIKE '%'||#{searchKeyword}||'%'
   			</if>
   			  <if test = "searchCondition == 'price'">
-				price = #{searchKeyword}
+				price BETWEEN #{searchKeywordSub:NUMERIC} AND #{searchKeywordThird:NUMERIC}
   			</if>
   		</where>
   		ORDER BY prod_no

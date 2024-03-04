@@ -4,11 +4,13 @@ package com.model2.mvc.common;
 public class SearchVO {
 	
 	private int page;
-	String searchCondition;
-	String searchKeyword;
-	String searchKeywordSub;
-	int pageUnit;
-	int pageSize;
+	private String searchCondition;
+	private String searchKeyword;
+	private String searchKeywordSub;
+	private String searchKeywordThird;
+	private String sortCondition;
+	private int pageUnit;
+	private int pageSize;
 	
 	public SearchVO(){
 	}
@@ -53,11 +55,27 @@ public class SearchVO {
 		this.searchKeywordSub = searchKeywordSub;
 	}
 
+	public String getSearchKeywordThird() {
+		return searchKeywordThird;
+	}
+
+	public void setSearchKeywordThird(String searchKeywordThird) {
+		this.searchKeywordThird = searchKeywordThird;
+	}
+
 	public int getPageSize() {
 		return pageSize;
 	}
 
 	public void setPageSize(int pageSize) {
 		this.pageSize = pageSize;
+	}
+
+	public String getSortCondition() {
+		return sortCondition;
+	}
+
+	public void setSortCondition(String sortCondition) {
+		this.sortCondition = sortCondition;
 	}
 }
