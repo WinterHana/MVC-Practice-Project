@@ -11,7 +11,7 @@ public class RequestMapping {
 	private static RequestMapping requestMapping;
 	private Map<String, Action> map;
 	private Properties properties;
-	
+
 	private RequestMapping(String resources) {
 		map = new HashMap<String, Action>();
 		InputStream in = null;

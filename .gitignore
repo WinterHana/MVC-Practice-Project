@@ -26,3 +26,4 @@ replay_pid*
 # Libraries : oracle db
 ojdbc7.jar
 ojdbc14.jar
+/build/

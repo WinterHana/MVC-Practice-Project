@@ -5,8 +5,8 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.model2.mvc.common.util.PaymentOption;
 import com.model2.mvc.framework.Action;
+import com.model2.mvc.service.domain.PurchaseVO;
 import com.model2.mvc.service.purchase.PurchaseService;
-import com.model2.mvc.service.purchase.domain.PurchaseVO;
 import com.model2.mvc.service.purchase.impl.PurchaseServiceImpl;
 
 public class GetPurchaseAction extends Action {
@@ -25,8 +25,8 @@ public class GetPurchaseAction extends Action {
 		}
 		
 		// Set Service and setAttribute
-		PurchaseService service = new PurchaseServiceImpl();
-		PurchaseVO purchaseVO = service.getPurchase(tranNo);
+		// PurchaseService service = new PurchaseServiceImpl();
+		PurchaseVO purchaseVO = purchaseService.getPurchase(tranNo);
 		
 		for(PaymentOption po : PaymentOption.values()) {
 			if(purchaseVO.getPaymentOption().trim().equals(po.getNumber())) {

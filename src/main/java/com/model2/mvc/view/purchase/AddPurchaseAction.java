@@ -5,15 +5,15 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.model2.mvc.common.util.TranStatusCode;
 import com.model2.mvc.framework.Action;
+import com.model2.mvc.service.domain.ProductVO;
+import com.model2.mvc.service.domain.PurchaseVO;
+import com.model2.mvc.service.domain.UserVO;
 import com.model2.mvc.service.product.ProductService;
-import com.model2.mvc.service.product.domain.ProductVO;
 import com.model2.mvc.service.product.impl.ProductServiceImpl;
 import com.model2.mvc.service.purchase.PurchaseService;
-import com.model2.mvc.service.purchase.domain.PurchaseVO;
 import com.model2.mvc.service.purchase.impl.PurchaseServiceImpl;
 import com.model2.mvc.service.user.UserService;
-import com.model2.mvc.service.user.dao.UserDAO;
-import com.model2.mvc.service.user.domain.UserVO;
+import com.model2.mvc.service.user.dao.UserDAOImpl;
 import com.model2.mvc.service.user.impl.UserServiceImpl;
 
 public class AddPurchaseAction extends Action {
@@ -34,19 +34,19 @@ public class AddPurchaseAction extends Action {
 		purchaseVO.setTranCode(TranStatusCode.PURCHASED.getNumber());
 		
 		// User information
-		UserService us = new UserServiceImpl();
-		UserVO userVO = us.getUser(request.getParameter("buyerId"));
+		// UserService us = new UserServiceImpl();
+		UserVO userVO = userService.getUser(request.getParameter("buyerId"));
 		purchaseVO.setBuyer(userVO);
 		
 		// Product information
-		ProductService productService = new ProductServiceImpl();
-		ProductVO productVO = productService.findProduct(Integer.parseInt(request.getParameter("prodNo")));
+		// ProductService productService = new ProductServiceImpl();
+		ProductVO productVO = productService.getProduct(Integer.parseInt(request.getParameter("prodNo")));
 		purchaseVO.setPurchaseProd(productVO);
 		
 		// Debugging
 		System.out.println("AddPurchaseAction.execute purchaseVO : " + purchaseVO);
 		
-		PurchaseService purchaseService = new PurchaseServiceImpl();
+		// PurchaseService purchaseService = new PurchaseServiceImpl();
 		purchaseService.addPurchase(purchaseVO);
 		
 		request.setAttribute("purchaseVO", purchaseVO);

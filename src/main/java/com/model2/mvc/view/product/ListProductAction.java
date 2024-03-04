@@ -11,10 +11,10 @@ import com.model2.mvc.common.Page;
 import com.model2.mvc.common.SearchVO;
 import com.model2.mvc.common.util.TranStatusCodeUtil;
 import com.model2.mvc.framework.Action;
+import com.model2.mvc.service.domain.PurchaseVO;
 import com.model2.mvc.service.product.ProductService;
 import com.model2.mvc.service.product.impl.ProductServiceImpl;
 import com.model2.mvc.service.purchase.PurchaseService;
-import com.model2.mvc.service.purchase.domain.PurchaseVO;
 import com.model2.mvc.service.purchase.impl.PurchaseServiceImpl;
 import com.model2.mvc.service.user.UserService;
 import com.model2.mvc.service.user.impl.UserServiceImpl;
@@ -63,12 +63,12 @@ public class ListProductAction extends Action {
 		searchVO.setPageUnit(pageUnit);
 		
 		// ProductService
-		ProductService service=new ProductServiceImpl();
-		Map<String,Object> map = service.getProductList(searchVO);
+		// ProductService service=new ProductServiceImpl();
+		Map<String,Object> map = productService.getProductList(searchVO);
 		
 		// PurchaseService, status check
-		PurchaseService pservice = new PurchaseServiceImpl();
-		Map<Integer, Object> pmap = pservice.getSalaList();
+		// PurchaseService pservice = new PurchaseServiceImpl();
+		Map<Integer, Object> pmap = purchaseService.getSalaList();
 		
 		// resultPage
 		Page resultPage	= 

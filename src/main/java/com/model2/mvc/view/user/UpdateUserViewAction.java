@@ -4,8 +4,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.model2.mvc.framework.Action;
+import com.model2.mvc.service.domain.UserVO;
 import com.model2.mvc.service.user.UserService;
-import com.model2.mvc.service.user.domain.UserVO;
 import com.model2.mvc.service.user.impl.UserServiceImpl;
 
 
@@ -16,8 +16,8 @@ public class UpdateUserViewAction extends Action{
 												HttpServletResponse response) throws Exception {
 		String userId=request.getParameter("userId");
 		
-		UserService service=new UserServiceImpl();
-		UserVO userVO=service.getUser(userId);
+		// UserService service=new UserServiceImpl();
+		UserVO userVO=userService.getUser(userId);
 		
 		request.setAttribute("userVO", userVO);
 		

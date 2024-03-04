@@ -4,7 +4,8 @@ import javax.servlet.RequestDispatcher;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.model2.mvc.service.user.domain.UserVO;
+import com.model2.mvc.service.domain.UserVO;
+
 
 
 public class HttpUtil {
@@ -17,6 +18,7 @@ public class HttpUtil {
 			System.out.println("HttpUtil.foward : vo = " + vo);
 			
 			dispatcher.forward(request, response);
+			
 		}catch(Exception ex) {
 			System.out.println("forward error : " + ex);
 			throw new RuntimeException("forward error : " + ex);

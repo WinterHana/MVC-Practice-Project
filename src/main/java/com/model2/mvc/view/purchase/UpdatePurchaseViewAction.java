@@ -4,8 +4,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.model2.mvc.framework.Action;
+import com.model2.mvc.service.domain.PurchaseVO;
 import com.model2.mvc.service.purchase.PurchaseService;
-import com.model2.mvc.service.purchase.domain.PurchaseVO;
 import com.model2.mvc.service.purchase.impl.PurchaseServiceImpl;
 
 public class UpdatePurchaseViewAction extends Action {
@@ -24,8 +24,8 @@ public class UpdatePurchaseViewAction extends Action {
 		}
 		
 		// Set Service and setAttribute
-		PurchaseService service = new PurchaseServiceImpl();
-		PurchaseVO purchaseVO = service.getPurchase(tranNo);
+		// PurchaseService service = new PurchaseServiceImpl();
+		PurchaseVO purchaseVO = purchaseService.getPurchase(tranNo);
 		
 		// System.out.println("[UpdatePurchaseViewAction.execute] purchaseVO " + purchaseVO);
 		request.setAttribute("purchaseVO", purchaseVO);

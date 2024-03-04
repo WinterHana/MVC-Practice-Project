@@ -1,12 +1,11 @@
 package com.model2.mvc.view.product;
 
-import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.model2.mvc.framework.Action;
+import com.model2.mvc.service.domain.ProductVO;
 import com.model2.mvc.service.product.ProductService;
-import com.model2.mvc.service.product.domain.ProductVO;
 import com.model2.mvc.service.product.impl.ProductServiceImpl;
 
 public class UpdateProductAction extends Action {
@@ -29,8 +28,8 @@ public class UpdateProductAction extends Action {
 			e.printStackTrace();
 		} 
 		
-		ProductService service = new ProductServiceImpl();
-		service.updateProduct(productVO);
+		// ProductService service = new ProductServiceImpl();
+		productService.updateProduct(productVO);
 		
 		return "redirect:/product/completeUpdateView.jsp";
 	}

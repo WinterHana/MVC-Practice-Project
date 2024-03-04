@@ -4,8 +4,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.model2.mvc.framework.Action;
+import com.model2.mvc.service.domain.ProductVO;
 import com.model2.mvc.service.product.ProductService;
-import com.model2.mvc.service.product.domain.ProductVO;
 import com.model2.mvc.service.product.impl.ProductServiceImpl;
 
 public class UpdateProductViewAction extends Action {
@@ -21,8 +21,8 @@ public class UpdateProductViewAction extends Action {
 			e.printStackTrace();
 		}
 		
-		ProductService service = new ProductServiceImpl();
-		ProductVO prodVO = service.findProduct(prodId);
+		// ProductService service = new ProductServiceImpl();
+		ProductVO prodVO = productService.getProduct(prodId);
 		
 		request.setAttribute("prodVO", prodVO);
 		

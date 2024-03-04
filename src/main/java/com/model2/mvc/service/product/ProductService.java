@@ -1,21 +1,18 @@
 package com.model2.mvc.service.product;
 
-import java.util.HashMap;
 import java.util.Map;
 
 import com.model2.mvc.common.SearchVO;
-import com.model2.mvc.service.product.domain.ProductVO;
+import com.model2.mvc.service.domain.ProductVO;
 
 public interface ProductService {
-	// findProduct
-	public ProductVO findProduct(int productId);
+	public ProductVO getProduct(int productId);
 	
-	// getProductList
 	public Map<String, Object> getProductList(SearchVO searchVO);
 	
-	// insertProduct
-	public void insertProduct(ProductVO productVO);
+	public int addProduct(ProductVO productVO);
 	
-	// updateProduct
-	public void updateProduct(ProductVO productVO);
+	public int updateProduct(ProductVO productVO);
+	
+	public int deleteProduct(String prodName);
 }

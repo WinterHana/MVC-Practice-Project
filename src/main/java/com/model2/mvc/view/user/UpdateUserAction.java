@@ -5,8 +5,8 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import com.model2.mvc.framework.Action;
+import com.model2.mvc.service.domain.UserVO;
 import com.model2.mvc.service.user.UserService;
-import com.model2.mvc.service.user.domain.UserVO;
 import com.model2.mvc.service.user.impl.UserServiceImpl;
 
 
@@ -24,8 +24,8 @@ public class UpdateUserAction extends Action {
 		userVO.setPhone(request.getParameter("phone"));
 		userVO.setEmail(request.getParameter("email"));
 		
-		UserService service=new UserServiceImpl();
-		service.updateUser(userVO);
+		// UserService service=new UserServiceImpl();
+		userService.updateUser(userVO);
 		
 		HttpSession session=request.getSession();
 		String sessionId=((UserVO)session.getAttribute("user")).getUserId();

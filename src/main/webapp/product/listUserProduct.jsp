@@ -51,7 +51,7 @@ function fncGetProductList(currentPage) {
 				<option value="price"  ${not empty searchVO.searchCondition && searchVO.searchCondition == "price" ? "selected" : '' }>상품가격</option>
 			</select>
 			<input type="text" name="searchKeyword"  value="${searchVO.searchKeyword}"
-					class=ct_input_g" style="width:200px; height:19px">
+					class=ct_input_g" style="width:150px; height:19px">
 		</td>
 		<td align="right" width="70">
 			<table border="0" cellspacing="0" cellpadding="0">

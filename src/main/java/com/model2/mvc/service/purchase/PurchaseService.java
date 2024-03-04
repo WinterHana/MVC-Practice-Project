@@ -3,7 +3,7 @@ package com.model2.mvc.service.purchase;
 import java.util.Map;
 
 import com.model2.mvc.common.SearchVO;
-import com.model2.mvc.service.purchase.domain.PurchaseVO;
+import com.model2.mvc.service.domain.PurchaseVO;
 
 public interface PurchaseService {
 	
@@ -17,11 +17,11 @@ public interface PurchaseService {
 	public Map<Integer, Object> getSalaList();
 	
 	// addPurchase
-	public void addPurchase(PurchaseVO purchaseVO);
+	public int addPurchase(PurchaseVO purchaseVO);
 	
 	// updatePurchase
-	public PurchaseVO updatePurchase(PurchaseVO purchaseVO);
+	public int updatePurchase(PurchaseVO purchaseVO);
 	
 	// updateTranCode
-	public void updateTranCode(PurchaseVO purchaseVO);
+	public int updateTranCode(PurchaseVO purchaseVO);
 }

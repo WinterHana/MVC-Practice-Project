@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE mapper
+		PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+		"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+				
+<mapper namespace="UserMapper">
+	<resultMap id = "userSelectMap" type = "userVO">
+  		<result property = "userId" column = "user_id" jdbcType="VARCHAR"/>
+  		<result property = "userName" column = "user_name" jdbcType="VARCHAR"/>
+  		<result property = "password" column = "password" jdbcType="VARCHAR"/>
+  		<result property = "role" column = "role" jdbcType="VARCHAR"/>
+  		<result property = "ssn" column = "ssn" jdbcType = "VARCHAR"/>
+  		<result property = "phone" column = "phone" jdbcType = "VARCHAR"/>
+  		<result property = "addr" column = "addr" jdbcType = "VARCHAR"/>
+  		<result property = "email" column = "email" jdbcType = "VARCHAR"/>
+  		<result property = "regDate" column = "reg_date"  jdbcType = "DATE"/>
+  		<result property = "phone1" column = "phone1"  jdbcType = "VARCHAR"/>
+  		<result property = "phone2" column = "phone2"  jdbcType = "VARCHAR"/>
+  		<result property = "phone3" column = "phone3"  jdbcType = "VARCHAR"/>
+	</resultMap>
+	
+  	<sql id = "getUserListSelect">
+  		 SELECT * FROM users 
+  		<where>
+  			<if test = "searchCondition == 'userId'">
+  				user_id LIKE '%'||#{searchKeyword}||'%'
+  			</if>
+  			<if test = "searchCondition == 'userName'">
+				user_name LIKE '%'||#{searchKeyword}||'%'
+  			</if>
+  		</where>
+  		ORDER BY user_id
+  	</sql>
+  	
+  	 <select id="addUser"  parameterType = "userVO">
+  		INSERT
+  		INTO users
+  		VALUES(
+  			#{userId},
+  			#{userName},
+  			#{password},
+  			'user',
+  			#{ssn:VARCHAR},
+  			#{phone:VARCHAR},
+  			#{addr:VARCHAR},
+  			#{email:VARCHAR},
+  			SYSDATE
+  		)					
+  	</select>
+  	
+  	 <select id="getUser"  parameterType = "string"  resultMap = "userSelectMap">
+		SELECT *
+		FROM users   				
+		WHERE user_id = #{userId}							
+  	</select>
+  	
+  	 <update id = "updateUser" parameterType = "userVO">
+  		UPDATE users
+  		<set>
+  			<if test = "userName != null" >user_name = #{userName},</if>
+  			<if test = "phone != null"> cell_phone = #{phone:VARCHAR},</if>
+  			<if test = "addr != null"> addr = #{addr:VARCHAR},</if>
+  			<if test = "email != null"> email = #{email:VARCHAR}</if>
+  		</set>
+  		WHERE user_id = #{userId}
+  	</update>
+  	
+  	<select id = "deleteUser" parameterType = "string">
+  		DELETE
+  		FROM users
+  		WHERE user_id = #{value}
+  	</select>
+  	
+  	<select id = "getUserList"  parameterType = "searchVO"  resultMap = "userSelectMap">
+  		SELECT *
+  		FROM
+  		( SELECT inner_table.*, ROWNUM AS row_seq 
+  		  FROM ( <include refid = "getUserListSelect"/> ) inner_table
+  		WHERE ROWNUM &lt; #{page} * #{pageSize} + 1 )
+  		WHERE row_seq BETWEEN (#{page} - 1) * (#{pageSize} + 1) AND #{page} * #{pageSize}
+  	</select>
+  	
+  	<select id = "getUserCount" parameterType = "searchVO"  resultType = "int">
+  		SELECT COUNT(*) FROM (
+			<include refid = "getUserListSelect"/>
+		)
+	</select>
+	
+</mapper>

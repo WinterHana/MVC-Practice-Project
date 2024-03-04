@@ -3,21 +3,23 @@ package com.model2.mvc.service.user;
 import java.util.Map;
 
 import com.model2.mvc.common.SearchVO;
-import com.model2.mvc.service.user.domain.UserVO;
+import com.model2.mvc.service.domain.UserVO;
 
 
 public interface UserService {
 	
-	public void addUser(UserVO userVO) throws Exception;
+	public int addUser(UserVO userVO);
 	
-	public UserVO loginUser(UserVO userVO) throws Exception;
+	public UserVO loginUser(UserVO userVO);
 	
-	public UserVO getUser(String userId) throws Exception;
+	public UserVO getUser(String userId);
 	
-	public Map<String, Object> getUserList(SearchVO searchVO) throws Exception;
+	public Map<String, Object> getUserList(SearchVO searchVO);
 	
-	public void updateUser(UserVO userVO) throws Exception;
+	public int updateUser(UserVO userVO);
 	
-	public boolean checkDuplication(String userId) throws Exception;
+	public int deleteUser(String userId);
+	
+	public boolean checkDuplication(String userId);
 	
 }
