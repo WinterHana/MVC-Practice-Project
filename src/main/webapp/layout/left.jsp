@@ -1,6 +1,8 @@
-<%@page import="com.model2.mvc.service.domain.UserVO"%>
 <%@ page contentType="text/html; charset=euc-kr" %>
+<%@ taglib prefix = "c" uri = "http://java.sun.com/jsp/jstl/core" %>
 
+
+<%-- <%@page import="com.model2.mvc.service.domain.UserVO"%>
 <%
 	UserVO vo=(UserVO)session.getAttribute("user");
 
@@ -9,7 +11,8 @@
 	if(vo != null) {
 		role=vo.getRole();
 	}
-%>
+%> 
+ --%>
 
 <html>
 <head>
@@ -28,91 +31,75 @@ function history(){
 
 <table width="159" border="0" cellspacing="0" cellpadding="0">
 
-<!--menu 01 line-->
+<!--menu 01 line : User -->
 <tr>
-<td valign="top"> 
-	<table  border="0" cellspacing="0" cellpadding="0" width="159" >	
-		<tr>
-		<%
-			if(vo != null){
-		%>
-		<tr>
-		<td class="Depth03">
-			<a href="/getUser.do?userId=<%=vo.getUserId() %>" target="rightFrame">개인정보조회</a>
-		</td>
-		</tr>
-		<%
-			}
-		%>
-		<%
-			if(role.equals("admin")){
-		%>
-		<tr>
-		<td class="Depth03" >
-			<a href="/listUser.do" target="rightFrame">회원정보조회</a>
-		</td>
-		</tr>
-		<%
-			}
-		%>
-		<tr>
-			<td class="DepthEnd">&nbsp;</td>
-		</tr>
-	</table>
-</td>
+	<td valign="top"> 
+		<table  border="0" cellspacing="0" cellpadding="0" width="159" >	
+			<c:if test = "${not empty user}">
+				<tr>
+					<td class="Depth03"> 
+						<a href="/getUser.do?userId=${user.userId}"  target="rightFrame">개인정보조회</a>
+					</td>
+				</tr>
+			</c:if>
+			<!-- admin -->
+			<c:if test = "${user.role eq 'admin'}">
+				<tr>
+					<td class="Depth03" >
+						<a href="/listUser.do" target="rightFrame">회원정보조회</a>
+					</td>
+				</tr>
+			</c:if>
+			<tr>
+				<td class="DepthEnd">&nbsp;</td>
+			</tr>
+		</table>
+	</td>
 </tr>
 
-	<%
-		if(role.equals("admin")){
-	%>
-<!--menu 02 line-->
-<tr>
-<td valign="top"> 
-	<table  border="0" cellspacing="0" cellpadding="0" width="159">
-		<tr>
-			<td class="Depth03">
-				<a href="../product/addProductView.jsp;" target="rightFrame">판매상품등록</a>
-			</td>
-		</tr>
-		<td class="Depth03">
-				<a href="/listProduct.do?menu=manage" target="rightFrame">판매상품관리</a>
-			</td>
-		</tr>
-		<tr>
-			<td class="DepthEnd">&nbsp;</td>
-		</tr>
-	</table>
-</td>
-</tr>
-	<%
-				}
-	%>
+<!--menu 02 line : Product-->
 
-<!--menu 03 line-->
+<!-- admin -->
+<tr>
+	<td valign="top"> 
+		<table  border="0" cellspacing="0" cellpadding="0" width="159">
+			<tr>
+				<td class="Depth03">
+					<a href="/listProduct.do?menu=search" target="rightFrame">상품 검색</a>
+				</td>
+			</tr>
+			<c:if test = "${user.role eq 'admin'}">
+				<tr>
+					<td class="Depth03">
+						<a href="../product/addProductView.jsp;" target="rightFrame">판매 상품 등록</a>
+					</td>
+				</tr>
+				<td class="Depth03">
+					<a href="/listProduct.do?menu=manage" target="rightFrame">판매 상품 관리</a>
+				</td>
+				<tr>
+					<td class="DepthEnd">&nbsp;</td>
+				</tr>
+			</c:if>
+		</table>
+	</td>
+</tr>
+
+<!--menu 03 line : Purchase -->
 <tr>
 <td valign="top">
 	<table  border="0" cellspacing="0" cellpadding="0" width="159">
-		<tr>
-			<td class="Depth03">
-				<a href="/listProduct.do?menu=search" target="rightFrame">상 품 검 색</a>
-			</td>
-		</tr>
-		<%
-			if(vo != null){
-				if(role.equals("user")){
-		%>
-		<tr>
-			<td class="Depth03">
-				<a href="/listPurchase.do" target="rightFrame">구매이력조회</a>
-			</td>
-		</tr>
-		<%
-				}
-			}
-		%>
-		<tr>
-		<td class="DepthEnd">&nbsp;</td>
-		</tr>
+		<!-- user -->
+		<c:if test = "${user.role eq 'user'}">
+			<tr>
+				<td class="Depth03">
+					<a href="/listPurchase.do" target="rightFrame">구매 이력 조회</a>
+				</td>
+			</tr>
+			<tr>
+				<td class="DepthEnd">&nbsp;</td>
+			</tr>
+		</c:if>
 		<tr>
 			<td class="Depth03">
 				<a href="javascript:history()">최근 본 상품</a>
