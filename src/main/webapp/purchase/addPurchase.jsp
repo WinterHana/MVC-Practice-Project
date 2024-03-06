@@ -44,6 +44,11 @@
 		</td>
 		<td></td>
 	</tr>
+		<tr>
+		<td>구매 개수</td>
+		<td>${purchaseVO.prodCount}</td>
+		<td></td>
+	</tr>
 	<tr>
 		<td>구매자이름</td>
 		<td>${purchaseVO.receiverName}</td>

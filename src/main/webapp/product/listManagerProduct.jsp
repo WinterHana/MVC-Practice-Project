@@ -130,7 +130,9 @@ window.onload = showContentBySelectBox;
 		<td class="ct_line02"></td>
 		<td class="ct_list_b">등록일</td>
 		<td class="ct_line02"></td>
-		<td class="ct_list_b">후기</td>
+		<td class="ct_list_b">상품 설명</td>
+		<td class="ct_line02"></td>
+		<td class="ct_list_b" width ="100">남은 개수</td>
 		<td class="ct_line02"></td>
 		<td class="ct_list_b">배송 상태</td>		
 	</tr>
@@ -176,6 +178,8 @@ window.onload = showContentBySelectBox;
 		<td align="center">${product.regDate}</td>
 		<td></td>
 		<td align="center">${product.prodDetail}</td>		
+		<td></td>
+		<td align="center">${product.count}</td>		
 		<td></td>
 		<td align="center">
 		<c:set var = "isContain" value = "false"/>

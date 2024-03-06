@@ -113,7 +113,6 @@ public class UserVO {
 
 	@Override
 	public String toString() {
-		// TODO Auto-generated method stub
 		return "UserVO : [userId] "+userId+" [userName] "+userName+" [password] "+password+" [role] "+ role
 			+" [ssn] "+ssn+" [phone] "+phone+" [email] "+email+" [regDate] "+regDate;
 	}

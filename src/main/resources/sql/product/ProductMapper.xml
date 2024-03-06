@@ -13,6 +13,7 @@
   		<result property = "prodName" column = "prod_name" jdbcType = "VARCHAR"/>
   		<result property = "prodNo" column = "prod_no" jdbcType = "NUMERIC"/>
   		<result property = "regDate" column = "reg_date" jdbcType = "DATE"/>
+		<result property = "count" column = "count" jdbcType = "NUMERIC"/>
 	</resultMap>
 	
   	<sql id = "getProductListSelect">

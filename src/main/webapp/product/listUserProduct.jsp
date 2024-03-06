@@ -118,13 +118,15 @@ window.onload = showContentBySelectBox;
 	<tr>
 		<td class="ct_list_b" width="50">No</td>
 		<td class="ct_line02"></td>
-		<td class="ct_list_b" width="150">사진</td>
+		<td class="ct_list_b" width ="150">사진</td>
 		<td class="ct_line02"></td>
-		<td class="ct_list_b" width="150">상품명</td>
+		<td class="ct_list_b" width ="150">상품명</td>
 		<td class="ct_line02"></td>
-		<td class="ct_list_b" width="100">가격</td>	
+		<td class="ct_list_b" width ="100">가격</td>	
 		<td class="ct_line02"></td>
 		<td class="ct_list_b" width>상품 설명</td>
+		<td class="ct_line02"></td>
+		<td class="ct_list_b" width ="100">남은 개수</td>
 		<td class="ct_line02"></td>
 		<td class="ct_list_b" width ="150">판매 유무</td>		
 	</tr>
@@ -164,6 +166,8 @@ window.onload = showContentBySelectBox;
 		<td align="center">${product.price}</td> 
 		<td></td>
 		<td align="center">${product.prodDetail}</td>		
+		<td></td>		
+		<td align="center">${product.count}</td>		
 		<td></td>
 		<td align="center">
 		<c:set var = "isContain" value = "false"/>

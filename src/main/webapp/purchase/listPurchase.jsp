@@ -73,6 +73,10 @@ function fncGetPurchaseList(currentPage) {
 		<td class="ct_line02"></td>
 		<td class="ct_list_b">전화번호</td>
 		<td class="ct_line02"></td>
+		<td class="ct_list_b">제품 번호</td>
+		<td class="ct_line02"></td>
+		<td class="ct_list_b">개수</td>
+		<td class="ct_line02"></td>
 		<td class="ct_list_b">배송현황</td>
 	</tr>
 	<tr>
@@ -93,7 +97,11 @@ function fncGetPurchaseList(currentPage) {
 		<td></td>
 			<td align="left">${userName}</td>
 		<td></td>
-			<td align="left">${purchase.receiverPhone }</td>
+			<td align="left">${purchase.receiverPhone}</td>
+		<td></td>
+				<td align="left">${purchase.purchaseProd.prodNo}</td>
+		<td></td>
+				<td align="left">${purchase.prodCount }</td>
 		<td></td>
 		<td align="left">	
 		<c:set var = "isContain" value = "false"/>
