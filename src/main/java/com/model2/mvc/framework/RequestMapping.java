@@ -46,6 +46,7 @@ public class RequestMapping {
 			className = className.trim();
 			try{
 				Class c = Class.forName(className);
+				System.out.println(c);
 				Object obj = c.newInstance();
 				if(obj instanceof Action){
 					map.put(path, (Action)obj);

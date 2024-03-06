@@ -26,7 +26,15 @@ import com.model2.mvc.service.purchase.PurchaseDAO;
 import com.model2.mvc.service.purchase.PurchaseService;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = { "classpath:config/commonservice.xml" })
+// @ContextConfiguration(locations = { "classpath:config/commonservice.xml" })
+//@ContextConfiguration(locations = { "classpath:config/context-*.xml" })
+
+@ContextConfiguration(locations = {
+		"classpath:config/context-common.xml",
+		"classpath:config/context-aspect.xml",
+		"classpath:config/context-mybatis.xml",
+		"classpath:config/context-transaction.xml"
+})
 public class PurchaseServiceTest {
 
 	@Autowired

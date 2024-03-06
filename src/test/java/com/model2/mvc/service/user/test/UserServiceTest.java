@@ -16,7 +16,15 @@ import com.model2.mvc.service.domain.UserVO;
 import com.model2.mvc.service.user.UserService;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = { "classpath:config/commonservice.xml" })
+// @ContextConfiguration(locations = { "classpath:config/commonservice.xml" })
+//@ContextConfiguration(locations = { "classpath:config/context-*.xml" })
+
+@ContextConfiguration(locations = {
+		"classpath:config/context-common.xml",
+		"classpath:config/context-aspect.xml",
+		"classpath:config/context-mybatis.xml",
+		"classpath:config/context-transaction.xml"
+})
 public class UserServiceTest {
 
 	@Autowired
