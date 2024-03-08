@@ -59,7 +59,7 @@ function history(){
 
 <!--menu 02 line : Product-->
 
-<!-- admin -->
+
 <tr>
 	<td valign="top"> 
 		<table  border="0" cellspacing="0" cellpadding="0" width="159">
@@ -68,15 +68,23 @@ function history(){
 					<a href="/listProduct.do?menu=search" target="rightFrame">상품 검색</a>
 				</td>
 			</tr>
+			<!-- admin -->
 			<c:if test = "${user.role eq 'admin'}">
 				<tr>
 					<td class="Depth03">
 						<a href="../product/addProductView.jsp;" target="rightFrame">판매 상품 등록</a>
 					</td>
 				</tr>
-				<td class="Depth03">
-					<a href="/listProduct.do?menu=manage" target="rightFrame">판매 상품 관리</a>
-				</td>
+				<tr>
+					<td class="Depth03">
+						<a href="/listProduct.do?menu=manage" target="rightFrame">판매 상품 관리(구)</a>
+					</td>
+				</tr>
+				<tr>
+					<td class="Depth03">
+						<a href="/listPurchase.do" target="rightFrame">판매 상품 관리</a>
+					</td>
+				</tr>
 				<tr>
 					<td class="DepthEnd">&nbsp;</td>
 				</tr>

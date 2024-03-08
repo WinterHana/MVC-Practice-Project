@@ -10,6 +10,7 @@ import org.springframework.stereotype.Repository;
 
 import com.model2.mvc.common.SearchVO;
 import com.model2.mvc.service.domain.PurchaseVO;
+import com.model2.mvc.service.domain.UserVO;
 import com.model2.mvc.service.purchase.PurchaseDAO;
 
 @Repository("purchaseDAOImpl")
@@ -46,9 +47,9 @@ public class PurchaseDAOImpl implements PurchaseDAO {
 	}
 
 	@Override
-	public int getPurchaseCount(String userId) {
+	public int getPurchaseCount(Map<String,Object> map) {
 		System.out.println("[" + getClass().getName() + ".getPurchaseList] Call");
-		return sqlSession.selectOne("PurchaseMapper.getPurchaseCount", userId);
+		return sqlSession.selectOne("PurchaseMapper.getPurchaseCount", map);
 	}
 
 	@Override

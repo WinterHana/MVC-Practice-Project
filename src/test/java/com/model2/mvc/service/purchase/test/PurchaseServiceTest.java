@@ -69,11 +69,8 @@ public class PurchaseServiceTest {
 		searchVO.setPage(1);
 		searchVO.setPageSize(5);
 		
-		String userId = userVO.getUserId();
-		System.out.println(userId);
-		
 		Map<String, Object> map = new HashMap<String, Object>();
-		map.put("userId", userId);
+		map.put("userVO", userVO);
 		map.put("searchVO", searchVO);
 	
 		// 1. addPurchase
@@ -85,7 +82,7 @@ public class PurchaseServiceTest {
 		getPurchaseListResult.stream().forEach(s -> System.out.println(s.getTranNo()));
 		
 		// 3. getPurchaseCount
-		int getPurchaseCountResult = purchaseDAO.getPurchaseCount(userId);
+		int getPurchaseCountResult = purchaseDAO.getPurchaseCount(map);
 		System.out.println("getPurchaseCountResult");
 		
 		// 4, getPurchase
@@ -128,7 +125,7 @@ public class PurchaseServiceTest {
 		searchVO.setPage(1);
 		searchVO.setPageSize(5);
 		
-		Map<String, Object> getPurchaseListTestResult = purchaseService.getPurchaseList(searchVO, userVO.getUserId());
+		Map<String, Object> getPurchaseListTestResult = purchaseService.getPurchaseList(searchVO, userVO);
 		
 		List<PurchaseVO> list = (List<PurchaseVO>) getPurchaseListTestResult.get("list");
 		int totalCount = (int) getPurchaseListTestResult.get("totalCount");

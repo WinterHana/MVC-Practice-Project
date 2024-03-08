@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 import com.model2.mvc.common.SearchVO;
 import com.model2.mvc.common.util.TranStatusCodeUtil;
 import com.model2.mvc.service.domain.PurchaseVO;
+import com.model2.mvc.service.domain.UserVO;
 import com.model2.mvc.service.product.ProductService;
 import com.model2.mvc.service.purchase.PurchaseDAO;
 import com.model2.mvc.service.purchase.PurchaseService;
@@ -54,18 +55,18 @@ public class PurchaseServiceImpl implements PurchaseService {
 	}
 
 	@Override
-	public Map<String, Object> getPurchaseList(SearchVO searchVO, String userId) {
+	public Map<String, Object> getPurchaseList(SearchVO searchVO, UserVO userVO) {
 		Map<String, Object> result = new HashMap<String, Object>();
 		List<PurchaseVO> list = null;
 		int totalCount = 0;
 		
 		Map<String, Object> tmp = new HashMap<String, Object>();
-		tmp.put("userId", userId);
+		tmp.put("userVO", userVO);
 		tmp.put("searchVO", searchVO);
 		
 		try {
 			list = purchaseDAO.getPurchaseList(tmp);
-			totalCount = purchaseDAO.getPurchaseCount(userId);
+			totalCount = purchaseDAO.getPurchaseCount(tmp);
 		} catch (Exception e) {
 			System.out.println("[" + getClass().getName() + " .getPurchaseList] Exception");
 			e.printStackTrace();

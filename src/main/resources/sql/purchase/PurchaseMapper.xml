@@ -31,7 +31,7 @@
 	</resultMap>
 	
 	<resultMap id = "userSelectMap" type = "userVO">
-  		<result property = "userId" column = "user_id" jdbcType="VARCHAR"/>
+  		<result property = "userId" column = "buyer_id" jdbcType="VARCHAR"/>
   		<result property = "userName" column = "user_name" jdbcType="VARCHAR"/>
   		<result property = "password" column = "password" jdbcType="VARCHAR"/>
   		<result property = "role" column = "role" jdbcType="VARCHAR"/>
@@ -47,9 +47,11 @@
 	
   	<sql id = "getPurchaseListSelect">
   		 SELECT * FROM transaction 
-  		<where>
-  			buyer_id = #{userId}
-  		</where>
+  			<if test = "userVO.role != 'admin' ">
+  				<where>
+  				buyer_id = #{userVO.userId}
+  				</where>
+	  		</if>	
   		ORDER BY tran_no
   	</sql>
   	
@@ -67,7 +69,8 @@
   			#{divyRequest:VARCHAR},
   			#{tranCode:VARCHAR},
   			SYSDATE,
-  			#{divyDate:VARCHAR}
+  			#{divyDate:VARCHAR},
+  			#{prodCount:NUMERIC}
   		)					
   	</select>
   	
@@ -106,7 +109,7 @@
   		WHERE row_seq BETWEEN (#{searchVO.page} - 1) * #{searchVO.pageSize} + 1 AND #{searchVO.page} * #{searchVO.pageSize}
   	</select>
   	
-  	<select id = "getPurchaseCount" parameterType = "string"  resultType = "int">
+  	<select id = "getPurchaseCount" parameterType = "map"  resultType = "int">
   		SELECT COUNT(*) FROM (
 			<include refid = "getPurchaseListSelect"/>
 		)

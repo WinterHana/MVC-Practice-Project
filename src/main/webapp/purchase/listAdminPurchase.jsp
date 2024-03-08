@@ -2,33 +2,10 @@
     pageEncoding="EUC-KR"%>
 
 <%@ taglib prefix = "c" uri = "http://java.sun.com/jsp/jstl/core" %>
-<%--
-<%@page import="com.model2.mvc.common.util.CommonUtil"%>
-<%@page import="com.model2.mvc.common.Page"%>
-<%@page import="java.util.List"%>
-<%@page import="com.model2.mvc.common.util.TranStatusCodeUtil"%>
-<%@page import="com.model2.mvc.common.util.TranStatusCode"%>
-<%@page import="java.util.Arrays"%>
-<%@page import="com.model2.mvc.service.purchase.domain.PurchaseVO"%>
-<%@page import="java.util.ArrayList"%>
-<%@page import="com.model2.mvc.common.SearchVO"%>
-<%@page import="java.util.Map"%>
-<%
-	List<PurchaseVO> list=(List<PurchaseVO>)request.getAttribute("list");
-	Page resultPage=(Page)request.getAttribute("resultPage");
-	SearchVO searchVO=(SearchVO)request.getAttribute("searchVO");
-	String userId = (String)request.getAttribute("userId");
-	String userName = (String)request.getAttribute("userName");
-	Map<Integer, Object> pmap = (Map<Integer, Object>)request.getAttribute("pmap");
-	
-	String searchCondition = CommonUtil.null2str(searchVO.getSearchCondition());
-	String searchKeyword = CommonUtil.null2str(searchVO.getSearchKeyword());
-%>
- --%>
  
 <html>
 <head>
-<title>구매 목록조회</title>
+<title>판매 목록 조회</title>
 
 <link rel="stylesheet" href="/css/admin.css" type="text/css">
 
@@ -52,7 +29,7 @@ function fncGetPurchaseList(currentPage) {
 		<td background="/images/ct_ttl_img02.gif" width="100%" style="padding-left: 10px;">
 			<table width="100%" border="0" cellspacing="0" cellpadding="0">
 				<tr>
-					<td width="93%" class="ct_ttl01">구매 목록조회</td>
+					<td width="93%" class="ct_ttl01">판매 목록 조회</td>
 				</tr>
 			</table>
 		</td>
@@ -69,33 +46,27 @@ function fncGetPurchaseList(currentPage) {
 		<td class="ct_line02"></td>
 		<td class="ct_list_b" width="150">회원ID</td>
 		<td class="ct_line02"></td>
-		<td class="ct_list_b" width="150">회원명</td>
+		<td class="ct_list_b" width = "150">전화번호</td>
 		<td class="ct_line02"></td>
-		<td class="ct_list_b">전화번호</td>
+		<td class="ct_list_b" width = "150">제품 번호</td>
 		<td class="ct_line02"></td>
-		<td class="ct_list_b">제품 번호</td>
-		<td class="ct_line02"></td>
-		<td class="ct_list_b">개수</td>
+		<td class="ct_list_b" width = "150">개수</td>
 		<td class="ct_line02"></td>
 		<td class="ct_list_b">배송현황</td>
 	</tr>
 	<tr>
 		<td colspan="11" bgcolor="808285" height="1"></td>
 	</tr>
-	<c:set var = "no" value = "0"/>
 	<c:forEach var = "purchase" items = "${list}">
-		<c:set var = "no" value = "${no + 1}"/>
 		<tr class="ct_list_pop">
 		<td align="center">
 			<!-- 구매 내역 상세 보기 -->
-			<a href="/getPurchase.do?tranNo=${purchase.tranNo}">${no}</a>
+			<a href="/getPurchase.do?tranNo=${purchase.tranNo}">${purchase.tranNo}</a>
 		</td>
 		<td></td>
 		<td align="left">
-			<a href="/getUser.do?userId=${userId}">${userId}</a>
+			<a href="/getUser.do?userId=${purchase.buyer.userId}">${purchase.buyer.userId}</a>
 		</td>
-		<td></td>
-			<td align="left">${userName}</td>
 		<td></td>
 			<td align="left">${purchase.receiverPhone}</td>
 		<td></td>
