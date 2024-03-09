@@ -59,9 +59,9 @@ function fncGetUserList(currentPage) {
 	<tr>
 		<td align="right">
 			<select name="searchCondition" class="ct_input_g" style="width:80px">
-				<option value = "userId" ${not empty searchVO.searchCondition && searchVO.searchCondition == 'userId' ? "selected" : '' }>회원ID</option>
-				<option value = "userName" ${not empty searchVO.searchCondition && searchVO.searchCondition == 'userName' ? "selected" : '' }>회원명</option>
-				<input type="text" name="searchKeyword"  value="${not empty searchVO.searchKeyword ? searchVO.searchKeyword : ''}"  
+				<option value = "userId" ${not empty search.searchCondition && search.searchCondition == 'userId' ? "selected" : '' }>회원ID</option>
+				<option value = "userName" ${not empty search.searchCondition && search.searchCondition == 'userName' ? "selected" : '' }>회원명</option>
+				<input type="text" name="searchKeyword"  value="${not empty search.searchKeyword ? search.searchKeyword : ''}"  
 					class="ct_input_g" style="width:200px; height:19px" >
 		</td>
 		<td align="right" width="70">

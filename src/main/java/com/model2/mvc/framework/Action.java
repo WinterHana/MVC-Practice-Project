@@ -26,20 +26,20 @@ public abstract class Action {
 	
 	public Action(){
 		// Proxy problem 때문에 변경 보류
-//		ApplicationContext context =
-//				new ClassPathXmlApplicationContext(
-//						new String[] {			
-//								"classpath:config/commonservice.xml" }
-//				);
 		ApplicationContext context =
 				new ClassPathXmlApplicationContext(
 						new String[] {			
-								"classpath:config/context-common.xml",
-								"classpath:config/context-aspect.xml",
-								"classpath:config/context-mybatis.xml",
-								"classpath:config/context-transaction.xml" }
+								"classpath:config/commonservice.xml" }
 				);
-		userService = (UserService)context.getBean("userServiceImpl");
+//		ApplicationContext context =
+//				new ClassPathXmlApplicationContext(
+//						new String[] {			
+//								"classpath:config/context-common.xml",
+//								"classpath:config/context-aspect.xml",
+//								"classpath:config/context-mybatis.xml",
+//								"classpath:config/context-transaction.xml" }
+//				);
+//		userService = (UserService)context.getBean("userServiceImpl");
 		productService = (ProductServiceImpl)context.getBean("productServiceImpl");
 		purchaseService = (PurchaseServiceImpl)context.getBean("purchaseServiceImpl");
 	}

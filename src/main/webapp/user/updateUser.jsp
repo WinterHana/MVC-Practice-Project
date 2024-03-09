@@ -57,7 +57,7 @@ function resetData() {
 
 <form name="detailForm"  method="post" >
 
-<input type="hidden" name="userId" value="${userVO.userId}">
+<input type="hidden" name="userId" value="${user.userId}">
 
 <table width="100%" height="37" border="0" cellpadding="0" cellspacing="0">
 	<tr>
@@ -88,7 +88,7 @@ function resetData() {
 		<td class="ct_write01">
 			<table width="100%" border="0" cellspacing="0" cellpadding="0">
 				<tr>
-					<td width="105">${userVO.userId}</td>
+					<td width="105">${user.userId}</td>
 					<td>	</td>
 				</tr>
 			</table>
@@ -104,7 +104,7 @@ function resetData() {
 		</td>
 		<td bgcolor="D6D6D6" width="1"></td>
 		<td class="ct_write01">
-			<input type="text" name="userName" value="${userVO.userName}" class="ct_input_g" 
+			<input type="text" name="userName" value="${user.userName}" class="ct_input_g" 
 						style="width:100px; height:19px"  maxLength="50" >
 		</td>
 	</tr>
@@ -116,7 +116,7 @@ function resetData() {
 		<td width="104" class="ct_write">аж╪р</td>
 		<td bgcolor="D6D6D6" width="1"></td>
 		<td class="ct_write01">
-			<input 	type="text" name="addr" value="${userVO.addr}" class="ct_input_g" 
+			<input 	type="text" name="addr" value="${user.addr}" class="ct_input_g" 
 							style="width:370px; height:19px"  maxLength="100">
 		</td>
 	</tr>
@@ -129,16 +129,16 @@ function resetData() {
 		<td class="ct_write01">
 			<select 	name="phone1" class="ct_input_g" style="width:50px" 
 							onChange="document.detailForm.phone2.focus();">
-				<option value="010"  ${(not empty userVO.phone1 && userVO.phone1 == "010") ? "selected" : '' } >010</option>
-				<option value="011"   ${(not empty userVO.phone1 && userVO.phone1 == "011") ? "selected" : '' } >011</option>
-				<option value="016"  ${(not empty userVO.phone1 && userVO.phone1 == "016") ? "selected" : '' }>016</option>
-				<option value="018"  ${(not empty userVO.phone1 && userVO.phone1 == "018") ? "selected" : '' }>018</option>
-				<option value="019"  ${(not empty userVO.phone1 && userVO.phone1 == "019") ? "selected" : '' }>019</option>
+				<option value="010"  ${(not empty user.phone1 && user.phone1 == "010") ? "selected" : '' } >010</option>
+				<option value="011"   ${(not empty user.phone1 && user.phone1 == "011") ? "selected" : '' } >011</option>
+				<option value="016"  ${(not empty user.phone1 && user.phone1 == "016") ? "selected" : '' }>016</option>
+				<option value="018"  ${(not empty user.phone1 && user.phone1 == "018") ? "selected" : '' }>018</option>
+				<option value="019"  ${(not empty user.phone1 && user.phone1 == "019") ? "selected" : '' }>019</option>
 			</select>
-			<input type="text" name="phone2" value = "${not empty userVO.phone2 ? userVO.phone2 : '' }"
+			<input type="text" name="phone2" value = "${not empty user.phone2 ? user.phone2 : '' }"
 						class="ct_input_g" style="width:100px; height:19px"  maxLength="9" >
 			- 
-			<input type="text" name="phone3" value = "${not empty userVO.phone3 ? userVO.phone3 : '' }"
+			<input type="text" name="phone3" value = "${not empty user.phone3 ? user.phone3 : '' }"
 						class="ct_input_g" style="width:100px; height:19px"  maxLength="9" >
 			<input type="hidden" name="phone" class="ct_input_g"  >
 		</td>
