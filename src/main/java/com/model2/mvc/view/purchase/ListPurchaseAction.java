@@ -51,8 +51,6 @@ public class ListPurchaseAction extends Action {
 		if (userVO.getRole().equals("admin")) {
 			isAdmin = true;
 		}
-		String userId = userVO.getUserId();
-		String userName = userVO.getUserName();
 
 		// DAO control
 		// PurchaseService service = new PurchaseServiceImpl();
