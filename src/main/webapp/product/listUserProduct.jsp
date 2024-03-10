@@ -41,7 +41,7 @@ window.onload = showContentBySelectBox;
 
 <div style="width:98%; margin-left:10px;">
 
-<form name="detailForm" action="/listProduct.do?menu=${menu}" method="post">
+<form name="detailForm" action="/listUserProduct.do" method="post">
 
 <table width="100%" height="37" border="0" cellpadding="0"	cellspacing="0">
 	<tr>
@@ -51,7 +51,7 @@ window.onload = showContentBySelectBox;
 		<td background="/images/ct_ttl_img02.gif" width="100%" style="padding-left:10px;">
 			<table width="100%" border="0" cellspacing="0" cellpadding="0">
 				<tr>
-					<td width="93%" class="ct_ttl01">${title}</td>
+					<td width="93%" class="ct_ttl01">상품 목록 조회</td>
 				</tr>
 			</table>
 		</td>
@@ -67,27 +67,27 @@ window.onload = showContentBySelectBox;
 		<td align = "left" width = "1200" height = 20>
 			정렬 기준
 			<select name="sortCondition"  id = "sortCondition" class="ct_input_g" style="width:80px" onchange = "submitDetailForm()">
-				<option value="prodName"  ${not empty searchVO.sortCondition && searchVO.sortCondition == "prodName" ? "selected" : '' }>상품 이름</option>
-				<option value="price"  ${not empty searchVO.sortCondition && searchVO.sortCondition == "price" ? "selected" : '' }>상품 가격</option>
+				<option value="prodName"  ${not empty search.sortCondition && search.sortCondition == "prodName" ? "selected" : '' }>상품 이름</option>
+				<option value="price"  ${not empty search.sortCondition && search.sortCondition == "price" ? "selected" : '' }>상품 가격</option>
 			</select>
 		</td>
 		<td align="right" width = "400" height = 20>
 			<div id = "prodNameContent">
-				<input type="text" name="searchKeyword"  value="${searchVO.searchKeyword}"
+				<input type="text" name="searchKeyword"  value="${search.searchKeyword}"
 					class=ct_input_g" style="width:150px; height:19px">
 			</div>
 			<div id = "priceContent">
-				<input type="text" name="searchKeywordSub"  value="${searchVO.searchKeywordSub}"
+				<input type="text" name="searchKeywordSub"  value="${search.searchKeywordSub}"
 					class=ct_input_g" style="width:100px; height:19px">
 				~
-				<input type="text" name="searchKeywordThird"  value="${searchVO.searchKeywordThird}"
+				<input type="text" name="searchKeywordThird"  value="${search.searchKeywordThird}"
 					class=ct_input_g" style="width:100px; height:19px">
 			</div>
 		</td>
 		<td align = "right" width = "100"  height = 20>	
 			<select name="searchCondition"  id = "searchCondition" class="ct_input_g" style="width:80px" onchange = "showContentBySelectBox()">
-				<option value="prodName"  ${not empty searchVO.searchCondition && searchVO.searchCondition == "prodName" ? "selected" : '' }>상품 이름</option>
-				<option value="price"  ${not empty searchVO.searchCondition && searchVO.searchCondition == "price" ? "selected" : '' }>상품 가격</option>
+				<option value="prodName"  ${not empty search.searchCondition && search.searchCondition == "prodName" ? "selected" : '' }>상품 이름</option>
+				<option value="price"  ${not empty search.searchCondition && search.searchCondition == "price" ? "selected" : '' }>상품 가격</option>
 			</select>
 		</td>
 		<td width = "30" height = 20>
@@ -159,7 +159,7 @@ window.onload = showContentBySelectBox;
 			</td>
 			<td></td>
 			<td align = "center">
-			<a href="/${pageTarget}.do?prodNo=${product.prodNo}">${product.prodName}</a>
+			<a href="/getProduct.do?prodNo=${product.prodNo}">${product.prodName}</a>
 			</td>
 			<td></td>
 		</c:if>

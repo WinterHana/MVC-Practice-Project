@@ -11,8 +11,6 @@ public class TranStatusCodeUtil {
 		System.out.println("[TranStatusCodeUtil.getMessage(String, boolean)] start");
 		
 		for(TranStatusCode tsc : TranStatusCode.values()) {
-			// System.out.println("tsc.getNumber() : " + tsc.getNumber());
-			// System.out.println("tranCode : " + tranCode);
 			if(tsc.getNumber().trim().equals(tranCode.trim())) {
 				System.out.println("[TranStatusCodeUtil.getMessage] Success end");
 				if(isManager) {

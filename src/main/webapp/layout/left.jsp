@@ -65,7 +65,7 @@ function history(){
 		<table  border="0" cellspacing="0" cellpadding="0" width="159">
 			<tr>
 				<td class="Depth03">
-					<a href="/listProduct.do?menu=search" target="rightFrame">상품 검색</a>
+					<a href="/listUserProduct.do" target="rightFrame">상품 검색</a>
 				</td>
 			</tr>
 			<!-- admin -->
@@ -77,7 +77,7 @@ function history(){
 				</tr>
 				<tr>
 					<td class="Depth03">
-						<a href="/listProduct.do?menu=manage" target="rightFrame">판매 상품 관리(구)</a>
+						<a href="/listAdminProduct.do" target="rightFrame">판매 상품 관리(구)</a>
 					</td>
 				</tr>
 				<tr>
