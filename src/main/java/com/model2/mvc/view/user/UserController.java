@@ -83,7 +83,7 @@ public class UserController extends CommonController {
 		
 		userService.addUser(user);
 		
-		ModelAndView modelAndView = new ModelAndView(" redirect:/user/loginView.jsp");
+		ModelAndView modelAndView = new ModelAndView("redirect:/user/loginView.jsp");
 		
 		System.out.println("[UserController.addUser()] end");
 		

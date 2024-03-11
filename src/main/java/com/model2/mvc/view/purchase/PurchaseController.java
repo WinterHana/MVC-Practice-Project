@@ -139,6 +139,7 @@ public class PurchaseController extends CommonController {
 			@ModelAttribute("product") ProductVO product,
 			HttpSession session) {
 		System.out.println("[PurchaseController.addPurchaseView()] start");
+		
 		UserVO user =  (UserVO)session.getAttribute("user");
 		ProductVO result = productService.getProduct(product.getProdNo());
 		

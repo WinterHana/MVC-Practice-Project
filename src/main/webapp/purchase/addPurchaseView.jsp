@@ -1,11 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=EUC-KR"
     pageEncoding="EUC-KR"%>
-<%--
-<%
- 	ProductVO productVO = (ProductVO)request.getAttribute("productVO");
-	String userId = (String)request.getAttribute("userId");
-%>
---%>
 <html>
 <head>
 
@@ -17,11 +11,29 @@
 </script>
 
 <script type="text/javascript">
-<!--
 function fncAddPurchase() {
+	// 유효성 확인
+	let countInput = document.addPurchase.prodCount.value;
+	let productCount = parseInt('${product.count}');
+	
+	if(countInput == null || countInput === '') {
+		alert("상품 개수를 입력해주세요.");
+		return;
+	}
+	
+	if(Number.isNaN(countInput) || parseInt(countInput) <= 0) {
+		alert("상품 개수는 숫자이고 0보다 커야합니다.");
+		return;
+	}
+	
+	if(parseInt(countInput) > productCount) {
+		alert("재고보다 많은 상품을 선택할 수 없습니다.");
+		return;
+	}
+	
+	document.addPurchase.action='/addPurchase.do';
 	document.addPurchase.submit();
 }
--->
 </script>
 </head>
 
@@ -142,8 +154,9 @@ function fncAddPurchase() {
 		<td width="104" class="ct_write">상품 개수</td>
 		<td bgcolor="D6D6D6" width="1"></td>
 		<td class="ct_write01">
-			<input		type="text" name="prodCount" class="ct_input_g" 
-							style="width: 100px; height: 19px" maxLength="10"/>
+			<input	type="text" name="prodCount" class="ct_input_g" 
+						style="width: 52px; height: 19px" maxLength="10"/>	
+			/ ${product.count}
 		</td>
 	</tr>
 	<tr>

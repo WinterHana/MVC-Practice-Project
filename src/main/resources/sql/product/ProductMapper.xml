@@ -98,4 +98,11 @@
 		)
 	</select>
 	
+	<update id = "updateProductCount" parameterType = "map" >
+		UPDATE product
+		<set>
+			<if test = "countResult != null" >count = #{countResult:NUMERIC}</if>
+		</set>
+		WHERE prod_no = #{prodNo:NUMERIC}
+	</update>
 </mapper>

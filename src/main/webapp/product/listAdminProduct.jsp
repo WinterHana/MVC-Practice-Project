@@ -145,7 +145,7 @@ window.onload = showContentBySelectBox;
 		<tr class="ct_list_pop">
 		<td align="center">${no}</td>
 		<td></td>
-		<c:set var = "flag" value = "false"/>
+<%-- 		<c:set var = "flag" value = "false"/>
 		<c:forEach var = "entry"  items = "${pmap}">
 			<c:if test="${entry.key == product.prodNo}">
 				<td align="center">${product.prodNo}</td>
@@ -172,7 +172,19 @@ window.onload = showContentBySelectBox;
 			<a href="/updateProductView.do?prodNo=${product.prodNo}">${product.prodName}</a>
 			</td>
 			<td></td>
-		</c:if>
+		</c:if> --%>
+		<td align="center">${product.prodNo}</td>
+		<td></td>
+		<td align="center">
+		<a href="/updateProductView.do?prodNo=${product.prodNo}">
+		<img src = "images/uploadFiles/${product.fileName}" width = "120" height = "90"/>
+		</a>
+		</td>
+		<td></td>
+		<td align = "center">
+		<a href="/updateProductView.do?prodNo=${product.prodNo}">${product.prodName}</a>
+		</td>
+		<td></td>
 		<td align="center">${product.price}</td> 
 		<td></td>
 		<td align="center">${product.regDate}</td>

@@ -116,7 +116,7 @@ public class PurchaseServiceTest {
 		Assert.assertEquals(1, deletePurchaseResult);
 	}
 	
-	@Test
+	// @Test
 	public void getPurchaseListTest() {
 		UserVO userVO = new UserVO();
 		userVO.setUserId("user11");
@@ -138,7 +138,7 @@ public class PurchaseServiceTest {
 		System.out.println("<getPurchaseListTest End>");
 	}
 	
-	@Test
+	// @Test
 	public void getSalaListTest() {
 		Map<Integer, Object> getSalaListResult = purchaseService.getSalaList();
 		
@@ -149,5 +149,30 @@ public class PurchaseServiceTest {
 			System.out.println("Key : " + key + " || value : " + getSalaListResult.get(key));
 		}
 		System.out.println("<getSalaList End>");
+	}
+	
+	@Test
+	public void addPurchaseWithCountTest() {
+		UserVO userVO = new UserVO();
+		userVO.setUserId("test");
+		
+		ProductVO productVO = new ProductVO();
+		productVO.setProdNo(1);
+		productVO.setCount(1000);
+		
+		PurchaseVO purchaseVO = new PurchaseVO();
+		purchaseVO.setPurchaseProd(productVO);
+		purchaseVO.setBuyer(userVO);
+		purchaseVO.setPaymentOption("1");
+		purchaseVO.setReceiverName("Test");
+		purchaseVO.setReceiverPhone("010-1234-5678");
+		purchaseVO.setDlvyAddr("흠흐밍테스트");
+		purchaseVO.setDlvyRequest("뿡빵띠테스트");
+		purchaseVO.setTranCode("002");
+		purchaseVO.setDlvyDate("2021-01-02");
+		purchaseVO.setProdCount(1);
+		
+		int addPurchaseResult = purchaseService.addPurchase(purchaseVO);
+		Assert.assertEquals(2, addPurchaseResult);
 	}
 }

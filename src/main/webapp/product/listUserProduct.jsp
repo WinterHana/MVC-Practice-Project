@@ -139,7 +139,7 @@ window.onload = showContentBySelectBox;
 		<tr class="ct_list_pop">
 		<td align="center">${no}</td>
 		<td></td>
-		<c:set var = "flag" value = "false"/>
+<%-- 		<c:set var = "flag" value = "false"/>
 		<c:forEach var = "entry"  items = "${pmap}">
 			<c:if test="${entry.key == product.prodNo}">
 				<td align="center">
@@ -152,6 +152,27 @@ window.onload = showContentBySelectBox;
 			</c:if>
 		</c:forEach>
 		<c:if test="${not flag}">
+			<td align="center">
+			<a href="/${pageTarget}.do?prodNo=${product.prodNo}">
+			<img src = "images/uploadFiles/${product.fileName}" width = "120" height = "90"/>
+			</a>
+			</td>
+			<td></td>
+			<td align = "center">
+			<a href="/getProduct.do?prodNo=${product.prodNo}">${product.prodName}</a>
+			</td>
+			<td></td>
+		</c:if> --%>
+		<c:if test="${product.count <= 0}">
+			<td align="center">
+			<img src = "images/uploadFiles/${product.fileName}" width = "120" height = "90"/>
+			</td>
+			<td></td>
+			<td align = "center">${product.prodName}</td>
+			<c:set var = "flag" value = "true"/>
+			<td></td>
+		</c:if>
+		<c:if test="${product.count > 0}">
 			<td align="center">
 			<a href="/${pageTarget}.do?prodNo=${product.prodNo}">
 			<img src = "images/uploadFiles/${product.fileName}" width = "120" height = "90"/>

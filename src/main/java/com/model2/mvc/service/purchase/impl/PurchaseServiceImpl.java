@@ -14,6 +14,7 @@ import com.model2.mvc.common.SearchVO;
 import com.model2.mvc.common.util.TranStatusCodeUtil;
 import com.model2.mvc.service.domain.PurchaseVO;
 import com.model2.mvc.service.domain.UserVO;
+import com.model2.mvc.service.product.ProductDAO;
 import com.model2.mvc.service.product.ProductService;
 import com.model2.mvc.service.purchase.PurchaseDAO;
 import com.model2.mvc.service.purchase.PurchaseService;
@@ -26,6 +27,10 @@ public class PurchaseServiceImpl implements PurchaseService {
 	@Autowired
 	@Qualifier("purchaseDAOImpl")
 	private PurchaseDAO purchaseDAO;
+	
+	@Autowired
+	@Qualifier("productDAOImpl")
+	private ProductDAO productDAO;
 	
 	public PurchaseServiceImpl() {
 		System.out.println("[" + getClass().getName() + " Default Constructor] Call");
@@ -41,11 +46,18 @@ public class PurchaseServiceImpl implements PurchaseService {
 	}
 	
 	@Override
-	public int addPurchase(PurchaseVO purchaseVO) {		
+	public int addPurchase(PurchaseVO purchaseVO) {	
+		// addPurchase
 		int result = 0;
 		
+		// updateProductCount
+		Map<String, Integer> requestMap = new HashMap<String, Integer>();
+		requestMap.put("prodNo", purchaseVO.getPurchaseProd().getProdNo());
+		requestMap.put("countResult", purchaseVO.getPurchaseProd().getCount() - purchaseVO.getProdCount());
+		
 		try {
-			result = purchaseDAO.addPurchase(purchaseVO);
+			result += purchaseDAO.addPurchase(purchaseVO);
+			result += productDAO.updateProductCount(requestMap);
 		} catch (Exception e) {
 			System.out.println("[" + getClass().getName() + " .addPurchase] Exception");
 			e.printStackTrace();
