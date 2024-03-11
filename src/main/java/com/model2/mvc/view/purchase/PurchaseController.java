@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.model2.mvc.common.Page;
@@ -177,19 +178,11 @@ public class PurchaseController extends CommonController {
 	}
 	
 	@RequestMapping(value = "/updateTranCode.do")
-	public ModelAndView updateTranCode(HttpServletRequest request) {
+	public ModelAndView updateTranCode(
+			@RequestParam("tranNo") int tranNo,
+			@RequestParam("tranCode") String tranCode,
+			@RequestParam("url")String url) {
 		System.out.println("[PurchaseController.updateTranCode()] start");
-		
-		// getParameter
-		int tranNo = 0;
-		try {
-			tranNo = Integer.parseInt(request.getParameter("tranNo").trim());
-		} catch (Exception e) {
-			System.out.println("Integer.parseInt Exception");
-			e.printStackTrace();
-		}
-		String tranCode = request.getParameter("tranCode");
-		String url = request.getParameter("url");
 		
 		// PurchaseVO
 		PurchaseVO purchaseVO = new PurchaseVO();
@@ -217,8 +210,7 @@ public class PurchaseController extends CommonController {
 	}
 	
 	@RequestMapping(value = "/updatePurchase.do")
-	public ModelAndView updatePurchase(
-			@ModelAttribute("purchase") PurchaseVO purchase) {
+	public ModelAndView updatePurchase(@ModelAttribute("purchase") PurchaseVO purchase) {
 		System.out.println("[PurchaseController.updatePurchase()] start");
 		
 		ModelAndView modelAndView = new ModelAndView("forward:/purchase/completeUpdateView.jsp");

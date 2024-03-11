@@ -11,6 +11,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.model2.mvc.common.Page;
@@ -96,10 +97,12 @@ public class UserController extends CommonController {
 			HttpServletRequest request) {
 		System.out.println("[UserController.listUser()] start");
 		
-		String pageStr = request.getParameter("currentPage");
+		// 1. Page setting
+		String currentPage = request.getParameter("currentPage");
+		
 		int page = 0;
-		if(pageStr != null && !pageStr.equals("undefined")) {
-			page = Integer.parseInt(pageStr);
+		if(currentPage != null && !currentPage.equals("undefined")) {
+			page = Integer.parseInt(currentPage);
 		}
 		
 		// Default page = 1;

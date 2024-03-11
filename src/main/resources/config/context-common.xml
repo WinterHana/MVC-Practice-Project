@@ -27,4 +27,8 @@
 		<context:include-filter type="annotation"	expression="org.springframework.stereotype.Repository" />
 		<context:exclude-filter type="annotation" 	expression="org.springframework.stereotype.Controller" />
 	</context:component-scan>
+	
+	<!-- common-values.properties 가져옴 -->
+	<util:properties id = "commonValues" location = "classpath:config/common-values.properties"/>
+	
 </beans>

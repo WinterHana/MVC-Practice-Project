@@ -60,10 +60,10 @@ public class PurchaseServiceTest {
 		purchaseVO.setPaymentOption("1");
 		purchaseVO.setReceiverName("Test");
 		purchaseVO.setReceiverPhone("010-1234-5678");
-		purchaseVO.setDivyAddr("흠흐밍");
-		purchaseVO.setDivyRequest("뿡빵띠");
+		purchaseVO.setDlvyAddr("흠흐밍");
+		purchaseVO.setDlvyRequest("뿡빵띠");
 		purchaseVO.setTranCode("002");
-		purchaseVO.setDivyDate("2021-01-02");
+		purchaseVO.setDlvyDate("2021-01-02");
 		
 		SearchVO searchVO = new SearchVO();
 		searchVO.setPage(1);
@@ -94,8 +94,8 @@ public class PurchaseServiceTest {
 		Assert.assertEquals(10000, getPurchaseResult.getPurchaseProd().getProdNo());
 		
 		// 5. updatePurchase
-		purchaseVO.setDivyAddr("네네코 마시로");
-		purchaseVO.setDivyRequest("아라하시 타비");
+		purchaseVO.setDlvyAddr("네네코 마시로");
+		purchaseVO.setDlvyRequest("아라하시 타비");
 		purchaseVO.setTranNo(tranNo);
 		int updatePurchaseResult = purchaseDAO.updatePurchase(purchaseVO);
 		Assert.assertEquals(1, updatePurchaseResult);

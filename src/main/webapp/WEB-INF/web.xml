@@ -8,7 +8,7 @@
   metadata-complete="true">
 	
 	<!-- 게시판 Page 하단 Page 번호 개수 예)  이전 1 2 3 4 5  이후 -->
-	<context-param>
+<!-- 	<context-param>
 		<param-name>pageUnit</param-name>
 		<param-value>3</param-value>
 	</context-param>
@@ -16,7 +16,7 @@
 	<context-param>
 		<param-name>pageSize</param-name>
 		<param-value>5</param-value>
-	</context-param>
+	</context-param> -->
 	
 	<!-- context xml Connection -->
 	<!-- 

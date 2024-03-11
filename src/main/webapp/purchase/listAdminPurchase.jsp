@@ -5,7 +5,7 @@
  
 <html>
 <head>
-<title>판매 목록 조회</title>
+<title>판매 관리</title>
 
 <link rel="stylesheet" href="/css/admin.css" type="text/css">
 
@@ -29,7 +29,7 @@ function fncGetPurchaseList(currentPage) {
 		<td background="/images/ct_ttl_img02.gif" width="100%" style="padding-left: 10px;">
 			<table width="100%" border="0" cellspacing="0" cellpadding="0">
 				<tr>
-					<td width="93%" class="ct_ttl01">판매 목록 조회</td>
+					<td width="93%" class="ct_ttl01">판매 관리</td>
 				</tr>
 			</table>
 		</td>

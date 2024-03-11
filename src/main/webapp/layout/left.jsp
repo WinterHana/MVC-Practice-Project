@@ -1,19 +1,6 @@
 <%@ page contentType="text/html; charset=euc-kr" %>
 <%@ taglib prefix = "c" uri = "http://java.sun.com/jsp/jstl/core" %>
 
-
-<%-- <%@page import="com.model2.mvc.service.domain.UserVO"%>
-<%
-	UserVO vo=(UserVO)session.getAttribute("user");
-
-	String role="";
-
-	if(vo != null) {
-		role=vo.getRole();
-	}
-%> 
- --%>
-
 <html>
 <head>
 <title>Model2 MVC Shop</title>
@@ -38,7 +25,7 @@ function history(){
 			<c:if test = "${not empty user}">
 				<tr>
 					<td class="Depth03"> 
-						<a href="/getUser.do?userId=${user.userId}"  target="rightFrame">개인정보조회</a>
+						<a href="/getUser.do?userId=${user.userId}"  target="rightFrame">개인정보 조회</a>
 					</td>
 				</tr>
 			</c:if>
@@ -46,7 +33,7 @@ function history(){
 			<c:if test = "${user.role eq 'admin'}">
 				<tr>
 					<td class="Depth03" >
-						<a href="/listUser.do" target="rightFrame">회원정보조회</a>
+						<a href="/listUser.do" target="rightFrame">회원목록 조회</a>
 					</td>
 				</tr>
 			</c:if>
@@ -63,30 +50,32 @@ function history(){
 <tr>
 	<td valign="top"> 
 		<table  border="0" cellspacing="0" cellpadding="0" width="159">
-			<tr>
-				<td class="Depth03">
-					<a href="/listUserProduct.do" target="rightFrame">상품 검색</a>
-				</td>
-			</tr>
 			<!-- admin -->
 			<c:if test = "${user.role eq 'admin'}">
 				<tr>
 					<td class="Depth03">
-						<a href="../product/addProductView.jsp;" target="rightFrame">판매 상품 등록</a>
+						<a href="../product/addProductView.jsp;" target="rightFrame">상품 등록</a>
 					</td>
 				</tr>
 				<tr>
 					<td class="Depth03">
-						<a href="/listAdminProduct.do" target="rightFrame">판매 상품 관리(구)</a>
+						<a href="/listAdminProduct.do" target="rightFrame">상품 관리</a>
 					</td>
 				</tr>
 				<tr>
 					<td class="Depth03">
-						<a href="/listPurchase.do" target="rightFrame">판매 상품 관리</a>
+						<a href="/listPurchase.do" target="rightFrame">판매 관리</a>
 					</td>
 				</tr>
 				<tr>
 					<td class="DepthEnd">&nbsp;</td>
+				</tr>
+			</c:if>
+			<c:if test = "${user.role ne 'admin'}">
+				<tr>
+					<td class="Depth03">
+						<a href="/listUserProduct.do" target="rightFrame">상품 검색</a>
+					</td>
 				</tr>
 			</c:if>
 		</table>

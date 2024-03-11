@@ -43,6 +43,7 @@ public class ProductController extends CommonController  {
 		
 		// 1. Page setting
 		String pageStr = request.getParameter("currentPage");
+		
 		int page = 0;
 		if(pageStr != null && !pageStr.equals("undefined")) {
 			page = Integer.parseInt(pageStr);
