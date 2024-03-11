@@ -11,13 +11,13 @@
   		<result property = "password" column = "password" jdbcType="VARCHAR"/>
   		<result property = "role" column = "role" jdbcType="VARCHAR"/>
   		<result property = "ssn" column = "ssn" jdbcType = "VARCHAR"/>
-  		<result property = "phone" column = "phone" jdbcType = "VARCHAR"/>
+  		<result property = "phone" column = "cell_phone" jdbcType = "VARCHAR"/>
   		<result property = "addr" column = "addr" jdbcType = "VARCHAR"/>
   		<result property = "email" column = "email" jdbcType = "VARCHAR"/>
   		<result property = "regDate" column = "reg_date"  jdbcType = "DATE"/>
-  		<result property = "phone1" column = "phone1"  jdbcType = "VARCHAR"/>
+<!--   		<result property = "phone1" column = "phone1"  jdbcType = "VARCHAR"/>
   		<result property = "phone2" column = "phone2"  jdbcType = "VARCHAR"/>
-  		<result property = "phone3" column = "phone3"  jdbcType = "VARCHAR"/>
+  		<result property = "phone3" column = "phone3"  jdbcType = "VARCHAR"/> -->
 	</resultMap>
 	
   	<sql id = "getUserListSelect">

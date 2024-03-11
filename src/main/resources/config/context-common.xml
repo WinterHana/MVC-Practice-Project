@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- 공통으로 처리해야 할 내용 정리 -->
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+
+		xmlns:context="http://www.springframework.org/schema/context"
+		
+		xmlns:util="http://www.springframework.org/schema/util"
+
+		xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+		
+		xsi:schemaLocation=
+				"http://www.springframework.org/schema/beans 
+				http://www.springframework.org/schema/beans/spring-beans.xsd
+				
+				 http://www.springframework.org/schema/context 
+				 http://www.springframework.org/schema/context/spring-context.xsd
+				 
+				http://www.springframework.org/schema/util 
+				http://www.springframework.org/schema/util/spring-util.xsd">
+
+	<!-- 	어노테이션 기반 :: Spring Framework 사용 -->
+	<!-- controller는 나중에 따로 설정할 예정 -->				
+ 	<context:component-scan base-package="com.model2.mvc.service">
+		<context:include-filter type="annotation"	expression="org.springframework.stereotype.Service" />
+		<context:include-filter type="annotation"	expression="org.springframework.stereotype.Repository" />
+		<context:exclude-filter type="annotation" 	expression="org.springframework.stereotype.Controller" />
+	</context:component-scan>
+	
+	<!-- common-values.properties 가져옴 -->
+	<util:properties id = "commonValues" location = "classpath:config/common-values.properties"/>
+	
+</beans>

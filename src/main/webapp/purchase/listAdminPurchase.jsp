@@ -2,33 +2,10 @@
     pageEncoding="EUC-KR"%>
 
 <%@ taglib prefix = "c" uri = "http://java.sun.com/jsp/jstl/core" %>
-<%--
-<%@page import="com.model2.mvc.common.util.CommonUtil"%>
-<%@page import="com.model2.mvc.common.Page"%>
-<%@page import="java.util.List"%>
-<%@page import="com.model2.mvc.common.util.TranStatusCodeUtil"%>
-<%@page import="com.model2.mvc.common.util.TranStatusCode"%>
-<%@page import="java.util.Arrays"%>
-<%@page import="com.model2.mvc.service.purchase.domain.PurchaseVO"%>
-<%@page import="java.util.ArrayList"%>
-<%@page import="com.model2.mvc.common.SearchVO"%>
-<%@page import="java.util.Map"%>
-<%
-	List<PurchaseVO> list=(List<PurchaseVO>)request.getAttribute("list");
-	Page resultPage=(Page)request.getAttribute("resultPage");
-	SearchVO searchVO=(SearchVO)request.getAttribute("searchVO");
-	String userId = (String)request.getAttribute("userId");
-	String userName = (String)request.getAttribute("userName");
-	Map<Integer, Object> pmap = (Map<Integer, Object>)request.getAttribute("pmap");
-	
-	String searchCondition = CommonUtil.null2str(searchVO.getSearchCondition());
-	String searchKeyword = CommonUtil.null2str(searchVO.getSearchKeyword());
-%>
- --%>
  
 <html>
 <head>
-<title>구매 목록조회</title>
+<title>판매 관리</title>
 
 <link rel="stylesheet" href="/css/admin.css" type="text/css">
 
@@ -37,6 +14,13 @@ function fncGetPurchaseList(currentPage) {
 	document.getElementById("currentPage").value = currentPage;
    	document.detailForm.submit();		
 }
+
+function updateTranCode(tranNo, updateTranCode) {
+    var selectedValue = document.getElementById(updateTranCode).value;
+    var url = "/updateTranCode.do?tranNo=" + tranNo + "&UpdateTranCode=" + selectedValue;
+    window.location.href = url; 
+}
+
 </script>
 </head>
 
@@ -52,7 +36,7 @@ function fncGetPurchaseList(currentPage) {
 		<td background="/images/ct_ttl_img02.gif" width="100%" style="padding-left: 10px;">
 			<table width="100%" border="0" cellspacing="0" cellpadding="0">
 				<tr>
-					<td width="93%" class="ct_ttl01">구매 목록조회</td>
+					<td width="93%" class="ct_ttl01">판매 관리</td>
 				</tr>
 			</table>
 		</td>
@@ -69,34 +53,36 @@ function fncGetPurchaseList(currentPage) {
 		<td class="ct_line02"></td>
 		<td class="ct_list_b" width="150">회원ID</td>
 		<td class="ct_line02"></td>
-		<td class="ct_list_b" width="150">회원명</td>
+		<td class="ct_list_b" width = "150">전화번호</td>
 		<td class="ct_line02"></td>
-		<td class="ct_list_b">전화번호</td>
+		<td class="ct_list_b" width = "150">제품 번호</td>
+		<td class="ct_line02"></td>
+		<td class="ct_list_b" width = "150">개수</td>
 		<td class="ct_line02"></td>
 		<td class="ct_list_b">배송현황</td>
 	</tr>
 	<tr>
 		<td colspan="11" bgcolor="808285" height="1"></td>
 	</tr>
-	<c:set var = "no" value = "0"/>
 	<c:forEach var = "purchase" items = "${list}">
-		<c:set var = "no" value = "${no + 1}"/>
 		<tr class="ct_list_pop">
 		<td align="center">
 			<!-- 구매 내역 상세 보기 -->
-			<a href="/getPurchase.do?tranNo=${purchase.tranNo}">${no}</a>
+			<a href="/getPurchase.do?tranNo=${purchase.tranNo}">${purchase.tranNo}</a>
 		</td>
 		<td></td>
 		<td align="left">
-			<a href="/getUser.do?userId=${userId}">${userId}</a>
+			<a href="/getUser.do?userId=${purchase.buyer.userId}">${purchase.buyer.userId}</a>
 		</td>
 		<td></td>
-			<td align="left">${userName}</td>
+			<td align="left">${purchase.receiverPhone}</td>
 		<td></td>
-			<td align="left">${purchase.receiverPhone }</td>
+				<td align="left">${purchase.purchaseProd.prodNo}</td>
+		<td></td>
+				<td align="left">${purchase.prodCount }</td>
 		<td></td>
 		<td align="left">	
-		<c:set var = "isContain" value = "false"/>
+<%-- 		<c:set var = "isContain" value = "false"/>
 		<c:forEach var = "entry"  items = "${pmap}">
 			<c:if test="${entry.key == purchase.purchaseProd.prodNo}">
 				<c:set var = "tranCode"  value = "${pmap[purchase.purchaseProd.prodNo].tranCode}"/>
@@ -110,7 +96,24 @@ function fncGetPurchaseList(currentPage) {
 		</c:forEach>
 		<c:if test="${not isContain}">
 			판매중
-		</c:if>
+		</c:if> --%>
+		<c:forEach var = "entry" items = "${messageMap}">
+			<c:if test = "${entry.key == purchase.tranNo}">
+				${entry.value}
+			</c:if>
+		</c:forEach>
+		<select name = "UpdateTranCode" id = "UpdateTranCode${purchase.tranNo}" >
+			<option value = "001" 
+			${not empty purchase.tranNo && purchase.tranNo == "001" ? "selected" : '' }>
+			판매 완료</option>
+			<option value = "002" 
+			${not empty purchase.tranNo && purchase.tranNo == "002" ? "selected" : '' }>
+			배송 중</option>
+			<option value = "003" 
+			${not empty purchase.tranNo && purchase.tranNo == "003" ? "selected" : '' }>
+			배송 완료</option>
+		</select>
+		<a href="#" onclick="updateTranCode(${purchase.tranNo}, 'UpdateTranCode${purchase.tranNo}')">변경하기</a>
 		</td>
 		<td></td>
 		<tr>

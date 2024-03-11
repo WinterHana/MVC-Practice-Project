@@ -68,10 +68,17 @@ public class UserVO {
 	
 	public void setPhone(String phone) {
 		this.phone = phone;
+		
 		if(phone != null && phone.length() != 0) {
 			phone1 = phone.split("-")[0];
 			phone2 = phone.split("-")[1];
 			phone3 = phone.split("-")[2];
+		} else {
+			StringBuffer sb = new StringBuffer();
+			sb.append(phone1 + "-");
+			sb.append(phone2+ "-");
+			sb.append(phone3);
+			this.phone = sb.toString();
 		}
 	}
 	
@@ -113,7 +120,6 @@ public class UserVO {
 
 	@Override
 	public String toString() {
-		// TODO Auto-generated method stub
 		return "UserVO : [userId] "+userId+" [userName] "+userName+" [password] "+password+" [role] "+ role
 			+" [ssn] "+ssn+" [phone] "+phone+" [email] "+email+" [regDate] "+regDate;
 	}

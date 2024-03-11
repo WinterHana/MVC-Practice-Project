@@ -19,7 +19,7 @@
  
 <html>
 <head>
-<title>회원 목록조회</title>
+<title>회원목록 조회</title>
 
 <link rel="stylesheet" href="/css/admin.css" type="text/css">
 
@@ -45,7 +45,7 @@ function fncGetUserList(currentPage) {
 		<td background="/images/ct_ttl_img02.gif" width="100%" style="padding-left:10px;">
 			<table width="100%" border="0" cellspacing="0" cellpadding="0">
 				<tr>
-					<td width="93%" class="ct_ttl01">회원 목록조회</td>
+					<td width="93%" class="ct_ttl01">회원목록 조회</td>
 				</tr>
 			</table>
 		</td>
@@ -59,9 +59,9 @@ function fncGetUserList(currentPage) {
 	<tr>
 		<td align="right">
 			<select name="searchCondition" class="ct_input_g" style="width:80px">
-				<option value = "userId" ${not empty searchVO.searchCondition && searchVO.searchCondition == 'userId' ? "selected" : '' }>회원ID</option>
-				<option value = "userName" ${not empty searchVO.searchCondition && searchVO.searchCondition == 'userName' ? "selected" : '' }>회원명</option>
-				<input type="text" name="searchKeyword"  value="${not empty searchVO.searchKeyword ? searchVO.searchKeyword : ''}"  
+				<option value = "userId" ${not empty search.searchCondition && search.searchCondition == 'userId' ? "selected" : '' }>회원ID</option>
+				<option value = "userName" ${not empty search.searchCondition && search.searchCondition == 'userName' ? "selected" : '' }>회원명</option>
+				<input type="text" name="searchKeyword"  value="${not empty search.searchKeyword ? search.searchKeyword : ''}"  
 					class="ct_input_g" style="width:200px; height:19px" >
 		</td>
 		<td align="right" width="70">

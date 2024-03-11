@@ -37,6 +37,7 @@ public class UserServiceImpl implements UserService{
 	
 	public int addUser(UserVO userVO) {
 		int result = 0;
+		
 		try {
 			result = userDAO.addUser(userVO);
 			

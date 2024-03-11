@@ -6,15 +6,16 @@
 				
 <mapper namespace="PurchaseMapper">
 	<resultMap id = "purchaseSelectMap" type = "purchaseVO">
-		<result property = "divyAddr" column = "demailaddr" jdbcType="VARCHAR"/>
-		<result property = "divyDate" column = "dlvy_date" jdbcType="VARCHAR"/>
-		<result property = "divyRequest" column = "dlvy_request" jdbcType="VARCHAR"/>
+		<result property = "dlvyAddr" column = "dlvy_addr" jdbcType="VARCHAR"/>
+		<result property = "dlvyDate" column = "dlvy_date" jdbcType="VARCHAR"/>
+		<result property = "dlvyRequest" column = "dlvy_request" jdbcType="VARCHAR"/>
 		<result property = "orderDate" column = "order_date"  jdbcType="DATE"/>
 		<result property = "paymentOption" column = "payment_option"  jdbcType="VARCHAR"/>
 		<result property = "receiverName" column = "receiver_name"  jdbcType="VARCHAR"/>
 		<result property = "receiverPhone" column = "receiver_phone"  jdbcType="VARCHAR"/>
 		<result property = "tranCode" column = "tran_status_code"  jdbcType="VARCHAR"/>
 		<result property = "tranNo" column = "tran_no"  jdbcType="NUMERIC"/>
+		<result property = "prodCount" column = "prod_count"  jdbcType="NUMERIC"/>
 		<association property="buyer" resultMap="userSelectMap" />
 		<association property="purchaseProd" resultMap="productSelectMap" />
 	</resultMap>
@@ -30,28 +31,27 @@
 	</resultMap>
 	
 	<resultMap id = "userSelectMap" type = "userVO">
-  		<result property = "userId" column = "user_id" jdbcType="VARCHAR"/>
+  		<result property = "userId" column = "buyer_id" jdbcType="VARCHAR"/>
   		<result property = "userName" column = "user_name" jdbcType="VARCHAR"/>
   		<result property = "password" column = "password" jdbcType="VARCHAR"/>
   		<result property = "role" column = "role" jdbcType="VARCHAR"/>
   		<result property = "ssn" column = "ssn" jdbcType = "VARCHAR"/>
-  		<result property = "phone" column = "phone" jdbcType = "VARCHAR"/>
+  		<result property = "phone" column = "cell_phone" jdbcType = "VARCHAR"/>
   		<result property = "addr" column = "addr" jdbcType = "VARCHAR"/>
   		<result property = "email" column = "email" jdbcType = "VARCHAR"/>
   		<result property = "regDate" column = "reg_date"  jdbcType = "DATE"/>
-  		<result property = "phone1" column = "phone1"  jdbcType = "VARCHAR"/>
-  		<result property = "phone2" column = "phone2"  jdbcType = "VARCHAR"/>
-  		<result property = "phone3" column = "phone3"  jdbcType = "VARCHAR"/>
 	</resultMap>
 	
   	<sql id = "getPurchaseListSelect">
   		 SELECT * FROM transaction 
-  		<where>
-  			buyer_id = #{userId}
-  		</where>
+  			<if test = "userVO.role != 'admin' ">
+  				<where>
+  				buyer_id = #{userVO.userId}
+  				</where>
+	  		</if>	
   		ORDER BY tran_no
   	</sql>
-  	
+	
   	<select id="addPurchase"  parameterType = "purchaseVO">
   		INSERT
   		INTO transaction
@@ -62,11 +62,12 @@
   			#{paymentOption:VARCHAR},
   			#{receiverName:VARCHAR},
   			#{receiverPhone:VARCHAR},
-  			#{divyAddr:VARCHAR},
-  			#{divyRequest:VARCHAR},
+  			#{dlvyAddr:VARCHAR},
+  			#{dlvyRequest:VARCHAR},
   			#{tranCode:VARCHAR},
   			SYSDATE,
-  			#{divyDate:VARCHAR}
+  			#{dlvyDate:VARCHAR},
+  			#{prodCount:NUMERIC}
   		)					
   	</select>
   	
@@ -82,9 +83,9 @@
   			<if test = "paymentOption != null" >payment_option = #{paymentOption:VARCHAR},</if>
   			<if test = "receiverName != null"> receiver_name = #{receiverName:VARCHAR},</if>
   			<if test = "receiverPhone != null"> receiver_phone = #{receiverPhone:VARCHAR},</if>
-  			<if test = "divyAddr != null"> demailaddr = #{divyAddr:VARCHAR},</if>
-  			<if test = "divyRequest != null"> dlvy_request = #{divyRequest:VARCHAR},</if>
-  			<if test = "divyDate != null"> dlvy_date = #{divyDate:VARCHAR}</if>
+  			<if test = "dlvyAddr != null"> dlvy_addr = #{dlvyAddr:VARCHAR},</if>
+  			<if test = "dlvyRequest != null"> dlvy_request = #{dlvyRequest:VARCHAR},</if>
+  			<if test = "dlvyDate != null"> dlvy_date = #{dlvyDate:VARCHAR}</if>
   		</set>
   		WHERE tran_no = #{tranNo:NUMERIC}
   	</update>
@@ -105,7 +106,7 @@
   		WHERE row_seq BETWEEN (#{searchVO.page} - 1) * #{searchVO.pageSize} + 1 AND #{searchVO.page} * #{searchVO.pageSize}
   	</select>
   	
-  	<select id = "getPurchaseCount" parameterType = "string"  resultType = "int">
+  	<select id = "getPurchaseCount" parameterType = "map"  resultType = "int">
   		SELECT COUNT(*) FROM (
 			<include refid = "getPurchaseListSelect"/>
 		)
@@ -113,16 +114,14 @@
 	
 	<!-- 여기 주의 -->
 	<select id = "getSaleList"  resultType = "map">
-		SELECT t.tran_status_code, p.prod_no, t.tran_no 
-		FROM transaction t, product p 
-		WHERE t.prod_no = p.prod_no
-		ORDER BY tran_no
+		SELECT tran_no, tran_status_code 
+		FROM transaction
 	</select>
 	
 	<select id = "updateTranCode"  parameterType= "map"  resultMap = "purchaseSelectMap">
 		UPDATE transaction
 		<set>
-			tran_status_code = #{nextCode}
+			tran_status_code = #{tranCode}
 		</set>
 			WHERE tran_no = #{tranNo}
 	</select>

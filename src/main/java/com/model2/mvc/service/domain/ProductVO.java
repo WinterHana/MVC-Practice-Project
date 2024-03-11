@@ -12,18 +12,11 @@ public class ProductVO {
 	private String prodName;
 	private int prodNo;
 	private Date regDate;
-	// private String proTranCode;
+	private int count;
 	
 	public ProductVO(){
+		// blank
 	}
-//	
-//	public String getProTranCode() {
-//		return proTranCode;
-//	}
-//	
-//	public void setProTranCode(String proTranCode) {
-//		this.proTranCode = proTranCode;
-//	}
 	
 	public String getFileName() {
 		return fileName;
@@ -81,10 +74,19 @@ public class ProductVO {
 		this.regDate = regDate;
 	}
 
-	// Override
+	public int getCount() {
+		return count;
+	}
+
+	public void setCount(int count) {
+		this.count = count;
+	}
+
+	@Override
 	public String toString() {
-		return "ProductVO : [fileName]" + fileName
-				+ "[manuDate]" + manuDate+ "[price]" + price + "[prodDetail]" + prodDetail
-				+ "[prodName]" + prodName + "[prodNo]" + prodNo;
-	}	
+		return "ProductVO [fileName=" + fileName + ", manuDate=" + manuDate + ", price=" + price + ", prodDetail="
+				+ prodDetail + ", prodName=" + prodName + ", prodNo=" + prodNo + ", regDate=" + regDate + ", count="
+				+ count + "]";
+	}
+	
 }

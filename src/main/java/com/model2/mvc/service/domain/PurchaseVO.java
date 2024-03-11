@@ -6,9 +6,9 @@ import java.sql.Date;
 public class PurchaseVO {
 	
 	private UserVO buyer;
-	private String divyAddr;
-	private String divyDate;
-	private String divyRequest;
+	private String dlvyAddr;
+	private String dlvyDate;
+	private String dlvyRequest;
 	private Date orderDate;
 	private String paymentOption;
 	private ProductVO purchaseProd;
@@ -16,8 +16,10 @@ public class PurchaseVO {
 	private String receiverPhone;
 	private String tranCode;
 	private int tranNo;
+	private int prodCount;
 	
 	public PurchaseVO(){
+		// Blank
 	}
 	
 	public UserVO getBuyer() {
@@ -28,30 +30,30 @@ public class PurchaseVO {
 		this.buyer = buyer;
 	}
 	
-	public String getDivyAddr() {
-		return divyAddr;
+	public String getDlvyAddr() {
+		return dlvyAddr;
 	}
-	
-	public void setDivyAddr(String divyAddr) {
-		this.divyAddr = divyAddr;
+
+	public String getDlvyDate() {
+		return dlvyDate;
 	}
-	
-	public String getDivyDate() {
-		return divyDate;
+
+	public String getDlvyRequest() {
+		return dlvyRequest;
 	}
-	
-	public void setDivyDate(String divyDate) {
-		this.divyDate = divyDate;
+
+	public void setDlvyAddr(String dlvyAddr) {
+		this.dlvyAddr = dlvyAddr;
 	}
-	
-	public String getDivyRequest() {
-		return divyRequest;
+
+	public void setDlvyDate(String dlvyDate) {
+		this.dlvyDate = dlvyDate;
 	}
-	
-	public void setDivyRequest(String divyRequest) {
-		this.divyRequest = divyRequest;
+
+	public void setDlvyRequest(String dlvyRequest) {
+		this.dlvyRequest = dlvyRequest;
 	}
-	
+
 	public Date getOrderDate() {
 		return orderDate;
 	}
@@ -108,14 +110,19 @@ public class PurchaseVO {
 		this.tranNo = tranNo;
 	}
 	
+	public int getProdCount() {
+		return prodCount;
+	}
+
+	public void setProdCount(int prodCount) {
+		this.prodCount = prodCount;
+	}
+
 	@Override
 	public String toString() {
-		return "PurchaseVO [buyer=" + buyer + ", divyAddr=" + divyAddr
-				+ ", divyDate=" + divyDate + ", divyRequest=" + divyRequest
-				+ ", orderDate=" + orderDate + ", paymentOption="
-				+ paymentOption + ", purchaseProd=" + purchaseProd
-				+ ", receiverName=" + receiverName + ", receiverPhone="
-				+ receiverPhone + ", tranCode=" + tranCode + ", tranNo="
-				+ tranNo + "]";
+		return "PurchaseVO [buyer=" + buyer + ", dlvyAddr=" + dlvyAddr + ", dlvyDate=" + dlvyDate + ", dlvyRequest="
+				+ dlvyRequest + ", orderDate=" + orderDate + ", paymentOption=" + paymentOption + ", purchaseProd="
+				+ purchaseProd + ", receiverName=" + receiverName + ", receiverPhone=" + receiverPhone + ", tranCode="
+				+ tranCode + ", tranNo=" + tranNo + ", prodCount=" + prodCount + "]";
 	}
 }

@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- LogAspectJ를 통해서 AOP를 적용함 -->
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+
+		xmlns:aop="http://www.springframework.org/schema/aop"
+		
+		xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+		
+		xsi:schemaLocation=
+				"http://www.springframework.org/schema/beans 
+				 http://www.springframework.org/schema/beans/spring-beans.xsd
+				 
+				 http://www.springframework.org/schema/aop 
+				 https://www.springframework.org/schema/aop/spring-aop-3.2.xsd">
+				
+	<!--  AOP 적용 : LOG 를 처리하는  Aspect 선언   -->
+	<!-- 1.일반 Bean Definition :: POJO 기반 -->
+	<bean 	id="logAspect"		class="com.model2.mvc.common.aspect.LogAspectJ" />
+	 
+	 <!-- 2. 선언적으로 Point cut / Advice 정의 -->
+	 <!-- 참고 자료 : 
+	 https://chikeem90.tistory.com/133 
+	 https://gmoon92.github.io/spring/aop/2019/04/20/jdk-dynamic-proxy-and-cglib.html
+	 CGLIB Proxy -->
+	 <!-- 
+	 <aop:config>
+	 <aop:config proxy-target-class="true">
+	  -->
+	 <aop:config proxy-target-class="true">
+	 	<aop:aspect  ref="logAspect">
+	 		<aop:around 
+					pointcut="execution(* com.model2.mvc.service..*Impl.*(..) )"	method="invoke"/>
+	 	</aop:aspect>
+	 </aop:config>
+
+</beans>

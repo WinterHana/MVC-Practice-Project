@@ -41,7 +41,7 @@ window.onload = showContentBySelectBox;
 
 <div style="width:98%; margin-left:10px;">
 
-<form name="detailForm" action="/listProduct.do?menu=${menu}" method="post">
+<form name="detailForm" action="/listAdminProduct.do" method="post">
 
 <table width="100%" height="37" border="0" cellpadding="0"	cellspacing="0">
 	<tr>
@@ -51,7 +51,7 @@ window.onload = showContentBySelectBox;
 		<td background="/images/ct_ttl_img02.gif" width="100%" style="padding-left:10px;">
 			<table width="100%" border="0" cellspacing="0" cellpadding="0">
 				<tr>
-					<td width="93%" class="ct_ttl01">${title}</td>
+					<td width="93%" class="ct_ttl01">상품 관리</td>
 				</tr>
 			</table>
 		</td>
@@ -67,29 +67,29 @@ window.onload = showContentBySelectBox;
 		<td  align = "left" width = "1200" height = 20>
 			정렬 기준
 			<select name="sortCondition"  id = "sortCondition" class="ct_input_g" style="width:80px" onchange = "submitDetailForm()">
-				<option value="prodNo"  ${not empty searchVO.sortCondition && searchVO.sortCondition == "prodNo" ? "selected" : '' }>상품 번호</option>
-				<option value="prodName"  ${not empty searchVO.sortCondition && searchVO.sortCondition == "prodName" ? "selected" : '' }>상품 이름</option>
-				<option value="price"  ${not empty searchVO.sortCondition && searchVO.sortCondition == "price" ? "selected" : '' }>상품 가격</option>
+				<option value="prodNo"  ${not empty search.sortCondition && search.sortCondition == "prodNo" ? "selected" : '' }>상품 번호</option>
+				<option value="prodName"  ${not empty search.sortCondition && search.sortCondition == "prodName" ? "selected" : '' }>상품 이름</option>
+				<option value="price"  ${not empty search.sortCondition && search.sortCondition == "price" ? "selected" : '' }>상품 가격</option>
 			</select>
 		</td>
 		<td align="right" width = "400" height = 20>
 			<div id = "content">
-				<input type="text" name="searchKeyword"  value="${searchVO.searchKeyword}"
+				<input type="text" name="searchKeyword"  value="${search.searchKeyword}"
 					class=ct_input_g" style="width:150px; height:19px">
 			</div>
 			<div id = "priceContent">
-				<input type="text" name="searchKeywordSub"  value="${searchVO.searchKeywordSub}"
+				<input type="text" name="searchKeywordSub"  value="${search.searchKeywordSub}"
 					class=ct_input_g" style="width:100px; height:19px">
 				~
-				<input type="text" name="searchKeywordThird"  value="${searchVO.searchKeywordThird}"
+				<input type="text" name="searchKeywordThird"  value="${search.searchKeywordThird}"
 					class=ct_input_g" style="width:100px; height:19px">
 			</div>
 		</td>
 		<td align="right" width = "100"  height = 20>
 			<select name="searchCondition"  id = "searchCondition"  class="ct_input_g" style="width:80px" onchange = "showContentBySelectBox()">
-				<option value="prodNo"  ${not empty searchVO.searchCondition && searchVO.searchCondition == "prodNo" ? "selected" : '' }>상품번호</option>
-				<option value="prodName"  ${not empty searchVO.searchCondition && searchVO.searchCondition == "prodName" ? "selected" : '' }>상품명</option>
-				<option value="price"  ${not empty searchVO.searchCondition && searchVO.searchCondition == "price" ? "selected" : '' }>상품가격</option>
+				<option value="prodNo"  ${not empty search.searchCondition && search.searchCondition == "prodNo" ? "selected" : '' }>상품번호</option>
+				<option value="prodName"  ${not empty search.searchCondition && search.searchCondition == "prodName" ? "selected" : '' }>상품명</option>
+				<option value="price"  ${not empty searcho.searchCondition && search.searchCondition == "price" ? "selected" : '' }>상품가격</option>
 			</select>
 		</td>
 		<td width = "30" height = 20>
@@ -130,7 +130,9 @@ window.onload = showContentBySelectBox;
 		<td class="ct_line02"></td>
 		<td class="ct_list_b">등록일</td>
 		<td class="ct_line02"></td>
-		<td class="ct_list_b">후기</td>
+		<td class="ct_list_b">상품 설명</td>
+		<td class="ct_line02"></td>
+		<td class="ct_list_b" width ="100">남은 개수</td>
 		<td class="ct_line02"></td>
 		<td class="ct_list_b">배송 상태</td>		
 	</tr>
@@ -143,7 +145,7 @@ window.onload = showContentBySelectBox;
 		<tr class="ct_list_pop">
 		<td align="center">${no}</td>
 		<td></td>
-		<c:set var = "flag" value = "false"/>
+<%-- 		<c:set var = "flag" value = "false"/>
 		<c:forEach var = "entry"  items = "${pmap}">
 			<c:if test="${entry.key == product.prodNo}">
 				<td align="center">${product.prodNo}</td>
@@ -161,37 +163,54 @@ window.onload = showContentBySelectBox;
 			<td align="center">${product.prodNo}</td>
 			<td></td>
 			<td align="center">
-			<a href="/${pageTarget}.do?prodNo=${product.prodNo}">
+			<a href="/updateProductView.do?prodNo=${product.prodNo}">
 			<img src = "images/uploadFiles/${product.fileName}" width = "120" height = "90"/>
 			</a>
 			</td>
 			<td></td>
 			<td align = "center">
-			<a href="/${pageTarget}.do?prodNo=${product.prodNo}">${product.prodName}</a>
+			<a href="/updateProductView.do?prodNo=${product.prodNo}">${product.prodName}</a>
 			</td>
 			<td></td>
-		</c:if>
+		</c:if> --%>
+		<td align="center">${product.prodNo}</td>
+		<td></td>
+		<td align="center">
+		<a href="/updateProductView.do?prodNo=${product.prodNo}">
+		<img src = "images/uploadFiles/${product.fileName}" width = "120" height = "90"/>
+		</a>
+		</td>
+		<td></td>
+		<td align = "center">
+		<a href="/updateProductView.do?prodNo=${product.prodNo}">${product.prodName}</a>
+		</td>
+		<td></td>
 		<td align="center">${product.price}</td> 
 		<td></td>
 		<td align="center">${product.regDate}</td>
 		<td></td>
 		<td align="center">${product.prodDetail}</td>		
 		<td></td>
+		<td align="center">${product.count}</td>		
+		<td></td>
 		<td align="center">
-		<c:set var = "isContain" value = "false"/>
+<%-- 		<c:set var = "isContain" value = "false"/>
 		<c:forEach var = "entry"  items = "${pmap}">
 			<c:if test="${entry.key == product.prodNo}">
 				<c:set var = "tranCode"  value = "${pmap[product.prodNo].tranCode}"/>
 				<c:set var = "tranNo" value = "${pmap[product.prodNo].tranNo}"/>
 				${messageMap[product.prodNo]}
-				<c:if test="${isManager && tranCode == 002}">
-					<a href="/updateTranCode.do?tranNo= ${tranNo}&tranCode=${tranCode}&url=listProduct.do?menu=manage">배송 시작하기</a>
+				<c:if test="${tranCode == 002}">
+					<a href="/updateTranCode.do?tranNo= ${tranNo}&tranCode=${tranCode}&url=listAdminProduct.do">배송 시작하기</a>
 				</c:if>
 				<c:set var = "isContain" value = "true"/>
 			</c:if>
-		</c:forEach>
-		<c:if test="${not isContain}">
+		</c:forEach> --%>
+		<c:if test="${product.count > 0}">
 			판매중
+		</c:if>
+		<c:if test = "${product.count <= 0}">
+			매진
 		</c:if>
 		</td>		
 		<td></td>

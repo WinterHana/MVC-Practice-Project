@@ -22,71 +22,73 @@ public class ListPurchaseAction extends Action {
 	@Override
 	public String execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		System.out.println("[ListPurchaseAction.execute] start");
-		
-		SearchVO searchVO = new SearchVO();
-		
+
 		// currentPage
 		int currentPage = 1;
 		String getCurrentPage = request.getParameter("currentPage");
 		System.out.println("getCurrentPage : " + getCurrentPage);
-		
-		if(getCurrentPage != null) {
-			if(getCurrentPage.equals("undefined") == false) {
-				currentPage=Integer.parseInt(getCurrentPage);
+
+		if (getCurrentPage != null) {
+			if (getCurrentPage.equals("undefined") == false) {
+				currentPage = Integer.parseInt(getCurrentPage);
 			}
 		}
-		
+
 		// searchVO
+		SearchVO searchVO = new SearchVO();
 		searchVO.setPage(currentPage);
 		searchVO.setSearchCondition(request.getParameter("searchCondition"));
 		searchVO.setSearchKeyword(request.getParameter("searchKeyword"));
-		int pageSize = Integer.parseInt( getServletContext().getInitParameter("pageSize"));
-		int pageUnit  =  Integer.parseInt(getServletContext().getInitParameter("pageUnit"));
+		int pageSize = Integer.parseInt(getServletContext().getInitParameter("pageSize"));
+		int pageUnit = Integer.parseInt(getServletContext().getInitParameter("pageUnit"));
 		searchVO.setPageSize(pageSize);
 		searchVO.setPageUnit(pageUnit);
-		
+
 		// User information
+		boolean isAdmin = false;
 		HttpSession session = request.getSession();
-		UserVO userVO = (UserVO)(session.getAttribute("user"));
-		String userId = userVO.getUserId();
-		String userName = userVO.getUserName();
-		
+		UserVO userVO = (UserVO) session.getAttribute("user");
+		if (userVO.getRole().equals("admin")) {
+			isAdmin = true;
+		}
+
 		// DAO control
 		// PurchaseService service = new PurchaseServiceImpl();
-		Map<String, Object> map = purchaseService.getPurchaseList(searchVO, userId);
-		
+		Map<String, Object> map = purchaseService.getPurchaseList(searchVO, userVO);
+
 		// PurchaseService, statue check
 		// PurchaseService pservice = new PurchaseServiceImpl();
 		Map<Integer, Object> pmap = purchaseService.getSalaList();
-		
+
 		// resultPage
-		Page resultPage	= 
-				new Page( currentPage, ((Integer)map.get("totalCount")).intValue(), pageUnit, pageSize);
-		System.out.println("ListUserAction ::"+resultPage);
-		
+		Page resultPage = new Page(currentPage, ((Integer) map.get("totalCount")).intValue(), pageUnit, pageSize);
+		System.out.println("ListUserAction ::" + resultPage);
+
 		// Enum Message
 		Map<Integer, String> messageMap = new HashMap<Integer, String>();
 		Iterator<Integer> keys = pmap.keySet().iterator();
 		while (keys.hasNext()) {
 			int key = keys.next();
-			PurchaseVO purchaseVO = (PurchaseVO)pmap.get(key);
+			PurchaseVO purchaseVO = (PurchaseVO) pmap.get(key);
 			String message = TranStatusCodeUtil.getMessage(purchaseVO.getTranCode());
 			messageMap.put(key, message);
 		}
-		
+
 		// Request control
 		request.setAttribute("list", map.get("list"));
 		request.setAttribute("resultPage", resultPage);
 		request.setAttribute("searchVO", searchVO);
-		request.setAttribute("userId", userId);
-		request.setAttribute("userName", userName);
+		request.setAttribute("userVO", userVO);
 		request.setAttribute("pmap", pmap);
 		request.setAttribute("messageMap", messageMap);
-		request.setAttribute("getList", " fncGetPurchaseList");		// 이전이나 다음 리스트로 이동할 URL 제공
-		
-		System.out.println("[ListPurchaseAction.execute] end");
-		
-		return "forward:/purchase/listPurchase.jsp";
-	}
+		request.setAttribute("getList", " fncGetPurchaseList"); // 이전이나 다음 리스트로 이동할 URL 제공
 
+		System.out.println("[ListPurchaseAction.execute] end");
+
+		if (isAdmin) {
+			return "forward:/purchase/listAdminPurchase.jsp";
+		} else {
+			return "forward:/purchase/listUserPurchase.jsp";
+		}
+	}
 }

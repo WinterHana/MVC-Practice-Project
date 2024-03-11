@@ -1,6 +1,7 @@
 package com.model2.mvc.service.product.dao;
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -68,10 +69,14 @@ public class ProductDAOImpl implements ProductDAO {
 		System.out.println("[" + getClass().getName() + ".getProductCount] Call");
 		return sqlSession.selectOne("ProductMapper.getProductCount", searchVO);
 	}
+
+	@Override
+	public int updateProductCount(Map<String, Integer> map) {
+		System.out.println("[" + getClass().getName() + ".updateProductCount] Call");
+		return sqlSession.update("ProductMapper.updateProductCount", map);
+	}
 	
-	
-	
-	
+
 //	// findProduct
 //	public ProductVO findProduct(int productId) throws Exception {
 //		Connection con = DBUtil.getConnection();

@@ -108,3 +108,8 @@ User, Product, Purchase 부분의 view를 EL, JSTL로 변경한다.
 - [x] User Component
 - [x] Product Component
 - [x] Purchase Component
+
+### 240308 - Controller 최적화 및 Model과의 연결
+- [ ] User Component
+- [ ] Product Component
+- [ ] Purchase Component 

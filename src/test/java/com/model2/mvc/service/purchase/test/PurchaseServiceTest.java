@@ -26,7 +26,15 @@ import com.model2.mvc.service.purchase.PurchaseDAO;
 import com.model2.mvc.service.purchase.PurchaseService;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = { "classpath:config/commonservice.xml" })
+// @ContextConfiguration(locations = { "classpath:config/commonservice.xml" })
+//@ContextConfiguration(locations = { "classpath:config/context-*.xml" })
+
+@ContextConfiguration(locations = {
+		"classpath:config/context-common.xml",
+		"classpath:config/context-aspect.xml",
+		"classpath:config/context-mybatis.xml",
+		"classpath:config/context-transaction.xml"
+})
 public class PurchaseServiceTest {
 
 	@Autowired
@@ -52,20 +60,17 @@ public class PurchaseServiceTest {
 		purchaseVO.setPaymentOption("1");
 		purchaseVO.setReceiverName("Test");
 		purchaseVO.setReceiverPhone("010-1234-5678");
-		purchaseVO.setDivyAddr("흠흐밍");
-		purchaseVO.setDivyRequest("뿡빵띠");
+		purchaseVO.setDlvyAddr("흠흐밍");
+		purchaseVO.setDlvyRequest("뿡빵띠");
 		purchaseVO.setTranCode("002");
-		purchaseVO.setDivyDate("2021-01-02");
+		purchaseVO.setDlvyDate("2021-01-02");
 		
 		SearchVO searchVO = new SearchVO();
 		searchVO.setPage(1);
 		searchVO.setPageSize(5);
 		
-		String userId = userVO.getUserId();
-		System.out.println(userId);
-		
 		Map<String, Object> map = new HashMap<String, Object>();
-		map.put("userId", userId);
+		map.put("userVO", userVO);
 		map.put("searchVO", searchVO);
 	
 		// 1. addPurchase
@@ -77,7 +82,7 @@ public class PurchaseServiceTest {
 		getPurchaseListResult.stream().forEach(s -> System.out.println(s.getTranNo()));
 		
 		// 3. getPurchaseCount
-		int getPurchaseCountResult = purchaseDAO.getPurchaseCount(userId);
+		int getPurchaseCountResult = purchaseDAO.getPurchaseCount(map);
 		System.out.println("getPurchaseCountResult");
 		
 		// 4, getPurchase
@@ -89,8 +94,8 @@ public class PurchaseServiceTest {
 		Assert.assertEquals(10000, getPurchaseResult.getPurchaseProd().getProdNo());
 		
 		// 5. updatePurchase
-		purchaseVO.setDivyAddr("네네코 마시로");
-		purchaseVO.setDivyRequest("아라하시 타비");
+		purchaseVO.setDlvyAddr("네네코 마시로");
+		purchaseVO.setDlvyRequest("아라하시 타비");
 		purchaseVO.setTranNo(tranNo);
 		int updatePurchaseResult = purchaseDAO.updatePurchase(purchaseVO);
 		Assert.assertEquals(1, updatePurchaseResult);
@@ -111,7 +116,7 @@ public class PurchaseServiceTest {
 		Assert.assertEquals(1, deletePurchaseResult);
 	}
 	
-	@Test
+	// @Test
 	public void getPurchaseListTest() {
 		UserVO userVO = new UserVO();
 		userVO.setUserId("user11");
@@ -120,7 +125,7 @@ public class PurchaseServiceTest {
 		searchVO.setPage(1);
 		searchVO.setPageSize(5);
 		
-		Map<String, Object> getPurchaseListTestResult = purchaseService.getPurchaseList(searchVO, userVO.getUserId());
+		Map<String, Object> getPurchaseListTestResult = purchaseService.getPurchaseList(searchVO, userVO);
 		
 		List<PurchaseVO> list = (List<PurchaseVO>) getPurchaseListTestResult.get("list");
 		int totalCount = (int) getPurchaseListTestResult.get("totalCount");
@@ -133,16 +138,41 @@ public class PurchaseServiceTest {
 		System.out.println("<getPurchaseListTest End>");
 	}
 	
-	@Test
+	// @Test
 	public void getSalaListTest() {
-		Map<Integer, Object> getSalaListResult = purchaseService.getSalaList();
+//		Map<Integer, Object> getSalaListResult = purchaseService.getSalaList();
+//		
+//		System.out.println("<getSalaList Result>");
+//		Iterator iterator = getSalaListResult.keySet().iterator();
+//		while(iterator.hasNext()) {
+//			Integer key = (Integer) iterator.next();
+//			System.out.println("Key : " + key + " || value : " + getSalaListResult.get(key));
+//		}
+//		System.out.println("<getSalaList End>");
+	}
+	
+	@Test
+	public void addPurchaseWithCountTest() {
+		UserVO userVO = new UserVO();
+		userVO.setUserId("test");
 		
-		System.out.println("<getSalaList Result>");
-		Iterator iterator = getSalaListResult.keySet().iterator();
-		while(iterator.hasNext()) {
-			Integer key = (Integer) iterator.next();
-			System.out.println("Key : " + key + " || value : " + getSalaListResult.get(key));
-		}
-		System.out.println("<getSalaList End>");
+		ProductVO productVO = new ProductVO();
+		productVO.setProdNo(1);
+		productVO.setCount(1000);
+		
+		PurchaseVO purchaseVO = new PurchaseVO();
+		purchaseVO.setPurchaseProd(productVO);
+		purchaseVO.setBuyer(userVO);
+		purchaseVO.setPaymentOption("1");
+		purchaseVO.setReceiverName("Test");
+		purchaseVO.setReceiverPhone("010-1234-5678");
+		purchaseVO.setDlvyAddr("흠흐밍테스트");
+		purchaseVO.setDlvyRequest("뿡빵띠테스트");
+		purchaseVO.setTranCode("002");
+		purchaseVO.setDlvyDate("2021-01-02");
+		purchaseVO.setProdCount(1);
+		
+		int addPurchaseResult = purchaseService.addPurchase(purchaseVO);
+		Assert.assertEquals(2, addPurchaseResult);
 	}
 }

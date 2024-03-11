@@ -24,49 +24,54 @@
 <table border=1>
 	<tr>
 		<td>물품번호</td>
-		<td>${purchaseVO.purchaseProd.prodNo}</td>
+		<td>${purchase.purchaseProd.prodNo}</td>
 		<td></td>
 	</tr>
 	<tr>
 		<td>구매자아이디</td>
-		<td>${purchaseVO.buyer.userId}</td>
+		<td>${purchase.buyer.userId}</td>
 		<td></td>
 	</tr>
 	<tr>
 		<td>구매방법</td>
 		<td>
-		<c:if test="${purchaseVO.paymentOption == 1}">
+		<c:if test="${purchase.paymentOption == 1}">
 			현금 결제
 		</c:if> 
-				<c:if test="${purchaseVO.paymentOption == 2}">
+				<c:if test="${purchase.paymentOption == 2}">
 			카드 결제
 		</c:if> 
 		</td>
 		<td></td>
 	</tr>
+		<tr>
+		<td>구매 개수</td>
+		<td>${purchase.prodCount}</td>
+		<td></td>
+	</tr>
 	<tr>
 		<td>구매자이름</td>
-		<td>${purchaseVO.receiverName}</td>
+		<td>${purchase.receiverName}</td>
 		<td></td>
 	</tr>
 	<tr>
 		<td>구매자연락처</td>
-		<td>${purchaseVO.receiverPhone}</td>
+		<td>${purchase.receiverPhone}</td>
 		<td></td>
 	</tr>
 	<tr>
 		<td>구매자주소</td>
-		<td>${purchaseVO.divyAddr}</td>
+		<td>${purchase.dlvyAddr}</td>
 		<td></td>
 	</tr>
 		<tr>
 		<td>구매요청사항</td>
-		<td>${purchaseVO.divyRequest}</td>
+		<td>${purchase.dlvyRequest}</td>
 		<td></td>
 	</tr>
 	<tr>
 		<td>배송희망일자</td>
-		<td>${purchaseVO.divyDate}</td>
+		<td>${purchase.dlvyDate}</td>
 		<td></td>
 	</tr>
 </table>

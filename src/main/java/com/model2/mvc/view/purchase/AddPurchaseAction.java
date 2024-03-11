@@ -28,9 +28,9 @@ public class AddPurchaseAction extends Action {
 		purchaseVO.setPaymentOption((String)request.getParameter("paymentOption"));
 		purchaseVO.setReceiverName((String)request.getParameter("receiverName"));
 		purchaseVO.setReceiverPhone((String)request.getParameter("receiverPhone"));
-		purchaseVO.setDivyAddr((String)request.getParameter("receiverAddr"));
-		purchaseVO.setDivyRequest((String)request.getParameter("receiverRequest"));
-		purchaseVO.setDivyDate((String)request.getParameter("receiverDate"));
+		purchaseVO.setDlvyAddr((String)request.getParameter("receiverAddr"));
+		purchaseVO.setDlvyRequest((String)request.getParameter("receiverRequest"));
+		purchaseVO.setDlvyDate((String)request.getParameter("receiverDate"));
 		purchaseVO.setTranCode(TranStatusCode.PURCHASED.getNumber());
 		
 		// User information

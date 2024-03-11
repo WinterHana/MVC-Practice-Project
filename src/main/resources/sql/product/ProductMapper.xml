@@ -13,6 +13,7 @@
   		<result property = "prodName" column = "prod_name" jdbcType = "VARCHAR"/>
   		<result property = "prodNo" column = "prod_no" jdbcType = "NUMERIC"/>
   		<result property = "regDate" column = "reg_date" jdbcType = "DATE"/>
+		<result property = "count" column = "count" jdbcType = "NUMERIC"/>
 	</resultMap>
 	
   	<sql id = "getProductListSelect">
@@ -37,6 +38,9 @@
   		  	<if test = "sortCondition == 'price' ">
   				ORDER BY price
   			</if>
+  			<if test = "sortCondition == null">
+  				ORDER BY prod_no
+  			</if>
   	</sql>
   	
   	 <select id="addProduct"  parameterType = "productVO">
@@ -49,7 +53,8 @@
   			#{manuDate:VARCHAR},
   			#{price:NUMERIC},
   			#{fileName:VARCHAR},
-  			SYSDATE
+  			SYSDATE,
+  			#{count:NUMERIC}
   		)					
   	</select>
   	
@@ -66,7 +71,8 @@
   			<if test = "prodDetail != null"> prod_detail = #{prodDetail:VARCHAR},</if>
   			<if test = "manuDate != null"> manufacture_day = #{manuDate:VARCHAR},</if>
   			<if test = "price != null"> price = #{price:NUMERIC},</if>
-  			<if test = "fileName != null"> image_file = #{fileName:VARCHAR}</if>
+  			<if test = "fileName != null"> image_file = #{fileName:VARCHAR},</if>
+  			<if test = "count != null"> count = #{count:NUMERIC}</if>
   		</set>
   		WHERE prod_no = #{prodNo:NUMERIC}
   	</update>
@@ -92,4 +98,11 @@
 		)
 	</select>
 	
+	<update id = "updateProductCount" parameterType = "map" >
+		UPDATE product
+		<set>
+			<if test = "countResult != null" >count = #{countResult:NUMERIC}</if>
+		</set>
+		WHERE prod_no = #{prodNo:NUMERIC}
+	</update>
 </mapper>

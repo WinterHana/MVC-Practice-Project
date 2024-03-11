@@ -2,7 +2,7 @@
     pageEncoding="EUC-KR"%>
 <html>
 <head>
-<title>상품등록</title>
+<title>상품 등록</title>
 
 <link rel="stylesheet" href="/css/admin.css" type="text/css">
 
@@ -17,24 +17,34 @@ function fncAddProduct(){
 	var detail = document.detailForm.prodDetail.value;
 	var manuDate = document.detailForm.manuDate.value;
 	var price = document.detailForm.price.value;
-
+	var count = document.detailForm.count.value;
+	
+	
 	if(name == null || name.length<1){
 		alert("상품명은 반드시 입력하여야 합니다.");
 		return;
 	}
+	
 	if(detail == null || detail.length<1){
 		alert("상품상세정보는 반드시 입력하여야 합니다.");
 		return;
 	}
+	
 	if(manuDate == null || manuDate.length<1){
 		alert("제조일자는 반드시 입력하셔야 합니다.");
 		return;
 	}
+	
 	if(price == null || price.length<1){
 		alert("가격은 반드시 입력하셔야 합니다.");
 		return;
 	}
-
+	
+	if(count == null || parseInt(count) < 0){
+		alert("개수는 반드시 입력해야 합니다. 또는 양수여야 합니다.");
+		return;
+	}
+	
 	document.detailForm.action='/addProduct.do';
 	document.detailForm.submit();
 }
@@ -58,7 +68,7 @@ function resetData(){
 		<td background="/images/ct_ttl_img02.gif" width="100%" style="padding-left: 10px;">
 			<table width="100%" border="0" cellspacing="0" cellpadding="0">
 				<tr>
-					<td width="93%" class="ct_ttl01">상품등록</td>
+					<td width="93%" class="ct_ttl01">상품 등록</td>
 					<td width="20%" align="right">&nbsp;</td>
 				</tr>
 			</table>
@@ -139,6 +149,17 @@ function resetData(){
 		<td class="ct_write01">
 			<input		type="text" name="fileName" class="ct_input_g" 
 							style="width: 200px; height: 19px" maxLength="13"/>
+		</td>
+	</tr>
+	<tr>
+		<td height="1" colspan="3" bgcolor="D6D6D6"></td>
+	</tr>
+	<tr>
+		<td width="104" class="ct_write">상품 개수</td>
+		<td bgcolor="D6D6D6" width="1"></td>
+		<td class="ct_write01">
+			<input		type="text" name="count" class="ct_input_g"  value = "0"
+							style="width: 100px; height: 19px" maxLength="10"/>
 		</td>
 	</tr>
 	<tr>
