@@ -114,16 +114,14 @@
 	
 	<!-- 여기 주의 -->
 	<select id = "getSaleList"  resultType = "map">
-		SELECT t.tran_status_code, p.prod_no, t.tran_no 
-		FROM transaction t, product p 
-		WHERE t.prod_no = p.prod_no
-		ORDER BY tran_no
+		SELECT tran_no, tran_status_code 
+		FROM transaction
 	</select>
 	
 	<select id = "updateTranCode"  parameterType= "map"  resultMap = "purchaseSelectMap">
 		UPDATE transaction
 		<set>
-			tran_status_code = #{nextCode}
+			tran_status_code = #{tranCode}
 		</set>
 			WHERE tran_no = #{tranNo}
 	</select>

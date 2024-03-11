@@ -15,7 +15,7 @@ public interface PurchaseService {
 	public Map<String, Object> getPurchaseList(SearchVO searchVO, UserVO userVO);
 	
 	// getSaleList
-	public Map<Integer, Object> getSalaList();
+	public Map<Integer, String> getSalaList();
 	
 	// addPurchase
 	public int addPurchase(PurchaseVO purchaseVO);

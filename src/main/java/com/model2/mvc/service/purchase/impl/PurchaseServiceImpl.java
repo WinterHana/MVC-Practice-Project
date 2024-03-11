@@ -119,8 +119,8 @@ public class PurchaseServiceImpl implements PurchaseService {
 	}
 
 	@Override
-	public Map<Integer, Object> getSalaList() {
-		Map<Integer, Object> result = new HashMap<Integer, Object>();
+	public Map<Integer, String> getSalaList() {
+		Map<Integer, String> result = new HashMap<Integer, String>();
 		List<Map<String, Object>> tmp = null;
 				
 		try {
@@ -130,11 +130,9 @@ public class PurchaseServiceImpl implements PurchaseService {
 			e.printStackTrace();
 		}
 		
+		// 후처리 후 반환
 		for(Map<String, Object> m : tmp) {
-			PurchaseVO purchaseVO = new PurchaseVO();
-			purchaseVO.setTranNo(((BigDecimal)m.get("TRAN_NO")).intValue());
-			purchaseVO.setTranCode((String) m.get("TRAN_STATUS_CODE"));
-			result.put(((BigDecimal)m.get("PROD_NO")).intValue(), purchaseVO);
+			result.put(((BigDecimal)m.get("TRAN_NO")).intValue(), (String) m.get("TRAN_STATUS_CODE"));
 		}
 		
 		return result;
@@ -144,7 +142,7 @@ public class PurchaseServiceImpl implements PurchaseService {
 	public int updateTranCode(PurchaseVO purchaseVO) {
 		int result = 0;
 		Map<String, Object> map = new HashMap<String, Object>();
-		map.put("nextCode", TranStatusCodeUtil.getNextCode(purchaseVO.getTranCode()));
+		map.put("tranCode", purchaseVO.getTranCode());
 		map.put("tranNo", purchaseVO.getTranNo());
 		
 		try {

@@ -5,30 +5,29 @@ package com.model2.mvc.common.util;
  */
 public enum TranStatusCode {
 	
-	ON_SALE("001", "판매 중", "판매 중"),
-	PURCHASED("002", "매진", "판매 완료"),
-	ON_DELIVERY("003", "매진", "배송 중"),
-	COMPLETION("004", "매진", "배송 완료");
+	PURCHASED("001", "구입 완료", "판매 완료"),
+	ON_DELIVERY("002", "배송 중", "배송 중"),
+	COMPLETION("003", "배송 완료", "배송 완료");
 	
 	private String number;
-	private String purchaseMessage;
-	private String saleMessage;
+	private String userMessage;
+	private String adminMessage;
 	
-	TranStatusCode(String number, String purchaseMessage, String saleMessage) {
+	TranStatusCode(String number, String userMessage, String adminMessage) {
 		this.number = number;
-		this.purchaseMessage = purchaseMessage;
-		this.saleMessage = saleMessage;
+		this.userMessage = userMessage;
+		this.adminMessage = adminMessage;
 	}
 	
 	public String getNumber() {
 		return number;
 	}
-	
-	public String getPurchaseMessage() {
-		return purchaseMessage;
+
+	public String getUserMessage() {
+		return userMessage;
 	}
-	
-	public String getSaleMessage() {
-		return saleMessage;
+
+	public String getAdminMessage() {
+		return adminMessage;
 	}
 }

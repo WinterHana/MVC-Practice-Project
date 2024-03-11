@@ -140,15 +140,15 @@ public class PurchaseServiceTest {
 	
 	// @Test
 	public void getSalaListTest() {
-		Map<Integer, Object> getSalaListResult = purchaseService.getSalaList();
-		
-		System.out.println("<getSalaList Result>");
-		Iterator iterator = getSalaListResult.keySet().iterator();
-		while(iterator.hasNext()) {
-			Integer key = (Integer) iterator.next();
-			System.out.println("Key : " + key + " || value : " + getSalaListResult.get(key));
-		}
-		System.out.println("<getSalaList End>");
+//		Map<Integer, Object> getSalaListResult = purchaseService.getSalaList();
+//		
+//		System.out.println("<getSalaList Result>");
+//		Iterator iterator = getSalaListResult.keySet().iterator();
+//		while(iterator.hasNext()) {
+//			Integer key = (Integer) iterator.next();
+//			System.out.println("Key : " + key + " || value : " + getSalaListResult.get(key));
+//		}
+//		System.out.println("<getSalaList End>");
 	}
 	
 	@Test

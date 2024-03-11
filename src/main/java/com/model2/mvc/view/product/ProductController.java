@@ -69,16 +69,16 @@ public class ProductController extends CommonController  {
 		);
 		
 		// 3. Get Enum Message
-		Map<Integer, Object> pmap = purchaseService.getSalaList();
-		
-		Map<Integer, String> messageMap = new HashMap<Integer, String>();
-		Iterator<Integer> keys = pmap.keySet().iterator();
-		while (keys.hasNext()) {
-			int key = keys.next();
-			PurchaseVO purchaseVO = (PurchaseVO)pmap.get(key);
-			String message = TranStatusCodeUtil.getMessage(purchaseVO.getTranCode(), true);
-			messageMap.put(key, message);
-		}
+//		Map<Integer, Object> pmap = purchaseService.getSalaList();
+//		
+//		Map<Integer, String> messageMap = new HashMap<Integer, String>();
+//		Iterator<Integer> keys = pmap.keySet().iterator();
+//		while (keys.hasNext()) {
+//			int key = keys.next();
+//			PurchaseVO purchaseVO = (PurchaseVO)pmap.get(key);
+//			String message = TranStatusCodeUtil.getMessage(purchaseVO.getTranCode(), true);
+//			messageMap.put(key, message);
+//		}
 		
 		// 4. Set ModelAndView
 		ModelAndView modelAndView = new ModelAndView("forward:/product/listAdminProduct.jsp");
@@ -86,8 +86,8 @@ public class ProductController extends CommonController  {
 		modelAndView.addObject("resultPage", resultPage);
 		modelAndView.addObject("search", search);
 		modelAndView.addObject("getList", "fncGetProductList");
-		modelAndView.addObject("pmap", pmap);
-		modelAndView.addObject("messageMap", messageMap);
+		// modelAndView.addObject("pmap", pmap);
+		// modelAndView.addObject("messageMap", messageMap);
 		
 		System.out.println("[ProductController.listAdminProduct()] end");
 		
@@ -127,16 +127,16 @@ public class ProductController extends CommonController  {
 		);
 		
 		// 3. Get Enum Message
-		Map<Integer, Object> pmap = purchaseService.getSalaList();
-		
-		Map<Integer, String> messageMap = new HashMap<Integer, String>();
-		Iterator<Integer> keys = pmap.keySet().iterator();
-		while (keys.hasNext()) {
-			int key = keys.next();
-			PurchaseVO purchaseVO = (PurchaseVO)pmap.get(key);
-			String message = TranStatusCodeUtil.getMessage(purchaseVO.getTranCode(), false);
-			messageMap.put(key, message);
-		}
+//		Map<Integer, Object> pmap = purchaseService.getSalaList();
+//		
+//		Map<Integer, String> messageMap = new HashMap<Integer, String>();
+//		Iterator<Integer> keys = pmap.keySet().iterator();
+//		while (keys.hasNext()) {
+//			int key = keys.next();
+//			PurchaseVO purchaseVO = (PurchaseVO)pmap.get(key);
+//			String message = TranStatusCodeUtil.getMessage(purchaseVO.getTranCode(), false);
+//			messageMap.put(key, message);
+//		}
 		
 		// 4. Set ModelAndView
 		ModelAndView modelAndView = new ModelAndView("forward:/product/listUserProduct.jsp");
@@ -144,8 +144,8 @@ public class ProductController extends CommonController  {
 		modelAndView.addObject("resultPage", resultPage);
 		modelAndView.addObject("search", search);
 		modelAndView.addObject("getList", "fncGetProductList");
-		modelAndView.addObject("pmap", pmap);
-		modelAndView.addObject("messageMap", messageMap);
+		// modelAndView.addObject("pmap", pmap);
+		// modelAndView.addObject("messageMap", messageMap);
 		
 		System.out.println("[ProductController.listUserProduct()] end");
 		

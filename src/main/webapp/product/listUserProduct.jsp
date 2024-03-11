@@ -163,27 +163,16 @@ window.onload = showContentBySelectBox;
 			</td>
 			<td></td>
 		</c:if> --%>
-		<c:if test="${product.count <= 0}">
-			<td align="center">
-			<img src = "images/uploadFiles/${product.fileName}" width = "120" height = "90"/>
-			</td>
-			<td></td>
-			<td align = "center">${product.prodName}</td>
-			<c:set var = "flag" value = "true"/>
-			<td></td>
-		</c:if>
-		<c:if test="${product.count > 0}">
-			<td align="center">
-			<a href="/${pageTarget}.do?prodNo=${product.prodNo}">
-			<img src = "images/uploadFiles/${product.fileName}" width = "120" height = "90"/>
-			</a>
-			</td>
-			<td></td>
-			<td align = "center">
-			<a href="/getProduct.do?prodNo=${product.prodNo}">${product.prodName}</a>
-			</td>
-			<td></td>
-		</c:if>
+		<td align="center">
+		<a href="/${pageTarget}.do?prodNo=${product.prodNo}">
+		<img src = "images/uploadFiles/${product.fileName}" width = "120" height = "90"/>
+		</a>
+		</td>
+		<td></td>
+		<td align = "center">
+		<a href="/getProduct.do?prodNo=${product.prodNo}">${product.prodName}</a>
+		</td>
+		<td></td>
 		<td align="center">${product.price}</td> 
 		<td></td>
 		<td align="center">${product.prodDetail}</td>		
@@ -191,7 +180,7 @@ window.onload = showContentBySelectBox;
 		<td align="center">${product.count}</td>		
 		<td></td>
 		<td align="center">
-		<c:set var = "isContain" value = "false"/>
+<%-- 		<c:set var = "isContain" value = "false"/>
 		<c:forEach var = "entry"  items = "${pmap}">
 			<c:if test="${entry.key == product.prodNo}">
 				<c:set var = "tranCode"  value = "${pmap[product.prodNo].tranCode}"/>
@@ -202,6 +191,12 @@ window.onload = showContentBySelectBox;
 		</c:forEach>
 		<c:if test="${not isContain}">
 			판매중
+		</c:if> --%>
+		<c:if test="${product.count > 0}">
+			판매중
+		</c:if>
+		<c:if test = "${product.count <= 0}">
+			매진
 		</c:if>
 		</td>		
 		<td></td>

@@ -2,6 +2,7 @@ package com.model2.mvc.view.purchase;
 
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -83,15 +84,15 @@ public class PurchaseController extends CommonController {
 		);
 		
 		// 3. Get Enum Message
-		Map<Integer, Object> pmap = purchaseService.getSalaList();
-		
+		List<PurchaseVO> list = (List<PurchaseVO>) map.get("list");
 		Map<Integer, String> messageMap = new HashMap<Integer, String>();
-		Iterator<Integer> keys = pmap.keySet().iterator();
-		while (keys.hasNext()) {
-			int key = keys.next();
-			PurchaseVO purchaseVO = (PurchaseVO)pmap.get(key);
-			String message = TranStatusCodeUtil.getMessage(purchaseVO.getTranCode(), true);
-			messageMap.put(key, message);
+		
+		Iterator<PurchaseVO> iterator = list.iterator();
+		while (iterator.hasNext()) {
+			PurchaseVO purchaseResult = iterator.next();
+			String tranCode = purchaseResult.getTranCode();
+			String message = TranStatusCodeUtil.getMessage(tranCode, isAdmin);
+			messageMap.put(purchaseResult.getTranNo(), message);
 		}
 		
 		String url = null;
@@ -102,11 +103,10 @@ public class PurchaseController extends CommonController {
 		}
 		
 		ModelAndView modelAndView = new ModelAndView(url);
-		modelAndView.addObject("list", map.get("list"));
+		modelAndView.addObject("list", list);
 		modelAndView.addObject("resultPage", resultPage);
 		modelAndView.addObject("search", search);
 		modelAndView.addObject("getList", "fncGetPurchaseList");
-		modelAndView.addObject("pmap", pmap);
 		modelAndView.addObject("messageMap", messageMap);
 		
 		System.out.println("[PurchaseController.listPurchase()] end");
@@ -180,21 +180,20 @@ public class PurchaseController extends CommonController {
 	
 	@RequestMapping(value = "/updateTranCode.do")
 	public ModelAndView updateTranCode(
-			@RequestParam("tranNo") int tranNo,
-			@RequestParam("tranCode") String tranCode,
-			@RequestParam("url")String url) {
+			@RequestParam("tranNo") String tranNo,
+			@RequestParam("UpdateTranCode") String tranCode) {
 		System.out.println("[PurchaseController.updateTranCode()] start");
 		
 		// PurchaseVO
 		PurchaseVO purchaseVO = new PurchaseVO();
 		purchaseVO.setTranCode(tranCode);
-		purchaseVO.setTranNo(tranNo);
+		purchaseVO.setTranNo(Integer.parseInt(tranNo));
 		
 		purchaseService.updateTranCode(purchaseVO);
 		
 		System.out.println("[PurchaseController.updateTranCode()] end");
 		
-		return new ModelAndView("forward:/" + url);
+		return new ModelAndView("redirect:/listPurchase.do");
 	}
 	
 	@RequestMapping(value = "/updatePurchaseView.do")

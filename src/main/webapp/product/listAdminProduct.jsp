@@ -194,7 +194,7 @@ window.onload = showContentBySelectBox;
 		<td align="center">${product.count}</td>		
 		<td></td>
 		<td align="center">
-		<c:set var = "isContain" value = "false"/>
+<%-- 		<c:set var = "isContain" value = "false"/>
 		<c:forEach var = "entry"  items = "${pmap}">
 			<c:if test="${entry.key == product.prodNo}">
 				<c:set var = "tranCode"  value = "${pmap[product.prodNo].tranCode}"/>
@@ -205,9 +205,12 @@ window.onload = showContentBySelectBox;
 				</c:if>
 				<c:set var = "isContain" value = "true"/>
 			</c:if>
-		</c:forEach>
-		<c:if test="${not isContain}">
+		</c:forEach> --%>
+		<c:if test="${product.count > 0}">
 			판매중
+		</c:if>
+		<c:if test = "${product.count <= 0}">
+			매진
 		</c:if>
 		</td>		
 		<td></td>

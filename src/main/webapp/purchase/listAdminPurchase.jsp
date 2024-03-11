@@ -14,6 +14,13 @@ function fncGetPurchaseList(currentPage) {
 	document.getElementById("currentPage").value = currentPage;
    	document.detailForm.submit();		
 }
+
+function updateTranCode(tranNo, updateTranCode) {
+    var selectedValue = document.getElementById(updateTranCode).value;
+    var url = "/updateTranCode.do?tranNo=" + tranNo + "&UpdateTranCode=" + selectedValue;
+    window.location.href = url; 
+}
+
 </script>
 </head>
 
@@ -75,7 +82,7 @@ function fncGetPurchaseList(currentPage) {
 				<td align="left">${purchase.prodCount }</td>
 		<td></td>
 		<td align="left">	
-		<c:set var = "isContain" value = "false"/>
+<%-- 		<c:set var = "isContain" value = "false"/>
 		<c:forEach var = "entry"  items = "${pmap}">
 			<c:if test="${entry.key == purchase.purchaseProd.prodNo}">
 				<c:set var = "tranCode"  value = "${pmap[purchase.purchaseProd.prodNo].tranCode}"/>
@@ -89,7 +96,24 @@ function fncGetPurchaseList(currentPage) {
 		</c:forEach>
 		<c:if test="${not isContain}">
 			판매중
-		</c:if>
+		</c:if> --%>
+		<c:forEach var = "entry" items = "${messageMap}">
+			<c:if test = "${entry.key == purchase.tranNo}">
+				${entry.value}
+			</c:if>
+		</c:forEach>
+		<select name = "UpdateTranCode" id = "UpdateTranCode${purchase.tranNo}" >
+			<option value = "001" 
+			${not empty purchase.tranNo && purchase.tranNo == "001" ? "selected" : '' }>
+			판매 완료</option>
+			<option value = "002" 
+			${not empty purchase.tranNo && purchase.tranNo == "002" ? "selected" : '' }>
+			배송 중</option>
+			<option value = "003" 
+			${not empty purchase.tranNo && purchase.tranNo == "003" ? "selected" : '' }>
+			배송 완료</option>
+		</select>
+		<a href="#" onclick="updateTranCode(${purchase.tranNo}, 'UpdateTranCode${purchase.tranNo}')">변경하기</a>
 		</td>
 		<td></td>
 		<tr>
