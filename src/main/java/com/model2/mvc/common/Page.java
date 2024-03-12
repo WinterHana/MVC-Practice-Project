@@ -25,7 +25,7 @@ public class Page {
 		if( maxPage <= pageUnit ){
 			this.endUnitPage = maxPage;
 		}else{
-			this.endUnitPage = beginUnitPage + (pageUnit -1);
+			this.endUnitPage = beginUnitPage + ( pageUnit -1);
 			if( maxPage <= endUnitPage){
 				this.endUnitPage = maxPage;
 			}

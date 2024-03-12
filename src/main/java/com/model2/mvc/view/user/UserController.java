@@ -114,8 +114,8 @@ public class UserController extends CommonController {
 		search.setPageUnit(PAGE_UNIT); 
 		search.setPageSize(PAGE_SIZE);
 		Map<String, Object> map = userService.getUserList(search);
-		
-		Page resultPage	= new Page(
+		 
+		Page resultPage	= new Page (
 				search.getPage(), 
 				((Integer)map.get("totalCount")).intValue(), 
 				PAGE_UNIT,

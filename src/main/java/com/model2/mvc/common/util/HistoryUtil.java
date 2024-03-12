@@ -19,7 +19,7 @@ public class HistoryUtil {
 		// blank	
 	}
 	
-	private static void getQueue() {
+	private static void getQueue()  {
 		if(deque == null) {
 			deque = new LinkedList<String>();
 		}

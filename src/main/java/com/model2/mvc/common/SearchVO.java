@@ -75,7 +75,7 @@ public class SearchVO {
 		return sortCondition;
 	}
 
-	public void setSortCondition(String sortCondition) {
+	public void setSortCondition(String sortCondition)  {
 		this.sortCondition = sortCondition;
 	}
 }

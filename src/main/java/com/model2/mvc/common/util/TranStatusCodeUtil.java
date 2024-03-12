@@ -14,7 +14,7 @@ public class TranStatusCodeUtil {
 			if(tsc.getNumber().trim().equals(tranCode.trim())) {
 				System.out.println("[TranStatusCodeUtil.getMessage] Success end");
 				if(isAdmin) {
-					return tsc.getAdminMessage();
+					return  tsc.getAdminMessage();
 				} else {
 					return tsc.getUserMessage();
 				}

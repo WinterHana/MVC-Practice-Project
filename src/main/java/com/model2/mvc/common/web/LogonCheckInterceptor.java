@@ -18,8 +18,8 @@ public class LogonCheckInterceptor extends HandlerInterceptorAdapter {
 	public boolean preHandle(HttpServletRequest request, 
 			HttpServletResponse response, Object handler)
 			throws Exception {
-//		System.out.println("[LogonCheckInterceptor start]");
-//		
+		System.out.println("[LogonCheckInterceptor start]");
+		
 //		// 0. 로그인 유무 확인
 //		HttpSession session = request.getSession(true);
 //		UserVO sessionUser = null;

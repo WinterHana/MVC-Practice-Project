@@ -8,7 +8,7 @@ import java.util.Date;
  * String Controller
  */
 
-public class CommonUtil {
+public class CommonUtil  {
 	
 	///Field
 	

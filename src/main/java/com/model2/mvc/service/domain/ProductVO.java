@@ -3,7 +3,7 @@ package com.model2.mvc.service.domain;
 import java.sql.Date;
 
 
-public class ProductVO {
+public class ProductVO  {
 	
 	private String fileName;
 	private String manuDate;
