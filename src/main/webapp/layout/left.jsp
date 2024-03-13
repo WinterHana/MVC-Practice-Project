@@ -1,3 +1,4 @@
+<%@page import="java.net.URLDecoder"%>
 <%@ page contentType="text/html; charset=euc-kr" %>
 <%@ taglib prefix = "c" uri = "http://java.sun.com/jsp/jstl/core" %>
 
@@ -64,7 +65,7 @@ function history(){
 				</tr>
 				<tr>
 					<td class="Depth03">
-						<a href="/listPurchase.do" target="rightFrame">판매 관리</a>
+						<a href="/purchase/listPurchase/1" target="rightFrame">판매 관리</a>
 					</td>
 				</tr>
 				<tr>
@@ -90,7 +91,7 @@ function history(){
 		<c:if test = "${user.role eq 'user'}">
 			<tr>
 				<td class="Depth03">
-					<a href="/listPurchase.do" target="rightFrame">구매 이력 조회</a>
+					<a href="/purchase/listPurchase/1" target="rightFrame">구매 이력 조회</a>
 				</td>
 			</tr>
 			<tr>
@@ -105,7 +106,22 @@ function history(){
 	</table>
 </td>
 </tr>
-
+<%Cookies cookies = new Cookies(request); %>
+<tr>
+<td valign="top">
+	<table  border="0" cellspacing="0" cellpadding="0" width="159">
+			<tr>
+				<td class="Depth03">
+					<p>최근 본 상품 목록</p>
+					<p>최대 5개까지 저장됩니다.</p>
+				</td>
+			</tr>
+			<tr>
+				<td class="DepthEnd">&nbsp;</td>
+			</tr>
+	</table>
+</td>
+</tr>
 </table>
 </body>
 </html>

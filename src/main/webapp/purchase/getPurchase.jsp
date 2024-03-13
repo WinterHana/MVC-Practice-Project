@@ -17,7 +17,8 @@ function limitUpdate(tranNo, tranCode) {
 		alert("배송 중이거나 배송 완료가 되면 수정할 수 없습니다.");
 		return
 	} else {
-		var url = "/updatePurchaseView.do?tranNo="+tranNo;
+		// let url = "/updatePurchaseView.do?tranNo="+tranNo;
+		let url = "/purchase/updatePurchaseView/" + tranNo;
 		window.location.href = url; 
 	}
 }

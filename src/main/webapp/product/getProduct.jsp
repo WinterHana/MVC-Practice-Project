@@ -7,7 +7,7 @@
 <title>상품 상세 조회</title>
 
 <script type="text/javascript">
-function fncAddPurchaseView() {
+function fncAddPurchaseView(prodNo) {
 	// 유효성 확인
 	let productCount = parseInt('${product.count}');
 	
@@ -16,7 +16,7 @@ function fncAddPurchaseView() {
 		return;
 	}
 	
-	let url = '/product/addPurchaseView?prodNo='+ ${product.prodNo};
+	let url = '/purchase/addPurchaseView/'+ ${product.prodNo};
 	document.detailForm.action = url;
 	document.detailForm.submit();
 }
@@ -81,7 +81,7 @@ function fncAddPurchaseView() {
 		</td>
 		<td bgcolor="D6D6D6" width="1"></td>
 		<td class="ct_write01">
-			<img src = "images/uploadFiles/${product.fileName}"/>
+			<img src = "/images/uploadFiles/${product.fileName}"/>
 		</td>
 	</tr>
 	<tr>
@@ -142,7 +142,7 @@ function fncAddPurchaseView() {
 					<img src="/images/ct_btnbg01.gif" width="17" height="23"/>
 				</td>
 				<td background="/images/ct_btnbg02.gif" class="ct_btn01" style="padding-top: 3px;">
-					<a href="javascript:fncAddPurchaseView();">구매</a>
+					<a href="javascript:fncAddPurchaseView(${product.prodNo});">구매</a>
 				</td>
 				<td width="14" height="23">
 					<img src="/images/ct_btnbg03.gif" width="14" height="23">

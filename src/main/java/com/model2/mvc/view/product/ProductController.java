@@ -76,7 +76,7 @@ public class ProductController extends CommonController  {
 	}
 	
 	// @RequestMapping(value = "/listUserProduct.do")
-	@RequestMapping(value = "/listUserProduct//{page}")
+	@RequestMapping(value = "/listUserProduct/{page}")
 	public ModelAndView listUserProduct(
 			@ModelAttribute("search") SearchVO search, 
 			@PathVariable("page") int page) {
@@ -121,8 +121,9 @@ public class ProductController extends CommonController  {
 		System.out.println("[ProductController.getProduct()] start");
 		
 		ModelAndView modelAndView = new ModelAndView("forward:/product/getProduct.jsp");
-		modelAndView.addObject("product", productService.getProduct(prodNo));
-		HistoryUtil.saveHistory(response, prodNo);
+		ProductVO product = productService.getProduct(prodNo);
+		modelAndView.addObject("product", product);
+		HistoryUtil.saveHistory(product.getProdNo());
 		
 		System.out.println("[ProductController.getProduct()] end");
 		

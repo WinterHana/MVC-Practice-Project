@@ -37,9 +37,13 @@
 	
    	<mvc:interceptors>
    	 		<mvc:interceptor>
-			<mvc:mapping path="/user/**"/>
-			<bean class="com.model2.mvc.common.web.LogonCheckInterceptor" />
-   		</mvc:interceptor>
+				<mvc:mapping path="/user/**"/>
+				<bean class="com.model2.mvc.common.web.LogonCheckInterceptor"/>
+   			</mvc:interceptor>
+   			<mvc:interceptor>
+				<mvc:mapping path="/**"/>
+				<bean class="com.model2.mvc.common.web.CookieInterceptor"/>
+   			</mvc:interceptor>
    	</mvc:interceptors>
 	
 	

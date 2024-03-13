@@ -11,10 +11,9 @@
 	<p>최대 5개까지 저장됩니다.</p>
 <br>
 <%
-	request.setCharacterEncoding("euc-kr");
-	response.setCharacterEncoding("euc-kr");
 	String history = null;
 	Cookie[] cookies = request.getCookies();
+	
 	if (cookies!=null && cookies.length > 0) {
 		for (int i = 0; i < cookies.length; i++) {
 			Cookie cookie = cookies[i];
@@ -22,12 +21,13 @@
 				history = cookie.getValue();
 			}
 		}
+		
 		if (history != null) {
 			String[] h = history.split("/");
 			for (int i = 0; i < h.length; i++) {
 				if (!h[i].equals("null")) {
 %>
-	<a href="/getProduct.do?prodNo=<%=h[i]%>&menu=search"	target="rightFrame"><%=h[i]%></a>
+	<a href="/product/getProduct/<%=h[i]%>" target="rightFrame"><%=h[i]%></a>
 	<br>
 <%
 				}
@@ -36,5 +36,7 @@
 	}
 %>
 
+<%= history %>
+<%= cookies.length %>
 </body>
 </html>

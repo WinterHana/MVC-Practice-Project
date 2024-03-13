@@ -11,12 +11,13 @@
 
 <script type="text/javascript">
 function fncGetPurchaseList(currentPage) {
-	document.getElementById("currentPage").value = currentPage;
+	let url = '/purchase/listPurchase/' + currentPage;
+	document.detailForm.action = url;
    	document.detailForm.submit();		
 }
 
 function updateTranCode(tranNo, updateTranCode) {
-    var url = "/updateTranCode.do?tranNo=" + tranNo + "&UpdateTranCode=" + updateTranCode;
+    var url = "/purchase/updateTranCode?tranNo=" + tranNo + "&updateTranCode=" + updateTranCode;
     window.location.href = url; 
 }
 
@@ -27,7 +28,7 @@ function updateTranCode(tranNo, updateTranCode) {
 
 <div style="width: 98%; margin-left: 10px;">
 
-<form name="detailForm" action="/listPurchase.do" method="post">
+<form name="detailForm" action="/purchase/listPurchase/1" method="post">
 
 <table width="100%" height="37" border="0" cellpadding="0"	cellspacing="0">
 	<tr>
@@ -63,7 +64,7 @@ function updateTranCode(tranNo, updateTranCode) {
 		<tr class="ct_list_pop">
 		<td align="center">
 			<!-- 구매 내역 상세 보기 -->
-			<a href="/getPurchase.do?tranNo=${purchase.tranNo}">${purchase.tranNo}</a>
+			<a href="/purchase/getPurchase/${purchase.tranNo}">${purchase.tranNo}</a>
 		</td>
 		<td></td>
 				<td align="left">${purchase.purchaseProd.prodNo}</td>
@@ -71,29 +72,14 @@ function updateTranCode(tranNo, updateTranCode) {
 				<td align="left">${purchase.prodCount }</td>
 		<td></td>
 		<td align="left">	
-<%-- 		<c:set var = "isContain" value = "false"/>
-		<c:forEach var = "entry"  items = "${pmap}">
-			<c:if test="${entry.key == purchase.purchaseProd.prodNo}">
-				<c:set var = "tranCode"  value = "${pmap[purchase.purchaseProd.prodNo].tranCode}"/>
-				<c:set var = "tranNo" value = "${pmap[purchase.purchaseProd.prodNo].tranNo}"/>
-				${messageMap[purchase.purchaseProd.prodNo]}
-				<c:if test="${tranCode == 003}">
-					<a href="/updateTranCode.do?tranNo= ${tranNo}&tranCode=${tranCode}&url=listPurchase.do?menu=manage">배송 받기</a>
-				</c:if>
-				<c:set var = "isContain" value = "true"/>
-			</c:if>
-		</c:forEach>
-		<c:if test="${not isContain}">
-			판매중
-		</c:if> --%>
 		<c:forEach var = "entry" items = "${messageMap}">
 			<c:if test = "${entry.key == purchase.tranNo}">
 				${entry.value}
 			</c:if>
-			<c:if test = "${purchase.tranCode == '002'}">
-				<a href="#" onclick="updateTranCode(${purchase.tranNo}, '003')">배송 받기</a>
-			</c:if>
 		</c:forEach>
+		<c:if test = "${purchase.tranCode == '002'}">
+			<a href="#" onclick="updateTranCode(${purchase.tranNo}, '003')">배송 받기</a>
+		</c:if>
 		</td>
 		<td></td>
 		<tr>
