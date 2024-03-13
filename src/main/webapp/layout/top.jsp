@@ -3,10 +3,10 @@
 
 <%@ taglib prefix = "c" uri = "http://java.sun.com/jsp/jstl/core" %>
 
-<%
+<%-- <%
 	UserVO vo=(UserVO)session.getAttribute("user");
 %>
-
+ --%>
 <html>
 <head>
 <title>Model2 MVC Shop</title>
@@ -32,7 +32,7 @@
 	</c:if>     
 	<c:if test = "${not empty user}">
 		<h2>
-	      	<a href="/logout.do" target="_parent">
+	      	<a href="/user/logout" target="_parent">
 	      	&nbsp;&nbsp;logout
 	      	</a>  
 	    </h2>

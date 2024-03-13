@@ -18,7 +18,7 @@
 </script>
 
 <script type="text/javascript">
-function fncAddProduct(){
+function fncUpdateProduct(){
 	//Form 유효성 검증
  	var name = document.detailForm.prodName.value;
 	var detail = document.detailForm.prodDetail.value;
@@ -42,7 +42,7 @@ function fncAddProduct(){
 		return;
 	}
 		
-	document.detailForm.action='/updateProduct.do';
+	document.detailForm.action='/product/updateProduct';
 	document.detailForm.submit();
 }
 </script>
@@ -171,7 +171,7 @@ function fncAddProduct(){
 						<img src="/images/ct_btnbg01.gif" width="17" height="23"/>
 					</td>
 					<td background="/images/ct_btnbg02.gif" class="ct_btn01"	style="padding-top: 3px;">
-						<a href="javascript:fncAddProduct();">수정</a>
+						<a href="javascript:fncUpdateProduct();">수정</a>
 					</td>
 					<td width="14" height="23">
 						<img src="/images/ct_btnbg03.gif" width="14" height="23"/>

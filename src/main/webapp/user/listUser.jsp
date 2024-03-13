@@ -1,21 +1,6 @@
 <%@ page contentType="text/html; charset=euc-kr" %>
 
 <%@ taglib prefix = "c" uri = "http://java.sun.com/jsp/jstl/core" %>
-<%--
-<%@page import="com.model2.mvc.common.util.CommonUtil"%>
-<%@ page import="java.util.*"  %>
-<%@ page import="com.model2.mvc.service.user.domain.*" %>
-<%@ page import="com.model2.mvc.common.*" %>
-
-<%
-	List<UserVO> list=(List<UserVO>)request.getAttribute("list");
-	Page resultPage=(Page)request.getAttribute("resultPage");
-	SearchVO searchVO=(SearchVO)request.getAttribute("searchVO");
-	
-	String searchCondition = CommonUtil.null2str(searchVO.getSearchCondition());
-	String searchKeyword = CommonUtil.null2str(searchVO.getSearchKeyword());
-%>
- --%>
  
 <html>
 <head>
@@ -25,7 +10,9 @@
 
 <script type="text/javascript">
 function fncGetUserList(currentPage) {
-	document.getElementById("currentPage").value = currentPage;
+	// document.getElementById("currentPage").value = currentPage;
+	let url = '/user/listUser/' + currentPage;
+	document.detailForm.action = url;
    	document.detailForm.submit();		
 }
 </script>
@@ -35,7 +22,7 @@ function fncGetUserList(currentPage) {
 
 <div style="width:98%; margin-left:10px;">
 
-<form name="detailForm" action="/listUser.do" method="post">
+<form name="detailForm" action="/user/listUser/1" method="post">
 
 <table width="100%" height="37" border="0" cellpadding="0"	cellspacing="0">
 	<tr>
@@ -104,7 +91,7 @@ function fncGetUserList(currentPage) {
 		<tr class="ct_list_pop">
 		<td align="center">${no}</td>
 		<td></td>
-		<td align="left"><a href="/getUser.do?userId=${user.userId}">${user.userId}</a></td>
+		<td align="left"><a href="/user/getUser/${user.userId}">${user.userId}</a></td>
 		<td></td>
 		<td align="left">${user.userName}</td>
 		<td></td>

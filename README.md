@@ -118,3 +118,8 @@ User, Product, Purchase 부분의 view를 EL, JSTL로 변경한다.
 - [x] User Component
 - [x] Product Component
 - [x] Purchase Component 
+
+### 240308 - Controller URI 수정
+- [x] User Component
+- [x] Product Component
+- [ ] Purchase Component 

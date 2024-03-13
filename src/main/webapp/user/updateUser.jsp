@@ -1,13 +1,6 @@
 <%@ page contentType="text/html; charset=euc-kr" %>
 
 <%@ taglib prefix = "c" uri = "http://java.sun.com/jsp/jstl/core" %>
-
-<%--
-<%@ page import="com.model2.mvc.service.user.domain.*" %>
-<%
-	UserVO userVO = (UserVO)request.getAttribute("userVO");
-%>
- --%>
  
 <html>
 <head>
@@ -16,7 +9,6 @@
 <link rel="stylesheet" href="/css/admin.css" type="text/css">
 
 <script type="text/javascript">
-<!--
 function fncUpdateUser() {
 
 	var name=document.detailForm.userName.value;
@@ -32,7 +24,7 @@ function fncUpdateUser() {
 		document.detailForm.phone.value = "";
 	}
 		
-	document.detailForm.action='/updateUser.do';
+	document.detailForm.action='/user/updateUser';
 	document.detailForm.submit();
 }
 
@@ -49,7 +41,6 @@ function check_email(frm) {
 function resetData() {
 	document.detailForm.reset();
 }
--->
 </script>
 </head>
 

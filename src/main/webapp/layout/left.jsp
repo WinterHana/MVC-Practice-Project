@@ -25,7 +25,7 @@ function history(){
 			<c:if test = "${not empty user}">
 				<tr>
 					<td class="Depth03"> 
-						<a href="/getUser.do?userId=${user.userId}"  target="rightFrame">개인정보 조회</a>
+						<a href="/user/getUser/${user.userId}"  target="rightFrame">개인정보 조회</a>
 					</td>
 				</tr>
 			</c:if>
@@ -33,7 +33,7 @@ function history(){
 			<c:if test = "${user.role eq 'admin'}">
 				<tr>
 					<td class="Depth03" >
-						<a href="/listUser.do" target="rightFrame">회원목록 조회</a>
+						<a href="/user/listUser/1" target="rightFrame">회원목록 조회</a>
 					</td>
 				</tr>
 			</c:if>
@@ -59,7 +59,7 @@ function history(){
 				</tr>
 				<tr>
 					<td class="Depth03">
-						<a href="/listAdminProduct.do" target="rightFrame">상품 관리</a>
+						<a href="/product/listAdminProduct/1" target="rightFrame">상품 관리</a>
 					</td>
 				</tr>
 				<tr>
@@ -74,7 +74,7 @@ function history(){
 			<c:if test = "${user.role ne 'admin'}">
 				<tr>
 					<td class="Depth03">
-						<a href="/listUserProduct.do" target="rightFrame">상품 검색</a>
+						<a href="/product/listUserProduct/1" target="rightFrame">상품 검색</a>
 					</td>
 				</tr>
 			</c:if>

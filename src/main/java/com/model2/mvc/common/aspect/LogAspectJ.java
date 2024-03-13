@@ -30,5 +30,4 @@ public class LogAspectJ {
 		
 		return obj;
 	}
-	
 }

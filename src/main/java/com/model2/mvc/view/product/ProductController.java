@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -25,6 +26,7 @@ import com.model2.mvc.service.purchase.PurchaseService;
 import com.model2.mvc.view.common.CommonController;
 
 @Controller
+@RequestMapping("/product/*")
 public class ProductController extends CommonController  {
 	
 	@Autowired
@@ -35,21 +37,14 @@ public class ProductController extends CommonController  {
 	@Qualifier("purchaseServiceImpl")
 	PurchaseService purchaseService;
 	
-	@RequestMapping(value = "/listAdminProduct.do")
+	// @RequestMapping(value = "/listAdminProduct.do")
+	@RequestMapping(value = "/listAdminProduct/{page}")
 	public ModelAndView listAdminProduct(
 			@ModelAttribute("search") SearchVO search, 
-			HttpServletRequest request) {
+			@PathVariable("page") int page) {
 		System.out.println("[ProductController.listAdminProduct()] start");
 		
-		// 1. Page setting
-		String pageStr = request.getParameter("currentPage");
-		
-		int page = 0;
-		if(pageStr != null && !pageStr.equals("undefined")) {
-			page = Integer.parseInt(pageStr);
-		}
-		
-		// Default page = 1;
+		// 1. Page setting Default page = 1;
 		search.setPage(page);
 		if(search.getPage() == 0) {
 			search.setPage(1);
@@ -68,46 +63,26 @@ public class ProductController extends CommonController  {
 				PAGE_SIZE
 		);
 		
-		// 3. Get Enum Message
-//		Map<Integer, Object> pmap = purchaseService.getSalaList();
-//		
-//		Map<Integer, String> messageMap = new HashMap<Integer, String>();
-//		Iterator<Integer> keys = pmap.keySet().iterator();
-//		while (keys.hasNext()) {
-//			int key = keys.next();
-//			PurchaseVO purchaseVO = (PurchaseVO)pmap.get(key);
-//			String message = TranStatusCodeUtil.getMessage(purchaseVO.getTranCode(), true);
-//			messageMap.put(key, message);
-//		}
-		
-		// 4. Set ModelAndView
+		// 3. Set ModelAndView
 		ModelAndView modelAndView = new ModelAndView("forward:/product/listAdminProduct.jsp");
 		modelAndView.addObject("list", map.get("list"));
 		modelAndView.addObject("resultPage", resultPage);
 		modelAndView.addObject("search", search);
 		modelAndView.addObject("getList", "fncGetProductList");
-		// modelAndView.addObject("pmap", pmap);
-		// modelAndView.addObject("messageMap", messageMap);
 		
 		System.out.println("[ProductController.listAdminProduct()] end");
 		
 		return modelAndView;
 	}
 	
-	@RequestMapping(value = "/listUserProduct.do")
+	// @RequestMapping(value = "/listUserProduct.do")
+	@RequestMapping(value = "/listUserProduct//{page}")
 	public ModelAndView listUserProduct(
 			@ModelAttribute("search") SearchVO search, 
-			HttpServletRequest request) {
+			@PathVariable("page") int page) {
 		System.out.println("[ProductController.listUserProduct()] start");
 		
-		// 1. Page setting
-		String pageStr = request.getParameter("currentPage");
-		int page = 0;
-		if(pageStr != null && !pageStr.equals("undefined")) {
-			page = Integer.parseInt(pageStr);
-		}
-		
-		// Default page = 1;
+		// 1. Page setting Default page = 1;
 		search.setPage(page);
 		if(search.getPage() == 0) {
 			search.setPage(1);
@@ -126,48 +101,36 @@ public class ProductController extends CommonController  {
 				PAGE_SIZE
 		);
 		
-		// 3. Get Enum Message
-//		Map<Integer, Object> pmap = purchaseService.getSalaList();
-//		
-//		Map<Integer, String> messageMap = new HashMap<Integer, String>();
-//		Iterator<Integer> keys = pmap.keySet().iterator();
-//		while (keys.hasNext()) {
-//			int key = keys.next();
-//			PurchaseVO purchaseVO = (PurchaseVO)pmap.get(key);
-//			String message = TranStatusCodeUtil.getMessage(purchaseVO.getTranCode(), false);
-//			messageMap.put(key, message);
-//		}
-		
-		// 4. Set ModelAndView
+		// 3. Set ModelAndView
 		ModelAndView modelAndView = new ModelAndView("forward:/product/listUserProduct.jsp");
 		modelAndView.addObject("list", map.get("list"));
 		modelAndView.addObject("resultPage", resultPage);
 		modelAndView.addObject("search", search);
 		modelAndView.addObject("getList", "fncGetProductList");
-		// modelAndView.addObject("pmap", pmap);
-		// modelAndView.addObject("messageMap", messageMap);
 		
 		System.out.println("[ProductController.listUserProduct()] end");
 		
 		return modelAndView;
 	}
 	
-	@RequestMapping(value = "/getProduct.do")
+	// @RequestMapping(value = "/getProduct.do")
+	@RequestMapping(value = "/getProduct/{prodNo}")
 	public ModelAndView getProduct(
-			@ModelAttribute("product") ProductVO product,
+			@PathVariable("prodNo") int prodNo,
 			 HttpServletResponse response) {
 		System.out.println("[ProductController.getProduct()] start");
 		
 		ModelAndView modelAndView = new ModelAndView("forward:/product/getProduct.jsp");
-		modelAndView.addObject("product", productService.getProduct(product.getProdNo()));
-		HistoryUtil.saveHistory(response, product.getProdNo());
+		modelAndView.addObject("product", productService.getProduct(prodNo));
+		HistoryUtil.saveHistory(response, prodNo);
 		
 		System.out.println("[ProductController.getProduct()] end");
 		
 		return modelAndView;
 	}
 	
-	@RequestMapping(value = "/addProduct.do")
+	// @RequestMapping(value = "/addProduct.do")
+	@RequestMapping(value = "/addProduct")
 	public ModelAndView addProduct(@ModelAttribute("product") ProductVO product) {
 		System.out.println("[ProductController.addProduct()] start");
 		
@@ -179,7 +142,8 @@ public class ProductController extends CommonController  {
 		return modelAndView;
 	}
 	
-	@RequestMapping(value = "/updateProductView.do")
+	// @RequestMapping(value = "/updateProductView.do")
+	@RequestMapping(value = "/updateProductView")
 	public ModelAndView updateProductView(@ModelAttribute("product") ProductVO product) {
 		System.out.println("[ProductController.updaeProductView()] start");
 		
@@ -191,7 +155,8 @@ public class ProductController extends CommonController  {
 		return modelAndView;
 	}
 	
-	@RequestMapping(value = "/updateProduct.do")
+	// @RequestMapping(value = "/updateProduct.do")
+	@RequestMapping(value = "/updateProduct")
 	public ModelAndView updateProduct(@ModelAttribute("product") ProductVO product) {
 		System.out.println("[ProductController.updateProduct()] start");
 		

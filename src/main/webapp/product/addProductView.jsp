@@ -13,11 +13,11 @@
 
 function fncAddProduct(){
 	//Form 유효성 검증
- 	var name = document.detailForm.prodName.value;
-	var detail = document.detailForm.prodDetail.value;
-	var manuDate = document.detailForm.manuDate.value;
-	var price = document.detailForm.price.value;
-	var count = document.detailForm.count.value;
+ 	let name = document.detailForm.prodName.value;
+ 	let detail = document.detailForm.prodDetail.value;
+ 	let manuDate = document.detailForm.manuDate.value;
+ 	let price = document.detailForm.price.value;
+ 	let count = document.detailForm.count.value;
 	
 	
 	if(name == null || name.length<1){
@@ -45,7 +45,7 @@ function fncAddProduct(){
 		return;
 	}
 	
-	document.detailForm.action='/addProduct.do';
+	document.detailForm.action='/product/addProduct';
 	document.detailForm.submit();
 }
 

@@ -43,7 +43,7 @@ function fncAddUser() {
 		document.detailForm.phone.value = "";
 	}
 		
-	document.detailForm.action='/addUser.do';
+	document.detailForm.action='/user/addUser';
 	document.detailForm.submit();
 }
 

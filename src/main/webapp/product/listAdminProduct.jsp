@@ -12,7 +12,8 @@
 
 <script type="text/javascript">
 function fncGetProductList(currentPage) {
-	document.getElementById("currentPage").value = currentPage;
+	let url = '/product/listAdminProduct/' + currentPage;
+	document.detailForm.action = url;
    	document.detailForm.submit();		
 }
 
@@ -41,7 +42,7 @@ window.onload = showContentBySelectBox;
 
 <div style="width:98%; margin-left:10px;">
 
-<form name="detailForm" action="/listAdminProduct.do" method="post">
+<form name="detailForm" action="/product/listAdminProduct/1" method="post">
 
 <table width="100%" height="37" border="0" cellpadding="0"	cellspacing="0">
 	<tr>
@@ -89,7 +90,7 @@ window.onload = showContentBySelectBox;
 			<select name="searchCondition"  id = "searchCondition"  class="ct_input_g" style="width:80px" onchange = "showContentBySelectBox()">
 				<option value="prodNo"  ${not empty search.searchCondition && search.searchCondition == "prodNo" ? "selected" : '' }>상품번호</option>
 				<option value="prodName"  ${not empty search.searchCondition && search.searchCondition == "prodName" ? "selected" : '' }>상품명</option>
-				<option value="price"  ${not empty searcho.searchCondition && search.searchCondition == "price" ? "selected" : '' }>상품가격</option>
+				<option value="price"  ${not empty search.searchCondition && search.searchCondition == "price" ? "selected" : '' }>상품가격</option>
 			</select>
 		</td>
 		<td width = "30" height = 20>
@@ -101,7 +102,7 @@ window.onload = showContentBySelectBox;
 						<img src="/images/ct_btnbg01.gif" width="17" height="23">
 					</td>
 					<td background="/images/ct_btnbg02.gif" class="ct_btn01" style="padding-top:3px;">
-						<a href="javascript:fncGetProductList();">검색</a>
+						<a href="javascript:fncGetProductList(1);">검색</a>
 					</td>
 					<td width="14" height="23">
 						<img src="/images/ct_btnbg03.gif" width="14" height="23">
@@ -145,44 +146,16 @@ window.onload = showContentBySelectBox;
 		<tr class="ct_list_pop">
 		<td align="center">${no}</td>
 		<td></td>
-<%-- 		<c:set var = "flag" value = "false"/>
-		<c:forEach var = "entry"  items = "${pmap}">
-			<c:if test="${entry.key == product.prodNo}">
-				<td align="center">${product.prodNo}</td>
-				<td></td>
-				<td align="center">
-				<img src = "images/uploadFiles/${product.fileName}" width = "120" height = "90"/>
-				</td>
-				<td></td>
-				<td align = "center">${product.prodName}</td>
-				<c:set var = "flag" value = "true"/>
-				<td></td>
-			</c:if>
-		</c:forEach>
-		<c:if test="${not flag}">
-			<td align="center">${product.prodNo}</td>
-			<td></td>
-			<td align="center">
-			<a href="/updateProductView.do?prodNo=${product.prodNo}">
-			<img src = "images/uploadFiles/${product.fileName}" width = "120" height = "90"/>
-			</a>
-			</td>
-			<td></td>
-			<td align = "center">
-			<a href="/updateProductView.do?prodNo=${product.prodNo}">${product.prodName}</a>
-			</td>
-			<td></td>
-		</c:if> --%>
 		<td align="center">${product.prodNo}</td>
 		<td></td>
 		<td align="center">
-		<a href="/updateProductView.do?prodNo=${product.prodNo}">
-		<img src = "images/uploadFiles/${product.fileName}" width = "120" height = "90"/>
+		<a href="/product/updateProductView.do?prodNo=${product.prodNo}">
+		<img src = "/images/uploadFiles/${product.fileName}" width = "120" height = "90"/>
 		</a>
 		</td>
 		<td></td>
 		<td align = "center">
-		<a href="/updateProductView.do?prodNo=${product.prodNo}">${product.prodName}</a>
+		<a href="/product/updateProductView?prodNo=${product.prodNo}">${product.prodName}</a>
 		</td>
 		<td></td>
 		<td align="center">${product.price}</td> 
@@ -194,18 +167,6 @@ window.onload = showContentBySelectBox;
 		<td align="center">${product.count}</td>		
 		<td></td>
 		<td align="center">
-<%-- 		<c:set var = "isContain" value = "false"/>
-		<c:forEach var = "entry"  items = "${pmap}">
-			<c:if test="${entry.key == product.prodNo}">
-				<c:set var = "tranCode"  value = "${pmap[product.prodNo].tranCode}"/>
-				<c:set var = "tranNo" value = "${pmap[product.prodNo].tranNo}"/>
-				${messageMap[product.prodNo]}
-				<c:if test="${tranCode == 002}">
-					<a href="/updateTranCode.do?tranNo= ${tranNo}&tranCode=${tranCode}&url=listAdminProduct.do">배송 시작하기</a>
-				</c:if>
-				<c:set var = "isContain" value = "true"/>
-			</c:if>
-		</c:forEach> --%>
 		<c:if test="${product.count > 0}">
 			판매중
 		</c:if>
