@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.model2.mvc.common.SearchVO;
+import com.model2.mvc.service.domain.FileVO;
 import com.model2.mvc.service.domain.ProductVO;
 
 public interface ProductDAO {
@@ -21,4 +22,13 @@ public interface ProductDAO {
 	
 	// product의 개수 조절
 	public int updateProductCount(Map<String, Integer> map);
+	
+	// productImage 추가
+	public int addProductImage(FileVO file);
+	
+	// productImage 수정
+	public int updateProductImage(FileVO file);
+	
+	// productImage 정보 가져오기
+	public FileVO selectProductImage(int prodNo);
 }

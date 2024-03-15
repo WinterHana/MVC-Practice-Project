@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Repository;
 
 import com.model2.mvc.common.SearchVO;
+import com.model2.mvc.service.domain.FileVO;
 import com.model2.mvc.service.domain.ProductVO;
 import com.model2.mvc.service.product.ProductDAO;
 
@@ -73,5 +74,23 @@ public class ProductDAOImpl implements ProductDAO {
 	public int updateProductCount(Map<String, Integer> map) {
 		System.out.println("[" + getClass().getName() + ".updateProductCount] Call");
 		return sqlSession.update("ProductMapper.updateProductCount", map);
+	}
+
+	@Override
+	public int addProductImage(FileVO file) {
+		System.out.println("[" + getClass().getName() + ".addProductImage] Call");
+		return sqlSession.insert("ProductMapper.addProductImage", file);
+	}
+
+	@Override
+	public int updateProductImage(FileVO file) {
+			System.out.println("[" + getClass().getName() + ".updateProductImage] Call");
+			return sqlSession.insert("ProductMapper.updateProductImage", file);
+	}
+
+	@Override
+	public FileVO selectProductImage(int prodNo) {
+		System.out.println("[" + getClass().getName() + ".selectProductImage] Call");
+		return sqlSession.selectOne("ProductMapper.selectProductImage", prodNo);
 	}
 }

@@ -1,24 +1,30 @@
 package com.model2.mvc.view.product;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
+import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.io.FilenameUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.model2.mvc.common.Page;
 import com.model2.mvc.common.SearchVO;
 import com.model2.mvc.common.util.HistoryUtil;
 import com.model2.mvc.common.util.TranStatusCodeUtil;
+import com.model2.mvc.service.domain.FileVO;
 import com.model2.mvc.service.domain.ProductVO;
 import com.model2.mvc.service.domain.PurchaseVO;
 import com.model2.mvc.service.product.ProductService;
@@ -37,7 +43,6 @@ public class ProductController extends CommonController  {
 	@Qualifier("purchaseServiceImpl")
 	PurchaseService purchaseService;
 	
-	// @RequestMapping(value = "/listAdminProduct.do")
 	@RequestMapping(value = "/listAdminProduct/{page}")
 	public ModelAndView listAdminProduct(
 			@ModelAttribute("search") SearchVO search, 
@@ -75,7 +80,6 @@ public class ProductController extends CommonController  {
 		return modelAndView;
 	}
 	
-	// @RequestMapping(value = "/listUserProduct.do")
 	@RequestMapping(value = "/listUserProduct/{page}")
 	public ModelAndView listUserProduct(
 			@ModelAttribute("search") SearchVO search, 
@@ -113,7 +117,6 @@ public class ProductController extends CommonController  {
 		return modelAndView;
 	}
 	
-	// @RequestMapping(value = "/getProduct.do")
 	@RequestMapping(value = "/getProduct/{prodNo}")
 	public ModelAndView getProduct(
 			@PathVariable("prodNo") int prodNo,
@@ -130,12 +133,35 @@ public class ProductController extends CommonController  {
 		return modelAndView;
 	}
 	
-	// @RequestMapping(value = "/addProduct.do")
 	@RequestMapping(value = "/addProduct")
-	public ModelAndView addProduct(@ModelAttribute("product") ProductVO product) {
+	public ModelAndView addProduct(
+			@ModelAttribute("product") ProductVO product,
+			@ModelAttribute("file") FileVO file) {
 		System.out.println("[ProductController.addProduct()] start");
 		
+		// Upload한 파일 설정
+		String fileName = null;
+		MultipartFile fileResult = file.getMultipartFile();
+		if(!fileResult.isEmpty()) {
+			String originalFileName = fileResult.getOriginalFilename(); // 파일의 실제 이름
+			String ext = FilenameUtils.getExtension(originalFileName); // 파일의 확장자
+			UUID uuid = UUID.randomUUID(); // 랜덤한 UUID 이름
+			fileName = originalFileName;
+			
+			// new File 객체를 통해 file 객체를 만들고, 파일 새로 만들기
+			try {
+				fileResult.transferTo(new File("/Project_Eclipse/01.Model2MVCShop(stu)/src/main/webapp/images/myTestImage/" + fileName));
+			} catch (IllegalStateException | IOException e) {
+				System.out.println("[addProduct] file Upload Exception");
+				e.printStackTrace();
+			}
+		}
+		
+		file.setFileName(fileName);
+		
 		productService.addProduct(product);
+		productService.addProductImage(file);
+		
 		ModelAndView modelAndView = new ModelAndView("redirect:/product/completeAddView.jsp");
 		
 		System.out.println("[ProductController.addProduct()] end");
@@ -143,7 +169,6 @@ public class ProductController extends CommonController  {
 		return modelAndView;
 	}
 	
-	// @RequestMapping(value = "/updateProductView.do")
 	@RequestMapping(value = "/updateProductView")
 	public ModelAndView updateProductView(@ModelAttribute("product") ProductVO product) {
 		System.out.println("[ProductController.updaeProductView()] start");
@@ -156,7 +181,6 @@ public class ProductController extends CommonController  {
 		return modelAndView;
 	}
 	
-	// @RequestMapping(value = "/updateProduct.do")
 	@RequestMapping(value = "/updateProduct")
 	public ModelAndView updateProduct(@ModelAttribute("product") ProductVO product) {
 		System.out.println("[ProductController.updateProduct()] start");
@@ -168,4 +192,6 @@ public class ProductController extends CommonController  {
 		
 		return modelAndView;
 	}
+	
+	
 }

@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import com.model2.mvc.common.SearchVO;
 import com.model2.mvc.common.util.CommonUtil;
+import com.model2.mvc.service.domain.FileVO;
 import com.model2.mvc.service.domain.ProductVO;
 import com.model2.mvc.service.product.ProductDAO;
 import com.model2.mvc.service.product.ProductService;
@@ -51,6 +52,7 @@ public class ProductServiceImpl implements ProductService {
 	@Override
 	public Map<String, Object> getProductList(SearchVO searchVO) {	
 		Map<String, Object> map = new HashMap<String, Object>();
+		Map<Integer, String> fileNameMap  = new HashMap<Integer, String>();
 		List<ProductVO> list = null;
 		int totalCount = 0;
 		
@@ -74,13 +76,16 @@ public class ProductServiceImpl implements ProductService {
 		try {
 			list = productDAO.getProductList(searchVO);
 			totalCount = productDAO.getProductCount(searchVO);
-			
+			for(ProductVO p : list) {
+				fileNameMap.put(p.getProdNo(), (productDAO.selectProductImage(p.getProdNo()).getFileName()));
+			}
 		} catch (Exception e) {
 			System.out.println(getClass().getName() + ".getProduct Exception");
 			e.printStackTrace();
 		}
 		map.put("list", list);
 		map.put("totalCount", totalCount);
+		map.put("fileNameMap", fileNameMap);
 		
 		return map;
 	}
@@ -119,6 +124,48 @@ public class ProductServiceImpl implements ProductService {
 			result = productDAO.deleteProduct(prodName);
 		} catch (Exception e) {
 			System.out.println(getClass().getName() + ".deleteProduct Exception");
+			e.printStackTrace();
+		}
+		
+		return result;
+	}
+
+	@Override
+	public int addProductImage(FileVO file) {
+		int result = 0;
+		
+		try {
+			result = productDAO.addProductImage(file);
+		} catch (Exception e) {
+			System.out.println(getClass().getName() + ".addProductImage Exception");
+			e.printStackTrace();
+		}
+		
+		return result;
+	}
+
+	@Override
+	public int updateProductImage(FileVO file) {
+		int result = 0;
+		
+		try {
+			result = productDAO.updateProductImage(file);
+		} catch (Exception e) {
+			System.out.println(getClass().getName() + ".updateProductImage Exception");
+			e.printStackTrace();
+		}
+		
+		return result;
+	}
+
+	@Override
+	public FileVO selectProductImage(int prodNo) {
+		FileVO result = null;
+		
+		try {
+			result = productDAO.selectProductImage(prodNo);
+		} catch (Exception e) {
+			System.out.println(getClass().getName() + ".updateProductImage Exception");
 			e.printStackTrace();
 		}
 		

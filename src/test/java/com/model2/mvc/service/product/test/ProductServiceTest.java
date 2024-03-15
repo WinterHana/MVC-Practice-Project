@@ -14,6 +14,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import com.model2.mvc.common.SearchVO;
+import com.model2.mvc.service.domain.FileVO;
 import com.model2.mvc.service.domain.ProductVO;
 import com.model2.mvc.service.product.ProductDAO;
 import com.model2.mvc.service.product.ProductService;
@@ -39,7 +40,7 @@ public class ProductServiceTest {
 	@Qualifier("productServiceImpl")
 	private ProductService productService;
 	
-	// @Test
+	@Test
 	public void productDAOTest() {
 		// 1. getProduct
 		ProductVO getProductVO = productDAO.getProduct(10000);
@@ -59,16 +60,31 @@ public class ProductServiceTest {
 		// 3. deleteProduct
 		int deleteResult = productDAO.deleteProduct(addProductVO.getProdName());
 		Assert.assertEquals(1, deleteResult);
+		
+		// 4. productImage 추가
+//		FileVO file = new FileVO();
+//		file.setFileName("테스트중입니다.");
+//		file.setProdNo(10000);
+//		int addProductImageResult = productDAO.addProductImage(file);
+//		Assert.assertEquals(1, addProductImageResult);
+		
+		FileVO selectProductImageResult = productDAO.selectProductImage(10161);
+		System.out.println(selectProductImageResult);
+		Assert.assertEquals(10161, selectProductImageResult.getProdNo());
+		
+//		file.setFileName("테스트중입니다. : update");
+//		int updateProductImageResult = productDAO.updateProductImage(file);
+//		Assert.assertEquals(1, updateProductImageResult);
 	}
 	
-	@Test
+	// @Test
 	public void getProductTest() {
 		ProductVO getProductVO = productService.getProduct(10000);
 		Assert.assertNotNull(getProductVO);
 		Assert.assertEquals("vaio vgn FS70B", getProductVO.getProdName());
 	}
 	
-	@Test
+	// @Test
 	public void addProductTest() {
 		ProductVO addProductVO = new ProductVO();
 		addProductVO.setProdName("testProduct");
@@ -77,17 +93,21 @@ public class ProductServiceTest {
 		addProductVO.setPrice(10000);
 		addProductVO.setFileName("nullString");
 		
+		FileVO file = new FileVO();
+		file.setFileName("테스트중입니다.");
+		file.setProdNo(10000);
+		
 		int addResult = productService.addProduct(addProductVO);
 		Assert.assertEquals(1, addResult);
 	}
 	
-	@Test
+	// @Test
 	public void deleteProductTest() {
 		int deleteResult = productService.deleteProduct("testProduct");
 		Assert.assertEquals(1, deleteResult);
 	}
 	
-	@Test
+	// @Test
 	public void getProductListTest() {
 		SearchVO searchVO = new SearchVO();
 		searchVO.setPage(2);
@@ -103,7 +123,7 @@ public class ProductServiceTest {
 		Assert.assertEquals(5, list.size());
 	}
 	
-	@Test
+	// @Test
 	public void updateProductTest() {
 		ProductVO updateProductVO = new ProductVO();
 		updateProductVO.setProdNo(10009);

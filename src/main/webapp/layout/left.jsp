@@ -1,4 +1,3 @@
-<%@page import="java.net.URLDecoder"%>
 <%@ page contentType="text/html; charset=euc-kr" %>
 <%@ taglib prefix = "c" uri = "http://java.sun.com/jsp/jstl/core" %>
 
@@ -106,7 +105,6 @@ function history(){
 	</table>
 </td>
 </tr>
-<%Cookies cookies = new Cookies(request); %>
 <tr>
 <td valign="top">
 	<table  border="0" cellspacing="0" cellpadding="0" width="159">

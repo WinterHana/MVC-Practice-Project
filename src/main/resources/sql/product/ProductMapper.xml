@@ -16,6 +16,12 @@
 		<result property = "count" column = "count" jdbcType = "NUMERIC"/>
 	</resultMap>
 	
+	<resultMap id = "fileSelectMap"  type = "FileVO">
+		<result property = "imageNo" column = "image_no" jdbcType="NUMERIC"/>
+		<result property = "prodNo" column = "prod_no" jdbcType="NUMERIC"/>
+  		<result property = "fileName" column = "file_name" jdbcType="VARCHAR"/>
+	</resultMap>
+	
   	<sql id = "getProductListSelect">
   		 SELECT * FROM product 
   		<where>
@@ -43,7 +49,7 @@
   			</if>
   	</sql>
   	
-  	 <select id="addProduct"  parameterType = "productVO">
+  	<insert id="addProduct"  parameterType = "productVO">
   		INSERT
   		INTO product
   		VALUES(
@@ -56,7 +62,7 @@
   			SYSDATE,
   			#{count:NUMERIC}
   		)					
-  	</select>
+  	</insert>
   	
   	 <select id="getProduct"  parameterType = "int"  resultMap = "productSelectMap">
 		SELECT *
@@ -77,11 +83,11 @@
   		WHERE prod_no = #{prodNo:NUMERIC}
   	</update>
   	
-  	<select id = "deleteProduct" parameterType = "string">
+  	<delete id = "deleteProduct" parameterType = "string">
   		DELETE
   		FROM product
   		WHERE prod_name = #{prodName:VARCHAR}
-  	</select>
+  	</delete>
   	
   	<select id = "getProductList"  parameterType = "searchVO"  resultMap = "productSelectMap">
   		SELECT *
@@ -105,4 +111,28 @@
 		</set>
 		WHERE prod_no = #{prodNo:NUMERIC}
 	</update>
+	
+	<select id = "selectProductImage" parameterType = "int" resultMap = "fileSelectMap">
+		SELECT * 
+		FROM productImage 
+		WHERE prod_no = #{prodNo:NUMERIC}
+	</select>
+	
+	<insert id = "addProductImage" parameterType = "FileVO">
+		INSERT 
+		INTO productImage
+		VALUES(
+  			seq_product_image_no.nextval,
+  			seq_product_prod_no.currval,
+  			#{fileName:VARCHAR}
+  		)	
+	</insert>
+	
+	<insert id = "updateProductImage" parameterType = "FileVO">
+	  	UPDATE productImage
+  		<set>
+  			<if test = "fileName != null" >file_name = #{fileName:VARCHAR},</if>
+  		</set>
+  		WHERE prod_no = #{prodNo:NUMERIC}
+	</insert>
 </mapper>

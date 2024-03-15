@@ -20,6 +20,7 @@
  		<typeAlias alias = "searchVO" type = "com.model2.mvc.common.SearchVO"/>
  		<typeAlias alias = "productVO" type = "com.model2.mvc.service.domain.ProductVO"/>
  		<typeAlias alias = "purchaseVO" type = "com.model2.mvc.service.domain.PurchaseVO"/>
+ 		<typeAlias alias = "FileVO" type = "com.model2.mvc.service.domain.FileVO"/>
  	</typeAliases>
  
 	 <!-- JDBC setting --> 

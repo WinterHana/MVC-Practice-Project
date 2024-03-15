@@ -1,5 +1,6 @@
 package com.model2.mvc.view.user;
 
+import java.util.HashMap;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.model2.mvc.common.Page;
@@ -21,27 +23,30 @@ import com.model2.mvc.service.domain.UserVO;
 import com.model2.mvc.service.user.UserService;
 import com.model2.mvc.view.common.CommonController;
 
-@Controller
-@RequestMapping("/user/*")
-public class UserController extends CommonController {
+@RestController
+@RequestMapping("/rest/user/*")
+public class UserRestController extends CommonController {
 	
 	@Autowired
 	@Qualifier("userServiceImpl")
 	UserService userService;
 	
-	// @RequestMapping(value = "/login.do")
+	// test
 	@RequestMapping(value = "login")
-	public ModelAndView login(HttpSession session, @ModelAttribute("user") UserVO user) {
+	public Map<String, Object> login(HttpSession session, @ModelAttribute("user") UserVO user) {
 		System.out.println("[UserController.loginUser()] start");
+		Map<String, Object> map = new HashMap<String, Object>();
 		
-		ModelAndView modelAndView = new ModelAndView("redirect:/index.jsp");
+//		ModelAndView modelAndView = new ModelAndView("redirect:/index.jsp");
+//		session.setAttribute("user",  userService.loginUser(user));
+		
+		map.put("path","redirect:/index.jsp");
 		session.setAttribute("user",  userService.loginUser(user));
 		
 		System.out.println("[UserController.loginUser()] end");
-		return modelAndView;
+		return map;
 	}
 	
-	// @RequestMapping(value = "/logout.do")
 	@RequestMapping(value = "logout")
 	public ModelAndView logout(HttpSession session) {
 		System.out.println("[UserController.logout()] start");
@@ -55,7 +60,6 @@ public class UserController extends CommonController {
 		return modelAndView;
 	}
 	
-	// @RequestMapping(value = "/checkDuplication.do")
 	@RequestMapping(value = "checkDuplication")
 	public ModelAndView checkDuplication(@ModelAttribute("user") UserVO user) {
 		System.out.println("[UserController.checkDuplicationUser()] start");
@@ -69,24 +73,28 @@ public class UserController extends CommonController {
 		System.out.println("[UserController.checkDuplicationUser()] end");
 		return modelAndView;
 	}			
-			
-	// @RequestMapping(value = "/getUser.do")
-	// @RequestMapping(value = "getUser")
-	// public ModelAndView getUser(@ModelAttribute("user") UserVO user) [
+		
+	// Test
 	@RequestMapping(value = "getUser/{userId}")
-	public ModelAndView getUser(@PathVariable("userId") String userId) {
+	public Map<String, Object> getUser(@PathVariable("userId") String userId) {
 		
 		System.out.println("[UserController.getUser()] start");
 		
-		ModelAndView modelAndView = new ModelAndView("forward:/user/readUser.jsp");
-		// modelAndView.addObject("user", userService.getUser(user.getUserId()));
-		modelAndView.addObject("user", userService.getUser(userId));
+		Map<String, Object> map = new HashMap<String, Object>();
+		
+//		ModelAndView modelAndView = new ModelAndView("forward:/user/readUser.jsp");
+//		UserVO user = userService.getUser(userId);
+//		modelAndView.addObject("user", user);
+		
+		UserVO user = userService.getUser(userId);
+		map.put("path", "forward:/user/readUser.jsp");
+		map.put("user", user);
+		
 		System.out.println("[UserController.getUser()] end");
 		
-		return modelAndView;
+		return map;
 	}
 	
-	// @RequestMapping(value = "/addUser.do")
 	@RequestMapping(value = "addUser")
 	public ModelAndView addUser(@ModelAttribute("user") UserVO user) {
 		System.out.println("[UserController.addUser()] start");
@@ -100,9 +108,8 @@ public class UserController extends CommonController {
 		return modelAndView;
 	}
 	
-	// @RequestMapping(value = "/listUser.do")
 	@RequestMapping(value = "listUser/{page}")
-	public ModelAndView listUser(
+	public Map<String, Object> listUser(
 			@ModelAttribute("search") SearchVO search,
 			// @ModelAttribute("user") UserVO user,
 			@PathVariable("page") int page) {
@@ -125,25 +132,28 @@ public class UserController extends CommonController {
 				PAGE_SIZE
 		);
 
-		ModelAndView modelAndView = new ModelAndView("forward:/user/listUser.jsp");
-		modelAndView.addObject("list", map.get("list"));
-		modelAndView.addObject("resultPage", resultPage);
-		modelAndView.addObject("search", search);
-		modelAndView.addObject("getList", "fncGetUserList");
+//		ModelAndView modelAndView = new ModelAndView("forward:/user/listUser.jsp");
+//		modelAndView.addObject("list", map.get("list"));
+//		modelAndView.addObject("resultPage", resultPage);
+//		modelAndView.addObject("search", search);
+//		modelAndView.addObject("getList", "fncGetUserList");
+		
+		Map<String, Object> result = new HashMap<String, Object>();
+		map.put("path", "forward:/user/listUser.jsp");
+		map.put("list", map.get("list"));
+		map.put("resultPage", resultPage);
+		map.put("search", search);
+		map.put("getList", "fncGetUserList");
+		
 		
 		System.out.println("[UserController.listUser()] end");
 		
-		return modelAndView;
+		return map;
 	}
 	
-	// @RequestMapping(value = "/updateUserView.do")
-//	@RequestMapping(value = "updateUserView")
-//	public ModelAndView updateUserView(@ModelAttribute("user") UserVO user) {
 	@RequestMapping(value = "updateUserView/{userId}")
 	public ModelAndView updateUserView(@PathVariable("userId") String userId) {
 		System.out.println("[UserController.updateUserView()] start");
-		
-		// UserVO resultUser = userService.getUser(user.getUserId());
 		
 		UserVO resultUser = userService.getUser(userId);
 		
@@ -155,7 +165,6 @@ public class UserController extends CommonController {
 		return modelAndView;
 	}
 	
-	// @RequestMapping(value = "/updateUser.do")
 	@RequestMapping(value = "updateUser")
 	public ModelAndView updateUser(HttpSession session, @ModelAttribute("user") UserVO user) {
 		System.out.println("[UserController.updateUser()] start");
