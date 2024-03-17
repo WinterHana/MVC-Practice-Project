@@ -13,20 +13,22 @@ import javax.servlet.http.HttpServletResponse;
 public class HistoryUtil {
 	
 	private static final int DEQUE_SIZE = 5;
-	public static Deque<String> cookieDeque;
-	
+	private static Deque<String> cookieDeque;
+
 	private HistoryUtil() {
 		// blank	
 	}
 	
-	private static void getQueue()  {
+	public static Deque<String> getCookieDeque()  {
 		if(cookieDeque == null) {
 			cookieDeque = new LinkedList<String>();
 		}
+		
+		return cookieDeque;
 	}
 	
 	public static void saveHistory(int prodNo) {
-		getQueue();
+		getCookieDeque();
 		
 		String strProdNo = String.valueOf(prodNo);
 		cookieDeque.addFirst(strProdNo);
@@ -34,5 +36,15 @@ public class HistoryUtil {
 		if(cookieDeque.size() > DEQUE_SIZE) {
 			System.out.println("삭제된 Queue : " + cookieDeque.removeLast());
 		}
+	}
+	
+	public static String getHistory() {
+		StringBuffer sb = new StringBuffer();
+		if(cookieDeque != null || !cookieDeque.isEmpty()) {
+			for(String s : cookieDeque)
+			sb.append(s + "/");
+		}
+		
+		return sb.toString();
 	}
 }

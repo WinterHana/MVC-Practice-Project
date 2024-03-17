@@ -4,6 +4,8 @@
 <html>
 <head>
 <title>Model2 MVC Shop</title>
+<!-- 새로고침 : 10초마다 -->
+<META HTTP-EQUIV="refresh" CONTENT="5">
 
 <link href="/css/left.css" rel="stylesheet" type="text/css">
 
@@ -97,11 +99,6 @@ function history(){
 				<td class="DepthEnd">&nbsp;</td>
 			</tr>
 		</c:if>
-		<tr>
-			<td class="Depth03">
-				<a href="javascript:history()">최근 본 상품</a>
-			</td>
-		</tr>
 	</table>
 </td>
 </tr>
@@ -110,9 +107,37 @@ function history(){
 	<table  border="0" cellspacing="0" cellpadding="0" width="159">
 			<tr>
 				<td class="Depth03">
-					<p>최근 본 상품 목록</p>
-					<p>최대 5개까지 저장됩니다.</p>
+					<p>최근 본 상품 목록(5개)</p>
 				</td>
+			</tr>	
+				<%
+				String historyInfo = null;
+				Cookie[] cookies = request.getCookies();
+	
+				if (cookies != null && cookies.length > 0) {
+				for (int i = 0; i < cookies.length; i++) {
+				Cookie cookie = cookies[i];
+				if (cookie.getName().equals("historyInfo")) {
+					historyInfo = cookie.getValue();
+					}
+				}
+		
+			if (historyInfo != null) {
+				String[] h = historyInfo.split("/");
+				for (int i = 0; i < h.length; i++) {
+					if (!h[i].equals("null")) {
+				%>
+				<tr>
+					<td>
+						<h4>&nbsp;&nbsp;<a href="/product/getProduct/<%=h[i]%>" target="rightFrame"><%=h[i]%></a></h4>
+					</td>
+				</tr>
+				<%
+				}
+			}
+		}
+	}
+%>
 			</tr>
 			<tr>
 				<td class="DepthEnd">&nbsp;</td>

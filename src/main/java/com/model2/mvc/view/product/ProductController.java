@@ -121,14 +121,15 @@ public class ProductController extends CommonController  {
 	
 	@RequestMapping(value = "/getProduct/{prodNo}")
 	public ModelAndView getProduct(
-			@PathVariable("prodNo") int prodNo,
-			 HttpServletResponse response) {
+			@PathVariable("prodNo") int prodNo) {
 		System.out.println("[ProductController.getProduct()] start");
 		
 		ModelAndView modelAndView = new ModelAndView("forward:/product/getProduct.jsp");
 		ProductVO product = productService.getProduct(prodNo);
 		modelAndView.addObject("product", product);
+		
 		HistoryUtil.saveHistory(product.getProdNo());
+		modelAndView.addObject("historyInfo", HistoryUtil.getHistory());
 		
 		System.out.println("[ProductController.getProduct()] end");
 		

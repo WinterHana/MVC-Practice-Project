@@ -16,17 +16,18 @@ public class CookieInterceptor implements HandlerInterceptor {
 	@Override
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
 			throws Exception {
-		
-		if(HistoryUtil.cookieDeque != null) {
-			StringBuffer sb = new StringBuffer();
-			Iterator<String> iterator = HistoryUtil.cookieDeque.iterator();
-			int index = 0;
-			while(iterator.hasNext()) {
-				String prodNo = iterator.next();
-				response.addCookie(new Cookie("prodNo"+ index, prodNo));
-			}
-		}
-		
 		return true;
+	}
+	
+	@Override
+	public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler,
+			ModelAndView modelAndView) throws Exception {
+		String historyInfo = null;
+		String path = "/layout/left.jsp";
+		if((historyInfo = (String)modelAndView.getModel().get("historyInfo")) != null) {
+			Cookie cookie = new Cookie("historyInfo", historyInfo);
+			cookie.setPath(path);
+			response.addCookie(cookie);
+		}
 	}
 }

@@ -41,7 +41,7 @@
 				<bean class="com.model2.mvc.common.web.LogonCheckInterceptor"/>
    			</mvc:interceptor>
    			<mvc:interceptor>
-				<mvc:mapping path="/**"/>
+				<mvc:mapping path="/product/**"/>
 				<bean class="com.model2.mvc.common.web.CookieInterceptor"/>
    			</mvc:interceptor>
    	</mvc:interceptors>
