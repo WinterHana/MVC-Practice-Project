@@ -6,8 +6,9 @@
 				
 <mapper namespace="ProductMapper">
 	<resultMap id = "productSelectMap" type = "productVO">
-  		<result property = "fileName" column = "image_file" jdbcType="VARCHAR"/>
-  		<result property = "manuDate" column = "manufacture_day" jdbcType="VARCHAR"/>
+		<!-- <result property = "fileName" column = "image_file" jdbcType="VARCHAR"/> -->
+  		<!-- <result property = "manuDate" column = "manufacture_day" jdbcType="VARCHAR"/> -->
+  		<result property = "manuDate" column = "manufacture_day" jdbcType="DATE"/>
   		<result property = "price" column = "price" jdbcType="NUMERIC"/>
   		<result property = "prodDetail" column = "prod_detail" jdbcType="VARCHAR"/>
   		<result property = "prodName" column = "prod_name" jdbcType = "VARCHAR"/>
@@ -56,9 +57,8 @@
   			seq_product_prod_no.nextval,
   			#{prodName:VARCHAR},
   			#{prodDetail:VARCHAR},
-  			#{manuDate:VARCHAR},
+  			#{manuDate:DATE},
   			#{price:NUMERIC},
-  			#{fileName:VARCHAR},
   			SYSDATE,
   			#{count:NUMERIC}
   		)					
@@ -75,9 +75,8 @@
   		<set>
   			<if test = "prodName != null" >prod_name = #{prodName:VARCHAR},</if>
   			<if test = "prodDetail != null"> prod_detail = #{prodDetail:VARCHAR},</if>
-  			<if test = "manuDate != null"> manufacture_day = #{manuDate:VARCHAR},</if>
+  			<if test = "manuDate != null"> manufacture_day = #{manuDate:DATE},</if>
   			<if test = "price != null"> price = #{price:NUMERIC},</if>
-  			<if test = "fileName != null"> image_file = #{fileName:VARCHAR},</if>
   			<if test = "count != null"> count = #{count:NUMERIC}</if>
   		</set>
   		WHERE prod_no = #{prodNo:NUMERIC}
@@ -112,7 +111,7 @@
 		WHERE prod_no = #{prodNo:NUMERIC}
 	</update>
 	
-	<select id = "selectProductImage" parameterType = "int" resultMap = "fileSelectMap">
+	<select id = "getProductImage" parameterType = "int" resultMap = "fileSelectMap">
 		SELECT * 
 		FROM productImage 
 		WHERE prod_no = #{prodNo:NUMERIC}
@@ -123,7 +122,7 @@
 		INTO productImage
 		VALUES(
   			seq_product_image_no.nextval,
-  			seq_product_prod_no.currval,
+ 			seq_product_prod_no.currval,
   			#{fileName:VARCHAR}
   		)	
 	</insert>
@@ -131,7 +130,7 @@
 	<insert id = "updateProductImage" parameterType = "FileVO">
 	  	UPDATE productImage
   		<set>
-  			<if test = "fileName != null" >file_name = #{fileName:VARCHAR},</if>
+  			<if test = "fileName != null" >file_name = #{fileName:VARCHAR}</if>
   		</set>
   		WHERE prod_no = #{prodNo:NUMERIC}
 	</insert>

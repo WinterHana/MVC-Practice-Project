@@ -103,7 +103,7 @@ function fncUpdateProduct(){
 		<td bgcolor="D6D6D6" width="1"></td>
 		<td class="ct_write01">
 			<input type="text" name="prodDetail" value="${product.prodDetail}" class="ct_input_g" 
-						style="width: 100px; height: 19px" maxLength="200"	minLength="1">
+						style="width: 300px; height: 200px" maxLength="2000"	minLength="1">
 		</td>
 	</tr>
 	<tr>
@@ -115,10 +115,11 @@ function fncUpdateProduct(){
 		</td>
 		<td bgcolor="D6D6D6" width="1"></td>
 		<td class="ct_write01">
-			<input type="text" readonly="readonly" name="manuDate" value="${product.manuDate}" 	
-						class="ct_input_g" style="width: 100px; height: 19px" maxLength="10" minLength="6">&nbsp;
-						<img 	src="../images/ct_icon_date.gif" width="15" height="15" 
-									onclick="show_calendar('document.detailForm.manuDate', document.detailForm.manuDate.value)" />
+			<%-- <input type="text" readonly="readonly" name="manuDate" value="${product.manuDate}" 	
+					class="ct_input_g" style="width: 100px; height: 19px" maxLength="10" minLength="6">&nbsp;
+			<img 	src="../images/ct_icon_date.gif" width="15" height="15" 
+					onclick="show_calendar('document.detailForm.manuDate', document.detailForm.manuDate.value)" /> --%>
+		<input type="date" name="manuDate" value="${product.manuDate}" />
 		</td>
 	</tr>
 	<tr>
@@ -141,7 +142,7 @@ function fncUpdateProduct(){
 		<td width="104" class="ct_write">상품이미지</td>
 		<td bgcolor="D6D6D6" width="1"></td>
 		<td class="ct_write01">
-			<input	type="file" name="fileName" class="ct_input_g" 
+			<input	type="file" name="multipartFile" class="ct_input_g" 
 						style="width: 200px; height: 19px" maxLength="13" />
 		</td>
 	</tr>

@@ -21,5 +21,5 @@ public interface ProductService {
 	
 	public int updateProductImage(FileVO file);
 	
-	public FileVO selectProductImage(int prodNo);
+	public FileVO getProductImage(int prodNo);
 }

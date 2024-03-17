@@ -37,16 +37,20 @@ public class ProductServiceImpl implements ProductService {
 	
 	@Override
 	public ProductVO getProduct(int productId) {
-		ProductVO prodVO = null;
+		ProductVO product = null;
 		
 		try {
-			prodVO = productDAO.getProduct(productId);
+			product = productDAO.getProduct(productId);
+			FileVO file = productDAO.getProductImage(productId);
+			if(file != null) {
+				product.setFileName(file.getFileName());
+			}
 		} catch (Exception e) {
 			System.out.println(getClass().getName() + ".findProduct Exception");
 			e.printStackTrace();
 		}
 		
-		return prodVO;
+		return product;
 	}
 	
 	@Override
@@ -72,12 +76,17 @@ public class ProductServiceImpl implements ProductService {
 				searchVO.setSearchKeyword(serachKeyword);
 			}
 		}
-
+		
+		// productImage 관련 데이터를 가져옴
 		try {
 			list = productDAO.getProductList(searchVO);
 			totalCount = productDAO.getProductCount(searchVO);
 			for(ProductVO p : list) {
-				fileNameMap.put(p.getProdNo(), (productDAO.selectProductImage(p.getProdNo()).getFileName()));
+				// fileName을 가져와서 productVO에 따로 저장
+				FileVO file = productDAO.getProductImage(p.getProdNo());
+				if(file != null) {
+					p.setFileName(file.getFileName());
+				}
 			}
 		} catch (Exception e) {
 			System.out.println(getClass().getName() + ".getProduct Exception");
@@ -159,11 +168,11 @@ public class ProductServiceImpl implements ProductService {
 	}
 
 	@Override
-	public FileVO selectProductImage(int prodNo) {
+	public FileVO getProductImage(int prodNo) {
 		FileVO result = null;
 		
 		try {
-			result = productDAO.selectProductImage(prodNo);
+			result = productDAO.getProductImage(prodNo);
 		} catch (Exception e) {
 			System.out.println(getClass().getName() + ".updateProductImage Exception");
 			e.printStackTrace();

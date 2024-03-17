@@ -210,10 +210,11 @@ function fncAddPurchase() {
 		<td width="104" class="ct_write">πËº€»Ò∏¡¿œ¿⁄</td>
 		<td bgcolor="D6D6D6" width="1"></td>
 		<td width="200" class="ct_write01">
-			<input 	type="text" readonly="readonly" name="dlvyDate" class="ct_input_g" 
+			<!-- <input 	type="text" readonly="readonly" name="dlvyDate" class="ct_input_g" 
 							style="width: 100px; height: 19px" maxLength="20"/>
 			<img 	src="../images/ct_icon_date.gif" width="15" height="15"	
-						onclick="show_calendar('document.addPurchase.dlvyDate', document.addPurchase.dlvyDate.value)"/>
+						onclick="show_calendar('document.addPurchase.dlvyDate', document.addPurchase.dlvyDate.value)"/> -->
+			<input type="date" name="dlvyDate"   min = "2024-01-01" max = "2030-12-31"/>
 		</td>
 	</tr>
 	<tr>

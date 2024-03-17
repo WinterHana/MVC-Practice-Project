@@ -30,5 +30,5 @@ public interface ProductDAO {
 	public int updateProductImage(FileVO file);
 	
 	// productImage 정보 가져오기
-	public FileVO selectProductImage(int prodNo);
+	public FileVO getProductImage(int prodNo);
 }

@@ -127,15 +127,15 @@ window.onload = showContentBySelectBox;
 		<td class="ct_line02"></td>
 		<td class="ct_list_b" width="150">상품명</td>
 		<td class="ct_line02"></td>
-		<td class="ct_list_b">가격</td>	
+		<td class="ct_list_b" width = "50">가격</td>	
 		<td class="ct_line02"></td>
-		<td class="ct_list_b">등록일</td>
+		<td class="ct_list_b" width = "100">등록일</td>
 		<td class="ct_line02"></td>
 		<td class="ct_list_b">상품 설명</td>
 		<td class="ct_line02"></td>
 		<td class="ct_list_b" width ="100">남은 개수</td>
 		<td class="ct_line02"></td>
-		<td class="ct_list_b">배송 상태</td>		
+		<td class="ct_list_b" width = "50">판매 상태</td>		
 	</tr>
 	<tr>
 		<td colspan="11" bgcolor="808285" height="1"></td>
