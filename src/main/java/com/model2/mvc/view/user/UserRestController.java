@@ -12,8 +12,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -22,7 +24,9 @@ import com.model2.mvc.common.SearchVO;
 import com.model2.mvc.service.domain.UserVO;
 import com.model2.mvc.service.user.UserService;
 import com.model2.mvc.view.common.CommonController;
-
+/**
+ * https://velog.io/@twomin/JSON%EC%9D%98-%EA%B0%9C%EB%85%90-%EB%B0%8F-%EC%82%AC%EC%9A%A9%EB%B2%95#point-1--json%EC%9C%BC%EB%A1%9C-%EB%8D%B0%EC%9D%B4%ED%84%B0%EB%B3%80%ED%99%98%EC%9D%84-%EC%9D%B5%ED%98%94%EB%8B%A4%EB%A9%B4-%EC%96%B4%EB%96%BB%EA%B2%8C-%EC%A0%84%EC%86%A1%ED%95%A0%EA%B9%8C
+ */
 @RestController
 @RequestMapping("/rest/user/*")
 public class UserRestController extends CommonController {
@@ -37,9 +41,6 @@ public class UserRestController extends CommonController {
 		System.out.println("[UserController.loginUser()] start");
 		Map<String, Object> map = new HashMap<String, Object>();
 		
-//		ModelAndView modelAndView = new ModelAndView("redirect:/index.jsp");
-//		session.setAttribute("user",  userService.loginUser(user));
-		
 		map.put("path","redirect:/index.jsp");
 		session.setAttribute("user",  userService.loginUser(user));
 		
@@ -47,31 +48,37 @@ public class UserRestController extends CommonController {
 		return map;
 	}
 	
+	// test
 	@RequestMapping(value = "logout")
-	public ModelAndView logout(HttpSession session) {
+	public Map<String, Object> logout(HttpSession session) {
 		System.out.println("[UserController.logout()] start");
 		
-		session.invalidate();
+		Map<String, Object> map = new HashMap<String, Object>();
 		
-		ModelAndView modelAndView = new ModelAndView("redirect:/index.jsp");
+		session.invalidate();
+		map.put("path", "redirect:/index.jsp");
 		
 		System.out.println("[UserController.logout()] end");
 		
-		return modelAndView;
+		return map;
 	}
 	
+	// test
 	@RequestMapping(value = "checkDuplication")
-	public ModelAndView checkDuplication(@ModelAttribute("user") UserVO user) {
+	public Map<String, Object> checkDuplication(@RequestBody UserVO user) {
 		System.out.println("[UserController.checkDuplicationUser()] start");
+		
+		Map<String, Object> map = new HashMap<String, Object>();
 		
 		boolean result = userService.checkDuplication(user.getUserId());
 		
-		ModelAndView modelAndView = new ModelAndView("forward:/user/checkDuplication.jsp");
-		modelAndView.addObject("result", result);
-		modelAndView.addObject("userId", user.getUserId());
+		map.put("path", "forward:/user/checkDuplication.jsp");
+		map.put("result", result);
+		map.put("userId", user.getUserId());
 		
 		System.out.println("[UserController.checkDuplicationUser()] end");
-		return modelAndView;
+		
+		return map;
 	}			
 		
 	// Test
@@ -108,6 +115,7 @@ public class UserRestController extends CommonController {
 		return modelAndView;
 	}
 	
+	// Test
 	@RequestMapping(value = "listUser/{page}")
 	public Map<String, Object> listUser(
 			@ModelAttribute("search") SearchVO search,

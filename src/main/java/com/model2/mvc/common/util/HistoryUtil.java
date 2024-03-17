@@ -14,7 +14,8 @@ public class HistoryUtil {
 	
 	private static final int DEQUE_SIZE = 5;
 	private static Deque<String> cookieDeque;
-
+	
+	
 	private HistoryUtil() {
 		// blank	
 	}
