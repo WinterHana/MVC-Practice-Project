@@ -6,20 +6,31 @@
 <link rel="stylesheet" href="/css/admin.css" type="text/css">
 <title>상품 상세 조회</title>
 
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 <script type="text/javascript">
-function fncAddPurchaseView(prodNo) {
-	// 유효성 확인
-	let productCount = parseInt('${product.count}');
+	function fncAddPurchaseView() {
+		// 유효성 확인
+		let count = parseInt($("#count").text());
+		let prodNo = $("#prodNo").text()
 	
-	if(productCount <= 0) {
-		alert("상품이 매진되었습니다!");
-		return;
+		if(count <= 0) {
+			alert("상품이 매진되었습니다!");
+			return;
+		}
+		
+		let url = '/purchase/addPurchaseView/'+ prodNo;
+		$("form").attr("method", "POST").attr("action", url).submit();
 	}
 	
-	let url = '/purchase/addPurchaseView/'+ ${product.prodNo};
-	document.detailForm.action = url;
-	document.detailForm.submit();
-}
+	$(function() {
+		$("td.ct_btn01:contains('구매')").on("click", function() {
+			fncAddPurchaseView();
+		});
+		
+		$("td.ct_btn01:contains('이전')").on("click", function() {
+			history.go(-1);
+		});
+	})
 </script>
 
 </head>
@@ -57,7 +68,7 @@ function fncAddPurchaseView(prodNo) {
 		<td class="ct_write01">
 			<table width="100%" border="0" cellspacing="0" cellpadding="0">
 				<tr>
-					<td width="105">${product.prodNo}</td>
+					<td id = "prodNo" width="105">${product.prodNo}</td>
 				</tr>
 			</table>
 		</td>
@@ -117,7 +128,7 @@ function fncAddPurchaseView(prodNo) {
 	<tr>
 		<td width="104" class="ct_write">남은 개수</td>
 		<td bgcolor="D6D6D6" width="1"></td>
-		<td class="ct_write01">${product.count}</td>
+		<td id = "count" class="ct_write01">${product.count}</td>
 	</tr>
 	<tr>
 		<td height="1" colspan="3" bgcolor="D6D6D6"></td>
@@ -143,7 +154,8 @@ function fncAddPurchaseView(prodNo) {
 					<img src="/images/ct_btnbg01.gif" width="17" height="23"/>
 				</td>
 				<td background="/images/ct_btnbg02.gif" class="ct_btn01" style="padding-top: 3px;">
-					<a href="javascript:fncAddPurchaseView(${product.prodNo});">구매</a>
+					<%-- <a href="javascript:fncAddPurchaseView(${product.prodNo});">구매</a> --%>
+					구매
 				</td>
 				<td width="14" height="23">
 					<img src="/images/ct_btnbg03.gif" width="14" height="23">
@@ -154,7 +166,8 @@ function fncAddPurchaseView(prodNo) {
 					<img src="/images/ct_btnbg01.gif" width="17" height="23"/>
 				</td>
 				<td background="/images/ct_btnbg02.gif" class="ct_btn01" style="padding-top: 3px;">
-					<a href="javascript:history.go(-1)">이전</a>
+					<!-- <a href="javascript:history.go(-1)">이전</a> -->
+					이전
 				</td>
 				<td width="14" height="23">
 					<img src="/images/ct_btnbg03.gif" width="14" height="23">

@@ -10,31 +10,42 @@
 
 <link rel="stylesheet" href="/css/admin.css" type="text/css">
 
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 <script type="text/javascript">
-function fncGetProductList(currentPage) {
-	let url = '/product/listUserProduct/' + currentPage;
-	document.detailForm.action = url;
-   	document.detailForm.submit();		
-}
+	window.onload = showContentBySelectBox;
 
-function submitDetailForm() {
-	document.detailForm.submit();	
-}
-
-function showContentBySelectBox() {
-	var selectOption = document.getElementById("searchCondition").value;
-	
-	if(selectOption === "price") {
-		document.getElementById("prodNameContent").style.display = "none";
-		document.getElementById("priceContent").style.display = "block";
-	} 
-	else {
-		document.getElementById("prodNameContent").style.display = "block";
-		document.getElementById("priceContent").style.display = "none";
+	function fncGetProductList(currentPage) {
+		let url = '/product/listUserProduct/' + currentPage;	
+			$("form").attr("method", "POST").attr("action", url).submit();
 	}
-}
 
-window.onload = showContentBySelectBox;
+	function submitDetailForm() {
+		$("form").attr("method", "POST").submit();
+	}
+
+	function showContentBySelectBox() {
+		let selectOption = $("#searchCondition").val();
+
+		if(selectOption === "price") {
+			$("#prodNameContent").css("display", "none");
+			$("#priceContent").css("display", "block");
+		} 
+	
+		else {
+			$("#prodNameContent").css("display", "block");
+			$("#priceContent").css("display", "none");
+		}
+	}
+
+	$(function() {
+		$("#sortCondition").on("change", function() {
+			submitDetailForm();
+		})
+	
+		$("#searchCondition").on("change", function() {
+			showContentBySelectBox();
+		})
+	})
 </script>
 </head>
 

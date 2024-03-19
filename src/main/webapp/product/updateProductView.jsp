@@ -1,12 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=EUC-KR"
     pageEncoding="EUC-KR"%>
-
-<%--
-<%@page import="com.model2.mvc.service.product.domain.ProductVO"%>
-<% 
-	ProductVO prodVO = (ProductVO)request.getAttribute("prodVO");
-%>
- --%>
  
 <html>
 <head>
@@ -14,36 +7,49 @@
 
 <link rel="stylesheet" href="/css/admin.css" type="text/css">
 
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 <script type="text/javascript" src="../javascript/calendar.js">
 </script>
 
 <script type="text/javascript">
-function fncUpdateProduct(){
-	//Form 유효성 검증
- 	var name = document.detailForm.prodName.value;
-	var detail = document.detailForm.prodDetail.value;
-	var manuDate = document.detailForm.manuDate.value;
-	var price = document.detailForm.price.value;
+	function fncUpdateProduct(){
+		//Form 유효성 검증
+ 		let name = $("input[name='prodName']").val();
+ 		let detail = $("input[name='prodDetail']").val();
+ 		let manuDate = $("input[name='manuDate']").val();
+ 		let price = $("input[name='price']").val();
 
-	if(name == null || name.length<1){
-		alert("상품명은 반드시 입력하여야 합니다.");
-		return;
-	}
-	if(detail == null || detail.length<1){
-		alert("상품상세정보는 반드시 입력하여야 합니다.");
-		return;
-	}
-	if(manuDate == null || manuDate.length<1){
-		alert("제조일자는 반드시 입력하셔야 합니다.");
-		return;
-	}
-	if(price == null || price.length<1){
-		alert("가격은 반드시 입력하셔야 합니다.");
-		return;
-	}
+		if(name == null || name.length<1){
+			alert("상품명은 반드시 입력하여야 합니다.");
+			return;
+		}
 		
-	document.detailForm.action='/product/updateProduct';
-	document.detailForm.submit();
+		if(detail == null || detail.length<1){
+			alert("상품상세정보는 반드시 입력하여야 합니다.");
+			return;
+		}
+		
+		if(manuDate == null || manuDate.length<1){
+			alert("제조일자는 반드시 입력하셔야 합니다.");
+			return;
+		}
+		
+		if(price == null || price.length<1){
+			alert("가격은 반드시 입력하셔야 합니다.");
+			return;
+		}
+		
+		$("form").attr("method", "POST").attr("action", "/product/updateProduct").submit();
+		
+		$(function() {
+			$("td.ct_btn01:contains('수정')").on("click", function() {
+				fncUpdateProduct();
+			});
+			
+			$("td.ct_btn01:contains('취소')").on("click", function() {
+				history.go(-1);
+			})
+		})
 }
 </script>
 </head>
@@ -115,10 +121,6 @@ function fncUpdateProduct(){
 		</td>
 		<td bgcolor="D6D6D6" width="1"></td>
 		<td class="ct_write01">
-			<%-- <input type="text" readonly="readonly" name="manuDate" value="${product.manuDate}" 	
-					class="ct_input_g" style="width: 100px; height: 19px" maxLength="10" minLength="6">&nbsp;
-			<img 	src="../images/ct_icon_date.gif" width="15" height="15" 
-					onclick="show_calendar('document.detailForm.manuDate', document.detailForm.manuDate.value)" /> --%>
 		<input type="date" name="manuDate" value="${product.manuDate}" />
 		</td>
 	</tr>

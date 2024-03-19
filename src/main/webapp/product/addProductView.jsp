@@ -8,51 +8,55 @@
 
 <script type="text/javascript" src="../javascript/calendar.js">
 </script>
-
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 <script type="text/javascript">
 
-function fncAddProduct(){
-	//Form 유효성 검증
- 	let name = document.detailForm.prodName.value;
- 	let detail = document.detailForm.prodDetail.value;
- 	let manuDate = document.detailForm.manuDate.value;
- 	let price = document.detailForm.price.value;
- 	let count = document.detailForm.count.value;
+	function fncAddProduct(){
+		//Form 유효성 검증
+ 		let name = $("input[name='prodName']").val();
+ 		let detail = $("input[name='prodDetail']").val();
+ 		let manuDate = $("input[name='manuDate']").val();
+ 		let price = $("input[name='price']").val();
+ 		let count = $("input[name='count']").val();
 	
 	
-	if(name == null || name.length<1){
-		alert("상품명은 반드시 입력하여야 합니다.");
-		return;
+		if(name == null || name.length<1){
+			alert("상품명은 반드시 입력하여야 합니다.");
+			return;
+		}
+	
+		if(detail == null || detail.length<1){
+			alert("상품상세정보는 반드시 입력하여야 합니다.");
+			return;
+		}
+	
+		if(manuDate == null || manuDate.length<1){
+			alert("제조일자는 반드시 입력하셔야 합니다.");
+			return;
+		}
+	
+		if(price == null || price.length<1){
+			alert("가격은 반드시 입력하셔야 합니다.");
+			return;
+		}
+	
+		if(count == null || parseInt(count) < 0){
+			alert("개수는 반드시 입력해야 합니다. 또는 양수여야 합니다.");
+			return;
+		}
+	
+		$("form").attr("method", "POST").attr("action", "/product/addProduct").submit();
 	}
 	
-	if(detail == null || detail.length<1){
-		alert("상품상세정보는 반드시 입력하여야 합니다.");
-		return;
-	}
-	
-	if(manuDate == null || manuDate.length<1){
-		alert("제조일자는 반드시 입력하셔야 합니다.");
-		return;
-	}
-	
-	if(price == null || price.length<1){
-		alert("가격은 반드시 입력하셔야 합니다.");
-		return;
-	}
-	
-	if(count == null || parseInt(count) < 0){
-		alert("개수는 반드시 입력해야 합니다. 또는 양수여야 합니다.");
-		return;
-	}
-	
-	document.detailForm.action='/product/addProduct';
-	document.detailForm.submit();
-}
-
-function resetData(){
-	document.detailForm.reset();
-}
-
+	$(function() {
+		$("td.ct_btn01:contains('등록')").on("click", function() {
+			fncAddProduct();
+		});
+		
+		$("td.ct_btn01:contains('취소')").on("click", function() {
+			history.go(-1);
+		})
+	})
 </script>
 </head>
 
@@ -121,10 +125,6 @@ function resetData(){
 		</td>
 		<td bgcolor="D6D6D6" width="1"></td>
 		<td class="ct_write01">
-			<!-- <input type="text" name="manuDate" readonly="readonly" class="ct_input_g"  
-						style="width: 100px; height: 19px"	maxLength="10" minLength="6"/>
-				&nbsp;<img src="/images/ct_icon_date.gif" width="15" height="15" 
-										onclick="show_calendar('document.detailForm.manuDate', document.detailForm.manuDate.value)"/> -->
 			<input type="date" name="manuDate" value="${product.manuDate}" />
 		</td>
 	</tr>
@@ -178,7 +178,7 @@ function resetData(){
 					<img src="/images/ct_btnbg01.gif" width="17" height="23"/>
 				</td>
 				<td background="/images/ct_btnbg02.gif" class="ct_btn01"  style="padding-top: 3px;">
-					<a href="javascript:fncAddProduct();">등록</a>
+					등록
 				</td>
 				<td width="14" height="23">
 					<img src="/images/ct_btnbg03.gif" width="14" height="23"/>
@@ -188,7 +188,7 @@ function resetData(){
 					<img src="/images/ct_btnbg01.gif" width="17" height="23"/>
 				</td>
 				<td background="/images/ct_btnbg02.gif" class="ct_btn01"	 style="padding-top: 3px;">
-					<a href="javascript:resetData();">취소</a>
+					취소
 				</td>
 				<td width="14" height="23">
 					<img src="/images/ct_btnbg03.gif" width="14" height="23"/>

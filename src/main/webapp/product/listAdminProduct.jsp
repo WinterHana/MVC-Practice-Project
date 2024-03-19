@@ -10,31 +10,43 @@
 
 <link rel="stylesheet" href="/css/admin.css" type="text/css">
 
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 <script type="text/javascript">
-function fncGetProductList(currentPage) {
-	let url = '/product/listAdminProduct/' + currentPage;
-	document.detailForm.action = url;
-   	document.detailForm.submit();		
-}
+	window.onload = showContentBySelectBox;
 
-function submitDetailForm() {
-	document.detailForm.submit();	
-}
-
-function showContentBySelectBox() {
-	var selectOption = document.getElementById("searchCondition").value;
-	
-	if(selectOption === "price") {
-		document.getElementById("content").style.display = "none";
-		document.getElementById("priceContent").style.display = "block";
-	} 
-	else {
-		document.getElementById("content").style.display = "block";
-		document.getElementById("priceContent").style.display = "none";
+	function fncGetProductList(currentPage) {
+		let url = '/product/listAdminProduct/' + currentPage;	
+   		$("form").attr("method", "POST").attr("action", url).submit();
 	}
-}
 
-window.onload = showContentBySelectBox;
+	function submitDetailForm() {
+		$("form").attr("method", "POST").submit();
+	}
+
+	function showContentBySelectBox() {
+		let selectOption = $("#searchCondition").val();
+	
+		if(selectOption === "price") {
+			$("#content").css("display", "none");
+			$("#priceContent").css("display", "block");
+		} 
+		
+		else {
+			$("#content").css("display", "block");
+			$("#priceContent").css("display", "none");
+		}
+	}
+
+	$(function() {
+		$("#sortCondition").on("change", function() {
+			submitDetailForm();
+		})
+		
+		$("#searchCondition").on("change", function() {
+			showContentBySelectBox();
+		})
+	})
+
 </script>
 </head>
 
@@ -67,7 +79,8 @@ window.onload = showContentBySelectBox;
 	<tr>
 		<td  align = "left" width = "1200" height = 20>
 			정렬 기준
-			<select name="sortCondition"  id = "sortCondition" class="ct_input_g" style="width:80px" onchange = "submitDetailForm()">
+			<!-- <select name="sortCondition"  id = "sortCondition" class="ct_input_g" style="width:80px" onchange = "submitDetailForm()"> -->
+			<select name="sortCondition"  id = "sortCondition" class="ct_input_g" style="width:80px">
 				<option value="prodNo"  ${not empty search.sortCondition && search.sortCondition == "prodNo" ? "selected" : '' }>상품 번호</option>
 				<option value="prodName"  ${not empty search.sortCondition && search.sortCondition == "prodName" ? "selected" : '' }>상품 이름</option>
 				<option value="price"  ${not empty search.sortCondition && search.sortCondition == "price" ? "selected" : '' }>상품 가격</option>
@@ -87,7 +100,8 @@ window.onload = showContentBySelectBox;
 			</div>
 		</td>
 		<td align="right" width = "100"  height = 20>
-			<select name="searchCondition"  id = "searchCondition"  class="ct_input_g" style="width:80px" onchange = "showContentBySelectBox()">
+			<!-- <select name="searchCondition"  id = "searchCondition"  class="ct_input_g" style="width:80px" onchange = "showContentBySelectBox()"> -->
+			<select name="searchCondition"  id = "searchCondition"  class="ct_input_g" style="width:80px">	
 				<option value="prodNo"  ${not empty search.searchCondition && search.searchCondition == "prodNo" ? "selected" : '' }>상품번호</option>
 				<option value="prodName"  ${not empty search.searchCondition && search.searchCondition == "prodName" ? "selected" : '' }>상품명</option>
 				<option value="price"  ${not empty search.searchCondition && search.searchCondition == "price" ? "selected" : '' }>상품가격</option>
