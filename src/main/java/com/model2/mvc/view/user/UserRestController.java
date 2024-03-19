@@ -26,6 +26,7 @@ import com.model2.mvc.service.user.UserService;
 import com.model2.mvc.view.common.CommonController;
 /**
  * https://velog.io/@twomin/JSON%EC%9D%98-%EA%B0%9C%EB%85%90-%EB%B0%8F-%EC%82%AC%EC%9A%A9%EB%B2%95#point-1--json%EC%9C%BC%EB%A1%9C-%EB%8D%B0%EC%9D%B4%ED%84%B0%EB%B3%80%ED%99%98%EC%9D%84-%EC%9D%B5%ED%98%94%EB%8B%A4%EB%A9%B4-%EC%96%B4%EB%96%BB%EA%B2%8C-%EC%A0%84%EC%86%A1%ED%95%A0%EA%B9%8C
+ *
  */
 @RestController
 @RequestMapping("/rest/user/*")
@@ -119,7 +120,6 @@ public class UserRestController extends CommonController {
 	@RequestMapping(value = "listUser/{page}")
 	public Map<String, Object> listUser(
 			@ModelAttribute("search") SearchVO search,
-			// @ModelAttribute("user") UserVO user,
 			@PathVariable("page") int page) {
 		System.out.println("[UserController.listUser()] start");
 		
@@ -139,24 +139,18 @@ public class UserRestController extends CommonController {
 				PAGE_UNIT,
 				PAGE_SIZE
 		);
-
-//		ModelAndView modelAndView = new ModelAndView("forward:/user/listUser.jsp");
-//		modelAndView.addObject("list", map.get("list"));
-//		modelAndView.addObject("resultPage", resultPage);
-//		modelAndView.addObject("search", search);
-//		modelAndView.addObject("getList", "fncGetUserList");
 		
 		Map<String, Object> result = new HashMap<String, Object>();
-		map.put("path", "forward:/user/listUser.jsp");
-		map.put("list", map.get("list"));
-		map.put("resultPage", resultPage);
-		map.put("search", search);
-		map.put("getList", "fncGetUserList");
+		result.put("path", "forward:/user/listUser.jsp");
+		result.put("list", map.get("list"));
+		result.put("resultPage", resultPage);
+		result.put("search", search);
+		result.put("getList", "fncGetUserList");
 		
 		
 		System.out.println("[UserController.listUser()] end");
 		
-		return map;
+		return result;
 	}
 	
 	@RequestMapping(value = "updateUserView/{userId}")
