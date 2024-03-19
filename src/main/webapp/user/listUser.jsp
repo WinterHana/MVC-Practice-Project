@@ -8,15 +8,26 @@
 
 <link rel="stylesheet" href="/css/admin.css" type="text/css">
 
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 <script type="text/javascript">
 function fncGetUserList(currentPage) {
-	// document.getElementById("currentPage").value = currentPage;
-	let url = '/user/listUser/' + currentPage;
-	document.detailForm.action = url;
-   	document.detailForm.submit();		
+	let url = '/user/listUser/' + currentPage;	
+   	$("form").attr("method", "POST").attr("action", url).submit();
 }
+
+$(function() {
+	$("td.ct_btn01:contains('검색')").on("click", function() {
+		fncGetUserList($("input[name='currentPage']").val())
+	})
+	
+	$(".ct_list_pop td:nth-child(3)").on("click", function() {
+		self.location = "/user/getUser/" + $(this).text().trim();
+	})
+	
+	$(".ct_list_pop td:nth-child(3)").css("color", "blue");
+})
 </script>
-</head>
+</head>                           
 
 <body bgcolor="#ffffff" text="#000000">
 
@@ -58,7 +69,8 @@ function fncGetUserList(currentPage) {
 						<img src="/images/ct_btnbg01.gif" width="17" height="23">
 					</td>
 					<td background="/images/ct_btnbg02.gif" class="ct_btn01" style="padding-top:3px;">
-						<a href="javascript:fncGetUserList();">검색</a>
+						<!-- <a href="javascript:fncGetUserList();">검색</a> -->
+						검색
 					</td>
 					<td width="14" height="23">
 						<img src="/images/ct_btnbg03.gif" width="14" height="23">
@@ -91,7 +103,8 @@ function fncGetUserList(currentPage) {
 		<tr class="ct_list_pop">
 		<td align="center">${no}</td>
 		<td></td>
-		<td align="left"><a href="/user/getUser/${user.userId}">${user.userId}</a></td>
+		<%-- <td align="left"><a href="/user/getUser/${user.userId}">${user.userId}</a></td> --%>
+		<td align="left">${user.userId}</td>
 		<td></td>
 		<td align="left">${user.userName}</td>
 		<td></td>

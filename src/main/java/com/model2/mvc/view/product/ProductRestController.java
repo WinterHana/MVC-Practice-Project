@@ -83,7 +83,7 @@ public class ProductRestController extends CommonController  {
 		return result;
 	}
 	
-	// test
+	// Test
 	@RequestMapping(value = "/listUserProduct/{page}")
 	public Map<String, Object> listUserProduct(
 			@ModelAttribute("search") SearchVO search, 

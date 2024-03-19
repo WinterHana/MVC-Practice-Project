@@ -78,7 +78,7 @@ public class UserController extends CommonController {
 		
 		System.out.println("[UserController.getUser()] start");
 		
-		ModelAndView modelAndView = new ModelAndView("forward:/user/readUser.jsp");
+		ModelAndView modelAndView = new ModelAndView("forward:/user/getUser.jsp");
 		// modelAndView.addObject("user", userService.getUser(user.getUserId()));
 		modelAndView.addObject("user", userService.getUser(userId));
 		System.out.println("[UserController.getUser()] end");
