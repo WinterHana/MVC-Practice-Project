@@ -128,7 +128,7 @@ public class PurchaseRestController extends CommonController {
 		
 		for(PaymentOption po : PaymentOption.values()) {
 			if(result.getPaymentOption().trim().equals(po.getNumber())) {
-				map.put("paymentOption",  po.getOption());
+				resultMap.put("paymentOption",  po.getOption());
 			}
 		}	
 		
