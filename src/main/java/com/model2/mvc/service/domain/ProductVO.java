@@ -3,10 +3,10 @@ package com.model2.mvc.service.domain;
 import java.sql.Date;
 
 
-public class ProductVO {
+public class ProductVO  {
 	
 	private String fileName;
-	private String manuDate;
+	private Date manuDate;
 	private int price;
 	private String prodDetail;
 	private String prodName;
@@ -26,11 +26,11 @@ public class ProductVO {
 		this.fileName = fileName;
 	}
 	
-	public String getManuDate() {
+	public Date getManuDate() {
 		return manuDate;
 	}
 	
-	public void setManuDate(String manuDate) {
+	public void setManuDate(Date manuDate) {
 		this.manuDate = manuDate;
 	}
 	

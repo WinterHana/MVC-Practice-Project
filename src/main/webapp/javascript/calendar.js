@@ -136,7 +136,7 @@
 
 		function str2dt (str_datetime,str_target)
 		{
-			var re_date = /^(\d+)\-(\d+)\-(\d+)$/; 
+			var re_date = /^(\d+)\-(\d+)\-(\d+)$/;
 	        if (!re_date.exec(str_datetime))
 				return errorTurn("날짜 형식이 잘못 되었습니다. 형식('YYYYMMDD')",str_target); 
 

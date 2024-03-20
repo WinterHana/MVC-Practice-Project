@@ -9,12 +9,12 @@ import org.aspectj.lang.ProceedingJoinPoint;
 public class LogAspectJ {
 
 	public LogAspectJ() {
-		System.out.println("Common :: "+ this.getClass());
+		System.out.println("Common ::"+ this.getClass());
 	}
 	
 	public Object invoke(ProceedingJoinPoint joinPoint) throws Throwable {
 			
-		System.out.println("");
+		System.out.println(" ");
 		System.out.println("[Around before] targetObject method"+
 													joinPoint.getTarget().getClass().getName() +"."+
 													joinPoint.getSignature().getName());
@@ -30,5 +30,4 @@ public class LogAspectJ {
 		
 		return obj;
 	}
-	
 }

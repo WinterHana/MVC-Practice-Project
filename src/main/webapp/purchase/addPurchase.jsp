@@ -3,13 +3,6 @@
 
 <%@ taglib prefix = "c" uri = "http://java.sun.com/jsp/jstl/core" %>
 
-<%--
-<%@page import="com.model2.mvc.common.util.PaymentOption"%>
-<%@page import="com.model2.mvc.service.purchase.domain.PurchaseVO"%>
- <%
-   	PurchaseVO purchaseVO = (PurchaseVO)request.getAttribute("purchaseVO");
- %>
---%>
 <html>
 <head>
 <title>Insert title here</title>
@@ -17,7 +10,7 @@
 
 <body>
 
-<form name="updatePurchase" action="/updatePurchaseView.do?tranNo=0" method="post">
+<form name="updatePurchase" action="/purchase/updatePurchaseView/${purchase.tranNo}" method="post">
 
 다음과 같이 구매가 되었습니다.
 

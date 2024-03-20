@@ -12,7 +12,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -30,6 +32,7 @@ import com.model2.mvc.service.user.UserService;
 import com.model2.mvc.view.common.CommonController;
 
 @Controller
+@RequestMapping("/purchase/*")
 public class PurchaseController extends CommonController {
 	
 	@Autowired
@@ -44,19 +47,20 @@ public class PurchaseController extends CommonController {
 	@Qualifier("userServiceImpl")
 	UserService userService;
 	
-	@RequestMapping(value = "/listPurchase.do")
+	// @RequestMapping(value = "/listPurchase.do")
+	@RequestMapping(value = "/listPurchase/{page}")
 	public ModelAndView listPurchase(
 			@ModelAttribute("search") SearchVO search, 
-			HttpServletRequest request,
+			@PathVariable("page") int page,
 			HttpSession session) {
 		System.out.println("[PurchaseController.listPurchase()] start");
 		
 		// 1. Page setting
-		String pageStr = request.getParameter("currentPage");
-		int page = 0;
-		if(pageStr != null && !pageStr.equals("undefined")) {
-			page = Integer.parseInt(pageStr);
-		}
+//		String pageStr = request.getParameter("currentPage");
+//		int page = 0;
+//		if(pageStr != null && !pageStr.equals("undefined")) {
+//			page = Integer.parseInt(pageStr);
+//		}
 		
 		// Default page = 1;
 		search.setPage(page);
@@ -68,7 +72,6 @@ public class PurchaseController extends CommonController {
 		
 		// 2. Get purchaseList
 		boolean isAdmin = false;
-		session = request.getSession();
 		UserVO user = (UserVO) session.getAttribute("user");
 		if (user.getRole().equals("admin")) {
 			isAdmin = true;
@@ -114,13 +117,15 @@ public class PurchaseController extends CommonController {
 		return modelAndView;
 	}
 	
-	@RequestMapping(value = "/getPurchase.do")
-	public ModelAndView getPurchase(@ModelAttribute("purchase") PurchaseVO purchase) {
+	// @RequestMapping(value = "/getPurchase.do")
+	// public ModelAndView getPurchase(@ModelAttribute("purchase") PurchaseVO purchase) {
+	@RequestMapping(value = "/getPurchase/{tranNo}")
+	public ModelAndView getPurchase(@PathVariable("tranNo") int tranNo) {
 		System.out.println("[PurchaseController.getPurchase()] start");
 		
 		ModelAndView modelAndView = new ModelAndView("forward:/purchase/getPurchase.jsp");
 		
-		PurchaseVO result = purchaseService.getPurchase(purchase.getTranNo());
+		PurchaseVO result = purchaseService.getPurchase(tranNo);
 		
 		modelAndView.addObject("purchase", result);
 		for(PaymentOption po : PaymentOption.values()) {
@@ -134,14 +139,18 @@ public class PurchaseController extends CommonController {
 		return modelAndView;
 	}
 	
-	@RequestMapping(value = "/addPurchaseView.do")
+	// @RequestMapping(value = "/addPurchaseView.do")
+//	public ModelAndView addPurchaseView(
+//			@ModelAttribute("product") ProductVO product,
+//			HttpSession session) {
+	@RequestMapping(value = "/addPurchaseView/{prodNo}")
 	public ModelAndView addPurchaseView(
-			@ModelAttribute("product") ProductVO product,
+			@PathVariable("prodNo") int prodNo,
 			HttpSession session) {
 		System.out.println("[PurchaseController.addPurchaseView()] start");
 		
 		UserVO user =  (UserVO)session.getAttribute("user");
-		ProductVO result = productService.getProduct(product.getProdNo());
+		ProductVO result = productService.getProduct(prodNo);
 		
 		ModelAndView modelAndView = new ModelAndView("forward:/purchase/addPurchaseView.jsp");
 		modelAndView.addObject("product", result);
@@ -153,7 +162,8 @@ public class PurchaseController extends CommonController {
 		
 	}
 	
-	@RequestMapping(value = "/addPurchase.do")
+	// @RequestMapping(value = "/addPurchase.do")
+	@RequestMapping(value = "/addPurchase")
 	public ModelAndView addPurchase(
 			@ModelAttribute("user") UserVO user,
 			@ModelAttribute("product") ProductVO product,
@@ -178,10 +188,11 @@ public class PurchaseController extends CommonController {
 		return modelAndView;
 	}
 	
-	@RequestMapping(value = "/updateTranCode.do")
+	// @RequestMapping(value = "/updateTranCode.do")
+	@RequestMapping(value = "/updateTranCode", method = RequestMethod.GET)
 	public ModelAndView updateTranCode(
 			@RequestParam("tranNo") String tranNo,
-			@RequestParam("UpdateTranCode") String tranCode) {
+			@RequestParam("updateTranCode") String tranCode) {
 		System.out.println("[PurchaseController.updateTranCode()] start");
 		
 		// PurchaseVO
@@ -193,14 +204,17 @@ public class PurchaseController extends CommonController {
 		
 		System.out.println("[PurchaseController.updateTranCode()] end");
 		
-		return new ModelAndView("redirect:/listPurchase.do");
+		return new ModelAndView("redirect:/purchase/listPurchase/1");
 	}
 	
-	@RequestMapping(value = "/updatePurchaseView.do")
-	public ModelAndView updatePurchaseView(@ModelAttribute("purchase") PurchaseVO purchase) {
+	// @RequestMapping(value = "/updatePurchaseView.do")
+	// public ModelAndView updatePurchaseView(@ModelAttribute("purchase") PurchaseVO purchase) {
+	@RequestMapping(value = "/updatePurchaseView/{tranNo}")
+	public ModelAndView updatePurchaseView(@PathVariable("tranNo") int tranNo) {
 		System.out.println("[PurchaseController.updatePurchaseView()] start");
 		
-		PurchaseVO purchaseResult = purchaseService.getPurchase(purchase.getTranNo());
+		// PurchaseVO purchaseResult = purchaseService.getPurchase(purchase.getTranNo());
+		PurchaseVO purchaseResult = purchaseService.getPurchase(tranNo);
 		ModelAndView modelAndView = new ModelAndView("forward:/purchase/updatePurchaseView.jsp");
 		modelAndView.addObject("purchase", purchaseResult);
 		
@@ -209,11 +223,12 @@ public class PurchaseController extends CommonController {
 		return modelAndView;
 	}
 	
-	@RequestMapping(value = "/updatePurchase.do")
+	// @RequestMapping(value = "/updatePurchase.do")
+	@RequestMapping(value = "/updatePurchase")
 	public ModelAndView updatePurchase(@ModelAttribute("purchase") PurchaseVO purchase) {
 		System.out.println("[PurchaseController.updatePurchase()] start");
 		
-		ModelAndView modelAndView = new ModelAndView("forward:/purchase/completeUpdateView.jsp");
+		ModelAndView modelAndView = new ModelAndView("redirect:/purchase/getPurchase/" + purchase.getTranNo());
 		purchaseService.updatePurchase(purchase);
 		
 		System.out.println("[PurchaseController.updatePurchase()] end");

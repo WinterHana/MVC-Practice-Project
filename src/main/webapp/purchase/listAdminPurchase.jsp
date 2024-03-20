@@ -9,18 +9,44 @@
 
 <link rel="stylesheet" href="/css/admin.css" type="text/css">
 
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 <script type="text/javascript">
-function fncGetPurchaseList(currentPage) {
-	document.getElementById("currentPage").value = currentPage;
-   	document.detailForm.submit();		
-}
+	function fncGetPurchaseList(currentPage) {
+		let url = '/purchase/listPurchase/' + currentPage;
+		$("form").attr("method", "POST").attr("action", url).submit();
+	}
 
-function updateTranCode(tranNo, updateTranCode) {
-    var selectedValue = document.getElementById(updateTranCode).value;
-    var url = "/updateTranCode.do?tranNo=" + tranNo + "&UpdateTranCode=" + selectedValue;
-    window.location.href = url; 
-}
-
+	function updateTranCode(tranNo, selectId) {
+    	let selectedValue = $("#" + selectId).val();
+    	let url = "/purchase/updateTranCode?tranNo=" + tranNo + "&updateTranCode=" + selectedValue;
+   	 	$(window.location).attr("href" ,url); 
+	}
+	
+	$(function() {
+		$("span.tranCode:contains('변경하기')").on("click", function() {
+			let tranNo = $(this).data("a");
+			let selectId = $(this).data("b");
+			
+			console.log("tranNo : " + tranNo);
+			console.log("selectId : " + selectId);
+			
+			updateTranCode(tranNo, selectId);
+		})
+		
+		$("span.getPurchase").on("click", function() {
+			let url = "/purchase/getPurchase/"+ $(this).data("no");
+			$(window.location).attr("href" ,url);
+		})
+		
+		$("span.getUser").on("click", function() {
+			let url = "/user/getUser/"+ $(this).data("id");
+			$(window.location).attr("href" ,url);
+		})
+		
+		$("span.pageNavigator").on("click", function() {
+			fncGetPurchaseList($(this).data("page"));
+		})
+	})
 </script>
 </head>
 
@@ -28,7 +54,7 @@ function updateTranCode(tranNo, updateTranCode) {
 
 <div style="width: 98%; margin-left: 10px;">
 
-<form name="detailForm" action="/listPurchase.do" method="post">
+<form name="detailForm" action="/purchase/listPurchase/1" method="post">
 
 <table width="100%" height="37" border="0" cellpadding="0"	cellspacing="0">
 	<tr>
@@ -68,11 +94,17 @@ function updateTranCode(tranNo, updateTranCode) {
 		<tr class="ct_list_pop">
 		<td align="center">
 			<!-- 구매 내역 상세 보기 -->
-			<a href="/getPurchase.do?tranNo=${purchase.tranNo}">${purchase.tranNo}</a>
+			<span class = "getPurchase" data-no ="${purchase.tranNo}">
+			<%-- <a href="/purchase/getPurchase/${purchase.tranNo}">${purchase.tranNo}</a> --%>
+			${purchase.tranNo}
+			</span>
 		</td>
 		<td></td>
 		<td align="left">
-			<a href="/getUser.do?userId=${purchase.buyer.userId}">${purchase.buyer.userId}</a>
+			<span class = "getUser" data-id ="${purchase.buyer.userId}">
+			<%-- <a href="/user/getUser/{purchase.buyer.userId}">${purchase.buyer.userId}</a> --%>
+			${purchase.buyer.userId}
+			</span>
 		</td>
 		<td></td>
 			<td align="left">${purchase.receiverPhone}</td>
@@ -82,38 +114,26 @@ function updateTranCode(tranNo, updateTranCode) {
 				<td align="left">${purchase.prodCount }</td>
 		<td></td>
 		<td align="left">	
-<%-- 		<c:set var = "isContain" value = "false"/>
-		<c:forEach var = "entry"  items = "${pmap}">
-			<c:if test="${entry.key == purchase.purchaseProd.prodNo}">
-				<c:set var = "tranCode"  value = "${pmap[purchase.purchaseProd.prodNo].tranCode}"/>
-				<c:set var = "tranNo" value = "${pmap[purchase.purchaseProd.prodNo].tranNo}"/>
-				${messageMap[purchase.purchaseProd.prodNo]}
-				<c:if test="${tranCode == 003}">
-					<a href="/updateTranCode.do?tranNo= ${tranNo}&tranCode=${tranCode}&url=listPurchase.do?menu=manage">배송 받기</a>
-				</c:if>
-				<c:set var = "isContain" value = "true"/>
-			</c:if>
-		</c:forEach>
-		<c:if test="${not isContain}">
-			판매중
-		</c:if> --%>
 		<c:forEach var = "entry" items = "${messageMap}">
 			<c:if test = "${entry.key == purchase.tranNo}">
 				${entry.value}
 			</c:if>
 		</c:forEach>
-		<select name = "UpdateTranCode" id = "UpdateTranCode${purchase.tranNo}" >
+		<select name = "updateTranCode" id = "updateTranCode${purchase.tranNo}" >
 			<option value = "001" 
-			${not empty purchase.tranNo && purchase.tranNo == "001" ? "selected" : '' }>
+			${not empty purchase.tranCode && purchase.tranCode eq "001" ? "selected" : "" }>
 			판매 완료</option>
 			<option value = "002" 
-			${not empty purchase.tranNo && purchase.tranNo == "002" ? "selected" : '' }>
+			${not empty purchase.tranCode && purchase.tranCode eq "002" ? "selected" : "" }>
 			배송 중</option>
 			<option value = "003" 
-			${not empty purchase.tranNo && purchase.tranNo == "003" ? "selected" : '' }>
+			${not empty purchase.tranCode && purchase.tranCode eq "003" ? "selected" : "" }>
 			배송 완료</option>
 		</select>
-		<a href="#" onclick="updateTranCode(${purchase.tranNo}, 'UpdateTranCode${purchase.tranNo}')">변경하기</a>
+		<%-- <a href="#" onclick="updateTranCode(${purchase.tranNo}, 'updateTranCode${purchase.tranNo}')">변경하기</a> --%>
+		<span class = "tranCode" 
+					data-a = "${purchase.tranNo}" 
+					data-b ="updateTranCode${purchase.tranNo}">변경하기</span>
 		</td>
 		<td></td>
 		<tr>

@@ -19,7 +19,7 @@ public enum TranStatusCode {
 		this.adminMessage = adminMessage;
 	}
 	
-	public String getNumber() {
+	public String getNumber()  {
 		return number;
 	}
 

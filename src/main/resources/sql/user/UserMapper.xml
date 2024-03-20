@@ -52,13 +52,13 @@
   	 <select id="getUser"  parameterType = "string"  resultMap = "userSelectMap">
 		SELECT *
 		FROM users   				
-		WHERE user_id = #{userId}							
+		WHERE user_id = #{userId:VARCHAR}							
   	</select>
   	
   	 <update id = "updateUser" parameterType = "userVO">
   		UPDATE users
   		<set>
-  			<if test = "userName != null" >user_name = #{userName},</if>
+  			<if test = "userName != null" >user_name = #{userName:VARCHAR},</if>
   			<if test = "phone != null"> cell_phone = #{phone:VARCHAR},</if>
   			<if test = "addr != null"> addr = #{addr:VARCHAR},</if>
   			<if test = "email != null"> email = #{email:VARCHAR}</if>

@@ -16,15 +16,11 @@
 				 https://www.springframework.org/schema/aop/spring-aop-3.2.xsd">
 				
 	<!--  AOP 적용 : LOG 를 처리하는  Aspect 선언   -->
-	<!-- 1.일반 Bean Definition :: POJO 기반 -->
-	<bean 	id="logAspect"		class="com.model2.mvc.common.aspect.LogAspectJ" />
+	<!-- 1. 일반 Bean Definition :: POJO 기반 -->
+	<bean id="logAspect" class="com.model2.mvc.common.aspect.LogAspectJ" />
 	 
 	 <!-- 2. 선언적으로 Point cut / Advice 정의 -->
-	 <!-- 참고 자료 : 
-	 https://chikeem90.tistory.com/133 
-	 https://gmoon92.github.io/spring/aop/2019/04/20/jdk-dynamic-proxy-and-cglib.html
-	 CGLIB Proxy -->
-	 <!-- 
+	 <!--
 	 <aop:config>
 	 <aop:config proxy-target-class="true">
 	  -->

@@ -56,10 +56,15 @@
 - [ ] 화면 우측 하단에 계속 존재한다.
 - [ ] 쓰다듬으면 반응도 해주도록 한다.
 - [ ] 유저의 각 반응에 대하여 안내 및 반응을 한다.
+- [ ] 예외 페이지에서도 넣으면 좋을 거 같다.
 
 #### 4) UI 너무 구림
-- [ ] 좀 이쁘게 바꿔다오...도트 그래픽 사용해도 될 거 같으니 참고
-      
+- [ ] 좀 이쁘게 바꿔다오...도트 그래픽을 사용할 수 있으면 해보자
+
+#### 5) 댓글 추가
+- [ ] 제품마다 댓글을 달 수 있도록 하기
+	- [ ] comment Table 디자인 및 추가
+
 ## 주의 사항
 1. 각각 환경에 맞는 JDBC Connector가 필요하다
 
@@ -67,7 +72,7 @@
 >
 >Oracle 21c XE : ojdbc.7 사용, Oracle 10c XE : ojdbc.14 사용
 >
->여기서는 ojdbc.14를 사용하고 .gitignore로 설정한다.
+>여기서는 ojdbc.8를 사용하고 .gitignore로 .jar 파일은 올리지 않는다.
 
 ## Refactoring 내역
 ### 240219 - 240220 코드 최적화
@@ -97,12 +102,12 @@ User, Product, Purchase 부분의 view를 EL, JSTL로 변경한다.
 - [x] 상품별 정렬 추가 : User와 Manager의 차이를 두자
 
 - 같은 상품에 대한 개수 추가
-- [ ] 같은 상품에 대한 개수도 추가해서 만약 상품이 전부 팔린다면 매진으로 출력한다.
-- [ ] 즉, 배송 상태는 각 유저의 구매 목록에서 확인할 수 있어야 한다.
-- [ ] 상품이 주문 완료 됐을 때, 관리자가 임의로 배송 상태를 조절할 수 있어야 한다.
-- [ ] 판매 완료 시, 상품 정보를 수정할 수 없어야 한다.
-- [ ] 배송 중일 때, 구매할 수 없어야 한다.
-- [ ] 배송 완료일 때, 모든 수정이 불가능해야 한다.
+- [x] 같은 상품에 대한 개수도 추가해서 만약 상품이 전부 팔린다면 매진으로 출력한다.
+- [x] 즉, 배송 상태는 각 유저의 구매 목록에서 확인할 수 있어야 한다.
+- [x] 상품이 주문 완료 됐을 때, 관리자가 임의로 배송 상태를 조절할 수 있어야 한다.
+- [x] 판매 완료 시, 상품 정보를 수정할 수 없어야 한다.
+- [x] 배송 중일 때, 구매할 수 없어야 한다.
+- [x] 배송 완료일 때, 모든 수정이 불가능해야 한다.
 
 ### 240302 - Spring, Mybatis를 이용한 Persistence Layer 간략화
 - [x] User Component
@@ -110,6 +115,21 @@ User, Product, Purchase 부분의 view를 EL, JSTL로 변경한다.
 - [x] Purchase Component
 
 ### 240308 - Controller 최적화 및 Model과의 연결
-- [ ] User Component
-- [ ] Product Component
-- [ ] Purchase Component 
+- [x] User Component
+- [x] Product Component
+- [x] Purchase Component 
+
+### 240308 - Controller URI 수정
+- [x] User Component
+- [x] Product Component
+- [x] Purchase Component
+
+### 240315 - RestController 추가
+- [x] User Component
+- [x] Product Component
+- [ ] Purchase Component
+
+### 240319 - jQuery로 View 수정
+- [x] User Component
+- [x] Product Component
+- [x] Purchase Component

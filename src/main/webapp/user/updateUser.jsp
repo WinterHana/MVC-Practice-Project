@@ -1,13 +1,6 @@
 <%@ page contentType="text/html; charset=euc-kr" %>
 
 <%@ taglib prefix = "c" uri = "http://java.sun.com/jsp/jstl/core" %>
-
-<%--
-<%@ page import="com.model2.mvc.service.user.domain.*" %>
-<%
-	UserVO userVO = (UserVO)request.getAttribute("userVO");
-%>
- --%>
  
 <html>
 <head>
@@ -15,28 +8,48 @@
 
 <link rel="stylesheet" href="/css/admin.css" type="text/css">
 
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 <script type="text/javascript">
-<!--
-function fncUpdateUser() {
+	function fncUpdateUser() {
 
-	var name=document.detailForm.userName.value;
+		let name= $("input[name = 'userName']").val();
+		
+		if(name == null || name.length <1){
+			alert("이름은  반드시 입력하셔야 합니다.");
+			return;
+		}
+		
+		let value = "";
+		if($("input[name='phone2']").val() != "" && $("input[name='phone3']").val() != "") {
+			value = $("option:selected").val() 
+						+ "-" + $("input[name='phone2']").val() 
+						+ "-" + $("input[name='phone3']").val();
+		}
 	
-	if(name == null || name.length <1){
-		alert("이름은  반드시 입력하셔야 합니다.");
-		return;
-	}
+		$("input:hidden[name='phone']").val(value);
 		
-	if(document.detailForm.phone2.value != "" && document.detailForm.phone2.value != "") {
-		document.detailForm.phone.value = document.detailForm.phone1.value + "-" + document.detailForm.phone2.value + "-" + document.detailForm.phone3.value;
-	} else {
-		document.detailForm.phone.value = "";
+		$("form").attr("method", "POST").attr("action", "/user/updateUser").submit();
 	}
+	
+	$(function() {
+		$("td.ct_btn01:contains('수정')").on("click", function() {
+			fncUpdateUser();
+		});
 		
-	document.detailForm.action='/updateUser.do';
-	document.detailForm.submit();
-}
-
-function check_email(frm) {
+		$("input[name = 'email']").on("change", function() {
+			let email = $("input[name = 'email']").val();
+			
+			if(email != "" && (email.indexOf('@') < 1 || email.indexOf('.') == -1)) {
+				alert("이메일 형식이 아닙니다.")
+			}
+		});
+		
+		$("td.ct_btn01:contains('취소')").on("click", function() {
+			history.go(-1);
+		});
+	});
+	
+/* function check_email(frm) {
 	alert
 	var email=document.detailForm.email.value;
     if(email != "" && (email.indexOf('@') < 1 || email.indexOf('.') == -1)){
@@ -48,8 +61,7 @@ function check_email(frm) {
 
 function resetData() {
 	document.detailForm.reset();
-}
--->
+} */
 </script>
 </head>
 
@@ -127,8 +139,9 @@ function resetData() {
 		<td width="104" class="ct_write">휴대전화번호</td>
 		<td bgcolor="D6D6D6" width="1"></td>
 		<td class="ct_write01">
-			<select 	name="phone1" class="ct_input_g" style="width:50px" 
-							onChange="document.detailForm.phone2.focus();">
+<!-- 			<select 	name="phone1" class="ct_input_g" style="width:50px" 
+							onChange="document.detailForm.phone2.focus();"> -->
+			<select 	name="phone1" class="ct_input_g" style="width:50px"> 
 				<option value="010"  ${(not empty user.phone1 && user.phone1 == "010") ? "selected" : '' } >010</option>
 				<option value="011"   ${(not empty user.phone1 && user.phone1 == "011") ? "selected" : '' } >011</option>
 				<option value="016"  ${(not empty user.phone1 && user.phone1 == "016") ? "selected" : '' }>016</option>
@@ -154,8 +167,8 @@ function resetData() {
 			<table border="0" cellspacing="0" cellpadding="0">
 				<tr>
 					<td height="26">
-						<input 	type="text" name="email" value="${user.email}" class="ct_input_g" 
-										style="width:100px; height:19px" onChange="check_email(this.form);">
+						<input type="text" name="email" value="${user.email}" 
+									class="ct_input_g" style="width:100px; height:19px"> 
 					</td>
 				</tr>
 			</table>
@@ -176,7 +189,7 @@ function resetData() {
 						<img src="/images/ct_btnbg01.gif" width="17" height="23">
 					</td>
 					<td background="/images/ct_btnbg02.gif" class="ct_btn01" style="padding-top:3px;">
-						<a href="javascript:fncUpdateUser();">수정</a>
+						수정
 					</td>
 					<td width="14" height="23">
 						<img src="/images/ct_btnbg03.gif" width="14" height="23"/>
@@ -186,7 +199,7 @@ function resetData() {
 						<img src="/images/ct_btnbg01.gif" width="17" height="23">
 					</td>
 					<td background="/images/ct_btnbg02.gif" class="ct_btn01" style="padding-top:3px;">
-						<a href="javascript:resetData();">취소</a>
+						취소
 					</td>
 					<td width="14" height="23">
 						<img src="/images/ct_btnbg03.gif" width="14" height="23">

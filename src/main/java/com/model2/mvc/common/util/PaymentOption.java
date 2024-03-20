@@ -20,7 +20,7 @@ public enum PaymentOption {
 		return number;
 	}
 	
-	public String getOption() {
+	public String getOption()  {
 		return option;
 	}
 }

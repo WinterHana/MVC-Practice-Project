@@ -1,26 +1,35 @@
 <%@ page language="java" contentType="text/html; charset=EUC-KR"
     pageEncoding="EUC-KR"%>
-<%--    
-<%
-	PurchaseVO purchaseVO = (PurchaseVO)request.getAttribute("purchaseVO");
-%>
- --%>
  
 <html>
 <head>
 <title>구매상세조회</title>
 
 <link rel="stylesheet" href="/css/admin.css" type="text/css">
+
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 <script type="text/javascript">
-function limitUpdate(tranNo, tranCode) {
-	if(tranCode == '002' || tranCode == '003') {
-		alert("배송 중이거나 배송 완료가 되면 수정할 수 없습니다.");
-		return
-	} else {
-		var url = "/updatePurchaseView.do?tranNo="+tranNo;
-		window.location.href = url; 
+	function limitUpdate(tranNo, tranCode) {
+		if(tranCode == '002' || tranCode == '003') {
+			alert("배송 중이거나 배송 완료가 되면 수정할 수 없습니다.");
+			return;
+		} else {
+			let url = "/purchase/updatePurchaseView/" + tranNo;
+			window.location.href = url; 
+		}
 	}
-}
+	
+	$(function() {
+		$("td.ct_btn01:contains('수정')").on("click", function() {
+	        var tranNo = $("input[name = 'tranNo']").val();
+	        var tranCode = $("input[name = 'tranCode']").val();
+			limitUpdate(tranNo, tranCode);
+		});
+			
+		$("td.ct_btn01:contains('확인')").on("click", function() {
+			history.go(-1);
+		});
+	});
 </script>
 
 </head>
@@ -151,8 +160,11 @@ function limitUpdate(tranNo, tranCode) {
 	<tr>
 		<td height="1" colspan="3" bgcolor="D6D6D6"></td>
 	</tr>
-	
 </table>
+
+<!-- jQuery 사용 -->
+<input type = "hidden" name = "tranNo" value = "${purchase.tranNo}"/>
+<input type = "hidden" name = "tranCode" value = "${purchase.tranCode}"/>
 
 <table width="100%" border="0" cellspacing="0" cellpadding="0"	style="margin-top: 10px;">
 	<tr>
@@ -164,8 +176,8 @@ function limitUpdate(tranNo, tranCode) {
 						<img src="/images/ct_btnbg01.gif" width="17" height="23"/>
 					</td>
 					<td background="/images/ct_btnbg02.gif" class="ct_btn01"	style="padding-top: 3px;">
-						<%-- <a href="/updatePurchaseView.do?tranNo=${purchase.tranNo}">수정</a> --%>
-						<a href="javascript:limitUpdate(${purchase.tranNo}, ${purchase.tranCode})">수정</a>
+						<%-- <a href="javascript:limitUpdate(${purchase.tranNo}, ${purchase.tranCode})">수정</a> --%>
+						수정
 					</td>
 					<td width="14" height="23">
 						<img src="/images/ct_btnbg03.gif" width="14" height="23"/>
@@ -175,7 +187,8 @@ function limitUpdate(tranNo, tranCode) {
 						<img src="/images/ct_btnbg01.gif" width="17" height="23"/>
 					</td>
 					<td background="/images/ct_btnbg02.gif" class="ct_btn01"	style="padding-top: 3px;">
-						<a href="javascript:history.go(-1);">확인</a>
+						<!-- <a href="javascript:history.go(-1);">확인</a> -->
+						확인
 					</td>
 					<td width="14" height="23">
 						<img src="/images/ct_btnbg03.gif"width="14" height="23"/>

@@ -13,39 +13,39 @@ import javax.servlet.http.HttpServletResponse;
 public class HistoryUtil {
 	
 	private static final int DEQUE_SIZE = 5;
-	private static Deque<String> deque;
+	private static Deque<String> cookieDeque;
+	
 	
 	private HistoryUtil() {
 		// blank	
 	}
 	
-	private static void getQueue() {
-		if(deque == null) {
-			deque = new LinkedList<String>();
+	public static Deque<String> getCookieDeque()  {
+		if(cookieDeque == null) {
+			cookieDeque = new LinkedList<String>();
+		}
+		
+		return cookieDeque;
+	}
+	
+	public static void saveHistory(int prodNo) {
+		getCookieDeque();
+		
+		String strProdNo = String.valueOf(prodNo);
+		cookieDeque.addFirst(strProdNo);
+		
+		if(cookieDeque.size() > DEQUE_SIZE) {
+			System.out.println("삭제된 Queue : " + cookieDeque.removeLast());
 		}
 	}
 	
-	public static void saveHistory(HttpServletResponse response, int prodNo) {
-		getQueue();
-		
-		String strProdNo = String.valueOf(prodNo);
-		deque.addFirst(strProdNo);
-		
-		if(deque.size() > DEQUE_SIZE) {
-			System.out.println("삭제된 Queue : " + deque.removeLast());
-		}
-		
+	public static String getHistory() {
 		StringBuffer sb = new StringBuffer();
-		Iterator<String> iterator = deque.iterator();
-		while(iterator.hasNext()) {
-			String s = iterator.next();
-			// Cookie csv로 , 사용 불가능
+		if(cookieDeque != null || !cookieDeque.isEmpty()) {
+			for(String s : cookieDeque)
 			sb.append(s + "/");
 		}
 		
-		Cookie historyList = new Cookie("history", sb.toString());
-		historyList.setMaxAge(600);
-		
-		response.addCookie(historyList);
+		return sb.toString();
 	}
 }

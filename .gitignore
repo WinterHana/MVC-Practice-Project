@@ -27,3 +27,6 @@ replay_pid*
 ojdbc7.jar
 ojdbc14.jar
 /build/
+
+# ignore all files in the build/ directory
+build/

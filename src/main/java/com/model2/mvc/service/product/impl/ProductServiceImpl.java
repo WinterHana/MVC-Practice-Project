@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import com.model2.mvc.common.SearchVO;
 import com.model2.mvc.common.util.CommonUtil;
+import com.model2.mvc.service.domain.FileVO;
 import com.model2.mvc.service.domain.ProductVO;
 import com.model2.mvc.service.product.ProductDAO;
 import com.model2.mvc.service.product.ProductService;
@@ -36,21 +37,26 @@ public class ProductServiceImpl implements ProductService {
 	
 	@Override
 	public ProductVO getProduct(int productId) {
-		ProductVO prodVO = null;
+		ProductVO product = null;
 		
 		try {
-			prodVO = productDAO.getProduct(productId);
+			product = productDAO.getProduct(productId);
+			FileVO file = productDAO.getProductImage(productId);
+			if(file != null) {
+				product.setFileName(file.getFileName());
+			}
 		} catch (Exception e) {
 			System.out.println(getClass().getName() + ".findProduct Exception");
 			e.printStackTrace();
 		}
 		
-		return prodVO;
+		return product;
 	}
 	
 	@Override
 	public Map<String, Object> getProductList(SearchVO searchVO) {	
 		Map<String, Object> map = new HashMap<String, Object>();
+		Map<Integer, String> fileNameMap  = new HashMap<Integer, String>();
 		List<ProductVO> list = null;
 		int totalCount = 0;
 		
@@ -70,17 +76,25 @@ public class ProductServiceImpl implements ProductService {
 				searchVO.setSearchKeyword(serachKeyword);
 			}
 		}
-
+		
+		// productImage 관련 데이터를 가져옴
 		try {
 			list = productDAO.getProductList(searchVO);
 			totalCount = productDAO.getProductCount(searchVO);
-			
+			for(ProductVO p : list) {
+				// fileName을 가져와서 productVO에 따로 저장
+				FileVO file = productDAO.getProductImage(p.getProdNo());
+				if(file != null) {
+					p.setFileName(file.getFileName());
+				}
+			}
 		} catch (Exception e) {
 			System.out.println(getClass().getName() + ".getProduct Exception");
 			e.printStackTrace();
 		}
 		map.put("list", list);
 		map.put("totalCount", totalCount);
+		map.put("fileNameMap", fileNameMap);
 		
 		return map;
 	}
@@ -119,6 +133,48 @@ public class ProductServiceImpl implements ProductService {
 			result = productDAO.deleteProduct(prodName);
 		} catch (Exception e) {
 			System.out.println(getClass().getName() + ".deleteProduct Exception");
+			e.printStackTrace();
+		}
+		
+		return result;
+	}
+
+	@Override
+	public int addProductImage(FileVO file) {
+		int result = 0;
+		
+		try {
+			result = productDAO.addProductImage(file);
+		} catch (Exception e) {
+			System.out.println(getClass().getName() + ".addProductImage Exception");
+			e.printStackTrace();
+		}
+		
+		return result;
+	}
+
+	@Override
+	public int updateProductImage(FileVO file) {
+		int result = 0;
+		
+		try {
+			result = productDAO.updateProductImage(file);
+		} catch (Exception e) {
+			System.out.println(getClass().getName() + ".updateProductImage Exception");
+			e.printStackTrace();
+		}
+		
+		return result;
+	}
+
+	@Override
+	public FileVO getProductImage(int prodNo) {
+		FileVO result = null;
+		
+		try {
+			result = productDAO.getProductImage(prodNo);
+		} catch (Exception e) {
+			System.out.println(getClass().getName() + ".updateProductImage Exception");
 			e.printStackTrace();
 		}
 		

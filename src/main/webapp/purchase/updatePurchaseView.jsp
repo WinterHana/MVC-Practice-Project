@@ -1,11 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=EUC-KR"
     pageEncoding="EUC-KR"%>
- <%--
- <%
-   PurchaseVO purchaseVO = (PurchaseVO)request.getAttribute("purchaseVO");
- %>
-  --%>
-  
 <html>
 <head>
 <link rel="stylesheet" href="/css/admin.css" type="text/css">
@@ -19,7 +13,7 @@
 
 <body bgcolor="#ffffff" text="#000000">
 
-<form name="updatePurchase" method="post"	action="/updatePurchase.do">
+<form name="updatePurchase" method="post"	action="/purchase/updatePurchase">
 
 <table width="100%" height="37" border="0" cellpadding="0" cellspacing="0">
 	<tr>
@@ -117,10 +111,7 @@
 		<td width="104" class="ct_write">πËº€»Ò∏¡¿œ¿⁄</td>
 		<td bgcolor="D6D6D6" width="1"></td>
 		<td width="200" class="ct_write01">
-			<input type="text" readonly="readonly" name="dlvyDate" class="ct_input_g" 
-						style="width: 100px; height: 19px" maxLength="20"/>
-				<img 	src="../images/ct_icon_date.gif" width="15" height="15"	
-							onclick="show_calendar('document.updatePurchase.dlvyDate', document.updatePurchase.dlvyDate.value)"/>
+			<input type="date" name="dlvyDate" value="${purchase.dlvyDate}" />
 		</td>
 	</tr>
 	<tr>

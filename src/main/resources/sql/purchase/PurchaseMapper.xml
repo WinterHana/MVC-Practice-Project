@@ -7,7 +7,7 @@
 <mapper namespace="PurchaseMapper">
 	<resultMap id = "purchaseSelectMap" type = "purchaseVO">
 		<result property = "dlvyAddr" column = "dlvy_addr" jdbcType="VARCHAR"/>
-		<result property = "dlvyDate" column = "dlvy_date" jdbcType="VARCHAR"/>
+		<result property = "dlvyDate" column = "dlvy_date" jdbcType="DATE"/>
 		<result property = "dlvyRequest" column = "dlvy_request" jdbcType="VARCHAR"/>
 		<result property = "orderDate" column = "order_date"  jdbcType="DATE"/>
 		<result property = "paymentOption" column = "payment_option"  jdbcType="VARCHAR"/>
@@ -21,13 +21,15 @@
 	</resultMap>
 	
 	<resultMap id = "productSelectMap" type = "productVO">
-  		<result property = "fileName" column = "image_file" jdbcType="VARCHAR"/>
-  		<result property = "manuDate" column = "manufacture_day" jdbcType="VARCHAR"/>
+		<!-- <result property = "fileName" column = "image_file" jdbcType="VARCHAR"/> -->
+  		<!-- <result property = "manuDate" column = "manufacture_day" jdbcType="VARCHAR"/> -->
+  		<result property = "manuDate" column = "manufacture_day" jdbcType="DATE"/>
   		<result property = "price" column = "price" jdbcType="NUMERIC"/>
   		<result property = "prodDetail" column = "prod_detail" jdbcType="VARCHAR"/>
   		<result property = "prodName" column = "prod_name" jdbcType = "VARCHAR"/>
   		<result property = "prodNo" column = "prod_no" jdbcType = "NUMERIC"/>
   		<result property = "regDate" column = "reg_date" jdbcType = "DATE"/>
+		<result property = "count" column = "count" jdbcType = "NUMERIC"/>
 	</resultMap>
 	
 	<resultMap id = "userSelectMap" type = "userVO">
@@ -66,7 +68,7 @@
   			#{dlvyRequest:VARCHAR},
   			#{tranCode:VARCHAR},
   			SYSDATE,
-  			#{dlvyDate:VARCHAR},
+  			#{dlvyDate:DATE},
   			#{prodCount:NUMERIC}
   		)					
   	</select>
@@ -85,7 +87,7 @@
   			<if test = "receiverPhone != null"> receiver_phone = #{receiverPhone:VARCHAR},</if>
   			<if test = "dlvyAddr != null"> dlvy_addr = #{dlvyAddr:VARCHAR},</if>
   			<if test = "dlvyRequest != null"> dlvy_request = #{dlvyRequest:VARCHAR},</if>
-  			<if test = "dlvyDate != null"> dlvy_date = #{dlvyDate:VARCHAR}</if>
+  			<if test = "dlvyDate != null"> dlvy_date = #{dlvyDate:DATE}</if>
   		</set>
   		WHERE tran_no = #{tranNo:NUMERIC}
   	</update>

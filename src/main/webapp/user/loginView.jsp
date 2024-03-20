@@ -6,6 +6,7 @@
 
 <link rel="stylesheet" href="/css/admin.css" type="text/css">
 
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 <script type="text/javascript">
 	function fncLogin() {
 		var id=document.loginForm.userId.value;
@@ -23,12 +24,39 @@
 		}
 	    document.loginForm.submit();
 	}
+	
+	$(function() {
+		$("#userId").focus();
+		
+		$("img[src='/images/btn_login.gif']").on("click", function() {
+			let id = $("input:text").val();
+			let pw = $("input:password").val();
+			
+			if(id == null || id.length < 1) {
+				alert("ID를 입력하지 않으셨습니다.");
+				$("input:text").focus();
+				return;
+			}
+			
+			if(pw == null || pw.length < 1) {
+				alert("패스워드를 입력하지 않으셨습니다.");
+				$("input:password").focus();
+				return;
+			}
+			
+			$("form").attr("method", "POST").attr("action", "/user/login").attr("target", "_parent").submit();
+		});
+		
+		$("img[src='/images/btn_add.gif']").on("click", function() {
+			self.location = "addUserView.jsp";
+		});
+	});
 </script>
 </head>
 
 <body bgcolor="#ffffff" text="#000000" >
 
-<form name="loginForm"  method="post" action="/login.do" target="_parent">
+<form name="loginForm"  method="post" action="/user/login" target="_parent">
 
 <div align="center">
 
@@ -44,7 +72,8 @@
           <td width="305">
             <img src="/images/logo-spring.png" width="305" height="390">
           </td>
-          <td width="345" align="left" valign="top" background="/images/login02.gif">
+          <!-- <td width="345" align="left" valign="top" background="/images/login02.gif"> -->
+          <td width="345" align="left" valign="top" >
           	<table width="100%" height="220" border="0" cellpadding="0" cellspacing="0">
               <tr> 
                 <td width="30" height="100">&nbsp;</td>
@@ -93,15 +122,13 @@
       				<table width="136" height="20" border="0" cellpadding="0" cellspacing="0">
                           <tr> 
                             <td width="56">
-                            	<a href="javascript:fncLogin();">
-                            		<img src="/images/btn_login.gif" width="56" height="20" border="0">
-                            	</a>
+                            	<!-- <a href="javascript:fncLogin();"></a> -->
+                            	<img src="/images/btn_login.gif" width="56" height="20" border="0">
                             </td>
                             <td width="10">&nbsp;</td>
                             <td width="70">
-                            	<a href="addUserView.jsp;">
-                            		<img src="/images/btn_add.gif" width="70" height="20" border="0">
-                            	</a>
+                            	<!-- <a href="addUserView.jsp;"></a> -->
+                            	<img src="/images/btn_add.gif" width="70" height="20" border="0">
                             </td>
                           </tr>
                     </table>
