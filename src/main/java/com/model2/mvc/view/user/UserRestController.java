@@ -104,16 +104,17 @@ public class UserRestController extends CommonController {
 	}
 	
 	@RequestMapping(value = "addUser")
-	public ModelAndView addUser(@ModelAttribute("user") UserVO user) {
+	public Map<String, Object> addUser(@RequestBody UserVO user) {
 		System.out.println("[UserController.addUser()] start");
 		
 		userService.addUser(user);
 		
-		ModelAndView modelAndView = new ModelAndView("redirect:/user/loginView.jsp");
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("path", "redirect:/user/loginView.jsp");
 		
 		System.out.println("[UserController.addUser()] end");
 		
-		return modelAndView;
+		return map;
 	}
 	
 	// Test
@@ -154,35 +155,40 @@ public class UserRestController extends CommonController {
 	}
 	
 	@RequestMapping(value = "updateUserView/{userId}")
-	public ModelAndView updateUserView(@PathVariable("userId") String userId) {
+	public Map<String, Object> updateUserView(@PathVariable("userId") String userId) {
 		System.out.println("[UserController.updateUserView()] start");
 		
 		UserVO resultUser = userService.getUser(userId);
 		
-		ModelAndView modelAndView = new ModelAndView("forward:/user/updateUser.jsp");
-		modelAndView.addObject("user", resultUser);
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("path", "forward:/user/updateUser.jsp");
+		map.put("user", resultUser);
 		
 		System.out.println("[UserController.updateUserView()] end");
 		
-		return modelAndView;
+		return map;
 	}
 	
+	
 	@RequestMapping(value = "updateUser")
-	public ModelAndView updateUser(HttpSession session, @ModelAttribute("user") UserVO user) {
+	public Map<String, Object> updateUser(HttpSession session, @RequestBody UserVO user) {
 		System.out.println("[UserController.updateUser()] start");
 		
 		userService.updateUser(user);
+		String sessionId = null;
+		if(session.getAttribute("user") != null) {
+			sessionId = ((UserVO)session.getAttribute("user")).getUserId();
+		}
 		
-		String sessionId=((UserVO)session.getAttribute("user")).getUserId();
-		
-		if(sessionId.equals(user.getUserId())){
+		if(sessionId != null && sessionId.equals(user.getUserId())){
 			session.setAttribute("user", user);
 		}
 		
-		ModelAndView modelAndView = new ModelAndView("redirect:/user/getUser/" + user.getUserId());
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("path", "redirect:/user/getUser/" + user.getUserId());
 		
 		System.out.println("[UserController.updateUser()] end");
 		
-		return modelAndView;
+		return map;
 	}
 }

@@ -16,6 +16,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
@@ -122,7 +123,7 @@ public class ProductRestController extends CommonController  {
 		return result;
 	}
 	
-	
+	// Test
 	@RequestMapping(value = "/getProduct/{prodNo}")
 	public Map<String, Object> getProduct(
 			@PathVariable("prodNo") int prodNo) {
@@ -138,87 +139,77 @@ public class ProductRestController extends CommonController  {
 		return map;
 	}
 	
+	// Test
+	// test Product만 추가한다. 나중에 파일 업로드도 반영하기!
+	// https://blog.naver.com/admass/222116280957
 	@RequestMapping(value = "/addProduct")
-	public ModelAndView addProduct(
-			@ModelAttribute("product") ProductVO product,
-			@ModelAttribute("file") FileVO file) {
+	public Map<String, Object> addProduct(
+			@RequestBody ProductVO product) {
 		System.out.println("[ProductController.addProduct()] start");
 		
-		// Upload할 파일 설정
-		String fileName = null;
-		MultipartFile fileResult = file.getMultipartFile();
-		if(!fileResult.isEmpty()) {
-			String originalFileName = fileResult.getOriginalFilename(); // 파일의 실제 이름
-			// String ext = FilenameUtils.getExtension(originalFileName); // 파일의 확장자
-			// UUID uuid = UUID.randomUUID(); // 랜덤한 UUID 이름
-			fileName = originalFileName;
-			
-			// new File 객체를 통해 file 객체를 만들고, 파일 새로 만들기
-			try {
-				fileResult.transferTo(new File("/Project_Eclipse/01.Model2MVCShop(stu)/src/main/webapp/images/uploadFiles/" + fileName));
-			} catch (IllegalStateException | IOException e) {
-				System.out.println("[addProduct] file Upload Exception");
-				e.printStackTrace();
-			}
-		}
-		
-		file.setFileName(fileName);
+		System.out.println("Server Product : " + product);
 		
 		productService.addProduct(product);
-		if(!fileResult.isEmpty()) productService.addProductImage(file);
 		
-		ModelAndView modelAndView = new ModelAndView("redirect:/product/completeAddView.jsp");
+		// Upload할 파일 설정
+//		String fileName = null;
+//		MultipartFile fileResult = file.getMultipartFile();
+//		if(!fileResult.isEmpty()) {
+//			String originalFileName = fileResult.getOriginalFilename(); // 파일의 실제 이름
+//			// String ext = FilenameUtils.getExtension(originalFileName); // 파일의 확장자
+//			// UUID uuid = UUID.randomUUID(); // 랜덤한 UUID 이름
+//			fileName = originalFileName;
+//			
+//			// new File 객체를 통해 file 객체를 만들고, 파일 새로 만들기
+//			try {
+//				fileResult.transferTo(new File("/Project_Eclipse/01.Model2MVCShop(stu)/src/main/webapp/images/uploadFiles/" + fileName));
+//			} catch (IllegalStateException | IOException e) {
+//				System.out.println("[addProduct] file Upload Exception");
+//				e.printStackTrace();
+//			}
+//		}
+//		
+//		file.setFileName(fileName);
+//		
+//		productService.addProduct(product);
+//		if(!fileResult.isEmpty()) productService.addProductImage(file);
+		
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("path", "redirect:/product/completeAddView.jsp");
+		map.put("product", product);
 		
 		System.out.println("[ProductController.addProduct()] end");
 		
-		return modelAndView;
+		return map;
 	}
 	
+	// Test
 	@RequestMapping(value = "/updateProductView")
-	public ModelAndView updateProductView(@ModelAttribute("product") ProductVO product) {
+	public Map<String, Object> updateProductView(@RequestBody ProductVO product) {
 		System.out.println("[ProductController.updaeProductView()] start");
 		
-		ModelAndView modelAndView = new ModelAndView("forward:/product/updateProductView.jsp");
-		modelAndView.addObject("product", productService.getProduct(product.getProdNo()));
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("path", "forward:/product/updateProductView.jsp");
+		map.put("product",  productService.getProduct(product.getProdNo()));
 		
 		System.out.println("[ProductController.updaeProductView()] end");
 		
-		return modelAndView;
+		return map;
 	}
 	
+	// Test
 	@RequestMapping(value = "/updateProduct")
-	public ModelAndView updateProduct(
-			@ModelAttribute("product") ProductVO product,
-			@ModelAttribute("file") FileVO file) {
+	public Map<String, Object> updateProduct(@RequestBody ProductVO product) {
 		System.out.println("[ProductController.updateProduct()] start");
 		
-		// Upload할 파일 설정
-		String fileName = null;
-		MultipartFile fileResult = file.getMultipartFile();
-		if(!fileResult.isEmpty()) {
-			String originalFileName = fileResult.getOriginalFilename();
-			fileName = originalFileName;
-			
-			// new File 객체를 통해 file 객체를 만들고, 파일 새로 만들기
-			try {
-				fileResult.transferTo(new File("/Project_Eclipse/01.Model2MVCShop(stu)/src/main/webapp/images/uploadFiles/" + fileName));
-			} catch (IllegalStateException | IOException e) {
-				System.out.println("[addProduct] file Upload Exception");
-				e.printStackTrace();
-			}
-		}
-		
-		file.setFileName(fileName);
-		
 		productService.updateProduct(product);
-		if(!fileResult.isEmpty()) productService.updateProductImage(file);
 		
-		ModelAndView modelAndView = new ModelAndView("redirect:/product/completeUpdateView.jsp");
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("path", "redirect:/product/completeUpdateView.jsp");
+		map.put("product", product);
 		
 		System.out.println("[ProductController.updateProduct()] end");
 		
-		return modelAndView;
+		return map;
 	}
-	
-	
 }
