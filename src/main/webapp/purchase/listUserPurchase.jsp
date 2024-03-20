@@ -9,17 +9,32 @@
 
 <link rel="stylesheet" href="/css/admin.css" type="text/css">
 
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 <script type="text/javascript">
-function fncGetPurchaseList(currentPage) {
-	let url = '/purchase/listPurchase/' + currentPage;
-	document.detailForm.action = url;
-   	document.detailForm.submit();		
-}
+	function fncGetPurchaseList(currentPage) {
+		let url = '/purchase/listPurchase/' + currentPage;
+		$("form").attr("method", "POST").attr("action", url).submit();
+	}
 
-function updateTranCode(tranNo, updateTranCode) {
-    var url = "/purchase/updateTranCode?tranNo=" + tranNo + "&updateTranCode=" + updateTranCode;
-    window.location.href = url; 
-}
+	function updateTranCode(tranNo, updateTranCode) {
+    	let url = "/purchase/updateTranCode?tranNo=" + tranNo + "&updateTranCode=" + updateTranCode;
+    	window.location.href = url; 
+	}
+	
+	$(function() {	
+		$("span.getPurchase").on("click", function() {
+			let url = "/purchase/getPurchase/"+ $(this).data("no");
+			$(window.location).attr("href" ,url);
+		})
+		
+		$("span.updateTranCode").on("click", function() {
+			updateTranCode($(this).data("no"), "003");
+		})
+		
+		$("span.pageNavigator").on("click", function() {
+			fncGetPurchaseList($(this).data("page"));
+		})
+	})
 
 </script>
 </head>
@@ -64,7 +79,10 @@ function updateTranCode(tranNo, updateTranCode) {
 		<tr class="ct_list_pop">
 		<td align="center">
 			<!-- 구매 내역 상세 보기 -->
-			<a href="/purchase/getPurchase/${purchase.tranNo}">${purchase.tranNo}</a>
+			<span class = "getPurchase" data-no ="${purchase.tranNo}">
+			<%-- <a href="/purchase/getPurchase/${purchase.tranNo}">${purchase.tranNo}</a> --%>
+			${purchase.tranNo}
+			</span>
 		</td>
 		<td></td>
 				<td align="left">${purchase.purchaseProd.prodNo}</td>
@@ -78,7 +96,10 @@ function updateTranCode(tranNo, updateTranCode) {
 			</c:if>
 		</c:forEach>
 		<c:if test = "${purchase.tranCode == '002'}">
-			<a href="#" onclick="updateTranCode(${purchase.tranNo}, '003')">배송 받기</a>
+			<span class = "updateTranCode" data-no = "${purchase.tranNo}">
+			<%-- <a href="#" onclick="updateTranCode(${purchase.tranNo}, '003')">배송 받기</a> --%>
+			배송 받기
+			</span>
 		</c:if>
 		</td>
 		<td></td>

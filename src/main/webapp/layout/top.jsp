@@ -3,38 +3,45 @@
 
 <%@ taglib prefix = "c" uri = "http://java.sun.com/jsp/jstl/core" %>
 
-<%-- <%
-	UserVO vo=(UserVO)session.getAttribute("user");
-%>
- --%>
 <html>
 <head>
-<title>Model2 MVC Shop</title>
+<title>집에 가고 싶어</title>
 
 <link href="/css/left.css" rel="stylesheet" type="text/css">
-
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+<script type="text/javascript">
+	$(function() {
+		$("span.loginAndOut:contains('login')").on("click", function() {
+			$(window.parent.frames["rightFrame"].document.location)
+			.attr("href" ,"/user/loginView.jsp"); 
+		})
+		
+		$("span.loginAndOut:contains('logout')").on("click", function() {
+			$(window.parent.frames["rightFrame"].document.location)
+			.attr("href" ,"/user/logout"); 
+			window.parent.location.reload();
+		})
+	})
+	
+</script>
 </head>
 
 <body topmargin="0" leftmargin="0">
  
 <table width="100%" height="10" border="0" cellpadding="0" cellspacing="0">
 <tr>
-    <td width="500" height="15"><h2>&nbsp;&nbsp;Model2 MVC Shop</h2></td> 
+    <td width="500" height="15"><h2>&nbsp;&nbsp;집에 가고 싶어</h2></td> 
 </tr>
 <tr>
  	<td width = "500" height="15" align="left" >
  	<c:if test = "${empty user}">
  		<h2>
-	       <a href="/user/loginView.jsp" target="rightFrame">
-	       	&nbsp;&nbsp;login
-	       </a>   
+	      	&nbsp;&nbsp;<span class = "loginAndOut">login</span>
 	    </h2>
 	</c:if>     
 	<c:if test = "${not empty user}">
 		<h2>
-	      	<a href="/user/logout" target="_parent">
-	      	&nbsp;&nbsp;logout
-	      	</a>  
+	      	&nbsp;&nbsp;<span class = "loginAndOut">logout</span>
 	    </h2>
 	</c:if>     
 	</td>

@@ -48,7 +48,7 @@ public class UserController extends CommonController {
 		
 		session.invalidate();
 		
-		ModelAndView modelAndView = new ModelAndView("redirect:/index.jsp");
+		ModelAndView modelAndView = new ModelAndView("redirect:/user/loginView.jsp");
 		
 		System.out.println("[UserController.logout()] end");
 		

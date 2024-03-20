@@ -3,13 +3,6 @@
 
 <%@ taglib prefix = "c" uri = "http://java.sun.com/jsp/jstl/core" %>
 
-<%--
-<%@page import="com.model2.mvc.common.util.PaymentOption"%>
-<%@page import="com.model2.mvc.service.purchase.domain.PurchaseVO"%>
- <%
-   	PurchaseVO purchaseVO = (PurchaseVO)request.getAttribute("purchaseVO");
- %>
---%>
 <html>
 <head>
 <title>Insert title here</title>

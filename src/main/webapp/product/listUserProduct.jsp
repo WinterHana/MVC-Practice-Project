@@ -45,6 +45,19 @@
 		$("#searchCondition").on("change", function() {
 			showContentBySelectBox();
 		})
+		
+		$("span.getProduct").on("click", function() {
+			let url = "/product/getProduct/"+ $(this).data("no");
+			$(window.location).attr("href" ,url);
+		})
+		
+		$("td.ct_btn01:contains('검색')").on("click", function() {
+			fncGetProductList(1);
+		})
+		
+		$("span.pageNavigator").on("click", function() {
+			fncGetProductList($(this).data("page"));
+		})
 	})
 </script>
 </head>
@@ -111,7 +124,8 @@
 						<img src="/images/ct_btnbg01.gif" width="17" height="23">
 					</td>
 					<td background="/images/ct_btnbg02.gif" class="ct_btn01" style="padding-top:3px;">
-						<a href="javascript:fncGetProductList(1);">검색</a>
+						<!-- <a href="javascript:fncGetProductList(1);">검색</a> -->
+						검색
 					</td>
 					<td width="14" height="23">
 						<img src="/images/ct_btnbg03.gif" width="14" height="23">
@@ -152,13 +166,18 @@
 		<td align="center">${no}</td>
 		<td></td>
 		<td align="center">
-		<a href="/product/getProduct/${product.prodNo}">
+		<%-- <a href="/product/getProduct/${product.prodNo}"> --%>
+		<span class = "getProduct" data-no ="${product.prodNo}">
 		<img src = "/images/uploadFiles/${product.fileName}" width = "120" height = "90"/>
+		</span>
 		</a>
 		</td>
 		<td></td>
 		<td align = "center">
-		<a href="/product/getProduct/${product.prodNo}">${product.prodName}</a>
+		<span class = "getProduct" data-no ="${product.prodNo}">
+		<%-- <a href="/product/getProduct/${product.prodNo}">${product.prodName}</a> --%>
+		${product.prodName}
+		</span>
 		</td>
 		<td></td>
 		<td align="center">${product.price}</td> 

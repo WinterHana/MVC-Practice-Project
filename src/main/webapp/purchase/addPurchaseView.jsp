@@ -10,30 +10,41 @@
 <script type="text/javascript" src="../javascript/calendar.js">
 </script>
 
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 <script type="text/javascript">
-function fncAddPurchase() {
-	// 유효성 확인
-	let countInput = document.addPurchase.prodCount.value;
-	let productCount = parseInt('${product.count}');
+	function fncAddPurchase() {
+		// 유효성 확인
+		let totalCount = $("#totalCount").text();
+		let productCount = $("input[name='prodCount']").val();
+		let pattern1 = /[0-9]/; //숫자
+		
+		if(productCount == null || productCount === '') {
+			alert("상품 개수를 입력해주세요.");
+			return;
+		}
 	
-	if(countInput == null || countInput === '') {
-		alert("상품 개수를 입력해주세요.");
-		return;
+		if(parseInt(productCount) <= 0 || !pattern1.test(productCount)) {
+			alert("상품 개수는 숫자이고 0보다 커야합니다.");
+			return;
+		}
+	
+		if(parseInt(productCount) > parseInt(totalCount)) {
+			alert("재고보다 많은 상품을 선택할 수 없습니다.");
+			return;
+		}
+	
+		$("form").attr("method", "POST").attr("action", "/purchase/addPurchase").submit();
 	}
 	
-	if(Number.isNaN(countInput) || parseInt(countInput) <= 0) {
-		alert("상품 개수는 숫자이고 0보다 커야합니다.");
-		return;
-	}
-	
-	if(parseInt(countInput) > productCount) {
-		alert("재고보다 많은 상품을 선택할 수 없습니다.");
-		return;
-	}
-	
-	document.addPurchase.action='/purchase/addPurchase';
-	document.addPurchase.submit();
-}
+	$(function() {
+		$("td.ct_btn01:contains('구매')").on("click", function() {
+			fncAddPurchase();
+		});
+		
+		$("td.ct_btn01:contains('취소')").on("click", function() {
+			history.go(-1);
+		})
+	})
 </script>
 </head>
 
@@ -156,7 +167,7 @@ function fncAddPurchase() {
 		<td class="ct_write01">
 			<input	type="text" name="prodCount" class="ct_input_g" 
 						style="width: 52px; height: 19px" maxLength="10"/>	
-			/ ${product.count}
+			총 : <span id = "totalCount">${product.count}</span> 개
 		</td>
 	</tr>
 	<tr>
@@ -210,10 +221,6 @@ function fncAddPurchase() {
 		<td width="104" class="ct_write">배송희망일자</td>
 		<td bgcolor="D6D6D6" width="1"></td>
 		<td width="200" class="ct_write01">
-			<!-- <input 	type="text" readonly="readonly" name="dlvyDate" class="ct_input_g" 
-							style="width: 100px; height: 19px" maxLength="20"/>
-			<img 	src="../images/ct_icon_date.gif" width="15" height="15"	
-						onclick="show_calendar('document.addPurchase.dlvyDate', document.addPurchase.dlvyDate.value)"/> -->
 			<input type="date" name="dlvyDate"   min = "2024-01-01" max = "2030-12-31"/>
 		</td>
 	</tr>
@@ -232,7 +239,8 @@ function fncAddPurchase() {
 						<img src="/images/ct_btnbg01.gif" width="17" height="23"/>
 					</td>
 					<td background="/images/ct_btnbg02.gif" class="ct_btn01" style="padding-top: 3px;">
-						<a href="javascript:fncAddPurchase();">구매</a>
+						<!-- <a href="javascript:fncAddPurchase();">구매</a> -->
+						구매
 					</td>
 					<td width="14" height="23">
 						<img src="/images/ct_btnbg03.gif" width="14" height="23"/>
@@ -242,7 +250,8 @@ function fncAddPurchase() {
 						<img src="/images/ct_btnbg01.gif" width="17" height="23"/>
 					</td>
 					<td background="/images/ct_btnbg02.gif" class="ct_btn01" style="padding-top: 3px;">
-						<a href="javascript:history.go(-1)">취소</a>
+						<!-- <a href="javascript:history.go(-1)">취소</a> -->
+						취소
 					</td>
 					<td width="14" height="23">
 						<img src="/images/ct_btnbg03.gif" width="14" height="23"/>

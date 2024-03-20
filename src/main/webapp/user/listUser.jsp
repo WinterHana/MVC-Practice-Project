@@ -25,6 +25,10 @@ $(function() {
 	})
 	
 	$(".ct_list_pop td:nth-child(3)").css("color", "blue");
+	
+	$("span.pageNavigator").on("click", function() {
+		fncGetUserList($(this).data("page"));
+	})
 })
 </script>
 </head>                           
