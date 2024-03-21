@@ -50,7 +50,6 @@ public class ProductServiceTest {
 		ProductVO addProductVO = new ProductVO();
 		addProductVO.setProdName("testProduct");
 		addProductVO.setProdDetail("For testing");
-		addProductVO.setManuDate("2004-10-25");
 		addProductVO.setPrice(10000);
 		addProductVO.setFileName("nullString");
 		
@@ -89,7 +88,6 @@ public class ProductServiceTest {
 		ProductVO addProductVO = new ProductVO();
 		addProductVO.setProdName("testProduct");
 		addProductVO.setProdDetail("For testing");
-		addProductVO.setManuDate("2004-10-25");
 		addProductVO.setPrice(10000);
 		addProductVO.setFileName("nullString");
 		
@@ -130,7 +128,6 @@ public class ProductServiceTest {
 		updateProductVO.setProdNo(10009);
 		updateProductVO.setProdName("제품1");
 		updateProductVO.setProdDetail("For testing");
-		updateProductVO.setManuDate("2004-10-25");
 		updateProductVO.setPrice(10000);
 		updateProductVO.setFileName("nullString");
 		

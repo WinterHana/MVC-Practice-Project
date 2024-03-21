@@ -17,7 +17,7 @@
 				
 	<!--  AOP 적용 : LOG 를 처리하는  Aspect 선언   -->
 	<!-- 1. 일반 Bean Definition :: POJO 기반 -->
-	<bean id="logAspect" class="com.model2.mvc.common.aspect.LogAspectJ" />
+	<bean id="logAspect" class="com.model2.mvc.common.aspect.LogAspectJ" /> 
 	 
 	 <!-- 2. 선언적으로 Point cut / Advice 정의 -->
 	 <!--

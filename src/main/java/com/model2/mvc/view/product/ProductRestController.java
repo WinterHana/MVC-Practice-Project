@@ -139,40 +139,35 @@ public class ProductRestController extends CommonController  {
 		return map;
 	}
 	
-	// Test
-	// test Product만 추가한다. 나중에 파일 업로드도 반영하기!
-	// https://blog.naver.com/admass/222116280957
+	// Test : form-data
+	// https://stackoverflow.com/questions/48051177/content-type-multipart-form-databoundary-charset-utf-8-not-supported
 	@RequestMapping(value = "/addProduct")
 	public Map<String, Object> addProduct(
-			@RequestBody ProductVO product) {
+			@ModelAttribute ProductVO product,
+			@ModelAttribute FileVO file) {
 		System.out.println("[ProductController.addProduct()] start");
-		
-		System.out.println("Server Product : " + product);
 		
 		productService.addProduct(product);
 		
 		// Upload할 파일 설정
-//		String fileName = null;
-//		MultipartFile fileResult = file.getMultipartFile();
-//		if(!fileResult.isEmpty()) {
-//			String originalFileName = fileResult.getOriginalFilename(); // 파일의 실제 이름
-//			// String ext = FilenameUtils.getExtension(originalFileName); // 파일의 확장자
-//			// UUID uuid = UUID.randomUUID(); // 랜덤한 UUID 이름
-//			fileName = originalFileName;
-//			
-//			// new File 객체를 통해 file 객체를 만들고, 파일 새로 만들기
-//			try {
-//				fileResult.transferTo(new File("/Project_Eclipse/01.Model2MVCShop(stu)/src/main/webapp/images/uploadFiles/" + fileName));
-//			} catch (IllegalStateException | IOException e) {
-//				System.out.println("[addProduct] file Upload Exception");
-//				e.printStackTrace();
-//			}
-//		}
-//		
-//		file.setFileName(fileName);
-//		
-//		productService.addProduct(product);
-//		if(!fileResult.isEmpty()) productService.addProductImage(file);
+		String fileName = null;
+		MultipartFile fileResult = file.getMultipartFile();
+		if(!fileResult.isEmpty()) {
+			String originalFileName = fileResult.getOriginalFilename(); // 파일의 실제 이름
+			fileName = originalFileName;
+			
+			// new File 객체를 통해 file 객체를 만들고, 파일 새로 만들기
+			try {
+				fileResult.transferTo(new File("/Project_Eclipse/01.Model2MVCShop(stu)/src/main/webapp/images/uploadFiles/" + fileName));
+			} catch (IllegalStateException | IOException e) {
+				System.out.println("[addProduct] file Upload Exception");
+				e.printStackTrace();
+			}
+		}
+		
+		file.setFileName(fileName);
+		
+		if(!fileResult.isEmpty()) productService.addProductImage(file);
 		
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("path", "redirect:/product/completeAddView.jsp");
@@ -184,7 +179,7 @@ public class ProductRestController extends CommonController  {
 	}
 	
 	// Test
-	@RequestMapping(value = "/updateProductView")
+	 @RequestMapping(value = "/updateProductView")
 	public Map<String, Object> updateProductView(@RequestBody ProductVO product) {
 		System.out.println("[ProductController.updaeProductView()] start");
 		
@@ -197,12 +192,32 @@ public class ProductRestController extends CommonController  {
 		return map;
 	}
 	
-	// Test
+	// Test : form-data
 	@RequestMapping(value = "/updateProduct")
-	public Map<String, Object> updateProduct(@RequestBody ProductVO product) {
+	public Map<String, Object> updateProduct(			
+			@ModelAttribute ProductVO product,
+			@ModelAttribute FileVO file) {
 		System.out.println("[ProductController.updateProduct()] start");
 		
+		String fileName = null;
+		MultipartFile fileResult = file.getMultipartFile();
+		if(!fileResult.isEmpty()) {
+			String originalFileName = fileResult.getOriginalFilename();
+			fileName = originalFileName;
+			
+			// new File 객체를 통해 file 객체를 만들고, 파일 새로 만들기
+			try {
+				fileResult.transferTo(new File("/Project_Eclipse/01.Model2MVCShop(stu)/src/main/webapp/images/uploadFiles/" + fileName));
+			} catch (IllegalStateException | IOException e) {
+				System.out.println("[addProduct] file Upload Exception");
+				e.printStackTrace();
+			}
+		}
+		
+		file.setFileName(fileName);
+		
 		productService.updateProduct(product);
+		if(!fileResult.isEmpty()) productService.updateProductImage(file);
 		
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("path", "redirect:/product/completeUpdateView.jsp");

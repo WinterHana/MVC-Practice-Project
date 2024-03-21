@@ -63,7 +63,6 @@ public class PurchaseServiceTest {
 		purchaseVO.setDlvyAddr("흠흐밍");
 		purchaseVO.setDlvyRequest("뿡빵띠");
 		purchaseVO.setTranCode("002");
-		purchaseVO.setDlvyDate("2021-01-02");
 		
 		SearchVO searchVO = new SearchVO();
 		searchVO.setPage(1);
@@ -169,7 +168,6 @@ public class PurchaseServiceTest {
 		purchaseVO.setDlvyAddr("흠흐밍테스트");
 		purchaseVO.setDlvyRequest("뿡빵띠테스트");
 		purchaseVO.setTranCode("002");
-		purchaseVO.setDlvyDate("2021-01-02");
 		purchaseVO.setProdCount(1);
 		
 		int addPurchaseResult = purchaseService.addPurchase(purchaseVO);

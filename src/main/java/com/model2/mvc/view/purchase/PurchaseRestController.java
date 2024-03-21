@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -26,6 +27,7 @@ import com.model2.mvc.common.util.TranStatusCode;
 import com.model2.mvc.common.util.TranStatusCodeUtil;
 import com.model2.mvc.service.domain.ProductVO;
 import com.model2.mvc.service.domain.PurchaseVO;
+import com.model2.mvc.service.domain.RestApiCommonVO;
 import com.model2.mvc.service.domain.UserVO;
 import com.model2.mvc.service.product.ProductService;
 import com.model2.mvc.service.purchase.PurchaseService;
@@ -162,13 +164,15 @@ public class PurchaseRestController extends CommonController {
 		
 	}
 	
-	// @RequestMapping(value = "/addPurchase.do")
+	// Test
 	@RequestMapping(value = "/addPurchase")
-	public ModelAndView addPurchase(
-			@ModelAttribute("user") UserVO user,
-			@ModelAttribute("product") ProductVO product,
-			@ModelAttribute("purchase") PurchaseVO purchase) {
+	public Map<String, Object> addPurchase(
+			@RequestBody RestApiCommonVO restApiCommon) {
 		System.out.println("[PurchaseController.addPurchase()] start");
+		
+		UserVO user = restApiCommon.getUser();
+		ProductVO product = restApiCommon.getProduct();
+		PurchaseVO purchase = restApiCommon.getPurchase();
 		
 		purchase.setTranCode(TranStatusCode.PURCHASED.getNumber());
 		
@@ -180,17 +184,18 @@ public class PurchaseRestController extends CommonController {
 		
 		purchaseService.addPurchase(purchase);
 		
-		ModelAndView modelAndView = new ModelAndView("forward:/purchase/addPurchase.jsp");
-		modelAndView.addObject("purchase", purchase);
+		Map<String, Object> result = new HashMap<String, Object>();
+		result.put("path", "forward:/purchase/addPurchase.jsp");
+		result.put("purchase", purchase);
 		
 		System.out.println("[PurchaseController.addPurchase()] end");
 		
-		return modelAndView;
+		return result;
 	}
 	
-	// @RequestMapping(value = "/updateTranCode.do")
+	// Test
 	@RequestMapping(value = "/updateTranCode", method = RequestMethod.GET)
-	public ModelAndView updateTranCode(
+	public Map<String, Object> updateTranCode(
 			@RequestParam("tranNo") String tranNo,
 			@RequestParam("updateTranCode") String tranCode) {
 		System.out.println("[PurchaseController.updateTranCode()] start");
@@ -202,37 +207,46 @@ public class PurchaseRestController extends CommonController {
 		
 		purchaseService.updateTranCode(purchaseVO);
 		
+		Map<String, Object> result = new HashMap<String, Object>();
+		result.put("path", "redirect:/purchase/listPurchase/1");
+		
 		System.out.println("[PurchaseController.updateTranCode()] end");
 		
-		return new ModelAndView("redirect:/purchase/listPurchase/1");
+		return result;
 	}
 	
-	// @RequestMapping(value = "/updatePurchaseView.do")
-	// public ModelAndView updatePurchaseView(@ModelAttribute("purchase") PurchaseVO purchase) {
+	// Test
 	@RequestMapping(value = "/updatePurchaseView/{tranNo}")
-	public ModelAndView updatePurchaseView(@PathVariable("tranNo") int tranNo) {
+	public Map<String, Object> updatePurchaseView(@PathVariable("tranNo") int tranNo) {
 		System.out.println("[PurchaseController.updatePurchaseView()] start");
 		
-		// PurchaseVO purchaseResult = purchaseService.getPurchase(purchase.getTranNo());
 		PurchaseVO purchaseResult = purchaseService.getPurchase(tranNo);
-		ModelAndView modelAndView = new ModelAndView("forward:/purchase/updatePurchaseView.jsp");
-		modelAndView.addObject("purchase", purchaseResult);
 		
+		Map<String, Object> map = new HashMap<String, Object>();
+		if(purchaseResult != null) {
+			map.put("path", "forward:/purchase/updatePurchaseView.jsp");
+			map.put("purchase", purchaseResult);
+		}
+
 		System.out.println("[PurchaseController.updatePurchaseView()] end");
 		
-		return modelAndView;
+		return map;
 	}
 	
-	// @RequestMapping(value = "/updatePurchase.do")
 	@RequestMapping(value = "/updatePurchase")
-	public ModelAndView updatePurchase(@ModelAttribute("purchase") PurchaseVO purchase) {
+	public Map<String, Object> updatePurchase(@RequestBody PurchaseVO purchase) {
 		System.out.println("[PurchaseController.updatePurchase()] start");
 		
-		ModelAndView modelAndView = new ModelAndView("redirect:/purchase/getPurchase/" + purchase.getTranNo());
-		purchaseService.updatePurchase(purchase);
+		Map<String, Object> map = new HashMap<String, Object>();
+		
+		int result = purchaseService.updatePurchase(purchase);
+		
+		if(result == 1) {
+			map.put("path", "redirect:/purchase/getPurchase/" + purchase.getTranNo());
+		}
 		
 		System.out.println("[PurchaseController.updatePurchase()] end");
 		
-		return modelAndView;
+		return map;
 	}
 }
