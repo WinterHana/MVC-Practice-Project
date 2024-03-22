@@ -87,4 +87,10 @@ public class PurchaseDAOImpl implements PurchaseDAO {
 		System.out.println("[" + getClass().getName() + ".deletePurchaseProdNo] Call");
 		return sqlSession.update("PurchaseMapper.deletePurchaseProdNo", prodNo);
 	}
+	
+	@Override
+	public int deletePurchaseBuyerId(String buyerId) {
+		System.out.println("[" + getClass().getName() + ".deletePurchaseBuyerId] Call");
+		return sqlSession.update("PurchaseMapper.deletePurchaseBuyerId", buyerId);
+	}
 }

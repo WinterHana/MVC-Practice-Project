@@ -44,6 +44,15 @@
 </head>
 <body bgcolor="#ffffff" text="#000000">
 
+<!-- jQuery 사용 -->
+<form name = "deletePurchase" action = "/purchase/deletePurchase" method = "POST">
+	<input type ="hidden" name = "tranNo" value = "${purchase.tranNo}"/>
+	<input type ="hidden" name = "tranCode" value = "${purchase.tranCode}"/>
+	
+	<input type ="hidden" name = "prodNo" value = "${purchase.purchaseProd.prodNo}"/>
+	<input type ="hidden" name = "prodCount" value = "${purchase.prodCount}">
+</form>
+
 <table width="100%" height="37" border="0" cellpadding="0" cellspacing="0">
 	<tr>
 		<td width="15" height="37">
@@ -167,15 +176,6 @@
 		<td height="1" colspan="3" bgcolor="D6D6D6"></td>
 	</tr>
 </table>
-
-<!-- jQuery 사용 -->
-<form name = "deletePurchase" action = "/purchase/deletePurchase" method = "POST">
-	<input type ="hidden" name = "tranNo" value = "${purchase.tranNo}"/>
-	<input type ="hidden" name = "tranCode" value = "${purchase.tranCode}"/>
-	
-	<input type ="hidden" name = "prodNo" value = "${purchase.purchaseProd.prodNo}"/>
-	<input type ="hidden" name = "prodCount" value = "${purchase.prodCount}">
-</form>
 
 <table width="100%" border="0" cellspacing="0" cellpadding="0"	style="margin-top: 10px;">
 	<tr>
