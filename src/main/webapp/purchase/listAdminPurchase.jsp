@@ -81,11 +81,11 @@
 		<td class="ct_line02"></td>
 		<td class="ct_list_b" width = "150">전화번호</td>
 		<td class="ct_line02"></td>
-		<td class="ct_list_b" width = "150">제품 번호</td>
+		<td class="ct_list_b" width = "150">제품 이름</td>
 		<td class="ct_line02"></td>
 		<td class="ct_list_b" width = "150">개수</td>
 		<td class="ct_line02"></td>
-		<td class="ct_list_b">배송현황</td>
+		<td class="ct_list_b">배송 현황</td>
 	</tr>
 	<tr>
 		<td colspan="11" bgcolor="808285" height="1"></td>
@@ -109,7 +109,7 @@
 		<td></td>
 			<td align="left">${purchase.receiverPhone}</td>
 		<td></td>
-				<td align="left">${purchase.purchaseProd.prodNo}</td>
+				<td align="left">${purchase.purchaseProd.prodName}</td>
 		<td></td>
 				<td align="left">${purchase.prodCount }</td>
 		<td></td>
@@ -130,7 +130,6 @@
 			${not empty purchase.tranCode && purchase.tranCode eq "003" ? "selected" : "" }>
 			배송 완료</option>
 		</select>
-		<%-- <a href="#" onclick="updateTranCode(${purchase.tranNo}, 'updateTranCode${purchase.tranNo}')">변경하기</a> --%>
 		<span class = "tranCode" 
 					data-a = "${purchase.tranNo}" 
 					data-b ="updateTranCode${purchase.tranNo}">변경하기</span>
@@ -140,6 +139,7 @@
 			<td colspan="11" bgcolor="D6D7D6" height="1"></td>
 		</tr>
 	</c:forEach>
+	
 <table width="100%" border="0" cellspacing="0" cellpadding="0" style="margin-top: 10px;">
 	<tr>
 		<td align="center">

@@ -66,7 +66,7 @@
 	<tr>
 		<td class="ct_list_b" width ="100">No</td>
 		<td class="ct_line02"></td>
-		<td class="ct_list_b" width = "150">제품 번호</td>
+		<td class="ct_list_b" width = "150">제품 이름</td>
 		<td class="ct_line02"></td>
 		<td class="ct_list_b" width = "150">개수</td>
 		<td class="ct_line02"></td>
@@ -85,7 +85,7 @@
 			</span>
 		</td>
 		<td></td>
-				<td align="left">${purchase.purchaseProd.prodNo}</td>
+				<td align="left">${purchase.purchaseProd.prodName}</td>
 		<td></td>
 				<td align="left">${purchase.prodCount }</td>
 		<td></td>

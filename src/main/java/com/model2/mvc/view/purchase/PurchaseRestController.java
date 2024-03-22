@@ -233,6 +233,7 @@ public class PurchaseRestController extends CommonController {
 		return map;
 	}
 	
+	// Test
 	@RequestMapping(value = "/updatePurchase")
 	public Map<String, Object> updatePurchase(@RequestBody PurchaseVO purchase) {
 		System.out.println("[PurchaseController.updatePurchase()] start");

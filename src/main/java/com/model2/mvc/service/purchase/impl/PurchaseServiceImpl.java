@@ -3,6 +3,7 @@ package com.model2.mvc.service.purchase.impl;
 import java.math.BigDecimal;
 import java.sql.SQLException;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -79,6 +80,14 @@ public class PurchaseServiceImpl implements PurchaseService {
 		try {
 			list = purchaseDAO.getPurchaseList(tmp);
 			totalCount = purchaseDAO.getPurchaseCount(tmp);
+			
+			if(list != null) {
+				list.stream().forEach(e -> {
+					e.getPurchaseProd()
+					.setProdName(productDAO.getProduct(e.getPurchaseProd().getProdNo()).getProdName());   
+				});
+			}
+			
 		} catch (Exception e) {
 			System.out.println("[" + getClass().getName() + " .getPurchaseList] Exception");
 			e.printStackTrace();
@@ -149,6 +158,31 @@ public class PurchaseServiceImpl implements PurchaseService {
 			result = purchaseDAO.updateTranCode(map);
 		} catch (Exception e) {
 			System.out.println("[" + getClass().getName() + " .updateTranCode] Exception");
+			e.printStackTrace();
+		}
+		
+		return result;
+	}
+
+	@Override
+	public int deletePurchase(PurchaseVO purchaseVO) {
+		// addPurchase
+		int result = 0;
+		
+		// updateProductCount
+		Map<String, Integer> requestMap = new HashMap<String, Integer>();
+		int prodNo = purchaseVO.getPurchaseProd().getProdNo();
+		
+		try {
+			requestMap.put("prodNo", prodNo);
+			int count = productDAO.getProduct(prodNo).getCount();
+			requestMap.put("countResult", count + purchaseVO.getProdCount());
+			
+			result += purchaseDAO.deletePurchase(purchaseVO.getTranNo());
+			result += productDAO.updateProductCount(requestMap);
+			
+		} catch (Exception e) {
+			System.out.println("[" + getClass().getName() + " .addPurchase] Exception");
 			e.printStackTrace();
 		}
 		
