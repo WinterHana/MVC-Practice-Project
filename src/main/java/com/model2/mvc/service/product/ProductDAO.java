@@ -14,7 +14,7 @@ public interface ProductDAO {
 	
 	public int updateProduct(ProductVO productVO);
 	
-	public int deleteProduct(String prodName);
+	public int deleteProduct(int prodNo);
 	
 	public List<ProductVO> getProductList(SearchVO searchVO);
 	
@@ -31,4 +31,7 @@ public interface ProductDAO {
 	
 	// productImage 정보 가져오기
 	public FileVO getProductImage(int prodNo);
+	
+	// productImage 삭제
+	public int deleteProductImage(int prodNo);
 }

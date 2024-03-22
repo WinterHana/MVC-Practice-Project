@@ -53,9 +53,9 @@ public class ProductDAOImpl implements ProductDAO {
 	}
 
 	@Override
-	public int deleteProduct(String prodName) {
+	public int deleteProduct(int prodNo) {
 		System.out.println("[" + getClass().getName() + ".deleteProduct] Call");
-		return sqlSession.delete("ProductMapper.deleteProduct", prodName);
+		return sqlSession.delete("ProductMapper.deleteProduct", prodNo);
 	}
 
 	@Override
@@ -92,5 +92,11 @@ public class ProductDAOImpl implements ProductDAO {
 	public FileVO getProductImage(int prodNo) {
 		System.out.println("[" + getClass().getName() + ".selectProductImage] Call");
 		return sqlSession.selectOne("ProductMapper.getProductImage", prodNo);
+	}
+
+	@Override
+	public int deleteProductImage(int prodNo) {
+		System.out.println("[" + getClass().getName() + ".deleteProductImage] Call");
+		return sqlSession.delete("ProductMapper.deleteProductImage", prodNo);
 	}
 }

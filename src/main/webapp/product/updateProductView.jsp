@@ -40,8 +40,9 @@
 		}
 		
 		$("form").attr("method", "POST").attr("action", "/product/updateProduct").submit();
+	}
 		
-		$(function() {
+	$(function() {
 			$("td.ct_btn01:contains('수정')").on("click", function() {
 				fncUpdateProduct();
 			});
@@ -49,16 +50,23 @@
 			$("td.ct_btn01:contains('취소')").on("click", function() {
 				history.go(-1);
 			})
-		})
-}
+			
+			$("td.ct_btn01:contains('삭제')").on("click", function() {
+				result = window.confirm("정말로 삭제하시겠습니까?");
+				if(result) {
+					let url = "/product/deleteProduct";
+					$("form").attr("method", "POST").attr("action", url).submit();
+				}
+			})
+	})
 </script>
 </head>
 
 <body bgcolor="#ffffff" text="#000000">
 
 <form name="detailForm" method="post" enctype="multipart/form-data" >
-
-<input type="hidden" name="prodNo" value="${product.prodNo}"/>
+	<input type="hidden" name="prodNo" value="${product.prodNo}"/>
+</form>
 
 <table width="100%" height="37" border="0" cellpadding="0" cellspacing="0">
 	<tr>
@@ -174,17 +182,29 @@
 						<img src="/images/ct_btnbg01.gif" width="17" height="23"/>
 					</td>
 					<td background="/images/ct_btnbg02.gif" class="ct_btn01"	style="padding-top: 3px;">
-						<a href="javascript:fncUpdateProduct();">수정</a>
+						수정
 					</td>
 					<td width="14" height="23">
 						<img src="/images/ct_btnbg03.gif" width="14" height="23"/>
 					</td>
+					
 					<td width="30"></td>
 					<td width="17" height="23">
 						<img src="/images/ct_btnbg01.gif"width="17" height="23"/>
 					</td>
 					<td background="/images/ct_btnbg02.gif" class="ct_btn01" style="padding-top: 3px;">
-						<a href="javascript:history.go(-1)">취소</a>
+						취소
+					</td>
+					<td width="14" height="23">
+						<img src="/images/ct_btnbg03.gif" width="14" height="23"/>
+					</td>
+					
+					<td width="30"></td>
+					<td width="17" height="23">
+						<img src="/images/ct_btnbg01.gif"width="17" height="23"/>
+					</td>
+					<td background="/images/ct_btnbg02.gif" class="ct_btn01" style="padding-top: 3px;">
+						삭제
 					</td>
 					<td width="14" height="23">
 						<img src="/images/ct_btnbg03.gif" width="14" height="23"/>
@@ -194,7 +214,7 @@
 		</td>
 	</tr>
 </table>
-</form>
+
 
 </body>
 </html>

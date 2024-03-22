@@ -218,5 +218,16 @@ public class ProductController extends CommonController  {
 		return modelAndView;
 	}
 	
-	
+	@RequestMapping(value = "/deleteProduct")
+	public ModelAndView deleteProduct(@ModelAttribute("product") ProductVO product) {
+		System.out.println("[ProductController.deleteProduct()] start");
+		
+		productService.deleteProduct(product);
+		
+		ModelAndView modelAndView = new ModelAndView("redirect:/product/listAdminProduct/1");
+		
+		System.out.println("[ProductController.deleteProduct()] end");
+		
+		return modelAndView;
+	}
 }

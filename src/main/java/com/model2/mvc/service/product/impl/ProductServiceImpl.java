@@ -14,6 +14,7 @@ import com.model2.mvc.service.domain.FileVO;
 import com.model2.mvc.service.domain.ProductVO;
 import com.model2.mvc.service.product.ProductDAO;
 import com.model2.mvc.service.product.ProductService;
+import com.model2.mvc.service.purchase.PurchaseDAO;
 
 @Service("productServiceImpl")
 public class ProductServiceImpl implements ProductService {
@@ -21,6 +22,10 @@ public class ProductServiceImpl implements ProductService {
 	@Autowired
 	@Qualifier("productDAOImpl")
 	private ProductDAO productDAO;
+	
+	@Autowired
+	@Qualifier("purchaseDAOImpl")
+	private PurchaseDAO purchaseDAO;
 	
 	public ProductServiceImpl() {
 		System.out.println("[" + getClass().getName() + " Default Constructor] Call");
@@ -127,10 +132,12 @@ public class ProductServiceImpl implements ProductService {
 	}
 
 	@Override
-	public int deleteProduct(String prodName) {
+	public int deleteProduct(ProductVO product) {
 		int result = 0;
 		try {
-			result = productDAO.deleteProduct(prodName);
+			result += purchaseDAO.deletePurchaseProdNo(product.getProdNo());
+			result += productDAO.deleteProductImage(product.getProdNo());
+			result += productDAO.deleteProduct(product.getProdNo());
 		} catch (Exception e) {
 			System.out.println(getClass().getName() + ".deleteProduct Exception");
 			e.printStackTrace();

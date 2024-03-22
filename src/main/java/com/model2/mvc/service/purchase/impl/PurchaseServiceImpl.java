@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 
 import com.model2.mvc.common.SearchVO;
 import com.model2.mvc.common.util.TranStatusCodeUtil;
+import com.model2.mvc.service.domain.ProductVO;
 import com.model2.mvc.service.domain.PurchaseVO;
 import com.model2.mvc.service.domain.UserVO;
 import com.model2.mvc.service.product.ProductDAO;
@@ -84,7 +85,9 @@ public class PurchaseServiceImpl implements PurchaseService {
 			if(list != null) {
 				list.stream().forEach(e -> {
 					e.getPurchaseProd()
-					.setProdName(productDAO.getProduct(e.getPurchaseProd().getProdNo()).getProdName());   
+					.setProdName(productDAO.getProduct(
+							e.getPurchaseProd().getProdNo()
+					).getProdName());
 				});
 			}
 			
@@ -175,12 +178,16 @@ public class PurchaseServiceImpl implements PurchaseService {
 		
 		try {
 			requestMap.put("prodNo", prodNo);
-			int count = productDAO.getProduct(prodNo).getCount();
-			requestMap.put("countResult", count + purchaseVO.getProdCount());
+			ProductVO product = productDAO.getProduct(prodNo);
+			
+			// 제품이 삭제되어 더 이상 갯수를 Update할 필요가 없을 때의 예외 처리
+			if(product != null) {
+				int count = product.getCount();
+				requestMap.put("countResult", count + purchaseVO.getProdCount());
+				result += productDAO.updateProductCount(requestMap);
+			}
 			
 			result += purchaseDAO.deletePurchase(purchaseVO.getTranNo());
-			result += productDAO.updateProductCount(requestMap);
-			
 		} catch (Exception e) {
 			System.out.println("[" + getClass().getName() + " .addPurchase] Exception");
 			e.printStackTrace();

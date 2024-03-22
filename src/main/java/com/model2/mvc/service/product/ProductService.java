@@ -15,7 +15,7 @@ public interface ProductService {
 	
 	public int updateProduct(ProductVO productVO);
 	
-	public int deleteProduct(String prodName);
+	public int deleteProduct(ProductVO product);
 	
 	public int addProductImage(FileVO file);
 	
