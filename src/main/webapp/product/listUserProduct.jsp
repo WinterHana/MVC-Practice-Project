@@ -168,7 +168,7 @@
 		<td align="center">
 		<%-- <a href="/product/getProduct/${product.prodNo}"> --%>
 		<span class = "getProduct" data-no ="${product.prodNo}">
-		<img src = "/images/uploadFiles/${product.fileName}" width = "120" height = "90"/>
+		<img src = "/images/uploadFiles/${product.fileName[0]}" width = "120" height = "90"/>
 		</span>
 		</a>
 		</td>

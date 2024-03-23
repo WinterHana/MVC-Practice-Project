@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
@@ -17,6 +18,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -139,31 +141,11 @@ public class ProductController extends CommonController  {
 	@RequestMapping(value = "/addProduct")
 	public ModelAndView addProduct(
 			@ModelAttribute("product") ProductVO product,
-			@ModelAttribute("file") FileVO file) {
+			@RequestParam("multipartFile") List<MultipartFile> multiFileLists) {
 		System.out.println("[ProductController.addProduct()] start");
 		
-		// Upload할 파일 설정
-		String fileName = null;
-		MultipartFile fileResult = file.getMultipartFile();
-		if(!fileResult.isEmpty()) {
-			String originalFileName = fileResult.getOriginalFilename(); // 파일의 실제 이름
-			// String ext = FilenameUtils.getExtension(originalFileName); // 파일의 확장자
-			// UUID uuid = UUID.randomUUID(); // 랜덤한 UUID 이름
-			fileName = originalFileName;
-			
-			// new File 객체를 통해 file 객체를 만들고, 파일 새로 만들기
-			try {
-				fileResult.transferTo(new File("/Project_Eclipse/01.Model2MVCShop(stu)/src/main/webapp/images/uploadFiles/" + fileName));
-			} catch (IllegalStateException | IOException e) {
-				System.out.println("[addProduct] file Upload Exception");
-				e.printStackTrace();
-			}
-		}
-		
-		file.setFileName(fileName);
-		
-		productService.addProduct(product);
-		if(!fileResult.isEmpty()) productService.addProductImage(file);
+		// 제품 추가
+		productService.addProduct(product, multiFileLists);
 		
 		ModelAndView modelAndView = new ModelAndView("redirect:/product/completeAddView.jsp");
 		
@@ -187,29 +169,11 @@ public class ProductController extends CommonController  {
 	@RequestMapping(value = "/updateProduct")
 	public ModelAndView updateProduct(
 			@ModelAttribute("product") ProductVO product,
-			@ModelAttribute("file") FileVO file) {
+			@RequestParam("multipartFile") List<MultipartFile> multiFileLists) {
 		System.out.println("[ProductController.updateProduct()] start");
 		
-		// Upload할 파일 설정
-		String fileName = null;
-		MultipartFile fileResult = file.getMultipartFile();
-		if(!fileResult.isEmpty()) {
-			String originalFileName = fileResult.getOriginalFilename();
-			fileName = originalFileName;
-			
-			// new File 객체를 통해 file 객체를 만들고, 파일 새로 만들기
-			try {
-				fileResult.transferTo(new File("/Project_Eclipse/01.Model2MVCShop(stu)/src/main/webapp/images/uploadFiles/" + fileName));
-			} catch (IllegalStateException | IOException e) {
-				System.out.println("[addProduct] file Upload Exception");
-				e.printStackTrace();
-			}
-		}
-		
-		file.setFileName(fileName);
-		
-		productService.updateProduct(product);
-		if(!fileResult.isEmpty()) productService.updateProductImage(file);
+		// 제품 수정
+		productService.updateProduct(product, multiFileLists);
 		
 		ModelAndView modelAndView = new ModelAndView("redirect:/product/completeUpdateView.jsp");
 		

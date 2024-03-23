@@ -127,12 +127,14 @@
   		)	
 	</insert>
 	
-	<insert id = "updateProductImage" parameterType = "FileVO">
-	  	UPDATE productImage
-  		<set>
-  			<if test = "fileName != null" >file_name = #{fileName:VARCHAR}</if>
-  		</set>
-  		WHERE prod_no = #{prodNo:NUMERIC}
+	<insert id = "updateAddProductImage" parameterType = "FileVO">
+		INSERT 
+		INTO productImage
+		VALUES(
+  			seq_product_image_no.nextval,
+ 			#{prodNo:NUMERIC},
+  			#{fileName:VARCHAR}
+  		)	
 	</insert>
 	
 	<delete id = "deleteProductImage"  parameterType = "int">

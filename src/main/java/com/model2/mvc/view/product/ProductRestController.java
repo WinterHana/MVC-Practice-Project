@@ -147,35 +147,36 @@ public class ProductRestController extends CommonController  {
 			@ModelAttribute FileVO file) {
 		System.out.println("[ProductController.addProduct()] start");
 		
-		productService.addProduct(product);
-		
-		// Upload할 파일 설정
-		String fileName = null;
-		MultipartFile fileResult = file.getMultipartFile();
-		if(!fileResult.isEmpty()) {
-			String originalFileName = fileResult.getOriginalFilename(); // 파일의 실제 이름
-			fileName = originalFileName;
-			
-			// new File 객체를 통해 file 객체를 만들고, 파일 새로 만들기
-			try {
-				fileResult.transferTo(new File("/Project_Eclipse/01.Model2MVCShop(stu)/src/main/webapp/images/uploadFiles/" + fileName));
-			} catch (IllegalStateException | IOException e) {
-				System.out.println("[addProduct] file Upload Exception");
-				e.printStackTrace();
-			}
-		}
-		
-		file.setFileName(fileName);
-		
-		if(!fileResult.isEmpty()) productService.addProductImage(file);
-		
-		Map<String, Object> map = new HashMap<String, Object>();
-		map.put("path", "redirect:/product/completeAddView.jsp");
-		map.put("product", product);
+//		productService.addProduct(product);
+//		
+//		// Upload할 파일 설정s
+//		String fileName = null;
+//		MultipartFile fileResult = file.getMultipartFile();
+//		if(!fileResult.isEmpty()) {
+//			String originalFileName = fileResult.getOriginalFilename(); // 파일의 실제 이름
+//			fileName = originalFileName;
+//			
+//			// new File 객체를 통해 file 객체를 만들고, 파일 새로 만들기
+//			try {
+//				fileResult.transferTo(new File("/Project_Eclipse/01.Model2MVCShop(stu)/src/main/webapp/images/uploadFiles/" + fileName));
+//			} catch (IllegalStateException | IOException e) {
+//				System.out.println("[addProduct] file Upload Exception");
+//				e.printStackTrace();
+//			}
+//		}
+//		
+//		file.setFileName(fileName);
+//		
+//		if(!fileResult.isEmpty()) productService.addProductImage(file);
+//		
+//		Map<String, Object> map = new HashMap<String, Object>();
+//		map.put("path", "redirect:/product/completeAddView.jsp");
+//		map.put("product", product);
 		
 		System.out.println("[ProductController.addProduct()] end");
 		
-		return map;
+//		return map;
+		return null;
 	}
 	
 	// Test
@@ -199,32 +200,33 @@ public class ProductRestController extends CommonController  {
 			@ModelAttribute FileVO file) {
 		System.out.println("[ProductController.updateProduct()] start");
 		
-		String fileName = null;
-		MultipartFile fileResult = file.getMultipartFile();
-		if(!fileResult.isEmpty()) {
-			String originalFileName = fileResult.getOriginalFilename();
-			fileName = originalFileName;
-			
-			// new File 객체를 통해 file 객체를 만들고, 파일 새로 만들기
-			try {
-				fileResult.transferTo(new File("/Project_Eclipse/01.Model2MVCShop(stu)/src/main/webapp/images/uploadFiles/" + fileName));
-			} catch (IllegalStateException | IOException e) {
-				System.out.println("[addProduct] file Upload Exception");
-				e.printStackTrace();
-			}
-		}
-		
-		file.setFileName(fileName);
-		
-		productService.updateProduct(product);
-		if(!fileResult.isEmpty()) productService.updateProductImage(file);
-		
-		Map<String, Object> map = new HashMap<String, Object>();
-		map.put("path", "redirect:/product/completeUpdateView.jsp");
-		map.put("product", product);
+//		String fileName = null;
+//		MultipartFile fileResult = file.getMultipartFile();
+//		if(!fileResult.isEmpty()) {
+//			String originalFileName = fileResult.getOriginalFilename();
+//			fileName = originalFileName;
+//			
+//			// new File 객체를 통해 file 객체를 만들고, 파일 새로 만들기
+//			try {
+//				fileResult.transferTo(new File("/Project_Eclipse/01.Model2MVCShop(stu)/src/main/webapp/images/uploadFiles/" + fileName));
+//			} catch (IllegalStateException | IOException e) {
+//				System.out.println("[addProduct] file Upload Exception");
+//				e.printStackTrace();
+//			}
+//		}
+//		
+//		file.setFileName(fileName);
+//		
+//		productService.updateProduct(product);
+//		if(!fileResult.isEmpty()) productService.updateProductImage(file);
+//		
+//		Map<String, Object> map = new HashMap<String, Object>();
+//		map.put("path", "redirect:/product/completeUpdateView.jsp");
+//		map.put("product", product);
 		
 		System.out.println("[ProductController.updateProduct()] end");
 		
-		return map;
+//		return map;
+		return null;
 	}
 }

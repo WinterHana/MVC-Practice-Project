@@ -83,15 +83,15 @@ public class ProductDAOImpl implements ProductDAO {
 	}
 
 	@Override
-	public int updateProductImage(FileVO file) {
-			System.out.println("[" + getClass().getName() + ".updateProductImage] Call");
-			return sqlSession.insert("ProductMapper.updateProductImage", file);
+	public int updateAddProductImage(FileVO file) {
+			System.out.println("[" + getClass().getName() + ".updateAddProductImage] Call");
+			return sqlSession.insert("ProductMapper.updateAddProductImage", file);
 	}
 
 	@Override
-	public FileVO getProductImage(int prodNo) {
+	public List<FileVO> getProductImage(int prodNo) {
 		System.out.println("[" + getClass().getName() + ".selectProductImage] Call");
-		return sqlSession.selectOne("ProductMapper.getProductImage", prodNo);
+		return sqlSession.selectList("ProductMapper.getProductImage", prodNo);
 	}
 
 	@Override

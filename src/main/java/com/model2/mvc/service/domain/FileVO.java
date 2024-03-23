@@ -1,5 +1,8 @@
 package com.model2.mvc.service.domain;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.springframework.web.multipart.MultipartFile;
 
 public class FileVO {
@@ -7,10 +10,10 @@ public class FileVO {
 	private int prodNo;
 	private int imageNo;
 	private String fileName;
-	private MultipartFile multipartFile;
+	private List<MultipartFile> multipartFiles;
 	
 	public FileVO() {
-		// Blank
+		multipartFiles = new ArrayList<MultipartFile>();
 	}
 
 	public int getProdNo() {
@@ -32,22 +35,16 @@ public class FileVO {
 	public String getFileName() {
 		return fileName;
 	}
-	
-	public MultipartFile getMultipartFile() {
-		return multipartFile;
-	}
-	
+
 	public void setFileName(String fileName) {
 		this.fileName = fileName;
 	}
-	
-	public void setMultipartFile(MultipartFile multipartFile) {
-		this.multipartFile = multipartFile;
+
+	public List<MultipartFile> getMultipartFiles() {
+		return multipartFiles;
 	}
 
-	@Override
-	public String toString() {
-		return "FileVO [prodNo=" + prodNo + ", imageNo=" + imageNo + ", fileName=" + fileName + ", multipartFile="
-				+ multipartFile + "]";
+	public void setMultipartFiles(List<MultipartFile> multipartFiles) {
+		this.multipartFiles = multipartFiles;
 	}
 }

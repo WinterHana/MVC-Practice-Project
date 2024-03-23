@@ -25,13 +25,6 @@
 		<context:exclude-filter 	type="annotation" 
 												expression="org.springframework.stereotype.Repository"/>
 	</context:component-scan>            
-
-<!-- 	<bean class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping">
-		<property name = "order" value = "0"/>
-		<property name = "interceptors" ref = "logonCheckInterceptor"/>
-	</bean> -->
-	
-	<!-- 	<bean id = "logonCheckInterceptor" class = "com.model2.mvc.common.web.LogonCheckInterceptor"/> -->
 	
 	<mvc:annotation-driven />
 	
