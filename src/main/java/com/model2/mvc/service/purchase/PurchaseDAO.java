@@ -20,6 +20,10 @@ public interface PurchaseDAO {
 	
 	public int deletePurchase(int tranNo);
 	
+	public int deletePurchaseProdNo(int prodNo);
+	
+	public int deletePurchaseBuyerId(String buyerId);
+	
 	public int updatePurchase(PurchaseVO purchaseVO);
 	
 	public int updateTranCode(Map<String,Object> map);

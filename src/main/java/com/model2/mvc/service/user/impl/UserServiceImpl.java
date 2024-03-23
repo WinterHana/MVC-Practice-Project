@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import com.model2.mvc.common.SearchVO;
 import com.model2.mvc.common.util.CommonUtil;
 import com.model2.mvc.service.domain.UserVO;
+import com.model2.mvc.service.purchase.PurchaseDAO;
 import com.model2.mvc.service.user.UserDAO;
 import com.model2.mvc.service.user.UserService;
 
@@ -21,6 +22,10 @@ public class UserServiceImpl implements UserService{
 	@Qualifier("userDAOImpl")
 	private UserDAO userDAO;
 
+	@Autowired
+	@Qualifier("purchaseDAOImpl")
+	private PurchaseDAO purchaseDAO;
+	
 	public UserServiceImpl() {
 		System.out.println("[" + getClass().getName() + " Default constructor] Call");
 	}
@@ -151,7 +156,8 @@ public class UserServiceImpl implements UserService{
 		int result = 0;
 		
 		try {
-			result = userDAO.deleteUser(userId);
+			result += purchaseDAO.deletePurchaseBuyerId(userId);
+			result += userDAO.deleteUser(userId);
 		} catch (Exception e) {
 			System.out.println("[" + getClass().getName() + ".deleteUser] Exception");
 			e.printStackTrace();

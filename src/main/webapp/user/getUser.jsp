@@ -18,11 +18,24 @@
 		$("td.ct_btn01:contains('확인')").on("click", function() {
 			history.go(-1);
 		});
+		
+		$("td.ct_btn01:contains('삭제')").on("click", function() {
+			result = window.confirm("정말로 탈퇴하시겠습니까?");
+			if(result) {
+				let url = "/user/deleteUser";
+				$("form").attr("method", "POST").attr("action", url).submit();
+			}
+		});
 	});
 </script>
 </head>
 
 <body bgcolor="#ffffff" text="#000000">
+
+<!-- jQuery 사용 -->
+<form name = "deletePurchase" action = "/user/deleteUser" method = "POST">
+	<input type ="hidden" name = "userId" value = "${user.userId}"/>
+</form>
 
 <table width="100%" height="37" border="0" cellpadding="0"	cellspacing="0">
 	<tr>
@@ -120,19 +133,29 @@
 						<img src="/images/ct_btnbg01.gif" width="17" height="23"/>
 					</td>
 					<td background="/images/ct_btnbg02.gif" class="ct_btn01" style="padding-top:3px;">
-						<%-- <a href="/user/updateUserView/${user.userId}">수정</a> --%>
 						수정
 					</td>
 					<td width="14" height="23">
 						<img src="/images/ct_btnbg03.gif" width="14" height="23"/>
 					</td>
+					
 					<td width="30"></td>					
 					<td width="17" height="23">
 						<img src="/images/ct_btnbg01.gif" width="17" height="23"/>
 					</td>
 					<td background="/images/ct_btnbg02.gif" class="ct_btn01" style="padding-top:3px;">
-						<!-- <a href="javascript:history.go(-1);">확인</a> -->
 						확인
+					</td>
+					<td width="14" height="23">
+						<img src="/images/ct_btnbg03.gif" width="14" height="23"/>
+					</td>
+					
+					<td width="30"></td>					
+					<td width="17" height="23">
+						<img src="/images/ct_btnbg01.gif" width="17" height="23"/>
+					</td>
+					<td background="/images/ct_btnbg02.gif" class="ct_btn01" style="padding-top:3px;">
+						삭제
 					</td>
 					<td width="14" height="23">
 						<img src="/images/ct_btnbg03.gif" width="14" height="23"/>

@@ -82,10 +82,10 @@
   		WHERE prod_no = #{prodNo:NUMERIC}
   	</update>
   	
-  	<delete id = "deleteProduct" parameterType = "string">
-  		DELETE
-  		FROM product
-  		WHERE prod_name = #{prodName:VARCHAR}
+  	<delete id = "deleteProduct" parameterType = "int">
+  		DELETE 
+  		FROM 
+  		product WHERE prod_no = #{prodNo:NUMERIC}
   	</delete>
   	
   	<select id = "getProductList"  parameterType = "searchVO"  resultMap = "productSelectMap">
@@ -127,11 +127,19 @@
   		)	
 	</insert>
 	
-	<insert id = "updateProductImage" parameterType = "FileVO">
-	  	UPDATE productImage
-  		<set>
-  			<if test = "fileName != null" >file_name = #{fileName:VARCHAR}</if>
-  		</set>
-  		WHERE prod_no = #{prodNo:NUMERIC}
+	<insert id = "updateAddProductImage" parameterType = "FileVO">
+		INSERT 
+		INTO productImage
+		VALUES(
+  			seq_product_image_no.nextval,
+ 			#{prodNo:NUMERIC},
+  			#{fileName:VARCHAR}
+  		)	
 	</insert>
+	
+	<delete id = "deleteProductImage"  parameterType = "int">
+  		DELETE 
+  		FROM 
+  		productImage WHERE prod_no = #{prodNo:NUMERIC}
+  	</delete>
 </mapper>

@@ -29,7 +29,6 @@ public class UserController extends CommonController {
 	@Qualifier("userServiceImpl")
 	UserService userService;
 	
-	// @RequestMapping(value = "/login.do")
 	@RequestMapping(value = "login")
 	public ModelAndView login(HttpSession session, @ModelAttribute("user") UserVO user) {
 		System.out.println("[UserController.loginUser()] start");
@@ -41,7 +40,6 @@ public class UserController extends CommonController {
 		return modelAndView;
 	}
 	
-	// @RequestMapping(value = "/logout.do")
 	@RequestMapping(value = "logout")
 	public ModelAndView logout(HttpSession session) {
 		System.out.println("[UserController.logout()] start");
@@ -55,7 +53,6 @@ public class UserController extends CommonController {
 		return modelAndView;
 	}
 	
-	// @RequestMapping(value = "/checkDuplication.do")
 	@RequestMapping(value = "checkDuplication")
 	public ModelAndView checkDuplication(@ModelAttribute("user") UserVO user) {
 		System.out.println("[UserController.checkDuplicationUser()] start");
@@ -69,10 +66,7 @@ public class UserController extends CommonController {
 		System.out.println("[UserController.checkDuplicationUser()] end");
 		return modelAndView;
 	}			
-			
-	// @RequestMapping(value = "/getUser.do")
-	// @RequestMapping(value = "getUser")
-	// public ModelAndView getUser(@ModelAttribute("user") UserVO user) [
+	
 	@RequestMapping(value = "getUser/{userId}")
 	public ModelAndView getUser(@PathVariable("userId") String userId) {
 		
@@ -86,7 +80,6 @@ public class UserController extends CommonController {
 		return modelAndView;
 	}
 	
-	// @RequestMapping(value = "/addUser.do")
 	@RequestMapping(value = "addUser")
 	public ModelAndView addUser(@ModelAttribute("user") UserVO user) {
 		System.out.println("[UserController.addUser()] start");
@@ -100,7 +93,6 @@ public class UserController extends CommonController {
 		return modelAndView;
 	}
 	
-	// @RequestMapping(value = "/listUser.do")
 	@RequestMapping(value = "listUser/{page}")
 	public ModelAndView listUser(
 			@ModelAttribute("search") SearchVO search,
@@ -136,14 +128,9 @@ public class UserController extends CommonController {
 		return modelAndView;
 	}
 	
-	// @RequestMapping(value = "/updateUserView.do")
-//	@RequestMapping(value = "updateUserView")
-//	public ModelAndView updateUserView(@ModelAttribute("user") UserVO user) {
 	@RequestMapping(value = "updateUserView/{userId}")
 	public ModelAndView updateUserView(@PathVariable("userId") String userId) {
 		System.out.println("[UserController.updateUserView()] start");
-		
-		// UserVO resultUser = userService.getUser(user.getUserId());
 		
 		UserVO resultUser = userService.getUser(userId);
 		
@@ -155,7 +142,6 @@ public class UserController extends CommonController {
 		return modelAndView;
 	}
 	
-	// @RequestMapping(value = "/updateUser.do")
 	@RequestMapping(value = "updateUser")
 	public ModelAndView updateUser(HttpSession session, @ModelAttribute("user") UserVO user) {
 		System.out.println("[UserController.updateUser()] start");
@@ -171,6 +157,27 @@ public class UserController extends CommonController {
 		ModelAndView modelAndView = new ModelAndView("redirect:/user/getUser/" + user.getUserId());
 		
 		System.out.println("[UserController.updateUser()] end");
+		
+		return modelAndView;
+	}
+	
+	@RequestMapping(value = "deleteUser")
+	public ModelAndView deleteUser(
+			HttpSession session,
+			@ModelAttribute("user") UserVO user) {
+		System.out.println("[UserController.deleteUser()] start");
+
+		String url = null;
+		String userRole=((UserVO)session.getAttribute("user")).getRole();
+		if(userRole.equals("admin")) {
+			url = "redirect:/user/listUser/1";
+		} else {
+			url = "redirect:/user/loginView.jsp";
+		}
+		ModelAndView modelAndView = new ModelAndView(url);
+		userService.deleteUser(user.getUserId());
+		
+		System.out.println("[UserController.deleteUser()] end");
 		
 		return modelAndView;
 	}

@@ -1,11 +1,11 @@
 package com.model2.mvc.service.domain;
 
 import java.sql.Date;
-
+import java.util.List;
 
 public class ProductVO  {
 	
-	private String fileName;
+	private List<String> fileName; 
 	private Date manuDate;
 	private int price;
 	private String prodDetail;
@@ -18,14 +18,14 @@ public class ProductVO  {
 		// blank
 	}
 	
-	public String getFileName() {
+	public List<String> getFileName() {
 		return fileName;
 	}
-	
-	public void setFileName(String fileName) {
+
+	public void setFileName(List<String> fileName) {
 		this.fileName = fileName;
 	}
-	
+
 	public Date getManuDate() {
 		return manuDate;
 	}

@@ -93,11 +93,23 @@
   	</update>
   	
   	<!-- DAO 단위에서까지 만들고 나중에 필요할 때 사용하기 -->
-  	<select id = "deletePurchase" parameterType = "int">
+  	<delete id = "deletePurchase" parameterType = "int">
   		DELETE
   		FROM transaction
   		WHERE tran_no = #{tran_no:NUMERIC}
-  	</select>
+  	</delete>
+  	
+  	<delete id = "deletePurchaseProdNo" parameterType = "int">
+  		DELETE
+  		FROM transaction
+  		WHERE prod_no = #{prodNo:NUMERIC}
+  	</delete>
+  	
+  	 <delete id = "deletePurchaseBuyerId" parameterType = "string">
+  		DELETE
+  		FROM transaction
+  		WHERE buyer_id = #{buyerId:NUMERIC}
+  	</delete>
   	
   	<select id = "getPurchaseList"  parameterType = "map"  resultMap = "purchaseSelectMap">
   		SELECT *

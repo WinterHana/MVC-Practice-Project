@@ -3,6 +3,7 @@ package com.model2.mvc.service.purchase.impl;
 import java.math.BigDecimal;
 import java.sql.SQLException;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -12,6 +13,7 @@ import org.springframework.stereotype.Service;
 
 import com.model2.mvc.common.SearchVO;
 import com.model2.mvc.common.util.TranStatusCodeUtil;
+import com.model2.mvc.service.domain.ProductVO;
 import com.model2.mvc.service.domain.PurchaseVO;
 import com.model2.mvc.service.domain.UserVO;
 import com.model2.mvc.service.product.ProductDAO;
@@ -79,6 +81,16 @@ public class PurchaseServiceImpl implements PurchaseService {
 		try {
 			list = purchaseDAO.getPurchaseList(tmp);
 			totalCount = purchaseDAO.getPurchaseCount(tmp);
+			
+			if(list != null) {
+				list.stream().forEach(e -> {
+					e.getPurchaseProd()
+					.setProdName(productDAO.getProduct(
+							e.getPurchaseProd().getProdNo()
+					).getProdName());
+				});
+			}
+			
 		} catch (Exception e) {
 			System.out.println("[" + getClass().getName() + " .getPurchaseList] Exception");
 			e.printStackTrace();
@@ -149,6 +161,35 @@ public class PurchaseServiceImpl implements PurchaseService {
 			result = purchaseDAO.updateTranCode(map);
 		} catch (Exception e) {
 			System.out.println("[" + getClass().getName() + " .updateTranCode] Exception");
+			e.printStackTrace();
+		}
+		
+		return result;
+	}
+
+	@Override
+	public int deletePurchase(PurchaseVO purchaseVO) {
+		// addPurchase
+		int result = 0;
+		
+		// updateProductCount
+		Map<String, Integer> requestMap = new HashMap<String, Integer>();
+		int prodNo = purchaseVO.getPurchaseProd().getProdNo();
+		
+		try {
+			requestMap.put("prodNo", prodNo);
+			ProductVO product = productDAO.getProduct(prodNo);
+			
+			// 제품이 삭제되어 더 이상 갯수를 Update할 필요가 없을 때의 예외 처리
+			if(product != null) {
+				int count = product.getCount();
+				requestMap.put("countResult", count + purchaseVO.getProdCount());
+				result += productDAO.updateProductCount(requestMap);
+			}
+			
+			result += purchaseDAO.deletePurchase(purchaseVO.getTranNo());
+		} catch (Exception e) {
+			System.out.println("[" + getClass().getName() + " .addPurchase] Exception");
 			e.printStackTrace();
 		}
 		

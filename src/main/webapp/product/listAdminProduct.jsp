@@ -177,9 +177,8 @@
 		<td align="center">${product.prodNo}</td>
 		<td></td>
 		<td align="center">
-		<%-- <a href="/product/updateProductView?prodNo=${product.prodNo}"> --%>
 		<span class = "updateProduct" data-no ="${product.prodNo}">
-		<img src = "/images/uploadFiles/${product.fileName}" width = "120" height = "90"/>
+		<img src = "/images/uploadFiles/${product.fileName[0]}" width = "120" height = "90"/>
 		</span>
 		</a>
 		</td>

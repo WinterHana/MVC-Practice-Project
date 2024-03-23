@@ -149,7 +149,7 @@
 		<td bgcolor="D6D6D6" width="1"></td>
 		<td class="ct_write01">
 			<input	type="file" name="multipartFile" class="ct_input_g" 
-						style="width: 200px; height: 19px" maxLength="13"/>
+						style="width: 200px; height: 19px" maxLength="13" multiple/>
 		</td>
 	</tr>
 	<tr>

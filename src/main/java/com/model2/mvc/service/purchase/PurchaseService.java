@@ -25,4 +25,7 @@ public interface PurchaseService {
 	
 	// updateTranCode
 	public int updateTranCode(PurchaseVO purchaseVO);
+	
+	// deletePurchase
+	public int deletePurchase(PurchaseVO purchaseVO);
 }

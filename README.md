@@ -127,7 +127,7 @@ User, Product, Purchase 부분의 view를 EL, JSTL로 변경한다.
 ### 240315 - RestController 추가
 - [x] User Component
 - [x] Product Component
-- [ ] Purchase Component
+- [x] Purchase Component
 
 ### 240319 - jQuery로 View 수정
 - [x] User Component

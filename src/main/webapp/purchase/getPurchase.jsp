@@ -24,16 +24,34 @@
 	        var tranNo = $("input[name = 'tranNo']").val();
 	        var tranCode = $("input[name = 'tranCode']").val();
 			limitUpdate(tranNo, tranCode);
-		});
+		})
 			
 		$("td.ct_btn01:contains('확인')").on("click", function() {
 			history.go(-1);
-		});
+		})
+		// https://horangi.tistory.com/417
+		$("td.ct_btn01:contains('삭제')").on("click", function() {
+			result = window.confirm("정말로 삭제하시겠습니까?");
+			if(result) {
+				let url = "/purchase/deletePurchase";
+				$("form").attr("method", "POST").attr("action", url).submit();
+			}
+		})
+		
 	});
 </script>
 
 </head>
 <body bgcolor="#ffffff" text="#000000">
+
+<!-- jQuery 사용 -->
+<form name = "deletePurchase" action = "/purchase/deletePurchase" method = "POST">
+	<input type ="hidden" name = "tranNo" value = "${purchase.tranNo}"/>
+	<input type ="hidden" name = "tranCode" value = "${purchase.tranCode}"/>
+	
+	<input type ="hidden" name = "prodNo" value = "${purchase.purchaseProd.prodNo}"/>
+	<input type ="hidden" name = "prodCount" value = "${purchase.prodCount}">
+</form>
 
 <table width="100%" height="37" border="0" cellpadding="0" cellspacing="0">
 	<tr>
@@ -53,7 +71,6 @@
 		</td>
 	</tr>
 </table>
-
 <table width="100%" border="0" cellspacing="0" cellpadding="0"	style="margin-top: 13px;">
 	<tr>
 		<td height="1" colspan="3" bgcolor="D6D6D6"></td>
@@ -68,8 +85,6 @@
 				<tr>
 					<td width="105">
 					${purchase.purchaseProd.prodNo}
-					</td>
-					<td>
 					</td>
 				</tr>
 			</table>
@@ -162,10 +177,6 @@
 	</tr>
 </table>
 
-<!-- jQuery 사용 -->
-<input type = "hidden" name = "tranNo" value = "${purchase.tranNo}"/>
-<input type = "hidden" name = "tranCode" value = "${purchase.tranCode}"/>
-
 <table width="100%" border="0" cellspacing="0" cellpadding="0"	style="margin-top: 10px;">
 	<tr>
 		<td width="53%"></td>
@@ -175,29 +186,39 @@
 					<td width="17" height="23">
 						<img src="/images/ct_btnbg01.gif" width="17" height="23"/>
 					</td>
-					<td background="/images/ct_btnbg02.gif" class="ct_btn01"	style="padding-top: 3px;">
-						<%-- <a href="javascript:limitUpdate(${purchase.tranNo}, ${purchase.tranCode})">수정</a> --%>
+					<td background="/images/ct_btnbg02.gif" class="ct_btn01"  style="padding-top: 3px;">
 						수정
 					</td>
 					<td width="14" height="23">
 						<img src="/images/ct_btnbg03.gif" width="14" height="23"/>
 					</td>
+					
 					<td width="30"></td>
 					<td width="17" height="23">
 						<img src="/images/ct_btnbg01.gif" width="17" height="23"/>
 					</td>
-					<td background="/images/ct_btnbg02.gif" class="ct_btn01"	style="padding-top: 3px;">
-						<!-- <a href="javascript:history.go(-1);">확인</a> -->
+					<td background="/images/ct_btnbg02.gif" class="ct_btn01"	 style="padding-top: 3px;">
 						확인
 					</td>
 					<td width="14" height="23">
 						<img src="/images/ct_btnbg03.gif"width="14" height="23"/>
 					</td>
+					
+					<td width="30"></td>
+						<td width="17" height="23">
+							<img src="/images/ct_btnbg01.gif" width="17" height="23"/>
+						</td>
+						<td background="/images/ct_btnbg02.gif" class="ct_btn01"	 style="padding-top: 3px;">
+							삭제
+						</td>
+						<td width="14" height="23">
+							<img src="/images/ct_btnbg03.gif"width="14" height="23"/>
+						</td>
+					
 				</tr>
 			</table>
 		</td>
 	</tr>
 </table>
-
 </body>
 </html>

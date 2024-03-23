@@ -14,7 +14,7 @@ function fncAddUser() {
 	// Form 유효성 검증
 	let id = $("input[name='userId']").val();
 	let pw = $("input[name='password']").val();
-	let pw_confirm = $("input[name = 'password2']");
+	let pw_confirm = $("input[name = 'password2']").val();
 	let name = $("input[name = 'userName']").val();
 	
 	// Validation Check
