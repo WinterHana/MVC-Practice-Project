@@ -8,6 +8,12 @@
 
 <link rel="stylesheet" href="/css/admin.css" type="text/css">
 
+<style>
+	.disabled {
+		pointer-events: none;
+	}
+</style>
+
 <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 <script type="text/javascript">
 function fncGetUserList(currentPage) {
@@ -16,19 +22,61 @@ function fncGetUserList(currentPage) {
 }
 
 $(function() {
+	// 처음 유저 버튼은 비활성화
+	$("#userButton").addClass("disabled");
+	
 	$("td.ct_btn01:contains('검색')").on("click", function() {
 		fncGetUserList($("input[name='currentPage']").val())
 	})
 	
 	$(".ct_list_pop td:nth-child(3)").on("click", function() {
-		self.location = "/user/getUser/" + $(this).text().trim();
-	})
+		// self.location = "/user/getUser/" + $(this).text().trim();
+		var userId = $(this).text().trim();
+		
+		$.ajax({
+			url : "/rest/user/getUser/"+userId,
+			method : "POST",
+			dataType : "json",
+			header : {
+				"Accept" : "application/json",
+				"Content-Type" : "application/json"
+			},
+			success : function(JSONData, status) {
+				var display = 
+					"<h3>"
+					+ "아이디 : " + JSONData.userId + "<br/>"
+					+ "이름 : " +  JSONData.userName + "<br/>"
+					+ "비밀번호 : " +  JSONData.password + "<br/>"
+					+ "휴대폰 번호 : " +  JSONData.phone + "<br/>"
+					+ "주소 : " +  JSONData.addr + "<br/>"
+					+ "이메일 : " +  JSONData.email + "<br/>"
+					+ "<h3>";
+					
+				$("h3.infoFirst").remove();
+				$("#userInformation").html(display);
+			}
+		});
+		
+		$("#userButton").removeClass('disabled');
+	});
 	
 	$(".ct_list_pop td:nth-child(3)").css("color", "blue");
 	
 	$("span.pageNavigator").on("click", function() {
 		fncGetUserList($(this).data("page"));
-	})
+	});
+	
+	$("td.ct_btn01:contains('삭제')").on("click", function() {
+		result = window.confirm("정말로 탈퇴하시겠습니까?");
+		if(result) {
+			let url = "/user/deleteUser";
+			$("form").attr("method", "POST").attr("action", url).submit();
+		}
+	});
+	
+	$("td.ct_btn01:contains('수정')").on("click", function() {
+		location.href = "/user/updateUserView/" + $("#userId").text();
+	});
 })
 </script>
 </head>                           
@@ -85,49 +133,85 @@ $(function() {
 	</tr>
 </table>
 
-<table width="100%" border="0" cellspacing="0" cellpadding="0" style="margin-top:10px;">
-	<tr>
-		<td colspan="11" >전체  ${resultPage.totalCount} 건수, 현재  ${resultPage.currentPage} 페이지 </td>
-	</tr>
-	<tr>
-		<td class="ct_list_b" width="100">No</td>
-		<td class="ct_line02"></td>
-		<td class="ct_list_b" width="150">회원ID</td>
-		<td class="ct_line02"></td>
-		<td class="ct_list_b" width="150">회원명</td>
-		<td class="ct_line02"></td>
-		<td class="ct_list_b">이메일</td>		
-	</tr>
-	<tr>
-		<td colspan="11" bgcolor="808285" height="1"></td>
-	</tr>
-	<c:set var = "no" value = "0"/>
-	<c:forEach var = "user" items = "${list}">
-		<c:set var = "no" value = "${no + 1}"/>
-		<tr class="ct_list_pop">
-		<td align="center">${no}</td>
-		<td></td>
-		<%-- <td align="left"><a href="/user/getUser/${user.userId}">${user.userId}</a></td> --%>
-		<td align="left">${user.userId}</td>
-		<td></td>
-		<td align="left">${user.userName}</td>
-		<td></td>
-		<td align="left">${user.email}</td>		
-	</tr>
-	<tr>
-		<td colspan="11" bgcolor="D6D7D6" height="1"></td>
-	</tr>
-	</c:forEach>
-</table>
+<!-- 간략한 정보를 테이블로 출력 -->
+<div style="display: flex;">
+	<div style="flex: 1; border: 1px solid black;">
+	<table width = "100%" border="0" cellspacing="0" cellpadding="0" style="margin-top:10px;">
+		<tr>
+			<td colspan="11" >전체  ${resultPage.totalCount} 건수, 현재  ${resultPage.currentPage} 페이지 </td>
+		</tr>
+		<tr>
+			<td class="ct_list_b" width ="100">No</td>
+			<td class="ct_line02"></td> 
+			<td class="ct_list_b" width ="150"><p>회원ID</p><p>(클릭시 상세정보)</p></td>
+			<td class="ct_line02"></td>
+		</tr>
+		<tr>
+			<td colspan="11" bgcolor="808285" height="1"></td>
+		</tr>
+		<c:set var = "no" value = "0"/>
+		<c:forEach var = "user" items = "${list}">
+			<c:set var = "no" value = "${no + 1}"/>
+			<tr class="ct_list_pop">
+			<td align="center">${no}</td>
+			<td></td>
+			<td align="left">${user.userId}</td>
+			<td></td>
+		</tr>
+		<tr>
+			<td colspan="11" bgcolor="D6D7D6" height="1"></td>
+		</tr>
+		</c:forEach>
+	</table>
+	<!--  페이지 Navigator -->
+	<table width="100%" border="0" cellspacing="0" cellpadding="0" style="margin-top:10px;">
+		<tr>
+			<td align="center">
+				<jsp:include page = "../common/pageNavigator.jsp"/>
+	    	</td>
+		</tr>
+	</table>
+	</div>
+	
+	<!-- 상세 정보 출력 -->
+	<div style="flex: 1; background-color: #ccc; border: 1px solid black;">
+		<h2>정보 확인</h2>
+		<span id = "userInformation">
+			<h3 class = "infoFirst">유저 정보</h3>
+		</span>
+		<div id = "userButton" >
+			<table border="0" cellspacing="0" cellpadding="0">
+				
+				<tr>
+					<td width="17" height="23">
+						<img src="/images/ct_btnbg01.gif" width="17" height="23"/>
+					</td>
+					<td background="/images/ct_btnbg02.gif" class="ct_btn01" style="padding-top:3px;">
+						수정
+					</td>
+					<td width="14" height="23">
+						<img src="/images/ct_btnbg03.gif" width="14" height="23"/>
+					</td>
+					
+					<td width="30"></td>					
+					<td width="17" height="23">
+						<img src="/images/ct_btnbg01.gif" width="17" height="23"/>
+					</td>
+					<td background="/images/ct_btnbg02.gif" class="ct_btn01" style="padding-top:3px;">
+						삭제
+					</td>
+					<td width="14" height="23">
+						<img src="/images/ct_btnbg03.gif" width="14" height="23"/>
+					</td>
+				</tr>
+			</table>
+		</div>
+	</div>
+</div>
+</form>
 
-<table width="100%" border="0" cellspacing="0" cellpadding="0" style="margin-top:10px;">
-	<tr>
-		<td align="center">
-			<jsp:include page = "../common/pageNavigator.jsp"/>
-    	</td>
-	</tr>
-</table>
-<!--  페이지 Navigator 끝 -->
+<form name="detailForm" action="/user/listUser/1" method="post">
+
 </form>
 </div>
 </body>

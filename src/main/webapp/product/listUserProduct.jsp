@@ -124,7 +124,6 @@
 						<img src="/images/ct_btnbg01.gif" width="17" height="23">
 					</td>
 					<td background="/images/ct_btnbg02.gif" class="ct_btn01" style="padding-top:3px;">
-						<!-- <a href="javascript:fncGetProductList(1);">검색</a> -->
 						검색
 					</td>
 					<td width="14" height="23">

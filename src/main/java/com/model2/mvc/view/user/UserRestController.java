@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -83,24 +84,16 @@ public class UserRestController extends CommonController {
 	}			
 		
 	// Test
-	@RequestMapping(value = "getUser/{userId}")
-	public Map<String, Object> getUser(@PathVariable("userId") String userId) {
+	@PostMapping(value = "getUser/{userId}")
+	public UserVO getUser(@PathVariable("userId") String userId) {
 		
 		System.out.println("[UserController.getUser()] start");
 		
-		Map<String, Object> map = new HashMap<String, Object>();
-		
-//		ModelAndView modelAndView = new ModelAndView("forward:/user/readUser.jsp");
-//		UserVO user = userService.getUser(userId);
-//		modelAndView.addObject("user", user);
-		
 		UserVO user = userService.getUser(userId);
-		map.put("path", "forward:/user/readUser.jsp");
-		map.put("user", user);
-		
+
 		System.out.println("[UserController.getUser()] end");
 		
-		return map;
+		return user;
 	}
 	
 	@RequestMapping(value = "addUser")
@@ -142,7 +135,6 @@ public class UserRestController extends CommonController {
 		);
 		
 		Map<String, Object> result = new HashMap<String, Object>();
-		result.put("path", "forward:/user/listUser.jsp");
 		result.put("list", map.get("list"));
 		result.put("resultPage", resultPage);
 		result.put("search", search);
