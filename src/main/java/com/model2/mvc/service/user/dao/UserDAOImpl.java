@@ -68,4 +68,10 @@ public class UserDAOImpl implements UserDAO {
 		System.out.println("[" + getClass().getName() + ".getUserCount] Call");
 		return sqlSession.selectOne("UserMapper.getUserCount", searchVO);
 	}
+
+	@Override
+	public List<UserVO> getUserIdAndUserNames() {
+		System.out.println("[" + getClass().getName() + ".getUserIdAndUserNames] Call");
+		return sqlSession.selectList("UserMapper.getUserIdAndUserNames");
+	}
 }

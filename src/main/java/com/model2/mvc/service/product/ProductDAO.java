@@ -34,4 +34,6 @@ public interface ProductDAO {
 	
 	// productImage 삭제
 	public int deleteProductImage(int prodNo);
+	
+	public List<ProductVO> getProductInfo();
 }

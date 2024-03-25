@@ -1,6 +1,7 @@
 package com.model2.mvc.view.user;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -182,5 +183,27 @@ public class UserRestController extends CommonController {
 		System.out.println("[UserController.updateUser()] end");
 		
 		return map;
+	}
+	
+	@PostMapping(value = "getUserIds")
+	public List<String> getUserIds() {
+		System.out.println("[UserController.getUserIds()] start");
+		
+		List<String> result = userService.getUserIdAndUserNames("userId");
+		
+		System.out.println("[UserController.getUserIds()] end");
+		
+		return result;
+	}
+	
+	@PostMapping(value = "getUserNames")
+	public List<String> getUserNames() {
+		System.out.println("[UserController.getUserNames()] start");
+		
+		List<String> result = userService.getUserIdAndUserNames("userName");
+		
+		System.out.println("[UserController.getUserNames()] end");
+		
+		return result;
 	}
 }

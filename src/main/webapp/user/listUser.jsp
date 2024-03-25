@@ -13,8 +13,9 @@
 		pointer-events: none;
 	}
 </style>
-
+<link rel="stylesheet" href="//code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
 <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+<script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
 <script type="text/javascript">
 function fncGetUserList(currentPage) {
 	let url = '/user/listUser/' + currentPage;	
@@ -29,12 +30,31 @@ $(function() {
 		fncGetUserList($("input[name='currentPage']").val())
 	})
 	
- 	$("td.ct_btn01:contains('검색')").on("click", function() {
-		fncGetUserList($("input[name='currentPage']").val())
-	})
-	
+ 	$("input[name='searchKeyword']").on("keydown", function() {
+ 		let requestURL = ""
+ 		if($("select[name='searchCondition']").val() === "userId") {
+ 			requestURL = "/rest/user/getUserIds";
+ 		} else {
+ 			requestURL = "/rest/user/getUserNames";
+ 		}
+ 		
+ 		$.ajax({
+ 			url : requestURL,
+			method : "POST",
+			dataType : "json",
+			header : {
+				"Accept" : "application/json",
+				"Content-Type" : "application/json"
+			},
+			success : function(JSONData, status) {
+				$("#searchKeyword").autocomplete({
+					source : JSONData
+				});
+			}
+ 		}); 
+	});
+
 	$(".ct_list_pop td:nth-child(3)").on("click", function() {
-		// self.location = "/user/getUser/" + $(this).text().trim();
 		var userId = $(this).text().trim();
 		
 		$.ajax({
@@ -116,7 +136,7 @@ $(function() {
 			<select name="searchCondition" class="ct_input_g" style="width:80px">
 				<option value = "userId" ${not empty search.searchCondition && search.searchCondition == 'userId' ? "selected" : '' }>회원ID</option>
 				<option value = "userName" ${not empty search.searchCondition && search.searchCondition == 'userName' ? "selected" : '' }>회원명</option>
-				<input type="text" name="searchKeyword"  value="${not empty search.searchKeyword ? search.searchKeyword : ''}"  
+				<input type="text"  id = "searchKeyword" name="searchKeyword"  value="${not empty search.searchKeyword ? search.searchKeyword : ''}"  
 					class="ct_input_g" style="width:200px; height:19px" >
 		</td>
 		<td align="right" width="70">

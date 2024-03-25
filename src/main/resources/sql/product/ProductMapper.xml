@@ -142,4 +142,8 @@
   		FROM 
   		productImage WHERE prod_no = #{prodNo:NUMERIC}
   	</delete>
+  	
+  	<select id = "getProductInfo" resultMap = "productSelectMap">
+  		SELECT prod_no, prod_name FROM product
+  	</select>
 </mapper>

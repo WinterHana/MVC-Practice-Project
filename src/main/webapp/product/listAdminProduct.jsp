@@ -9,8 +9,9 @@
 <title>${title}</title>
 
 <link rel="stylesheet" href="/css/admin.css" type="text/css">
-
+<link rel="stylesheet" href="//code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
 <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+<script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
 <script type="text/javascript">
 	window.onload = showContentBySelectBox;
 
@@ -58,6 +59,37 @@
 		$("span.pageNavigator").on("click", function() {
 			fncGetProductList($(this).data("page"));
 		})
+		
+		$(".searchText").on("keypress", function(event) {
+			if(event.which === 13) {
+				event.preventDefault(); // 기본 동작 방지 (폼 제출 등)
+				fncGetProductList(1);
+			}
+		})
+		
+		$("#searchKeyword").on("keydown", function() {
+ 			let requestURL = ""
+ 			if($("select[name='searchCondition']").val() === "prodName") {
+ 				requestURL = "/rest/product/getProdNames";
+ 			} else {
+ 				requestURL = "/rest/product/getProdNos";
+ 			}
+ 		
+	 		$.ajax({
+	 			url : requestURL,
+				method : "POST",
+				dataType : "json",
+				header : {
+					"Accept" : "application/json",
+					"Content-Type" : "application/json"
+				},
+				success : function(JSONData, status) {
+					$("#searchKeyword").autocomplete({
+						source : JSONData
+					});
+				}
+	 		}); 
+		});
 	})
 
 </script>
@@ -101,14 +133,14 @@
 		</td>
 		<td align="right" width = "400" height = 20>
 			<div id = "content">
-				<input type="text" name="searchKeyword"  value="${search.searchKeyword}"
+				<input type="text" id = "searchKeyword" name="searchKeyword"  class = "searchText" value="${search.searchKeyword}"
 					class=ct_input_g" style="width:150px; height:19px">
 			</div>
 			<div id = "priceContent">
-				<input type="text" name="searchKeywordSub"  value="${search.searchKeywordSub}"
+				<input type="text"  name="searchKeywordSub"  class = "searchText" value="${search.searchKeywordSub}"
 					class=ct_input_g" style="width:100px; height:19px">
 				~
-				<input type="text" name="searchKeywordThird"  value="${search.searchKeywordThird}"
+				<input type="text" name="searchKeywordThird" class = "searchText" value="${search.searchKeywordThird}"
 					class=ct_input_g" style="width:100px; height:19px">
 			</div>
 		</td>
@@ -129,7 +161,6 @@
 						<img src="/images/ct_btnbg01.gif" width="17" height="23">
 					</td>
 					<td background="/images/ct_btnbg02.gif" class="ct_btn01" style="padding-top:3px;">
-						<!-- <a href="javascript:fncGetProductList(1);">검색</a> -->
 						검색
 					</td>
 					<td width="14" height="23">

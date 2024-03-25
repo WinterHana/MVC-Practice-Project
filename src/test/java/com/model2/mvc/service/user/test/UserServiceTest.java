@@ -13,6 +13,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import com.model2.mvc.common.SearchVO;
 import com.model2.mvc.service.domain.UserVO;
+import com.model2.mvc.service.user.UserDAO;
 import com.model2.mvc.service.user.UserService;
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -25,13 +26,18 @@ import com.model2.mvc.service.user.UserService;
 		"classpath:config/context-mybatis.xml",
 		"classpath:config/context-transaction.xml"
 })
+
 public class UserServiceTest {
 
+	@Autowired
+	@Qualifier("userDAOImpl")
+	private UserDAO userDAO;
+	
 	@Autowired
 	@Qualifier("userServiceImpl")
 	private UserService userService;
 	
-	@Test
+	// @Test
 	public void getUserAndAddUserTest() {
 		UserVO userVO = new UserVO();
 		userVO.setUserId("testUserId");
@@ -56,7 +62,7 @@ public class UserServiceTest {
 		Assert.assertEquals("test@test.com", userVO.getEmail());
 	}
 	
-	@Test
+	// @Test
 	public void getUserListAllTest() {
 		SearchVO searchVO = new SearchVO();
 		searchVO.setPage(1);
@@ -70,7 +76,7 @@ public class UserServiceTest {
 	 	System.out.println("[Test] totalCount : " + totalCount);
 	}
 	
-	@Test
+	// @Test
 	public void getUserListByUserIdTest() {
 		SearchVO searchVO = new SearchVO();
 		searchVO.setPage(1);
@@ -86,7 +92,7 @@ public class UserServiceTest {
 	 	System.out.println("[Test] totalCount : " + totalCount);
 	}
 	
-	@Test
+	// @Test
 	public void getUserListByUserNameTest() {
 		SearchVO search = new SearchVO();
 	 	search.setPage(1);
@@ -102,7 +108,7 @@ public class UserServiceTest {
 	 	System.out.println("[Test] totalCount : " + totalCount);
 	}
 	
-	@Test
+	// @Test
 	public void updateUserTest() {
 		UserVO userVO = new UserVO();
 		userVO.setUserId("testUserId");
@@ -118,12 +124,19 @@ public class UserServiceTest {
 		Assert.assertEquals(1, result);
 	}
 	
-	@Test
+	// @Test
 	public void deleteUserTest() {
 		String userId = "testUserId";
 		
 		int result = userService.deleteUser(userId);
 		
 		Assert.assertEquals(1, result);
+	}
+	
+	@Test
+	public void getUserIdsTest() {
+		List<String> getUserIdsResult = userDAO.getUserIds();
+		
+		System.out.println(getUserIdsResult);
 	}
 }

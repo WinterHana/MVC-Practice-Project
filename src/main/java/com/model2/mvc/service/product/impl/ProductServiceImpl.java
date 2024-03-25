@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -16,6 +17,7 @@ import com.model2.mvc.common.SearchVO;
 import com.model2.mvc.common.util.CommonUtil;
 import com.model2.mvc.service.domain.FileVO;
 import com.model2.mvc.service.domain.ProductVO;
+import com.model2.mvc.service.domain.UserVO;
 import com.model2.mvc.service.product.ProductDAO;
 import com.model2.mvc.service.product.ProductService;
 import com.model2.mvc.service.purchase.PurchaseDAO;
@@ -235,5 +237,30 @@ public class ProductServiceImpl implements ProductService {
 		}
 		
 		return result;
+	}
+
+	@Override
+	public List<String> getProductInfo(String key) {
+		List<ProductVO> queryResult = null;
+		List<String> result = new ArrayList<String>();
+		
+		try {
+			queryResult = productDAO.getProductInfo();
+			if(queryResult != null && queryResult.size() >= 0) {
+				queryResult.stream().forEach(s -> {
+					if(key.equals("prodName")) {
+						result.add(s.getProdName());
+					} else if (key.equals("prodNo")) {
+						result.add(String.valueOf(s.getProdNo()));
+					}
+				});
+			}
+			
+		} catch (Exception e) {
+			System.out.println("[" + getClass().getName() + ".getUserIdAndUserNames] Exception");
+			e.printStackTrace();
+		}
+		
+		return result.stream().distinct().collect(Collectors.toList());
 	}
 }
