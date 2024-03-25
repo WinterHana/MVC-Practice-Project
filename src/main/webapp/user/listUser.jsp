@@ -18,7 +18,7 @@
 <script type="text/javascript">
 function fncGetUserList(currentPage) {
 	let url = '/user/listUser/' + currentPage;	
-   	$("form").attr("method", "POST").attr("action", url).submit();
+   	$("form[name='listUserForm']").attr("method", "POST").attr("action", url).submit();
 }
 
 $(function() {
@@ -26,6 +26,10 @@ $(function() {
 	$("#userButton").addClass("disabled");
 	
 	$("td.ct_btn01:contains('검색')").on("click", function() {
+		fncGetUserList($("input[name='currentPage']").val())
+	})
+	
+ 	$("td.ct_btn01:contains('검색')").on("click", function() {
 		fncGetUserList($("input[name='currentPage']").val())
 	})
 	
@@ -57,6 +61,7 @@ $(function() {
 			}
 		});
 		
+		$("#userId").val(userId);
 		$("#userButton").removeClass('disabled');
 	});
 	
@@ -70,12 +75,12 @@ $(function() {
 		result = window.confirm("정말로 탈퇴하시겠습니까?");
 		if(result) {
 			let url = "/user/deleteUser";
-			$("form").attr("method", "POST").attr("action", url).submit();
+			$("form[name='updateOrDeleteForm']").attr("method", "POST").attr("action", url).submit();
 		}
 	});
 	
 	$("td.ct_btn01:contains('수정')").on("click", function() {
-		location.href = "/user/updateUserView/" + $("#userId").text();
+		location.href = "/user/updateUserView/" + $("#userId").val();
 	});
 })
 </script>
@@ -85,7 +90,7 @@ $(function() {
 
 <div style="width:98%; margin-left:10px;">
 
-<form name="detailForm" action="/user/listUser/1" method="post">
+<form name="listUserForm" action="/user/listUser/1" method="post">
 
 <table width="100%" height="37" border="0" cellpadding="0"	cellspacing="0">
 	<tr>
@@ -121,7 +126,6 @@ $(function() {
 						<img src="/images/ct_btnbg01.gif" width="17" height="23">
 					</td>
 					<td background="/images/ct_btnbg02.gif" class="ct_btn01" style="padding-top:3px;">
-						<!-- <a href="javascript:fncGetUserList();">검색</a> -->
 						검색
 					</td>
 					<td width="14" height="23">
@@ -210,8 +214,8 @@ $(function() {
 </div>
 </form>
 
-<form name="detailForm" action="/user/listUser/1" method="post">
-
+<form name="updateOrDeleteForm" action="/user/listUser/1" method="post">
+	<input type ="hidden" name = "userId"  id = "userId" value = ""/>
 </form>
 </div>
 </body>
