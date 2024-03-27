@@ -1,151 +1,55 @@
-<%@ page contentType="text/html; charset=euc-kr" %>
+<%@ page contentType="text/html; charset=UTF-8"%>
 
 <html>
 <head>
-<title>∑Œ±◊¿Œ</title>
-
-<link rel="stylesheet" href="/css/admin.css" type="text/css">
-
-<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
-<script type="text/javascript">
-	function fncLogin() {
-		let id = $("input:text").val();
-		let pw = $("input:password").val();
-		
-		if(id == null || id.length <1) {
-			alert('ID ∏¶ ¿‘∑¬«œ¡ˆ æ ¿∏ºÃΩ¿¥œ¥Ÿ.');
-			document.loginForm.userId.focus();
-			return;
-		}
-		
-		if(pw == null || pw.length <1) {
-			alert('∆–Ω∫øˆµÂ∏¶ ¿‘∑¬«œ¡ˆ æ ¿∏ºÃΩ¿¥œ¥Ÿ.');
-			document.loginForm.password.focus();
-			return;
-		}
-		
-		$("form").attr("method", "POST").attr("action", "/user/login").attr("target", "_parent").submit();
-	}
-	
-	$(function() {
-		$("#userId").focus();
-		
-		$("img[src='/images/btn_login.gif']").on("click", function() {
-			fncLogin();
-		});
-		
-		$(".ct_input_g").on("keypress", function(event) {
-			if(event.which === 13) {
-				event.preventDefault(); // ±‚∫ª µø¿€ πÊ¡ˆ (∆˚ ¡¶√‚ µÓ)
-				fncLogin();
-			}
-		})
-		
-		$("img[src='/images/btn_add.gif']").on("click", function() {
-			self.location = "addUserView.jsp";
-		});
-	});
-</script>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+ 	<jsp:include page="../toolbar.jsp" flush="true"/>
 </head>
 
-<body bgcolor="#ffffff" text="#000000" >
+<body bgcolor="#ffffff" text="#000000">
 
-<form name="loginForm"  method="post" action="/user/login" target="_parent">
+<!-- <form name="loginForm"  method="post" action="/user/login" target="_parent">-->
 
-<div align="center">
-
-<TABLE WITH="100%" HEIGHT="100%" BORDER="0" CELLPADDING="0" CELLSPACING="0">
-<TR>
-<TD ALIGN="CENTER" VALIGN="MIDDLE">
-
-<table width="650" height="390" border="5" cellpadding="0" cellspacing="0" bordercolor="#D6CDB7">
-  <tr> 
-    <td width="10" height="5" align="left" valign="top" bordercolor="#D6CDB7">
-    	<table width="650" height="390" border="0" cellpadding="0" cellspacing="0">
-        <tr>
-          <td width="305">
-            <img src="/images/logo-spring.png" width="305" height="390">
-          </td>
-          <!-- <td width="345" align="left" valign="top" background="/images/login02.gif"> -->
-          <td width="345" align="left" valign="top" >
-          	<table width="100%" height="220" border="0" cellpadding="0" cellspacing="0">
-              <tr> 
-                <td width="30" height="100">&nbsp;</td>
-                <td width="100" height="100">&nbsp;</td>
-                <td height="100">&nbsp;</td>
-                <td width="20" height="100">&nbsp;</td>
-              </tr>
-              <tr> 
-                <td width="30" height="50">&nbsp;</td>
-                <td width="100" height="50">
-                	<img src="/images/text_login.gif" width="91" height="32">
-                </td>
-                <td height="50">&nbsp;</td>
-                <td width="20" height="50">&nbsp;</td>
-              </tr>
-              <tr> 
-                <td width="200" height="50" colspan="4">
-                </td>
-              </tr>              
-              <tr> 
-                <td width="30" height="30">&nbsp;</td>
-                <td width="100" height="30">
-                	<img src="/images/text_id.gif" width="100" height="30">
-                </td>
-                <td height="30">
-                  <input 	type="text" name="userId"  class="ct_input_g" 
-                  				style="width:180px; height:19px"  maxLength='50'/>          
-          		</td>
-                <td width="20" height="30">&nbsp;</td>
-              </tr>
-              <tr> 
-                <td width="30" height="30">&nbsp;</td>
-                <td width="100" height="30">
-                	<img src="/images/text_pas.gif" width="100" height="30">
-                </td>
-                <td height="30">                    
-                    <input 	type="password" name="password" class="ct_input_g" 
-                    				style="width:180px; height:19px"  maxLength="50" >
-                </td>
-                <td width="20" height="30">&nbsp;</td>
-              </tr>
-              <tr> 
-                <td width="30" height="20">&nbsp;</td>
-                <td width="100" height="20">&nbsp;</td>
-                <td height="20" align="center">
-      				<table width="136" height="20" border="0" cellpadding="0" cellspacing="0">
-                          <tr> 
-                            <td width="56">
-                            	<!-- <a href="javascript:fncLogin();"></a> -->
-                            	<img src="/images/btn_login.gif" width="56" height="20" border="0">
-                            </td>
-                            <td width="10">&nbsp;</td>
-                            <td width="70">
-                            	<!-- <a href="addUserView.jsp;"></a> -->
-                            	<img src="/images/btn_add.gif" width="70" height="20" border="0">
-                            </td>
-                          </tr>
-                    </table>
-                  </td>
-                  <td width="20" height="20">&nbsp;</td>
-                </tr>
-            </table>
-         </td>
-       </tr>                            
-      </table>
-      </td>
-  </tr>
-</table>
-</TD>
-</TR>
-</TABLE>
-</div>
-
-</form>
-
+<body>
+	<br/>
+	<div class="container">
+		<div class="row">
+			<div class="col-md-6">
+				<img src="#" class="img-rounded" width="100%" />
+			</div>
+			<div class="col-md-6">
+				<br />
+				<div class="jumbotron">
+					<div class="row">
+						<h1 class="text-center">Î°úÍ∑∏Ïù∏</h1>
+						<div class="col-sm-2"></div>
+						<div class="col-sm-8">
+							<form id = "login" class="form-horizontal">
+								<div class="form-group">
+									<label for="userId" class="col-sm-4 control-label">ÏïÑ Ïù¥ Îîî</label>
+									<input type="text" class="form-control" name="userId" id="userId" placeholder="ÏïÑÏù¥Îîî">
+								</div>
+								<br />
+								<div class="form-group">
+									<label for="password" class="col-sm-4 control-label">Ìå® Ïä§ Ïõå Îìú</label> 
+									<input type="password" class="form-control" name="password" id="password" placeholder="Ìå®Ïä§ÏõåÎìú">
+								</div>
+								<br />
+								<div class="form-group">
+									<div class="d-flex justify-content-between">
+										<button type="button" class="btn btn-primary">Î°ú Í∑∏ Ïù∏</button>
+										<a class="btn btn-primary btn" href="#" role="button">Ìöå Ïõê Í∞Ä ÏûÖ</a>
+									</div>
+								</div>
+							</form>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
 </body>
 </html>
 
-<script type="text/javascript">
-	document.loginForm.userId.focus();
-</script>
+<script type="text/javascript" src ="/javascript/common.js"></script>
+<script type="text/javascript" src = "/javascript/user/login.js"></script>

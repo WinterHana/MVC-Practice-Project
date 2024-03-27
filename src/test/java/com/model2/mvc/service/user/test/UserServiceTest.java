@@ -132,11 +132,5 @@ public class UserServiceTest {
 		
 		Assert.assertEquals(1, result);
 	}
-	
-	@Test
-	public void getUserIdsTest() {
-		List<String> getUserIdsResult = userDAO.getUserIds();
-		
-		System.out.println(getUserIdsResult);
-	}
+
 }

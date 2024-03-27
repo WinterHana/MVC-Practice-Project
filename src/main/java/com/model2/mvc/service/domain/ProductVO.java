@@ -5,7 +5,7 @@ import java.util.List;
 
 public class ProductVO  {
 	
-	private List<String> fileName; 
+	private List<String> fileName;
 	private Date manuDate;
 	private int price;
 	private String prodDetail;

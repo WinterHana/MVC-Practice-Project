@@ -1,0 +1,8 @@
+/* 폰트 설정 https://fonts.google.com/?subset=korean&noto.script=Kore */
+
+@font-face {
+    font-family: 'DungGeunMo';
+    src: url('/resources/font/DungGeunMo.woff') format('woff');
+    font-style: normal;
+    font-weight: normal;
+}

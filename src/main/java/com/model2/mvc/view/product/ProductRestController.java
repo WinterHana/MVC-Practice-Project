@@ -86,10 +86,10 @@ public class ProductRestController extends CommonController  {
 		return result;
 	}
 	
-	// Test
+	// Test : 무한스크롤 테스트용
 	@RequestMapping(value = "/listUserProduct/{page}")
 	public Map<String, Object> listUserProduct(
-			@ModelAttribute("search") SearchVO search, 
+			@RequestBody SearchVO search,
 			@PathVariable("page") int page) {
 		System.out.println("[ProductController.listUserProduct()] start");
 		
@@ -114,7 +114,6 @@ public class ProductRestController extends CommonController  {
 		
 		// 3. Set ModelAndView
 		Map<String, Object> result = new HashMap<String, Object>();
-		result.put("path", "forward:/product/listUserProduct.jsp");
 		result.put("list", map.get("list"));
 		result.put("resultPage", resultPage);
 		result.put("search", search);
