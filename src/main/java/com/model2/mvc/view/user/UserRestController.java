@@ -67,7 +67,7 @@ public class UserRestController extends CommonController {
 	}
 	
 	// test
-	@RequestMapping(value = "checkDuplication")
+	@PostMapping(value = "checkDuplication")
 	public Map<String, Object> checkDuplication(@RequestBody UserVO user) {
 		System.out.println("[UserController.checkDuplicationUser()] start");
 		
@@ -75,7 +75,6 @@ public class UserRestController extends CommonController {
 		
 		boolean result = userService.checkDuplication(user.getUserId());
 		
-		map.put("path", "forward:/user/checkDuplication.jsp");
 		map.put("result", result);
 		map.put("userId", user.getUserId());
 		

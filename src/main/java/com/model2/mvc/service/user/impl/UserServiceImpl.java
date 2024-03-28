@@ -136,7 +136,7 @@ public class UserServiceImpl implements UserService{
 	}
 
 	public boolean checkDuplication(String userId) {
-		boolean result=true;
+		boolean result = true;
 		
 		try {
 			UserVO userVO=userDAO.getUser(userId);

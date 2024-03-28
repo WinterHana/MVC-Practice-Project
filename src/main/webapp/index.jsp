@@ -1,13 +1,12 @@
-<%@ page contentType="text/html; charset=UTF-8"%>
+<%@ page contentType="text/html; charset=euc-kr"%>
 
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
+<script defer type="text/javascript" src="/javascript/common.js"></script>
 <jsp:include page="toolbar.jsp" flush="true"/>
-
 <title>index</title>
 </head>
 
@@ -57,9 +56,9 @@
 
 	<div class="container">
 		<div class="row">
-			<div class="col-5">ì—¬ê¸°ì— ì„¤ëª…ì„ ì ìŠµë‹ˆë‹¤~</div>
+			<div class="col-5">¿©±â¿¡ ¼³¸íÀ» Àû½À´Ï´Ù~</div>
 			<div class="col-7">
-				<img src="#" class="d-block w-100" alt="ìž„ì‹œ ì„¤ëª… ì´ë¯¸ì§€">
+				<img src="#" class="d-block w-100" alt="ÀÓ½Ã ¼³¸í ÀÌ¹ÌÁö">
 			</div>
 		</div>
 	</div>
@@ -70,15 +69,15 @@
 	<br />
 	
 	  <div class="container">
-        <h1>ìƒí’ˆ ëª©ë¡<h1></h1>
+        <h1>»óÇ° ¸ñ·Ï<h1></h1>
         <div class="row">
             <div class="col-sm-3">
                 <div class="card text-center" style="width: 20rem; height:30rem;">
                     <img src="#" class="card-img-top" alt="...">
                     <div class="card-body">
-                        <h5 class="card-title">ëŒ€ìƒí˜</h5>
-                        <p class="card-text">ìˆ­ë°°í•˜ë¼</p>
-                        <a href="#" class="btn btn-primary">ìƒì„¸ ì •ë³´</a>
+                        <h5 class="card-title">´ë»óÇõ</h5>
+                        <p class="card-text">¼þ¹èÇÏ¶ó</p>
+                        <a href="#" class="btn btn-primary">»ó¼¼ Á¤º¸</a>
                     </div>
                 </div>
             </div>
@@ -86,9 +85,9 @@
                 <div class="card text-center" style="width: 20rem; height:30rem;">
                     <img src="#" class="card-img-top" alt="...">
                     <div class="card-body">
-                        <h5 class="card-title">ëŒ€ìƒí˜</h5>
-                        <p class="card-text">ìˆ­ë°°í•˜ë¼</p>
-                        <a href="#" class="btn btn-primary">ìƒì„¸ ì •ë³´</a>
+                        <h5 class="card-title">´ë»óÇõ</h5>
+                        <p class="card-text">¼þ¹èÇÏ¶ó</p>
+                        <a href="#" class="btn btn-primary">»ó¼¼ Á¤º¸</a>
                     </div>
                 </div>
             </div>
@@ -96,9 +95,9 @@
                 <div class="card text-center" style="width: 20rem; height:30rem;">
                     <img src="#" class="card-img-top" alt="...">
                     <div class="card-body">
-                        <h5 class="card-title">ëŒ€ìƒí˜</h5>
-                        <p class="card-text">ìˆ­ë°°í•˜ë¼</p>
-                        <a href="#" class="btn btn-primary">ìƒì„¸ ì •ë³´</a>
+                        <h5 class="card-title">´ë»óÇõ</h5>
+                        <p class="card-text">¼þ¹èÇÏ¶ó</p>
+                        <a href="#" class="btn btn-primary">»ó¼¼ Á¤º¸</a>
                     </div>
                 </div>
             </div>
@@ -106,17 +105,14 @@
                 <div class="card text-center" style="width: 20rem; height:30rem;">
                     <img src="#" class="card-img-top" alt="...">
                     <div class="card-body">
-                        <h5 class="card-title">ëŒ€ìƒí˜</h5>
-                        <p class="card-text">ìˆ­ë°°í•˜ë¼</p>
-                        <a href="#" class="btn btn-primary">ìƒì„¸ ì •ë³´</a>
+                        <h5 class="card-title">´ë»óÇõ</h5>
+                        <p class="card-text">¼þ¹èÇÏ¶ó</p>
+                        <a href="#" class="btn btn-primary">»ó¼¼ Á¤º¸</a>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-
 </body>
 
 </html>
-
-<script type="text/javascript" src="/javascript/common.js"></script>

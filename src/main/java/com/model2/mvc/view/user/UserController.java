@@ -59,7 +59,7 @@ public class UserController extends CommonController {
 		
 		boolean result = userService.checkDuplication(user.getUserId());
 		
-		ModelAndView modelAndView = new ModelAndView("forward:/user/checkDuplication.jsp");
+		ModelAndView modelAndView = new ModelAndView();
 		modelAndView.addObject("result", result);
 		modelAndView.addObject("userId", user.getUserId());
 		
