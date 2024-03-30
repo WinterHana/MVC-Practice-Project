@@ -9,9 +9,15 @@
 
 <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 
+<link rel="stylesheet" href="//code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
+
+<script defer type="text/javascript" src ="/javascript/toolbar.js"></script>
+
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+
+
 
 <link href="/css/font.css" rel="stylesheet" type="text/css">
 
@@ -25,50 +31,54 @@
 			<span class="navbar-toggler-icon"></span>
 		</button>
 		
+		<!-- 보호가 필요한 정보는 post, 전체 공개는 get -->
+		
 		
 		<div class="collapse navbar-collapse" id="navbarSupportedContent">
 			<ul class="navbar-nav me-auto mb-2 mb-lg-0">
 				<li class="nav-item">
-					<a class="nav-link" aria-current="page" href="/product/listUserProduct.jsp">제품 목록</a>
+					<a class="nav-link" aria-current="page" href="/product/listUserProduct/1">제품 목록</a>
 				</li>
 				
-				<c:if test = "${empty user}">
+				<c:if test = "${empty sessionScope.user}">
 				<li class="nav-item">
-					<a class="nav-link" href="/user/login.jsp">로그인</a>
+					<a class="nav-link" href="/user/loginView">로그인</a>
 				</li>
 				</c:if>
 				
-				<c:if test = "${not empty user}">
-				
-					<c:if test = "${user.role eq 'user'}">
+				<c:if test = "${not empty sessionScope.user}">
+					<!-- getUser post -->
+					<form name ="getUser"  action = "/user/getUser/${sessionScope.user.userId}" method = "post"></form>
+					
+					<c:if test = "${sessionScope.user.role eq 'user'}">
 						<li class="nav-item dropdown">
-						<a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">${user.userName}</a>
+						<a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">${sessionScope.user.userName}</a>
 							<ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-								<li><a class="dropdown-item" href="/user/getUser.jsp">내 정보 보기</a></li>
-								<li><a class="dropdown-item" href="/purchase/listUserPurchase.jsp">구매 내역 확인</a></li>
+								<!-- <li><a class="dropdown-item" >내 정보 보기</a></li> -->
+								<li class="dropdown-item">내 정보 보기</li>
+								<li><a class="dropdown-item" href="/purchase/listPurchase/1">구매 내역 확인</a></li>
 							</ul>
 						</li>
 					</c:if>
 					
-					<c:if test = "${user.role eq 'admin'}">
+					<c:if test = "${sessionScope.user.role eq 'admin'}">
 						<li class="nav-item dropdown">
-							<a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">${user.userName}</a>
+							<a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">${sessionScope.user.userName}</a>
 							<ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-								<li><a class="dropdown-item" href="/user/getUser.jsp">내 정보 보기</a></li>
-								<li><a class="dropdown-item" href="/purchase/listUserPurchase.jsp">구매 내역 확인</a></li>
+								<li class = "dropdown-item">내 정보 보기</a></li>
+								<li><a class="dropdown-item" href="/purchase/listPurchase/1">구매 내역 확인</a></li>
 								<li><hr class="dropdown-divider"></li>
-								<li><a class="dropdown-item" href="/user/listUser">유저 관리</a></li>
-								<li><a class="dropdown-item" href="/product/listAdminProduct">제품 관리</a></li>
-								<li><a class="dropdown-item" href="/purchase/listAdminPurchase">구매 관리</a></li>
+								<li><a class="dropdown-item" href="/user/listUser/1">유저 관리</a></li>
+								<li><a class="dropdown-item" href="/product/listAdminProduct/1">제품 관리</a></li>
+								<li><a class="dropdown-item" href="/purchase/listAdminPurchase/1">구매 관리</a></li>
 							</ul>
 						</li>
 					</c:if>
 				
 				<li class="nav-item">
-					
 					<a class="nav-link" href="/user/logout">로그아웃</a>
 				</li>
-				</c:if>			
+			</c:if>			
 			</ul>
 			<form class="d-flex">
 				<input class="form-control me-2" type="search" placeholder="Search"

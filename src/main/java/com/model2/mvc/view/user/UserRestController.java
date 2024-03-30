@@ -111,9 +111,9 @@ public class UserRestController extends CommonController {
 	}
 	
 	// Test
-	@RequestMapping(value = "listUser/{page}")
+	@PostMapping(value = "listUser/{page}")
 	public Map<String, Object> listUser(
-			@ModelAttribute("search") SearchVO search,
+			@RequestBody SearchVO search,
 			@PathVariable("page") int page) {
 		System.out.println("[UserController.listUser()] start");
 		
@@ -138,7 +138,7 @@ public class UserRestController extends CommonController {
 		result.put("list", map.get("list"));
 		result.put("resultPage", resultPage);
 		result.put("search", search);
-		result.put("getList", "fncGetUserList");
+		// result.put("getList", "fncGetUserList");
 		
 		
 		System.out.println("[UserController.listUser()] end");

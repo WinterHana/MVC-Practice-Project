@@ -8,6 +8,7 @@ import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -29,31 +30,41 @@ public class UserController extends CommonController {
 	@Qualifier("userServiceImpl")
 	UserService userService;
 	
-	@RequestMapping(value = "login")
+	@PostMapping(value = "login")
 	public ModelAndView login(HttpSession session, @ModelAttribute("user") UserVO user) {
 		System.out.println("[UserController.loginUser()] start");
 		
-		ModelAndView modelAndView = new ModelAndView("redirect:/index.jsp");
+		ModelAndView modelAndView = new ModelAndView("redirect:/");
 		session.setAttribute("user",  userService.loginUser(user));
 		
 		System.out.println("[UserController.loginUser()] end");
 		return modelAndView;
 	}
 	
-	@RequestMapping(value = "logout")
+	@GetMapping(value = "loginView")
+	public ModelAndView loginView() {
+		System.out.println("[UserController.loginUser()] start");
+		
+		ModelAndView modelAndView = new ModelAndView("forward:/user/login.jsp");
+		
+		System.out.println("[UserController.loginUser()] end");
+		return modelAndView;
+	}
+	
+	@GetMapping(value = "logout")
 	public ModelAndView logout(HttpSession session) {
 		System.out.println("[UserController.logout()] start");
 		
 		session.invalidate();
 		
-		ModelAndView modelAndView = new ModelAndView("redirect:/user/loginView.jsp");
+		ModelAndView modelAndView = new ModelAndView("redirect:/user/login.jsp");
 		
 		System.out.println("[UserController.logout()] end");
 		
 		return modelAndView;
 	}
 	
-	@RequestMapping(value = "checkDuplication")
+	@PostMapping(value = "checkDuplication")
 	public ModelAndView checkDuplication(@ModelAttribute("user") UserVO user) {
 		System.out.println("[UserController.checkDuplicationUser()] start");
 		
@@ -67,20 +78,19 @@ public class UserController extends CommonController {
 		return modelAndView;
 	}			
 	
-	@RequestMapping(value = "getUser/{userId}")
+	@PostMapping(value = "getUser/{userId}")
 	public ModelAndView getUser(@PathVariable("userId") String userId) {
 		
 		System.out.println("[UserController.getUser()] start");
 		
 		ModelAndView modelAndView = new ModelAndView("forward:/user/getUser.jsp");
-		// modelAndView.addObject("user", userService.getUser(user.getUserId()));
 		modelAndView.addObject("user", userService.getUser(userId));
 		System.out.println("[UserController.getUser()] end");
 		
 		return modelAndView;
-	}
+	}	
 	
-	@RequestMapping(value = "addUser")
+	@PostMapping(value = "addUser")
 	public ModelAndView addUser(@ModelAttribute("user") UserVO user) {
 		System.out.println("[UserController.addUser()] start");
 		
@@ -96,7 +106,6 @@ public class UserController extends CommonController {
 	@RequestMapping(value = "listUser/{page}")
 	public ModelAndView listUser(
 			@ModelAttribute("search") SearchVO search,
-			// @ModelAttribute("user") UserVO user,
 			@PathVariable("page") int page) {
 		System.out.println("[UserController.listUser()] start");
 		
@@ -128,7 +137,7 @@ public class UserController extends CommonController {
 		return modelAndView;
 	}
 	
-	@RequestMapping(value = "updateUserView/{userId}")
+	@PostMapping(value = "updateUserView/{userId}")
 	public ModelAndView updateUserView(@PathVariable("userId") String userId) {
 		System.out.println("[UserController.updateUserView()] start");
 		
@@ -142,7 +151,7 @@ public class UserController extends CommonController {
 		return modelAndView;
 	}
 	
-	@RequestMapping(value = "updateUser")
+	@PostMapping(value = "updateUser")
 	public ModelAndView updateUser(HttpSession session, @ModelAttribute("user") UserVO user) {
 		System.out.println("[UserController.updateUser()] start");
 		
@@ -154,14 +163,14 @@ public class UserController extends CommonController {
 			session.setAttribute("user", user);
 		}
 		
-		ModelAndView modelAndView = new ModelAndView("redirect:/user/getUser/" + user.getUserId());
+		ModelAndView modelAndView = new ModelAndView("forward:/user/getUser/" + user.getUserId());
 		
 		System.out.println("[UserController.updateUser()] end");
 		
 		return modelAndView;
 	}
 	
-	@RequestMapping(value = "deleteUser")
+	@PostMapping(value = "deleteUser")
 	public ModelAndView deleteUser(
 			HttpSession session,
 			@ModelAttribute("user") UserVO user) {
@@ -172,7 +181,7 @@ public class UserController extends CommonController {
 		if(userRole.equals("admin")) {
 			url = "redirect:/user/listUser/1";
 		} else {
-			url = "redirect:/user/loginView.jsp";
+			url = "redirect:/user/loginView";
 		}
 		ModelAndView modelAndView = new ModelAndView(url);
 		userService.deleteUser(user.getUserId());

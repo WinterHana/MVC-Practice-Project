@@ -6,13 +6,13 @@ function fncLogin() {
 		console.log(pw);
 		
 		if (id == null || id.length < 1) {
-			alert('ID ë¥¼ ìž…ë ¥í•˜ì§€ ì•Šìœ¼ì…¨ìŠµë‹ˆë‹¤.');
+			alert('ID ¸¦ ÀÔ·ÂÇÏÁö ¾ÊÀ¸¼Ì½À´Ï´Ù.');
 			$("input[name='userId']").focus();
 			return;
 		}
 
 		if (pw == null || pw.length < 1) {
-			alert('íŒ¨ìŠ¤ì›Œë“œë¥¼ ìž…ë ¥í•˜ì§€ ì•Šìœ¼ì…¨ìŠµë‹ˆë‹¤.');
+			alert('ÆÐ½º¿öµå¸¦ ÀÔ·ÂÇÏÁö ¾ÊÀ¸¼Ì½À´Ï´Ù.');
 			 $("input[name='password']").focus();
 			return;
 		}
@@ -27,7 +27,7 @@ $("#loginButton").on("click", function() {
 
 $(".form-control").on("keypress", function(event) {
 	if (event.which === 13) {
-		event.preventDefault(); // ê¸°ë³¸ ë™ìž‘ ë°©ì§€ (í¼ ì œì¶œ ë“±)
+		event.preventDefault(); // ±âº» µ¿ÀÛ ¹æÁö (Æû Á¦Ãâ µî)
 		fncLogin();
 	}
 });
