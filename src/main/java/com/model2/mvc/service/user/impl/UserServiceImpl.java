@@ -1,8 +1,10 @@
 package com.model2.mvc.service.user.impl;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -134,7 +136,7 @@ public class UserServiceImpl implements UserService{
 	}
 
 	public boolean checkDuplication(String userId) {
-		boolean result=true;
+		boolean result = true;
 		
 		try {
 			UserVO userVO=userDAO.getUser(userId);
@@ -165,6 +167,28 @@ public class UserServiceImpl implements UserService{
 		
 		return result;
 	}
-	
-	
+
+	@Override
+	public List<String> getUserIdAndUserNames(String key) {
+		List<UserVO> queryResult = null;
+		List<String> result = new ArrayList<String>();
+		try {
+			queryResult = userDAO.getUserIdAndUserNames();
+			if(queryResult != null && queryResult.size() >= 0) {
+				queryResult.stream().forEach(s -> {
+					if(key.equals("userId")) {
+						result.add(s.getUserId());
+					} else if (key.equals("userName")) {
+						result.add(s.getUserName());
+					}
+				});
+			}
+			
+		} catch (Exception e) {
+			System.out.println("[" + getClass().getName() + ".getUserIdAndUserNames] Exception");
+			e.printStackTrace();
+		}
+		
+		return result.stream().distinct().collect(Collectors.toList());
+	}	
 }

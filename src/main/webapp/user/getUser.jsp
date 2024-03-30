@@ -1,170 +1,74 @@
 <%@ page contentType="text/html; charset=euc-kr" %>
-
 <%@ taglib prefix = "c" uri = "http://java.sun.com/jsp/jstl/core" %>
  
-<html>
+<!DOCTYPE html>
+<html lang="en">
+
 <head>
-<title>회원정보조회</title>
-
-<link rel="stylesheet" href="/css/admin.css" type="text/css">
-
-<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
-<script type="text/javascript">
-	$(function() {
-		$("td.ct_btn01:contains('수정')").on("click", function() {
-			location.href = "/user/updateUserView/" + $("#userId").text();
-		});
-		
-		$("td.ct_btn01:contains('확인')").on("click", function() {
-			history.go(-1);
-		});
-		
-		$("td.ct_btn01:contains('삭제')").on("click", function() {
-			result = window.confirm("정말로 탈퇴하시겠습니까?");
-			if(result) {
-				let url = "/user/deleteUser";
-				$("form").attr("method", "POST").attr("action", url).submit();
-			}
-		});
-	});
-</script>
+<script defer type="text/javascript" src ="/javascript/user/getUser.js"></script>
+<script defer type="text/javascript" src ="/javascript/common.js"></script>
+<jsp:include page="../toolbar.jsp" flush="true"/>
+<title>User Information</title>
 </head>
 
 <body bgcolor="#ffffff" text="#000000">
 
-<!-- jQuery 사용 -->
-<form name = "deletePurchase" action = "/user/deleteUser" method = "POST">
+<form name = "deleteUser" action = "/user/deleteUser" method = "POST">
 	<input type ="hidden" name = "userId" value = "${user.userId}"/>
 </form>
 
-<table width="100%" height="37" border="0" cellpadding="0"	cellspacing="0">
-	<tr>
-		<td width="15" height="37">
-			<img src="/images/ct_ttl_img01.gif" width="15" height="37">
-		</td>
-		<td background="/images/ct_ttl_img02.gif" width="100%" style="padding-left:10px;">
-		<table width="100%" border="0" cellspacing="0" cellpadding="0">
-			<tr>
-				<td width="93%" class="ct_ttl01">회원정보조회</td>
-				<td width="20%" align="right">&nbsp;</td>
-			</tr>
-		</table>
-		</td>
-		<td width="12" height="37"><img src="/images/ct_ttl_img03.gif" width="12" height="37"></td>
-	</tr>
-</table>
+<form name = "updateUser" action = "/user/updateUserView/${user.userId}" method = "POST"></form>
 
-<table width="100%" border="0" cellspacing="0" cellpadding="0" style="margin-top:13px;">
-	<tr>
-		<td height="1" colspan="3" bgcolor="D6D6D6"></td>
-	</tr>
-	<tr>
-		<td width="104" class="ct_write">
-			아이디 <img src="/images/ct_icon_red.gif" width="3" height="3" align="absmiddle">
-		</td>
-		<td bgcolor="D6D6D6" width="1"></td>
-		<td id = "userId" class="ct_write01">${user.userId}</td>
-	</tr>
-	<tr>
-		<td height="1" colspan="3" bgcolor="D6D6D6"></td>
-	</tr>
-	
-	<tr>
-		<td width="104" class="ct_write">
-			이름 <img src="/images/ct_icon_red.gif" width="3" height="3" align="absmiddle">
-		</td>
-		<td bgcolor="D6D6D6" width="1"></td>
-		<td class="ct_write01">${user.userName}</td>
-	</tr>
-	<tr>
-		<td height="1" colspan="3" bgcolor="D6D6D6"></td>
-	</tr>
-	
-	<tr>
-		<td width="104" class="ct_write">주소</td>
-		<td bgcolor="D6D6D6" width="1"></td>
-		<td class="ct_write01">${user.addr}</td>
-	</tr>
-	<tr>
-		<td height="1" colspan="3" bgcolor="D6D6D6"></td>
-	</tr>
-	<tr>
-		<td width="104" class="ct_write">휴대전화번호</td>
-		<td bgcolor="D6D6D6" width="1"></td>
-		<td class="ct_write01">${not empty user.phone ? user.phone : ''}</td>
-	</tr>
+    <div class="container">
+    <br/>
+    <h1>사용자 확인</h1>
+        <div class="row">
+            <div class="col-md-5">
+                <img src="#" class="img-rounded" width="100%" />
+            </div>
+            <div class="col-md-7">
+                <br /><br />
+                <table class="table table-hover">
+                    <tr>
+                        <td>이름</td>
+                        <td>내용</td>
+                    <tr>
+                        <td width="150" class="ct_write">아이디</td>
+                        <td id = "userId" class="ct_write01">${user.userId}</td>
+                    </tr>
+                    <tr>
+                        <td width="150" class="ct_write">이름 </td>
+                        <td class="ct_write01">${user.userName}</td>
+                    </tr> 
+                    <tr>
+                        <td width="150" class="ct_write">주소</td>
+                        <td class="ct_write01">${user.addr}</td>
+                    </tr>
+                    <tr>
+                        <td width="150" class="ct_write">휴대 전화 번호</td>
+                        <td class="ct_write01">${not empty user.phone ? user.phone : ''}</td>
+                    </tr>
+                    <tr>
+                        <td width="150" class="ct_write">이메일 </td>
+                        <td class="ct_write01">${user.email}</td>
+                    </tr> 
+                    <tr>
+                        <td width="104" class="ct_write">가입일자</td>
+                        <td class="ct_write01">${user.regDate}</td>
+                    </tr>
+                    <tr>
+                        <td width="104" class="ct_write">역할</td>
+                        <td class="ct_write01">${user.role}</td>
+                    </tr>
+                </table>
 
-	<tr>
-		<td height="1" colspan="3" bgcolor="D6D6D6"></td>
-	</tr>
-	<tr>
-		<td width="104" class="ct_write">이메일 </td>
-		<td bgcolor="D6D6D6" width="1"></td>
-		<td class="ct_write01">
-			<table border="0" cellspacing="0" cellpadding="0">
-				<tr>
-					<td height="26">${user.email}</td>
-				</tr>
-			</table>
-		</td>
-	</tr>
-	<tr>
-		<td height="1" colspan="3" bgcolor="D6D6D6"></td>
-	</tr>
-	
-	<tr>
-		<td width="104" class="ct_write">가입일자</td>
-		<td bgcolor="D6D6D6" width="1"></td>
-		<td class="ct_write01">${user.regDate}</td>
-	</tr>
+                <button type="button" name = "update" class="btn btn-warning">수정하기</button>
 
-	<tr>
-		<td height="1" colspan="3" bgcolor="D6D6D6"></td>
-	</tr>
-</table>
+                <button type="button" name = "delete" class="btn btn-danger">삭제하기</button>
 
-<table width="100%" border="0" cellspacing="0" cellpadding="0"	style="margin-top:10px;">
-	<tr>
-		<td width="53%"></td>
-		<td align="right">
-			<table border="0" cellspacing="0" cellpadding="0">
-				<tr>
-					<td width="17" height="23">
-						<img src="/images/ct_btnbg01.gif" width="17" height="23"/>
-					</td>
-					<td background="/images/ct_btnbg02.gif" class="ct_btn01" style="padding-top:3px;">
-						수정
-					</td>
-					<td width="14" height="23">
-						<img src="/images/ct_btnbg03.gif" width="14" height="23"/>
-					</td>
-					
-					<td width="30"></td>					
-					<td width="17" height="23">
-						<img src="/images/ct_btnbg01.gif" width="17" height="23"/>
-					</td>
-					<td background="/images/ct_btnbg02.gif" class="ct_btn01" style="padding-top:3px;">
-						확인
-					</td>
-					<td width="14" height="23">
-						<img src="/images/ct_btnbg03.gif" width="14" height="23"/>
-					</td>
-					
-					<td width="30"></td>					
-					<td width="17" height="23">
-						<img src="/images/ct_btnbg01.gif" width="17" height="23"/>
-					</td>
-					<td background="/images/ct_btnbg02.gif" class="ct_btn01" style="padding-top:3px;">
-						삭제
-					</td>
-					<td width="14" height="23">
-						<img src="/images/ct_btnbg03.gif" width="14" height="23"/>
-					</td>
-				</tr>
-			</table>
-		</td>
-	</tr>
-</table>
-
+                <button type="button" name = "back" class="btn btn-success">뒤로가기</button>
+            </div>
+        </div>
+    </div>
 </body>
 </html>

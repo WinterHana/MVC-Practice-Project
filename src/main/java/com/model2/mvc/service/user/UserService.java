@@ -1,5 +1,6 @@
 package com.model2.mvc.service.user;
 
+import java.util.List;
 import java.util.Map;
 
 import com.model2.mvc.common.SearchVO;
@@ -22,4 +23,5 @@ public interface UserService {
 	
 	public boolean checkDuplication(String userId);
 	
+	public List<String> getUserIdAndUserNames(String key);
 }

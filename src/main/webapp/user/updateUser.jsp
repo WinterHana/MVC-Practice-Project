@@ -2,66 +2,14 @@
 
 <%@ taglib prefix = "c" uri = "http://java.sun.com/jsp/jstl/core" %>
  
-<html>
+<!DOCTYPE html>
+<html lang="en">
+
 <head>
-<title>회원정보수정</title>
-
-<link rel="stylesheet" href="/css/admin.css" type="text/css">
-
-<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
-<script type="text/javascript">
-	function fncUpdateUser() {
-
-		let name= $("input[name = 'userName']").val();
-		
-		if(name == null || name.length <1){
-			alert("이름은  반드시 입력하셔야 합니다.");
-			return;
-		}
-		
-		let value = "";
-		if($("input[name='phone2']").val() != "" && $("input[name='phone3']").val() != "") {
-			value = $("option:selected").val() 
-						+ "-" + $("input[name='phone2']").val() 
-						+ "-" + $("input[name='phone3']").val();
-		}
-	
-		$("input:hidden[name='phone']").val(value);
-		
-		$("form").attr("method", "POST").attr("action", "/user/updateUser").submit();
-	}
-	
-	$(function() {
-		$("td.ct_btn01:contains('수정')").on("click", function() {
-			fncUpdateUser();
-		});
-		
-		$("input[name = 'email']").on("change", function() {
-			let email = $("input[name = 'email']").val();
-			
-			if(email != "" && (email.indexOf('@') < 1 || email.indexOf('.') == -1)) {
-				alert("이메일 형식이 아닙니다.")
-			}
-		});
-		
-		$("td.ct_btn01:contains('취소')").on("click", function() {
-			history.go(-1);
-		});
-	});
-	
-/* function check_email(frm) {
-	alert
-	var email=document.detailForm.email.value;
-    if(email != "" && (email.indexOf('@') < 1 || email.indexOf('.') == -1)){
-    	alert("이메일 형식이 아닙니다.");
-		return false;
-    }
-    return true;
-}
-
-function resetData() {
-	document.detailForm.reset();
-} */
+<script defer type="text/javascript" src ="/javascript/user/updateUser.js"></script>
+<script defer type="text/javascript" src ="/javascript/common.js"></script>
+<jsp:include page="../toolbar.jsp" flush="true"/>
+<title>User Update</title>
 </script>
 </head>
 
@@ -70,145 +18,71 @@ function resetData() {
 <form name="detailForm"  method="post" >
 
 <input type="hidden" name="userId" value="${user.userId}">
+<input type="hidden" name="role" value="${user.role}">
+<input type="hidden" name="phone" >
+    <br />
+    <div class="container">
+        <h1>사용자 수정</h1>
+        <div class="row">
+            <div class="col-md-5">
+                <img src="#" class="img-rounded" width="100%" />
+            </div>
+            <div class="col-md-7">
+                <div class="input-group input-group-lg flex-nowrap mb-3">
+                    <span class="input-group-text" id="addon-wrapping">아이디</span>
+                    <span class="input-group-text" id="addon-wrapping">${user.userId}</span>
+                </div>
 
-<table width="100%" height="37" border="0" cellpadding="0" cellspacing="0">
-	<tr>
-		<td width="15" height="37">
-			<img src="/images/ct_ttl_img01.gif" width="15" height="37">
-		</td>
-		<td background="/images/ct_ttl_img02.gif" width="100%" style="padding-left:10px;">
-			<table width="100%" border="0" cellspacing="0" cellpadding="0">
-				<tr>
-					<td width="93%" class="ct_ttl01">회원정보수정</td>
-					<td width="20%" align="right">&nbsp;</td>
-				</tr>
-			</table>
-		</td>
-		<td width="12" height="37"><img src="/images/ct_ttl_img03.gif" width="12" height="37"></td>
-	</tr>
-</table>
+                <div class="input-group input-group-lg flex-nowrap mb-3">
+                    <span class="input-group-text" id="addon-wrapping">이름</span>
+                    <input type="text" name="userName" value="${user.userName}" class="form-control">
+                </div>
 
-<table width="100%" border="0" cellspacing="0" cellpadding="0" style="margin-top:13px;">
-	<tr>
-		<td height="1" colspan="3" bgcolor="D6D6D6"></td>
-	</tr>
-	<tr>
-		<td width="104" class="ct_write">
-			아이디 <img src="/images/ct_icon_red.gif" width="3" height="3" align="absmiddle">
-		</td>
-		<td bgcolor="D6D6D6" width="1"></td>
-		<td class="ct_write01">
-			<table width="100%" border="0" cellspacing="0" cellpadding="0">
-				<tr>
-					<td width="105">${user.userId}</td>
-					<td>	</td>
-				</tr>
-			</table>
-		</td>
-	</tr>
-	<tr>
-		<td height="1" colspan="3" bgcolor="D6D6D6"></td>
-	</tr>
-	
-	<tr>
-		<td width="104" class="ct_write">
-			이름 <img src="/images/ct_icon_red.gif" width="3" height="3" align="absmiddle">
-		</td>
-		<td bgcolor="D6D6D6" width="1"></td>
-		<td class="ct_write01">
-			<input type="text" name="userName" value="${user.userName}" class="ct_input_g" 
-						style="width:100px; height:19px"  maxLength="50" >
-		</td>
-	</tr>
-	<tr>
-		<td height="1" colspan="3" bgcolor="D6D6D6"></td>
-	</tr>
-	
-	<tr>
-		<td width="104" class="ct_write">주소</td>
-		<td bgcolor="D6D6D6" width="1"></td>
-		<td class="ct_write01">
-			<input 	type="text" name="addr" value="${user.addr}" class="ct_input_g" 
-							style="width:370px; height:19px"  maxLength="100">
-		</td>
-	</tr>
-	<tr>
-		<td height="1" colspan="3" bgcolor="D6D6D6"></td>
-	</tr>
-	<tr>
-		<td width="104" class="ct_write">휴대전화번호</td>
-		<td bgcolor="D6D6D6" width="1"></td>
-		<td class="ct_write01">
-<!-- 			<select 	name="phone1" class="ct_input_g" style="width:50px" 
-							onChange="document.detailForm.phone2.focus();"> -->
-			<select 	name="phone1" class="ct_input_g" style="width:50px"> 
-				<option value="010"  ${(not empty user.phone1 && user.phone1 == "010") ? "selected" : '' } >010</option>
-				<option value="011"   ${(not empty user.phone1 && user.phone1 == "011") ? "selected" : '' } >011</option>
-				<option value="016"  ${(not empty user.phone1 && user.phone1 == "016") ? "selected" : '' }>016</option>
-				<option value="018"  ${(not empty user.phone1 && user.phone1 == "018") ? "selected" : '' }>018</option>
-				<option value="019"  ${(not empty user.phone1 && user.phone1 == "019") ? "selected" : '' }>019</option>
-			</select>
-			<input type="text" name="phone2" value = "${not empty user.phone2 ? user.phone2 : '' }"
-						class="ct_input_g" style="width:100px; height:19px"  maxLength="9" >
-			- 
-			<input type="text" name="phone3" value = "${not empty user.phone3 ? user.phone3 : '' }"
-						class="ct_input_g" style="width:100px; height:19px"  maxLength="9" >
-			<input type="hidden" name="phone" class="ct_input_g"  >
-		</td>
-	</tr>
+                <div class="input-group input-group-lg flex-nowrap mb-3">
+                    <span class="input-group-text" id="addon-wrapping">주소</span>
+                    <input type="text" name="addr" value="${user.addr}" class="form-control">
+                </div>
 
-	<tr>
-		<td height="1" colspan="3" bgcolor="D6D6D6"></td>
-	</tr>
-	<tr>
-		<td width="104" class="ct_write">이메일 </td>
-		<td bgcolor="D6D6D6" width="1"></td>
-		<td class="ct_write01">
-			<table border="0" cellspacing="0" cellpadding="0">
-				<tr>
-					<td height="26">
-						<input type="text" name="email" value="${user.email}" 
-									class="ct_input_g" style="width:100px; height:19px"> 
-					</td>
-				</tr>
-			</table>
-		</td>
-	</tr>
-	<tr>
-		<td height="1" colspan="3" bgcolor="D6D6D6"></td>
-	</tr>
-</table>
+                <div class="input-group input-group-lg flex-nowrap mb-3">
+                    <span class="input-group-text" id="addon-wrapping">전화 번호</span>
+                </div>
+                <div class="input-group input-group-lg flex-nowrap mb-3">
+                    <div class="col-md-3">
+                        <select name="phone1" class="form-select">
+                            <option value="010" ${(not empty user.phone1 && user.phone1=="010" ) ? "selected" : '' }>010
+                            </option>
+                            <option value="011" ${(not empty user.phone1 && user.phone1=="011" ) ? "selected" : '' }>011
+                            </option>
+                            <option value="016" ${(not empty user.phone1 && user.phone1=="016" ) ? "selected" : '' }>016
+                            </option>
+                            <option value="018" ${(not empty user.phone1 && user.phone1=="018" ) ? "selected" : '' }>018
+                            </option>
+                            <option value="019" ${(not empty user.phone1 && user.phone1=="019" ) ? "selected" : '' }>019
+                            </option>
+                        </select>
+                    </div>
+                    <div class="col-md-3">
+                        <input type="text" name="phone2" value="${not empty user.phone2 ? user.phone2 : '' }"
+                            class="form-control" placeholder="Username">
+                    </div>
+                    <div class="col-md-3">
+                        <input type="text" name="phone3" value="${not empty user.phone3 ? user.phone3 : '' }"
+                            class="form-control" placeholder="Username">
+                    </div>
+                </div>
 
-<table width="100%" border="0" cellspacing="0" cellpadding="0" style="margin-top:10px;">
-	<tr>
-		<td width="53%"></td>
-		<td align="right">
-			<table border="0" cellspacing="0" cellpadding="0">
-				<tr>
-					<td width="17" height="23">
-						<img src="/images/ct_btnbg01.gif" width="17" height="23">
-					</td>
-					<td background="/images/ct_btnbg02.gif" class="ct_btn01" style="padding-top:3px;">
-						수정
-					</td>
-					<td width="14" height="23">
-						<img src="/images/ct_btnbg03.gif" width="14" height="23"/>
-					</td>
-					<td width="30"></td>					
-					<td width="17" height="23">
-						<img src="/images/ct_btnbg01.gif" width="17" height="23">
-					</td>
-					<td background="/images/ct_btnbg02.gif" class="ct_btn01" style="padding-top:3px;">
-						취소
-					</td>
-					<td width="14" height="23">
-						<img src="/images/ct_btnbg03.gif" width="14" height="23">
-					</td>
-				</tr>
-			</table>
-		</td>
-	</tr>
-</table>
+                <div class="input-group input-group-lg flex-nowrap mb-3">
+                    <span class="input-group-text" id="addon-wrapping">이메일</span>
+                    <input type="text" name="email" value="${user.email}" class="form-control">
+                </div>
+
+                <button type="button" name = "update" class="btn btn-warning">수정하기</button>
+
+                <button type="button" name = "back" class="btn btn-success">뒤로가기</button>
+            </div>
+        </div>
+    </div>
+    
 </form>
 
 </body>

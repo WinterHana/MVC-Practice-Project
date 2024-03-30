@@ -23,4 +23,6 @@ public interface ProductService {
 	public int addProductImage(FileVO file);
 	
 	public List<FileVO> getProductImage(int prodNo);
+	
+	public List<String> getProductInfo(String key);
 }

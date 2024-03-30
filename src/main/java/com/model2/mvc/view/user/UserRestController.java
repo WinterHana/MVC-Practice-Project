@@ -1,6 +1,7 @@
 package com.model2.mvc.view.user;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -65,7 +67,7 @@ public class UserRestController extends CommonController {
 	}
 	
 	// test
-	@RequestMapping(value = "checkDuplication")
+	@PostMapping(value = "checkDuplication")
 	public Map<String, Object> checkDuplication(@RequestBody UserVO user) {
 		System.out.println("[UserController.checkDuplicationUser()] start");
 		
@@ -73,7 +75,6 @@ public class UserRestController extends CommonController {
 		
 		boolean result = userService.checkDuplication(user.getUserId());
 		
-		map.put("path", "forward:/user/checkDuplication.jsp");
 		map.put("result", result);
 		map.put("userId", user.getUserId());
 		
@@ -83,24 +84,16 @@ public class UserRestController extends CommonController {
 	}			
 		
 	// Test
-	@RequestMapping(value = "getUser/{userId}")
-	public Map<String, Object> getUser(@PathVariable("userId") String userId) {
+	@PostMapping(value = "getUser/{userId}")
+	public UserVO getUser(@PathVariable("userId") String userId) {
 		
 		System.out.println("[UserController.getUser()] start");
 		
-		Map<String, Object> map = new HashMap<String, Object>();
-		
-//		ModelAndView modelAndView = new ModelAndView("forward:/user/readUser.jsp");
-//		UserVO user = userService.getUser(userId);
-//		modelAndView.addObject("user", user);
-		
 		UserVO user = userService.getUser(userId);
-		map.put("path", "forward:/user/readUser.jsp");
-		map.put("user", user);
-		
+
 		System.out.println("[UserController.getUser()] end");
 		
-		return map;
+		return user;
 	}
 	
 	@RequestMapping(value = "addUser")
@@ -118,9 +111,9 @@ public class UserRestController extends CommonController {
 	}
 	
 	// Test
-	@RequestMapping(value = "listUser/{page}")
+	@PostMapping(value = "listUser/{page}")
 	public Map<String, Object> listUser(
-			@ModelAttribute("search") SearchVO search,
+			@RequestBody SearchVO search,
 			@PathVariable("page") int page) {
 		System.out.println("[UserController.listUser()] start");
 		
@@ -142,11 +135,10 @@ public class UserRestController extends CommonController {
 		);
 		
 		Map<String, Object> result = new HashMap<String, Object>();
-		result.put("path", "forward:/user/listUser.jsp");
 		result.put("list", map.get("list"));
 		result.put("resultPage", resultPage);
 		result.put("search", search);
-		result.put("getList", "fncGetUserList");
+		// result.put("getList", "fncGetUserList");
 		
 		
 		System.out.println("[UserController.listUser()] end");
@@ -190,5 +182,27 @@ public class UserRestController extends CommonController {
 		System.out.println("[UserController.updateUser()] end");
 		
 		return map;
+	}
+	
+	@PostMapping(value = "getUserIds")
+	public List<String> getUserIds() {
+		System.out.println("[UserController.getUserIds()] start");
+		
+		List<String> result = userService.getUserIdAndUserNames("userId");
+		
+		System.out.println("[UserController.getUserIds()] end");
+		
+		return result;
+	}
+	
+	@PostMapping(value = "getUserNames")
+	public List<String> getUserNames() {
+		System.out.println("[UserController.getUserNames()] start");
+		
+		List<String> result = userService.getUserIdAndUserNames("userName");
+		
+		System.out.println("[UserController.getUserNames()] end");
+		
+		return result;
 	}
 }

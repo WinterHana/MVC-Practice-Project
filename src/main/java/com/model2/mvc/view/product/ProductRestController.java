@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
@@ -16,6 +17,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -84,10 +86,10 @@ public class ProductRestController extends CommonController  {
 		return result;
 	}
 	
-	// Test
+	// Test : 무한스크롤 테스트용
 	@RequestMapping(value = "/listUserProduct/{page}")
 	public Map<String, Object> listUserProduct(
-			@ModelAttribute("search") SearchVO search, 
+			@RequestBody SearchVO search,
 			@PathVariable("page") int page) {
 		System.out.println("[ProductController.listUserProduct()] start");
 		
@@ -112,7 +114,6 @@ public class ProductRestController extends CommonController  {
 		
 		// 3. Set ModelAndView
 		Map<String, Object> result = new HashMap<String, Object>();
-		result.put("path", "forward:/product/listUserProduct.jsp");
 		result.put("list", map.get("list"));
 		result.put("resultPage", resultPage);
 		result.put("search", search);
@@ -228,5 +229,27 @@ public class ProductRestController extends CommonController  {
 		
 //		return map;
 		return null;
+	}
+	
+	@PostMapping(value = "getProdNames")
+	public List<String> getProdNames() {
+		System.out.println("[UserController.getProdNames()] start");
+		
+		List<String> result = productService.getProductInfo("prodName");
+		
+		System.out.println("[UserController.getProdNames()] end");
+		
+		return result;
+	}
+	
+	@PostMapping(value = "getProdNos")
+	public List<String> getProdNos() {
+		System.out.println("[UserController.getProdNos()] start");
+		
+		List<String> result = productService.getProductInfo("prodNo");
+		
+		System.out.println("[UserController.getProdNos()] end");
+		
+		return result;
 	}
 }

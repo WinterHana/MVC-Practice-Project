@@ -48,10 +48,11 @@
 		■ 정적자원 요청시 DispatcherServlet 에게 처리방법지정
 	    ■ 정적자원요청 (아래의 URI 포함 요청)시  처리 경로 location 지정
 	 -->
-<!-- 	<mvc:resources mapping="/resources/**" location="/resources/" /> -->
-	<mvc:resources mapping="/images/**" location="/images/" />
-	<mvc:resources mapping="/javascript/**" location="/javascript/" />
-	<mvc:resources mapping="/css/**" location="/css/" />
+	 
+	<mvc:resources mapping="/**" location="/resources/" />
+<!-- 	<mvc:resources mapping="/images/**" location="/images/" />
+	<mvc:resources mapping="/js/**" location="/js/" />
+	<mvc:resources mapping="/css/**" location="/css/" /> -->
 	
 	<!-- File Upload 추가 -->
 	<bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">

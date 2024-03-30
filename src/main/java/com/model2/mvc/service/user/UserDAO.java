@@ -17,4 +17,6 @@ public interface UserDAO {
 	public List<UserVO> getUserList(SearchVO searchVO);
 	
 	public int getUserCount(SearchVO searchVO);
+	
+	public List<UserVO> getUserIdAndUserNames();
 }

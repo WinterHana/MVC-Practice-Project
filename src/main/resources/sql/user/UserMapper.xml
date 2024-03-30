@@ -87,4 +87,8 @@
 		)
 	</select>
 	
+	<select id = "getUserIdAndUserNames"  resultMap = "userSelectMap">
+		SELECT user_id, user_name FROM users
+	</select>
+	
 </mapper>

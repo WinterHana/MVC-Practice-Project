@@ -1,129 +1,102 @@
 <%@ page contentType="text/html; charset=euc-kr" %>
+<%@ taglib prefix = "c" uri = "http://java.sun.com/jsp/jstl/core" %>
 
-<html>
+<!DOCTYPE html>
+<html lang="en">
+
 <head>
-<title>회원가입</title>
-
-<link rel="stylesheet" href="/css/admin.css" type="text/css">
-
-<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
-<script type="text/javascript">
-/* function fncAddUser() { */
-	
-function fncAddUser() {
-	// Form 유효성 검증
-	let id = $("input[name='userId']").val();
-	let pw = $("input[name='password']").val();
-	let pw_confirm = $("input[name = 'password2']").val();
-	let name = $("input[name = 'userName']").val();
-	
-	// Validation Check
-	if(id == null || id.length <1) {
-		alert("아이디는 반드시 입력하셔야 합니다.");
-		return;
-	}
-	
-	if(pw == null || pw.length <1){
-		alert("패스워드는  반드시 입력하셔야 합니다.");
-		return;
-	}
-	
-	if(pw_confirm == null || pw_confirm.length <1){
-		alert("패스워드 확인은  반드시 입력하셔야 합니다.");
-		return;
-	}
-	
-	if(name == null || name.length <1){
-		alert("이름은  반드시 입력하셔야 합니다.");
-		return;
-	}
-	
-	if(pw != pw_confirm) {
-		alert("비밀번호가 일치하지 않습니다.");
-		$("input:text[name='password2']").focus();
-		return;
-	}
-	
-	// 전화번호 입력 여부에 대하여
-	let value = "";
-	if($("input:text[name='phone2']").val() != "" 
-			&& $("input:text[name='phone3']").val() != "") {
-		value = $("option:selected").val() 
-		+ "-" + $("input[name='phone2']").val()
-		+ "-" + $("input[name='phone3']").val();
-	}
-	
-	$("input:hidden[name='phone']").val(value);
-	
-	$("form").attr("method", "POST").attr("action", "/user/addUser").submit();
-};
-
-$(function() {
-	$("td.ct_btn01:contains('가입')").on("click", function() {
-		fncAddUser();	
-	});
-	
-	$("td.ct_btn01:contains('취소')").on("click", function() {
-		$("form")[0].reset();	
-	});
-	
-	$("input[name='email']").on("change", function() {
-		let email = $("input[name='email']").val();
-		
-		if(email != "" && (email.indexOf("@") < 1 || email.indexOf(".") == -1)) {
-			alert("이메일 형식이 아닙니다.");
-			$("input[name='email']").val("");
-		}
-	});
-	
-	$("td.ct_btn:contains('ID 중복 확인')").on("click", function() {
-		popWin = window.open("/user/checkDuplication.jsp",
-													"popWin", 
-													"left=300,top=200,width=300,height=200,marginwidth=0,marginheight=0,"+
-													"scrollbars=no,scrolling=no,menubar=no,resizable=no");
-	});
-	
-	$("input[name='ssn']").on("change", function() {
-		var ssn1, ssn2; 
-		var nByear, nTyear; 
-		var today; 
-
-		// ssn = document.detailForm.ssn.value;
-		ssn = $("input[name='ssn']").val();
-		
-		// 유효한 주민번호 형식인 경우만 나이 계산 진행
-		// PortalJuminCheck 함수는 CommonScript.js 의 공통 주민번호 체크 함수임 
-		if(!PortalJuminCheck(ssn)) {
-			alert("잘못된 주민번호입니다.");
-			return false;
-		}
-	});
-})
-
-function PortalJuminCheck(fieldValue){
-    var pattern = /^([0-9]{6})-?([0-9]{7})$/; 
-	var num = fieldValue;
-    if (!pattern.test(num)) return false; 
-    num = RegExp.$1 + RegExp.$2;
-
-	var sum = 0;
-	var last = num.charCodeAt(12) - 0x30;
-	var bases = "234567892345";
-	for (var i=0; i<12; i++) {
-		if (isNaN(num.substring(i,i+1))) return false;
-		sum += (num.charCodeAt(i) - 0x30) * (bases.charCodeAt(i) - 0x30);
-	}
-	var mod = sum % 11;
-	return ((11 - mod) % 10 == last) ? true : false;
-}
-
-/* function fncCheckDuplication() {
-	popWin = window.open("/user/checkDuplication.jsp","popWin", "left=300,top=200,width=300,height=200,marginwidth=0,marginheight=0,scrollbars=no,scrolling=no,menubar=no,resizable=no");
-} */
-
-</script>
+<script defer type="text/javascript" src ="/javascript/user/signup.js"></script>
+<script defer type="text/javascript" src ="/javascript/common.js"></script>
+<jsp:include page="../toolbar.jsp" flush="true"/>
+<title>sign up</title>
 </head>
 
+<body>
+    <div class="container">
+        <br />
+        <form class="row g-3">
+            <h1 class="bg-primary text-center">회 원 가 입</h1>
+            <div class="col-md-4">
+                <label for="userId" class="col-sm-offset-1 col-sm-3 control-label">아 이 디</label>
+                <div>
+                    <input type="text" class="form-control" id="userId" name="userId" placeholder="중복 확인 필요">
+                </div>
+                <span id="helpBlock" class="help-block">
+                    <strong class="text-danger" id = "duplicationResult">입력전 중복확인 부터..</strong>
+                </span>
+            </div>
+
+            <div class="col-md-6">
+                <br />
+                <button type="button" class="btn btn-info">중복 확인</button>
+            </div>
+            
+            <div class="col-md-6">
+                <label for="password" class="col-sm-offset-1 col-sm-3 control-label">비밀번호</label>
+                <div class="col-sm-8">
+                    <input type="password" class="form-control" id="password" name="password" placeholder="비밀번호">
+                </div>
+                
+            </div>
+
+            <div class="col-md-6">
+                <label for="password2" class="col-sm-offset-1 col-sm-3 control-label">비밀번호 확인</label>
+                <div class="col-sm-8">
+                    <input type="password" class="form-control" id="password2" name="password2" placeholder="비밀번호 확인">
+                </div>
+            </div>
+
+            <div class="col-md-6">
+                <label for="userName" class="col-sm-offset-1 col-sm-3 control-label">이름</label>
+                <div class="col-sm-8">
+                    <input type="password" class="form-control" id="userName" name="userName" placeholder="회원이름">
+                </div>
+            </div>
+
+            <div class="col-md-6">
+                <label for="ssn" class="col-sm-offset-1 col-sm-3 control-label">주민번호</label>
+                <div class="col-sm-8">
+                    <input type="text" class="form-control" id="ssn" name="ssn" placeholder="주민번호">
+                    <span id="helpBlock" class="help-block">
+                        <strong class="text-danger">" - " 제외 13자리입력하세요</strong>
+                    </span>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <label for="ssn" class="col-sm-offset-1 col-sm-3 control-label">전화번호</label>
+                <select class="form-control" name="phone1" id="phone1">
+                    <option value="010">010</option>
+                    <option value="011">011</option>
+                    <option value="016">016</option>
+                    <option value="018">018</option>
+                    <option value="019">019</option>
+                </select>
+            </div>
+            <div class="col-md-2">
+                <br />
+                <input type="text" class="form-control" id="phone2" name="phone2" placeholder="번호">
+            </div>
+
+            <div class="col-md-2">
+                <br />
+                <input type="text" class="form-control" id="phone3" name="phone3" placeholder="번호">
+            </div>
+            <div class="form-group">
+                <label for="ssn" class="col-sm-offset-1 col-sm-3 control-label">이메일</label>
+                <div class="col-sm-4">
+                    <input type="text" class="form-control" id="email" name="email" placeholder="이메일">
+                </div>
+            </div>
+
+            <div class="col-12">
+                <button type="button" class="btn btn-primary">가입하기</button>
+                <a class="btn btn-primary btn" href="/user/login.jsp" role="button">취소</a>
+            </div>
+        </form>
+    </div>
+</body>
+</html>
+<!-- 
 <body bgcolor="#ffffff" text="#000000">
 
 <form name="detailForm"  method="post" >
@@ -171,7 +144,6 @@ function PortalJuminCheck(fieldValue){
 								</td>
 								<td 	align="center" background="/images/ct_btng02.gif" class="ct_btn" 
 										style="padding-top:3px;">
-									<!-- <a href="javascript:fncCheckDuplication();" id="btnCmfID">ID중복확인</a> -->
 									ID 중복 확인
 								</td>
 								<td width="4" height="21">
@@ -265,8 +237,6 @@ function PortalJuminCheck(fieldValue){
 		<td width="104" class="ct_write">휴대전화번호</td>
 		<td bgcolor="D6D6D6" width="1"></td>
 		<td class="ct_write01">
-<!-- 			<select 	name="phone1" class="ct_input_g" style="width:50px" 
-							onChange="document.detailForm.phone2.focus();"> -->
 			<select 	name="phone1" class="ct_input_g" style="width:50px">
 				<option value="010" >010</option>
 				<option value="011" >011</option>
@@ -339,3 +309,4 @@ function PortalJuminCheck(fieldValue){
 </form>
 </body>
 </html>
+ -->
