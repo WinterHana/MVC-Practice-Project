@@ -3,4 +3,21 @@ $("li.dropdown-item:contains('내 정보 보기')").on("click", function() {
 	$("form[name='getUser']").submit();
 })
 
+// product autoComplete
+$("input[name='productSearch']").on("keydown", function() {
+	let requestURL = "/rest/product/getProdNames";
+	
+	$.ajax({
+		url : requestURL,
+		method : "POST",
+		dataType : "json",
+		contentType : "application/json",
+		success : function(JSONData, status) {
+			$("input[name='productSearch']").autocomplete({
+				source : JSONData
+			});
+		}
+	}); 
+});
+
 console.log("toolbar.js");

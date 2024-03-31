@@ -134,6 +134,15 @@ public class ProductServiceImpl implements ProductService {
 		}
 		
 		// 2. 제품 이미지 추가
+		// 0) 데이터 검증
+		boolean test = true;
+		for(MultipartFile f : multipartFiles) {
+			String originalFileName = f.getOriginalFilename();
+			if(originalFileName.equals("") || originalFileName == null) {
+				test = false;
+				break;
+			}
+		}
 		try {
 			if(multipartFiles != null && multipartFiles.size() > 0) {
 				for(MultipartFile f : multipartFiles) {
@@ -141,7 +150,7 @@ public class ProductServiceImpl implements ProductService {
 					UUID uuid  = UUID.randomUUID();			// 유일자 식별은 java.util.UUID를 이용한다.
 					String fileName = uuid + originalFileName;
 					
-					f.transferTo(new File("/Project_Eclipse/01.Model2MVCShop(stu)/src/main/webapp/images/uploadFiles/" + fileName));		
+					f.transferTo(new File("/Project_Eclipse/01.Model2MVCShop(stu)/src/main/webapp/resources/img/uploadFiles/" + fileName));		
 					
 					FileVO file = new FileVO();
 					file.setFileName(fileName);
@@ -152,7 +161,7 @@ public class ProductServiceImpl implements ProductService {
 			System.out.println(getClass().getName() + ".addProductImage Exception");
 			e.printStackTrace();
 		}
-
+		
 		return result;
 	}
 
@@ -169,8 +178,18 @@ public class ProductServiceImpl implements ProductService {
 		}
 		
 		// 2. 제품 이미지 수정 : 기존에 있는 정보 삭제 후 다시 추가하기
+		// 0) 데이터 검증
+		boolean test = true;
+		for(MultipartFile f : multipartFiles) {
+			String originalFileName = f.getOriginalFilename();
+			if(originalFileName.equals("") || originalFileName == null) {
+				test = false;
+				break;
+			}
+		}
+		
 		try {
-			if(multipartFiles != null && multipartFiles.size() > 0) {
+			if(multipartFiles != null && multipartFiles.size() > 0 && test) {
 				// 1) 삭제
 				result += productDAO.deleteProductImage(productVO.getProdNo());
 				
@@ -180,13 +199,13 @@ public class ProductServiceImpl implements ProductService {
 					UUID uuid  = UUID.randomUUID();			// 유일자 식별은 java.util.UUID를 이용한다.
 					String fileName = uuid + originalFileName;
 					
-					f.transferTo(new File("/Project_Eclipse/01.Model2MVCShop(stu)/src/main/webapp/images/uploadFiles/" + fileName));		
+					f.transferTo(new File("/Project_Eclipse/01.Model2MVCShop(stu)/src/main/webapp/resources/img/uploadFiles/" + fileName));		
 					
 					FileVO file = new FileVO();
 					file.setFileName(fileName);
 					file.setProdNo(productVO.getProdNo());
 					productDAO.updateAddProductImage(file);
-				}
+				} 
 			}
 		} catch (Exception e) {
 			System.out.println(getClass().getName() + ".addProductImage Exception");

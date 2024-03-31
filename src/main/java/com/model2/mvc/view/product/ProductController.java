@@ -17,6 +17,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
@@ -45,46 +46,47 @@ public class ProductController extends CommonController  {
 	@Qualifier("purchaseServiceImpl")
 	PurchaseService purchaseService;
 	
-	@RequestMapping(value = "/listAdminProduct/{page}")
-	public ModelAndView listAdminProduct(
-			@ModelAttribute("search") SearchVO search, 
-			@PathVariable("page") int page) {
-		System.out.println("[ProductController.listAdminProduct()] start");
-		
-		// 1. Page setting Default page = 1;
-		search.setPage(page);
-		if(search.getPage() == 0) {
-			search.setPage(1);
-		}
-		
-		search.setPageUnit(PAGE_UNIT); 
-		search.setPageSize(PAGE_SIZE);
-		
-		// 2. Get ProductList
-		Map<String, Object> map = productService.getProductList(search);
-		
-		Page resultPage	= new Page(
-				search.getPage(), 
-				((Integer)map.get("totalCount")).intValue(), 
-				PAGE_UNIT,
-				PAGE_SIZE
-		);
-		
-		// System.out.println("resultPage : " + resultPage);
-		
-		// 3. Set ModelAndView
-		ModelAndView modelAndView = new ModelAndView("forward:/product/listAdminProduct.jsp");
-		modelAndView.addObject("list", map.get("list"));
-		modelAndView.addObject("resultPage", resultPage);
-		modelAndView.addObject("search", search);
-		modelAndView.addObject("getList", "fncGetProductList");
-		
-		System.out.println("[ProductController.listAdminProduct()] end");
-		
-		return modelAndView;
-	}
+//	@RequestMapping(value = "/listAdminProduct/{page}")
+//	public ModelAndView listAdminProduct(
+//			@ModelAttribute("search") SearchVO search, 
+//			@PathVariable("page") int page) {
+//		System.out.println("[ProductController.listAdminProduct()] start");
+//		
+//		// 1. Page setting Default page = 1;
+//		search.setPage(page);
+//		if(search.getPage() == 0) {
+//			search.setPage(1);
+//		}
+//		
+//		search.setPageUnit(PAGE_UNIT); 
+//		search.setPageSize(PAGE_SIZE);
+//		
+//		// 2. Get ProductList
+//		Map<String, Object> map = productService.getProductList(search);
+//		
+//		Page resultPage	= new Page(
+//				search.getPage(), 
+//				((Integer)map.get("totalCount")).intValue(), 
+//				PAGE_UNIT,
+//				PAGE_SIZE
+//		);
+//		
+//		// System.out.println("resultPage : " + resultPage);
+//		
+//		// 3. Set ModelAndView
+//		ModelAndView modelAndView = new ModelAndView("forward:/product/listAdminProduct.jsp");
+//		modelAndView.addObject("list", map.get("list"));
+//		modelAndView.addObject("resultPage", resultPage);
+//		modelAndView.addObject("search", search);
+//		modelAndView.addObject("getList", "fncGetProductList");
+//		
+//		System.out.println("[ProductController.listAdminProduct()] end");
+//		
+//		return modelAndView;
+//	}
 	
-	@RequestMapping(value = "/listUserProduct/{page}")
+	// 제품 리스트를 가져옴
+	@RequestMapping(value = "/listProduct/{page}")
 	public ModelAndView listUserProduct(
 			@ModelAttribute("search") SearchVO search, 
 			@PathVariable("page") int page) {
@@ -110,7 +112,7 @@ public class ProductController extends CommonController  {
 		);
 		
 		// 3. Set ModelAndView
-		ModelAndView modelAndView = new ModelAndView("forward:/product/listUserProduct.jsp");
+		ModelAndView modelAndView = new ModelAndView("forward:/product/listProduct.jsp");
 		modelAndView.addObject("list", map.get("list"));
 		modelAndView.addObject("resultPage", resultPage);
 		modelAndView.addObject("search", search);
@@ -138,7 +140,18 @@ public class ProductController extends CommonController  {
 		return modelAndView;
 	}
 	
-	@RequestMapping(value = "/addProduct")
+	@PostMapping(value = "/addProductView")
+	public ModelAndView addProductView() {
+		System.out.println("[ProductController.addProductView()] start");
+		
+		ModelAndView modelAndView = new ModelAndView("forward:/product/addProduct.jsp");
+		
+		System.out.println("[ProductController.addProductView()] end");
+		
+		return modelAndView;
+	}
+	
+	@PostMapping(value = "/addProduct")
 	public ModelAndView addProduct(
 			@ModelAttribute("product") ProductVO product,
 			@RequestParam("multipartFile") List<MultipartFile> multiFileLists) {
@@ -147,18 +160,18 @@ public class ProductController extends CommonController  {
 		// 제품 추가
 		productService.addProduct(product, multiFileLists);
 		
-		ModelAndView modelAndView = new ModelAndView("redirect:/product/completeAddView.jsp");
+		ModelAndView modelAndView = new ModelAndView("redirect:/product/listProduct/1");
 		
 		System.out.println("[ProductController.addProduct()] end");
 		
 		return modelAndView;
 	}
 	
-	@RequestMapping(value = "/updateProductView")
+	@PostMapping(value = "/updateProductView")
 	public ModelAndView updateProductView(@ModelAttribute("product") ProductVO product) {
 		System.out.println("[ProductController.updaeProductView()] start");
 		
-		ModelAndView modelAndView = new ModelAndView("forward:/product/updateProductView.jsp");
+		ModelAndView modelAndView = new ModelAndView("forward:/product/updateProduct.jsp");
 		modelAndView.addObject("product", productService.getProduct(product.getProdNo()));
 		
 		System.out.println("[ProductController.updaeProductView()] end");
@@ -166,7 +179,7 @@ public class ProductController extends CommonController  {
 		return modelAndView;
 	}
 	
-	@RequestMapping(value = "/updateProduct")
+	@PostMapping(value = "/updateProduct")
 	public ModelAndView updateProduct(
 			@ModelAttribute("product") ProductVO product,
 			@RequestParam("multipartFile") List<MultipartFile> multiFileLists) {
@@ -175,20 +188,20 @@ public class ProductController extends CommonController  {
 		// 제품 수정
 		productService.updateProduct(product, multiFileLists);
 		
-		ModelAndView modelAndView = new ModelAndView("redirect:/product/completeUpdateView.jsp");
+		ModelAndView modelAndView = new ModelAndView("redirect:/product/getProduct/" + product.getProdNo());
 		
 		System.out.println("[ProductController.updateProduct()] end");
 		
 		return modelAndView;
 	}
 	
-	@RequestMapping(value = "/deleteProduct")
+	@PostMapping(value = "/deleteProduct")
 	public ModelAndView deleteProduct(@ModelAttribute("product") ProductVO product) {
 		System.out.println("[ProductController.deleteProduct()] start");
 		
 		productService.deleteProduct(product);
 		
-		ModelAndView modelAndView = new ModelAndView("redirect:/product/listAdminProduct/1");
+		ModelAndView modelAndView = new ModelAndView("redirect:/product/listProduct/1");
 		
 		System.out.println("[ProductController.deleteProduct()] end");
 		

@@ -7,17 +7,16 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
-
 <link rel="stylesheet" href="//code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
+
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+<script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
 
 <script defer type="text/javascript" src ="/javascript/toolbar.js"></script>
 
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
-
-
 
 <link href="/css/font.css" rel="stylesheet" type="text/css">
 
@@ -37,7 +36,7 @@
 		<div class="collapse navbar-collapse" id="navbarSupportedContent">
 			<ul class="navbar-nav me-auto mb-2 mb-lg-0">
 				<li class="nav-item">
-					<a class="nav-link" aria-current="page" href="/product/listUserProduct/1">제품 목록</a>
+					<a class="nav-link" aria-current="page" href="/product/listProduct/1">제품 목록</a>
 				</li>
 				
 				<c:if test = "${empty sessionScope.user}">
@@ -69,7 +68,6 @@
 								<li><a class="dropdown-item" href="/purchase/listPurchase/1">구매 내역 확인</a></li>
 								<li><hr class="dropdown-divider"></li>
 								<li><a class="dropdown-item" href="/user/listUser/1">유저 관리</a></li>
-								<li><a class="dropdown-item" href="/product/listAdminProduct/1">제품 관리</a></li>
 								<li><a class="dropdown-item" href="/purchase/listAdminPurchase/1">구매 관리</a></li>
 							</ul>
 						</li>
@@ -81,8 +79,7 @@
 			</c:if>			
 			</ul>
 			<form class="d-flex">
-				<input class="form-control me-2" type="search" placeholder="Search"
-						aria-label="Search">
+				<input name = "productSearch" class="form-control me-2" type="text" placeholder="Search" >
 				<button class="btn btn-danger" type="submit">Search</button>
 			</form>
 		</div>

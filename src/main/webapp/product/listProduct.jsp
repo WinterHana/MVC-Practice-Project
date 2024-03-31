@@ -1,119 +1,75 @@
-<%@ page language="java" contentType="text/html; charset=EUC-KR"
-    pageEncoding="EUC-KR"%>
+<%@ page language="java" contentType="text/html; charset=EUC-KR"%>
     
 <%@ taglib prefix = "c" uri = "http://java.sun.com/jsp/jstl/core" %>
 
+<!DOCTYPE html>
+<html lang="en">
 
-<html>
 <head>
-<title>${title}</title>
-
-<link rel="stylesheet" href="/css/admin.css" type="text/css">
-<link rel="stylesheet" href="//code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
-<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
-<script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
-<script type="text/javascript">
-	window.onload = showContentBySelectBox;
-
-	function fncGetProductList(currentPage) {
-		let url = '/product/listUserProduct/' + currentPage;	
-			$("form").attr("method", "POST").attr("action", url).submit();
-	}
-
-	function submitDetailForm() {
-		$("form").attr("method", "POST").submit();
-	}
-
-	function showContentBySelectBox() {
-		let selectOption = $("#searchCondition").val();
-
-		if(selectOption === "price") {
-			$("#prodNameContent").css("display", "none");
-			$("#priceContent").css("display", "block");
-		} 
-	
-		else {
-			$("#prodNameContent").css("display", "block");
-			$("#priceContent").css("display", "none");
-		}
-	}
-	
-	$(function() {
-		$("#sortCondition").on("change", function() {
-			submitDetailForm();
-		})
-	
-		$("#searchCondition").on("change", function() {
-			showContentBySelectBox();
-		})
-		
-		$("span.getProduct").on("click", function() {
-			let url = "/product/getProduct/"+ $(this).data("no");
-			$(window.location).attr("href" ,url);
-		})
-		
-		$("td.ct_btn01:contains('검색')").on("click", function() {
-			fncGetProductList(1);
-		})
-		
-		$("span.pageNavigator").on("click", function() {
-			fncGetProductList($(this).data("page"));
-		})
-		
-		$(".searchText").on("keypress", function(event) {
-			if(event.which === 13) {
-				event.preventDefault(); // 기본 동작 방지 (폼 제출 등)
-				fncGetProductList(1);
-			}
-		})
-		
-	 	$("#searchKeyword").on("keydown", function() {
-	 		let requestURL = "/rest/product/getProdNames";
-	 		
-	 		$.ajax({
-	 			url : requestURL,
-				method : "POST",
-				dataType : "json",
-				header : {
-					"Accept" : "application/json",
-					"Content-Type" : "application/json"
-				},
-				success : function(JSONData, status) {
-					$("#searchKeyword").autocomplete({
-						source : JSONData
-					});
-				}
-	 		}); 
-		});
-	})
-</script>
+<script defer type="text/javascript" src ="/javascript/common.js"></script>
+<script defer type="text/javascript" src ="/javascript/product/listProduct.js"></script>
+<jsp:include page="../toolbar.jsp" flush="true"/>
+<title>Product List</title>
 </head>
 
 <body bgcolor="#ffffff" text="#000000">
 
-<div style="width:98%; margin-left:10px;">
-
-<form name="detailForm" action="/product/listUserProduct/1" method="post">
-
-<table width="100%" height="37" border="0" cellpadding="0"	cellspacing="0">
-	<tr>
-		<td width="15" height="37">
-			<img src="/images/ct_ttl_img01.gif" width="15" height="37"/>
-		</td>
-		<td background="/images/ct_ttl_img02.gif" width="100%" style="padding-left:10px;">
-			<table width="100%" border="0" cellspacing="0" cellpadding="0">
-				<tr>
-					<td width="93%" class="ct_ttl01">상품 목록 조회</td>
-				</tr>
-			</table>
-		</td>
-		<td width="12" height="37">
-			<img src="/images/ct_ttl_img03.gif" width="12" height="37"/>
-		</td>
-	</tr>
-</table>
-
-
+    <div class="container">
+        <br/>
+        <div class = "row">
+        	<div class = "col-sm-2">
+        		<h1>상품 목록</h1>
+        	</div>
+        	 <div class = "col-sm-2">
+		       	<c:if test = "${sessionScope.user.role eq 'admin'}">
+		       		<form action = "/product/addProductView/" method = "post">
+		       			<button class="btn btn-primary btn-lg">상품 추가하기</button>
+		       		</form>
+		       	</c:if>
+        	</div>
+        </div>
+        <!-- menu -->
+        <div class = "row">
+        	<div class = "col-sm-3">
+				<div class="input-group mb-3">
+				        <span class="input-group-text">정렬</span>
+					        <select class="form-select"  name="sortCondition">
+								<option value="prodName"  ${not empty search.sortCondition && search.sortCondition == "prodName" ? "selected" : '' }>상품 이름</option>
+								<option value="price"  ${not empty search.sortCondition && search.sortCondition == "price" ? "selected" : '' }>상품 가격</option>
+				      	</select>
+				</div>
+			</div>
+			<div class = "col-sm-3">
+				<div class="input-group mb-3">
+				    <span class="input-group-text">검색</span>
+					    <select class="form-select"  name="searchCondition">
+							<option value="prodName"  ${not empty search.searchCondition && search.searchCondition == "prodName" ? "selected" : '' }>상품 이름</option>
+							<option value="price"  ${not empty search.searchCondition && search.searchCondition == "price" ? "selected" : '' }>상품 가격</option>
+				    </select>
+				</div> 
+			</div>
+			<div class = "col-sm-6" name = "priceContent">    
+				<div class="input-group mb-3"> 
+						시작 : 
+						<input type="text" class="form-control"  name="searchKeywordSub"  value="${search.searchKeywordSub}">
+						끝 : 
+			    		<input type="text" class="form-control"  name="searchKeywordThird"  value="${search.searchKeywordThird}">
+			    		<button class="btn btn-outline-secondary" type="button">검색</button>				
+				</div>
+			</div>
+			<div class = "col-sm-6"name = "prodNameContent">  
+				<div class="input-group mb-3" > 
+						<input type="text" class="form-control"  name="searchKeyword"  value="${search.searchKeyword}">
+				    	<button class="btn btn-outline-secondary" type="button">검색</button>					
+				</div>
+			</div>
+		</div>
+		<!-- product -->
+        <div class="row" name = "productList">
+        </div>
+    </div>
+    
+<%--
 <table width="100%" border="0" cellspacing="0" cellpadding="0" style="margin-top:10px;">
 	<tr>			
 		<td align = "left" width = "1200" height = 20>
@@ -192,7 +148,7 @@
 		<td align="center">${no}</td>
 		<td></td>
 		<td align="center">
-		<%-- <a href="/product/getProduct/${product.prodNo}"> --%>
+		<a href="/product/getProduct/${product.prodNo}">
 		<span class = "getProduct" data-no ="${product.prodNo}">
 		<img src = "/images/uploadFiles/${product.fileName[0]}" width = "120" height = "90"/>
 		</span>
@@ -201,7 +157,7 @@
 		<td></td>
 		<td align = "center">
 		<span class = "getProduct" data-no ="${product.prodNo}">
-		<%-- <a href="/product/getProduct/${product.prodNo}">${product.prodName}</a> --%>
+		<a href="/product/getProduct/${product.prodNo}">${product.prodName}</a>
 		${product.prodName}
 		</span>
 		</td>
@@ -234,6 +190,6 @@
 </table>
 <!--  페이지 Navigator 끝 -->
 </form>
-</div>
+</div> --%>
 </body>
 </html>
