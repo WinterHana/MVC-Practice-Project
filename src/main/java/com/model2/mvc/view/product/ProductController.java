@@ -46,45 +46,6 @@ public class ProductController extends CommonController  {
 	@Qualifier("purchaseServiceImpl")
 	PurchaseService purchaseService;
 	
-//	@RequestMapping(value = "/listAdminProduct/{page}")
-//	public ModelAndView listAdminProduct(
-//			@ModelAttribute("search") SearchVO search, 
-//			@PathVariable("page") int page) {
-//		System.out.println("[ProductController.listAdminProduct()] start");
-//		
-//		// 1. Page setting Default page = 1;
-//		search.setPage(page);
-//		if(search.getPage() == 0) {
-//			search.setPage(1);
-//		}
-//		
-//		search.setPageUnit(PAGE_UNIT); 
-//		search.setPageSize(PAGE_SIZE);
-//		
-//		// 2. Get ProductList
-//		Map<String, Object> map = productService.getProductList(search);
-//		
-//		Page resultPage	= new Page(
-//				search.getPage(), 
-//				((Integer)map.get("totalCount")).intValue(), 
-//				PAGE_UNIT,
-//				PAGE_SIZE
-//		);
-//		
-//		// System.out.println("resultPage : " + resultPage);
-//		
-//		// 3. Set ModelAndView
-//		ModelAndView modelAndView = new ModelAndView("forward:/product/listAdminProduct.jsp");
-//		modelAndView.addObject("list", map.get("list"));
-//		modelAndView.addObject("resultPage", resultPage);
-//		modelAndView.addObject("search", search);
-//		modelAndView.addObject("getList", "fncGetProductList");
-//		
-//		System.out.println("[ProductController.listAdminProduct()] end");
-//		
-//		return modelAndView;
-//	}
-	
 	// 제품 리스트를 가져옴
 	@RequestMapping(value = "/listProduct/{page}")
 	public ModelAndView listUserProduct(

@@ -1,124 +1,70 @@
-<%@ page language="java" contentType="text/html; charset=EUC-KR"
-    pageEncoding="EUC-KR"%>
-<html>
+<%@ page language="java" contentType="text/html; charset=EUC-KR"%>
+
+<!DOCTYPE html>
+<html lang="en">
+
 <head>
-<link rel="stylesheet" href="/css/admin.css" type="text/css">
-
-<title>구매정보 수정</title>
-
-<script type="text/javascript" src="../javascript/calendar.js">
-</script>
-
+<script defer type="text/javascript" src ="/javascript/common.js"></script>
+<script defer type="text/javascript" src ="/javascript/purchase/updatePurchase.js"></script>
+<jsp:include page="../toolbar.jsp" flush="true"/>
+<title>Purchase List</title>
 </head>
 
 <body bgcolor="#ffffff" text="#000000">
 
-<form name="updatePurchase" method="post"	action="/purchase/updatePurchase">
+	<div class="container">
+		<br/>
+	 	<h1>구매 정보</h1>
+        <form name="updatePurchase" method="post" action="/purchase/updatePurchase">
+        	<input type="hidden" name="buyerId" value="${purchase.buyer.userId}">
+			<input type="hidden" name="tranNo" value="${purchase.tranNo}">
+            <div class="row">
+                <div class="col-md-7">
+                    <div class="input-group input-group-lg flex-nowrap mb-3">
+                        <span class="input-group-text" id="addon-wrapping">구매자 아이디</span>
+                      	<span class="form-control" id="addon-wrapping" readonly>${purchase.buyer.userId}</span>
+                    </div>
+                    
+                    <div class="input-group input-group-lg flex-nowrap mb-3">
+                        <span class="input-group-text" id="addon-wrapping">구매 방법</span>
+                        <select class="form-control" 	name="paymentOption" >
+							<option value="1" selected="selected">현금구매</option>
+							<option value="2">신용구매</option>
+						</select>
+                    </div>
 
-<table width="100%" height="37" border="0" cellpadding="0" cellspacing="0">
-	<tr>
-		<td width="15" height="37">
-			<img src="/images/ct_ttl_img01.gif"  width="15" height="37"/>
-		</td>
-		<td background="/images/ct_ttl_img02.gif" width="100%" style="padding-left: 10px;">
-			<table width="100%" border="0" cellspacing="0" cellpadding="0">
-				<tr>
-					<td width="93%" class="ct_ttl01">구매정보수정</td>
-					<td width="20%" align="right">&nbsp;</td>
-				</tr>
-			</table>
-		</td>
-		<td width="12" height="37">
-			<img src="/images/ct_ttl_img03.gif" width="12" height="37"/>
-		</td>
-	</tr>
-</table>
+                    <div class="input-group input-group-lg flex-nowrap mb-3">
+                        <span class="input-group-text" id="addon-wrapping">구매자 이름</span>
+                        <input class="form-control" type="text" name="receiverName" value="${purchase.receiverName}">
+                    </div>
+                    
+                    <div class="input-group input-group-lg flex-nowrap mb-3">
+                        <span class="input-group-text" id="addon-wrapping">구매자 연락처</span>
+                        <input class="form-control" type="text" name="receiverPhone" value="${purchase.receiverPhone}">
+                    </div>
+                    
+                    <div class="input-group input-group-lg flex-nowrap mb-3">
+                        <span class="input-group-text" id="addon-wrapping">구매자 주소</span>
+                        <input class="form-control" type="text" name="dlvyAddr" value="${purchase.dlvyAddr}">
+                    </div>
 
-<table width="600" border="0" cellspacing="0" cellpadding="0"	align="center" style="margin-top: 13px;">
-	<tr>
-		<td height="1" colspan="3" bgcolor="D6D6D6"></td>
-	</tr>
-	<tr>
-		<td width="104" class="ct_write">구매자아이디</td>
-		<td bgcolor="D6D6D6" width="1"></td>
-		<td class="ct_write01">${purchase.buyer.userId}</td>
-		<input type="hidden" name="buyerId" value="${purchase.buyer.userId}">
-		<input type="hidden" name="tranNo" value="${purchase.tranNo}">
-	</tr>
-	<tr>
-		<td height="1" colspan="3" bgcolor="D6D6D6"></td>
-	</tr>
-	<tr>
-		<td width="104" class="ct_write">구매방법</td>
-		<td bgcolor="D6D6D6" width="1"></td>
-		<td class="ct_write01">
-			<select 	name="paymentOption" 	class="ct_input_g" style="width: 100px; height: 19px" 
-							maxLength="20">
-				<option value="1" selected="selected">현금구매</option>
-				<option value="2">신용구매</option>
-			</select>
-		</td>
-	</tr>
-	<tr>
-		<td height="1" colspan="3" bgcolor="D6D6D6"></td>
-	</tr>
-	<tr>
-		<td width="104" class="ct_write">구매자이름</td>
-		<td bgcolor="D6D6D6" width="1"></td>
-		<td class="ct_write01">
-			<input 	type="text" name="receiverName" 	class="ct_input_g" style="width: 100px; height: 19px" 
-							maxLength="20" value="${purchase.receiverName}" />
-		</td>
-	</tr>
-	<tr>
-		<td height="1" colspan="3" bgcolor="D6D6D6"></td>
-	</tr>
-	<tr>
-		<td width="104" class="ct_write">구매자 연락처</td>
-		<td bgcolor="D6D6D6" width="1"></td>
-		<td class="ct_write01">
-			<input 	type="text" name="receiverPhone" class="ct_input_g" style="width: 100px; height: 19px" 
-							maxLength="20" value="${purchase.receiverPhone}" />
-		</td>
-	</tr>
-
-	<tr>
-		<td height="1" colspan="3" bgcolor="D6D6D6"></td>
-	</tr>
-	<tr>
-		<td width="104" class="ct_write">구매자주소</td>
-		<td bgcolor="D6D6D6" width="1"></td>
-		<td class="ct_write01">
-			<input 	type="text" name="dlvyAddr" class="ct_input_g" style="width: 100px; height: 19px" 
-							maxLength="20" value="${purchase.dlvyAddr}" />
-		</td>
-	</tr>
-	<tr>
-		<td height="1" colspan="3" bgcolor="D6D6D6"></td>
-	</tr>
-	<tr>
-		<td width="104" class="ct_write">구매요청사항</td>
-		<td bgcolor="D6D6D6" width="1"></td>
-		<td class="ct_write01">
-			<input 	type="text" name="dlvyRequest" 	class="ct_input_g" style="width: 100px; height: 19px" 
-							maxLength="20" value="${purchase.dlvyRequest}" />
-		</td>
-	</tr>
-	<tr>
-		<td height="1" colspan="3" bgcolor="D6D6D6"></td>
-	</tr>
-	<tr>
-		<td width="104" class="ct_write">배송희망일자</td>
-		<td bgcolor="D6D6D6" width="1"></td>
-		<td width="200" class="ct_write01">
-			<input type="date" name="dlvyDate" value="${purchase.dlvyDate}" />
-		</td>
-	</tr>
-	<tr>
-		<td height="1" colspan="3" bgcolor="D6D6D6"></td>
-	</tr>
-</table>
-
+                    <div class="input-group input-group-lg flex-nowrap mb-3">
+                        <span class="input-group-text" id="addon-wrapping">구매 요청 사항</span>
+                        <input class="form-control" type="text" name="dlvyRequest" value="${purchase.dlvyRequest}">
+                    </div>
+                    
+                    <div class="input-group input-group-lg flex-nowrap mb-3">
+                        <span class="input-group-text" id="addon-wrapping">배송 희망 일자</span>
+                       <input class="form-control" type="date" name="dlvyDate" value="${purchase.dlvyDate}" />
+                    </div>
+                </div>
+            </div>
+        </form>
+        <button type="button" name="update" class="btn btn-warning">수정하기</button>
+        <button type="button" name="back" class="btn btn-success">취소하기</button>
+      </div> 
+      
+<%-- <form name="updatePurchase" method="post"	action="/purchase/updatePurchase">
 <table width="100%" border="0" cellspacing="0" cellpadding="0" style="margin-top: 10px;">
 	<tr>
 		<td width="53%"></td>
@@ -149,7 +95,7 @@
 		</td>
 	</tr>
 </table>
-</form>
+</form> --%>
 
 </body>
 </html>

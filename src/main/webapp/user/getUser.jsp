@@ -30,7 +30,7 @@
                 <br /><br />
                 <table class="table table-hover">
                     <tr>
-                        <td>이름</td>
+                        <td>제목</td>
                         <td>내용</td>
                     <tr>
                         <td width="150" class="ct_write">아이디</td>

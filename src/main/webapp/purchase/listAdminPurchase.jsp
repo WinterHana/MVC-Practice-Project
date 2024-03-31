@@ -3,56 +3,77 @@
 
 <%@ taglib prefix = "c" uri = "http://java.sun.com/jsp/jstl/core" %>
  
-<html>
+<!DOCTYPE html>
+<html lang="en">
+
 <head>
-<title>판매 관리</title>
-
-<link rel="stylesheet" href="/css/admin.css" type="text/css">
-
-<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
-<script type="text/javascript">
-	function fncGetPurchaseList(currentPage) {
-		let url = '/purchase/listPurchase/' + currentPage;
-		$("form").attr("method", "POST").attr("action", url).submit();
-	}
-
-	function updateTranCode(tranNo, selectId) {
-    	let selectedValue = $("#" + selectId).val();
-    	let url = "/purchase/updateTranCode?tranNo=" + tranNo + "&updateTranCode=" + selectedValue;
-   	 	$(window.location).attr("href" ,url); 
-	}
-	
-	$(function() {
-		$("span.tranCode:contains('변경하기')").on("click", function() {
-			let tranNo = $(this).data("a");
-			let selectId = $(this).data("b");
-			
-			console.log("tranNo : " + tranNo);
-			console.log("selectId : " + selectId);
-			
-			updateTranCode(tranNo, selectId);
-		})
-		
-		$("span.getPurchase").on("click", function() {
-			let url = "/purchase/getPurchase/"+ $(this).data("no");
-			$(window.location).attr("href" ,url);
-		})
-		
-		$("span.getUser").on("click", function() {
-			let url = "/user/getUser/"+ $(this).data("id");
-			$(window.location).attr("href" ,url);
-		})
-		
-		$("span.pageNavigator").on("click", function() {
-			fncGetPurchaseList($(this).data("page"));
-		})
-	})
-</script>
+<script defer type="text/javascript" src ="/javascript/common.js"></script>
+<script defer type="text/javascript" src ="/javascript/purchase/listAdminPurchase.js"></script>
+<jsp:include page="../toolbar.jsp" flush="true"/>
+<title>Purchase List</title>
 </head>
 
 <body bgcolor="#ffffff" text="#000000">
-
-<div style="width: 98%; margin-left: 10px;">
+    <div class="container">
+    	<br/>
+    	<h1>구매 관리</h1>
+    	<h3>전체 ${resultPage.totalCount} 건수, 현재 ${resultPage.currentPage} 페이지</h3>
+        <table class="table table-bordered">
+            <thead class="table-light ">
+                <tr>
+                    <td width = "10%" align = "center">No</td>
+                    <td width = "10%" align = "center">회원 ID</td>
+                    <td width = "20%" align = "center">제품 이름</td>
+                    <td width = "10%" align = "center">개수</td>
+                    <td width = "20%" align = "center">배송 현황</td>
+                    <td width = "40%" align = "center">메뉴</td>
+                </tr>
+            </thead>
+            <tbody>
+            	<c:forEach var = "purchase" items = "${list}">
+	               <tr>
+	                   <td width = "10%" align = "center">${purchase.tranNo}</td>
+	                   <td width = "10%" align = "center">
+	                   <form name = "getUser" action = "/user/getUser/${purchase.buyer.userId}" method = "POST">
+		                  <span class = "getUser text-primary" data-id ="${purchase.buyer.userId}">
+		                   		<%-- <input type = "hidden" value = "${purchase.buyer.userId}"/> --%>
+		                   		${purchase.buyer.userId}
+		                  </span>
+		               </form>
+	                   </td>
+	                   <td width = "20%" align = "center">${purchase.purchaseProd.prodName}</td>
+	                   <td width = "10%" align = "center">${purchase.prodCount}</td>
+	                   <td width = "20%" align = "center">
+	                   <c:forEach var = "entry" items = "${messageMap}">
+	                   		<c:if test = "${entry.key == purchase.tranNo}">
+								${entry.value}
+							</c:if>
+						</c:forEach>
+	                   </td>
+	                   <td width = "40%" align = "center">
+		                   <span class = "getPurchase text-primary" data-no ="${purchase.tranNo}">
+		                   자세히 보기
+		                   </span>
+		                   	<select name = "updateTranCode" id = "updateTranCode${purchase.tranNo}" >
+								<option value = "001"  ${not empty purchase.tranCode && purchase.tranCode eq "001" ? "selected" : "" }>
+								판매 완료</option>
+								<option value = "002"  ${not empty purchase.tranCode && purchase.tranCode eq "002" ? "selected" : "" }>
+								배송 중</option>
+								<option value = "003"  ${not empty purchase.tranCode && purchase.tranCode eq "003" ? "selected" : "" }>
+								배송 완료</option>
+							</select>
+							<span class = "tranCode" 
+								data-a = "${purchase.tranNo}" 
+								data-b ="updateTranCode${purchase.tranNo}">변경하기</span>
+						</td>
+                </c:forEach>
+            </tbody>
+          </table>
+          <div class = "row">
+          <jsp:include page = "../common/pageNavigator.jsp"/>
+          </div>
+       </div>
+<%-- <div style="width: 98%; margin-left: 10px;">
 
 <form name="detailForm" action="/purchase/listPurchase/1" method="post">
 
@@ -95,14 +116,14 @@
 		<td align="center">
 			<!-- 구매 내역 상세 보기 -->
 			<span class = "getPurchase" data-no ="${purchase.tranNo}">
-			<%-- <a href="/purchase/getPurchase/${purchase.tranNo}">${purchase.tranNo}</a> --%>
+			<a href="/purchase/getPurchase/${purchase.tranNo}">${purchase.tranNo}</a>
 			${purchase.tranNo}
 			</span>
 		</td>
 		<td></td>
 		<td align="left">
 			<span class = "getUser" data-id ="${purchase.buyer.userId}">
-			<%-- <a href="/user/getUser/{purchase.buyer.userId}">${purchase.buyer.userId}</a> --%>
+			<a href="/user/getUser/{purchase.buyer.userId}">${purchase.buyer.userId}</a>
 			${purchase.buyer.userId}
 			</span>
 		</td>
@@ -150,6 +171,6 @@
 
 <!--  페이지 Navigator 끝 -->
 </form>
-</div>
+</div> --%>
 </body>
 </html>

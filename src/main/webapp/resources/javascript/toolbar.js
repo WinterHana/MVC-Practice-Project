@@ -4,7 +4,7 @@ $("li.dropdown-item:contains('내 정보 보기')").on("click", function() {
 })
 
 // product autoComplete
-$("input[name='productSearch']").on("keydown", function() {
+$("#searchKeyword").on("keydown", function() {
 	let requestURL = "/rest/product/getProdNames";
 	
 	$.ajax({
@@ -13,7 +13,7 @@ $("input[name='productSearch']").on("keydown", function() {
 		dataType : "json",
 		contentType : "application/json",
 		success : function(JSONData, status) {
-			$("input[name='productSearch']").autocomplete({
+			$("#searchKeyword").autocomplete({
 				source : JSONData
 			});
 		}

@@ -70,7 +70,7 @@ public class ProductRestController extends CommonController  {
 				search.getPage(), 
 				((Integer)map.get("totalCount")).intValue(), 
 				PAGE_UNIT,
-				PAGE_SIZE
+				8
 		);
 		
 		// 3. Set ModelAndView

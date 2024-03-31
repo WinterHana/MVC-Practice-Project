@@ -84,10 +84,7 @@ public class PurchaseServiceImpl implements PurchaseService {
 			
 			if(list != null) {
 				list.stream().forEach(e -> {
-					e.getPurchaseProd()
-					.setProdName(productDAO.getProduct(
-							e.getPurchaseProd().getProdNo()
-					).getProdName());
+					e.getPurchaseProd().setProdName(productDAO.getProduct(e.getPurchaseProd().getProdNo()).getProdName());
 				});
 			}
 			
@@ -108,6 +105,7 @@ public class PurchaseServiceImpl implements PurchaseService {
 		
 		try {
 			result = purchaseDAO.getPurchase(tranNo);
+			result.getPurchaseProd().setProdName(productDAO.getProduct(result.getPurchaseProd().getProdNo()).getProdName());
 		} catch (Exception e){
 			System.out.println("[" + getClass().getName() + " .getPurchase] Exception");
 			e.printStackTrace();

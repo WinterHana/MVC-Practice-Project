@@ -22,7 +22,7 @@
 
 <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
 	<div class="container-fluid">
-		<a class="navbar-brand" href="/">Aris Shopping</a>
+		<a class="navbar-brand" href="/">이름 뭘로 하지</a>
 		<button class="navbar-toggler" type="button"
 			data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
 			aria-controls="navbarSupportedContent" aria-expanded="false"
@@ -78,10 +78,6 @@
 				</li>
 			</c:if>			
 			</ul>
-			<form class="d-flex">
-				<input name = "productSearch" class="form-control me-2" type="text" placeholder="Search" >
-				<button class="btn btn-danger" type="submit">Search</button>
-			</form>
 		</div>
 	</div>
 </nav>

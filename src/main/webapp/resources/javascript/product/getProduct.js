@@ -1,4 +1,4 @@
-function purchaseProduct() {
+function purchaseMenu() {
 	// 유효성 확인
 	let count = parseInt($("#count").text());
 
@@ -7,29 +7,28 @@ function purchaseProduct() {
 		return;
 	}
 	
-	alert("구매");
-	// $("form[name='updateUser']").submit();
+	$("div[name='purchaseMenu']").css("display", "block");
 }
 
 // 가격 업데이트
 function updateTotalPrice() {
 	let price = Number($("#price").text());
-	let purchaseCount = Number($("input[name='purchaseCount']").val());
+	let purchaseCount = Number($("input[name='prodCount']").val());
 	$("#totalPrice").text(price * purchaseCount);
 }
 
 $("button[name='down']").on("click", function() {
-	previousNum = Number($("input[name='purchaseCount']").val());
+	previousNum = Number($("input[name='prodCount']").val());
 	if(previousNum > 0) {
-		$("input[name='purchaseCount']").val(previousNum - 1);
+		$("input[name='prodCount']").val(previousNum - 1);
 	}
 	
 	updateTotalPrice();
 });
 
 $("button[name='up']").on("click", function() {
-	previousNum = Number($("input[name='purchaseCount']").val());
-	$("input[name='purchaseCount']").val(previousNum + 1);
+	previousNum = Number($("input[name='prodCount']").val());
+	$("input[name='prodCount']").val(previousNum + 1);
 	
 	updateTotalPrice();
 });
@@ -51,8 +50,19 @@ $("button[name='update']").on("click", function() {
 });
 
 $("button[name='purchase']").on("click", function() {
-	purchaseProduct();
+	purchaseMenu();
 });
 
+// PurchaseMenu
+$("div[name='purchaseMenu']").css("display", "none");
 
+$("button[name='purchaseComplete']").on("click", function() {
+	let count = parseInt($("input[name='prodCount']").val());
 
+	if(count <= 0) {
+		alert("구매할 상품 개수를 입력해주세요!");
+		return;
+	}
+	
+	$("form[ name = 'purchaseForm']").submit();
+});

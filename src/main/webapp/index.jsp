@@ -6,6 +6,7 @@
 <head>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <script defer type="text/javascript" src="/javascript/common.js"></script>
+<script defer type="text/javascript" src="/javascript/index.js"></script>
 <jsp:include page="toolbar.jsp" flush="true"/>
 <title>index</title>
 </head>
@@ -13,6 +14,10 @@
 <body>
 	
 	<div class="container">
+		<br/>
+		<h1  style = "text-align:center">이름 뭘로 할 지 모르겠네 진짜ㅋㅋ</h1>
+		<br/>
+		
 		<!-- Carousel -->
 		<div id="carouselExampleIndicators" class="carousel slide"
 			data-bs-ride="carousel">
@@ -27,13 +32,13 @@
 			</div>
 			<div class="carousel-inner">
 				<div class="carousel-item active">
-					<img src="#" class="d-block w-100" alt="First">
+					<img src="/img/main1.jpg" class="d-block w-100" alt="First">
 				</div>
 				<div class="carousel-item">
-					<img src="#" class="d-block w-100" alt="Second">
+					<img src="/img/main2.jpg" class="d-block w-100" alt="Second">
 				</div>
 				<div class="carousel-item">
-					<img src="#" class="d-block w-100" alt="Third">
+					<img src="/img/main3.jpg" class="d-block w-100" alt="Third">
 				</div>
 			</div>
 			<button class="carousel-control-prev" type="button"
@@ -56,7 +61,10 @@
 
 	<div class="container">
 		<div class="row">
-			<div class="col-5">여기에 설명을 적습니다~</div>
+			<div class="col-5">
+			<h4>옆에 있는 사진은 디폴트 사진입니다. </h4>
+			<h4>사진 못불러 왔을 때 가져오는 사진입니다.</h4>
+			</div>
 			<div class="col-7">
 				<img src="#" class="d-block w-100" alt="임시 설명 이미지">
 			</div>
@@ -69,48 +77,8 @@
 	<br />
 	
 	  <div class="container">
-        <h1>상품 목록<h1></h1>
-        <div class="row">
-            <div class="col-sm-3">
-                <div class="card text-center" style="width: 20rem; height:30rem;">
-                    <img src="#" class="card-img-top" alt="...">
-                    <div class="card-body">
-                        <h5 class="card-title">대상혁</h5>
-                        <p class="card-text">숭배하라</p>
-                        <a href="#" class="btn btn-primary">상세 정보</a>
-                    </div>
-                </div>
-            </div>
-            <div class="col-sm-3">
-                <div class="card text-center" style="width: 20rem; height:30rem;">
-                    <img src="#" class="card-img-top" alt="...">
-                    <div class="card-body">
-                        <h5 class="card-title">대상혁</h5>
-                        <p class="card-text">숭배하라</p>
-                        <a href="#" class="btn btn-primary">상세 정보</a>
-                    </div>
-                </div>
-            </div>
-            <div class="col-sm-3">
-                <div class="card text-center" style="width: 20rem; height:30rem;">
-                    <img src="#" class="card-img-top" alt="...">
-                    <div class="card-body">
-                        <h5 class="card-title">대상혁</h5>
-                        <p class="card-text">숭배하라</p>
-                        <a href="#" class="btn btn-primary">상세 정보</a>
-                    </div>
-                </div>
-            </div>
-            <div class="col-sm-3">
-                <div class="card text-center" style="width: 20rem; height:30rem;">
-                    <img src="#" class="card-img-top" alt="...">
-                    <div class="card-body">
-                        <h5 class="card-title">대상혁</h5>
-                        <p class="card-text">숭배하라</p>
-                        <a href="#" class="btn btn-primary">상세 정보</a>
-                    </div>
-                </div>
-            </div>
+        <h1>상품 목록</h1>
+        <div class="row" name="productList">
         </div>
     </div>
 </body>

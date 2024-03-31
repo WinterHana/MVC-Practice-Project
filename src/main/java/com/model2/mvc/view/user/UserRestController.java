@@ -124,14 +124,14 @@ public class UserRestController extends CommonController {
 		}
 		
 		search.setPageUnit(PAGE_UNIT); 
-		search.setPageSize(PAGE_SIZE);
+		search.setPageSize(5);
 		Map<String, Object> map = userService.getUserList(search);
 		 
 		Page resultPage	= new Page (
 				search.getPage(), 
 				((Integer)map.get("totalCount")).intValue(), 
 				PAGE_UNIT,
-				PAGE_SIZE
+				5
 		);
 		
 		Map<String, Object> result = new HashMap<String, Object>();
