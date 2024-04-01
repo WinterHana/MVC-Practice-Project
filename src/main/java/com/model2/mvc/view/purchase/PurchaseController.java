@@ -75,6 +75,8 @@ public class PurchaseController extends CommonController {
 			user.setRole("user");
 			map = purchaseService.getPurchaseList(search, user);
 			user.setRole("admin");
+		} else {
+			map = purchaseService.getPurchaseList(search, user);
 		}
 		
 		Page resultPage	= new Page(
@@ -240,10 +242,11 @@ public class PurchaseController extends CommonController {
 		return modelAndView;
 	}
 	
-	@RequestMapping(value = "/updateTranCode", method = RequestMethod.GET)
+	@RequestMapping(value = "/updateTranCode/{page}", method = RequestMethod.GET)
 	public ModelAndView updateTranCode(
 			@RequestParam("tranNo") String tranNo,
-			@RequestParam("updateTranCode") String tranCode) {
+			@RequestParam("updateTranCode") String tranCode,
+			@PathVariable("page") int page) {
 		System.out.println("[PurchaseController.updateTranCode()] start");
 		
 		// PurchaseVO
@@ -255,26 +258,26 @@ public class PurchaseController extends CommonController {
 		
 		System.out.println("[PurchaseController.updateTranCode()] end");
 		
-		return new ModelAndView("redirect:/purchase/listAdminPurchase/1");
+		return new ModelAndView("redirect:/purchase/listAdminPurchase/" + page);
 	}
 	
-	@RequestMapping(value = "/updateUserTranCode", method = RequestMethod.GET)
-	public ModelAndView updateUserTranCode(
-			@RequestParam("tranNo") String tranNo,
-			@RequestParam("updateTranCode") String tranCode) {
-		System.out.println("[PurchaseController.updateTranCode()] start");
-		
-		// PurchaseVO
-		PurchaseVO purchaseVO = new PurchaseVO();
-		purchaseVO.setTranCode(tranCode);
-		purchaseVO.setTranNo(Integer.parseInt(tranNo));
-		
-		purchaseService.updateTranCode(purchaseVO);
-		
-		System.out.println("[PurchaseController.updateTranCode()] end");
-		
-		return new ModelAndView("redirect:/purchase/listPurchase/1");
-	}
+//	@RequestMapping(value = "/updateUserTranCode", method = RequestMethod.GET)
+//	public ModelAndView updateUserTranCode(
+//			@RequestParam("tranNo") String tranNo,
+//			@RequestParam("updateTranCode") String tranCode) {
+//		System.out.println("[PurchaseController.updateTranCode()] start");
+//		
+//		// PurchaseVO
+//		PurchaseVO purchaseVO = new PurchaseVO();
+//		purchaseVO.setTranCode(tranCode);
+//		purchaseVO.setTranNo(Integer.parseInt(tranNo));
+//		
+//		purchaseService.updateTranCode(purchaseVO);
+//		
+//		System.out.println("[PurchaseController.updateTranCode()] end");
+//		
+//		return new ModelAndView("redirect:/purchase/listPurchase/1");
+//	}
 	
 	@RequestMapping(value = "/updatePurchaseView/{tranNo}")
 	public ModelAndView updatePurchaseView(@PathVariable("tranNo") int tranNo) {

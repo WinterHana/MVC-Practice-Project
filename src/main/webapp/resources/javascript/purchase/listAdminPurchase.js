@@ -3,20 +3,41 @@ function fncGetPurchaseList(currentPage) {
 	$("form").attr("method", "POST").attr("action", url).submit();
 }
 
-function updateTranCode(tranNo, selectId) {
+function updateTranCode(tranNo, selectId, page) {
 	let selectedValue = $("#" + selectId).val();
-	let url = "/purchase/updateTranCode?tranNo=" + tranNo + "&updateTranCode=" + selectedValue;
- 	$(window.location).attr("href" ,url); 
+	let requesURL = "/rest/purchase/updateTranCode/" + page;
+	
+	let obj = {
+		"tranNo" : tranNo,
+		"tranCode" : selectedValue,
+	}
+	
+	$.ajax({
+		url : requesURL,
+		method : "POST",
+		dataType : "json",
+		contentType : "application/json",
+		data : JSON.stringify(obj),
+		success : function(JSONData) {
+			
+		},
+	});
+
 }
 
 $("span.tranCode:contains('변경하기')").on("click", function() {
-	let tranNo = $(this).data("a");
-	let selectId = $(this).data("b");
+	let tranNo = $(this).data("no");
+	let selectId = $(this).data("code");
+	let page = $(this).data("page");
 	
 	console.log("tranNo : " + tranNo);
 	console.log("selectId : " + selectId);
+	console.log("page : " + page);
 	
-	updateTranCode(tranNo, selectId);
+	updateTranCode(tranNo, selectId, page);
+	
+	// 새로 고침
+	location.reload();
 })
 
 $("span.getPurchase").on("click", function() {

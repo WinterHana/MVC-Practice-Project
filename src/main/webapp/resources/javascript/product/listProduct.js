@@ -48,6 +48,7 @@ function submitDetailForm() {
 let lastScroll = 0;			// 스크롤을 아래로 내리는지 위로 올리는지 확인
 let page = 1;					// 처음 page 1을 불러오고 다음 페이지 불러오기
 let isGetList = true;
+let isGetDataFinish = true;	// 데이터를 들고 올 여부 확인
 
 function getProductData(
 	searchCondition, searchKeyword, 
@@ -89,6 +90,8 @@ function getProductData(
 					renderList(this);
 				}
 			)
+			// 다시 데이터 들고 오기
+			isGetDataFinish = true;
 		},
 		error : function() {
 			page = page;
@@ -135,11 +138,14 @@ $(document).scroll(function(){
 	
 	// 스크롤이 아래로 내려갔을 때
 	if(currentScroll > lastScroll) {
-/*		console.log("현재 스크롤 위치 : " + currentScroll);
+		console.log("현재 스크롤 위치 : " + currentScroll);
 		console.log("브라우저 창의 높이 : " + height);
-		console.log("전체 문서의 높이 : " +  documentHeight);*/
-		if((currentScroll + height) === documentHeight && isGetList === true) {
+		console.log("전체 문서의 높이 : " +  documentHeight);
+		if(currentScroll + height + 1 >= documentHeight 
+			&& isGetList === true 
+			&& isGetDataFinish === true) {
 			console.log("끝!");
+			isGetDataFinish = false;			// 데이터 가져오기 잠시 멈춤
 			getProductData(
 			$("select[name='searchCondition']").val(), 
 			$("input[name='searchKeyword']").val(),
@@ -154,7 +160,7 @@ $(document).scroll(function(){
 
 
 // 첫 시작 : page 1
-getProductData(null, null, null, null, null);
+getProductData("prodName", "", "", "", "prodName");
 
 // Searching
 function searchList() {

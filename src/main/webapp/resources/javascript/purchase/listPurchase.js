@@ -3,9 +3,27 @@ function fncGetPurchaseList(currentPage) {
 	$("form").attr("method", "POST").attr("action", url).submit();
 }
 
-function updateTranCode(tranNo, updateTranCode) {
-	let url = "/purchase/updateUserTranCode?tranNo=" + tranNo + "&updateTranCode=" + updateTranCode;
-	window.location.href = url; 
+function updateTranCode(tranNo, updateTranCode, page) {
+/*	let url = "/purchase/updateUserTranCode?tranNo=" + tranNo + "&updateTranCode=" + updateTranCode;
+	window.location.href = url; */
+	
+	let requesURL = "/rest/purchase/updateTranCode/" + page;
+	
+	let obj = {
+		"tranNo" : tranNo,
+		"tranCode" : updateTranCode,
+	}
+	
+	$.ajax({
+		url : requesURL,
+		method : "POST",
+		dataType : "json",
+		contentType : "application/json",
+		data : JSON.stringify(obj),
+		success : function(JSONData) {
+			
+		},
+	});
 }
 
 
@@ -15,7 +33,16 @@ $("span.getPurchase").on("click", function() {
 })
 
 $("span.updateTranCode").on("click", function() {
-	updateTranCode($(this).data("no"), "003");
+	let tranNo = $(this).data("no");
+	let page = $(this).data("page");
+	
+	console.log("tranNo : " + tranNo);
+	console.log("page : " + page);
+	
+	
+	updateTranCode($(this).data("no"), "003", $(this).data("page"));
+	
+	location.reload();
 })
 
 $("span.page-link").on("click", function() {

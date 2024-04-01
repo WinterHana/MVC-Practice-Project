@@ -41,13 +41,16 @@
 							</c:if>
 						</c:forEach>
 						<c:if test = "${purchase.tranCode == '002'}">
-							<span class = "updateTranCode C" data-no = "${purchase.tranNo}">
-								<a href="#" onclick="updateTranCode(${purchase.tranNo}, '003')">배송 받기</a>
+							<span class = "updateTranCode text-primary" 
+							data-no = "${purchase.tranNo}" 
+							data-page ="${resultPage.currentPage}">
+								배송 받기
 							</span>
 						</c:if>
 	                   </td>
 	                   <td width = "40%" align = "center">
-		                   <span class = "getPurchase text-primary" data-no ="${purchase.tranNo}">
+		                   <span class = "getPurchase text-primary" 
+		                   data-no ="${purchase.tranNo}" >
 		                   자세히 보기
 		                   </span>
 	                   </td>
