@@ -25,6 +25,7 @@ $("input[name='searchKeyword']").on("keydown", function() {
 let lastScroll = 0;			// 스크롤을 아래로 내리는지 위로 올리는지 확인
 let page = 1;				// 처음 page 1을 불러오고 다음 페이지 불러오기
 let isGetList = true;
+let isGetDataFinish = true;	// 데이터를 들고 올 여부 확인
 
 function getUserData(searchCondition, searchKeyword) {
 	
@@ -64,6 +65,9 @@ function getUserData(searchCondition, searchKeyword) {
 					renderList(this);
 				}
 			)
+			
+			// 다시 데이터 들고 오기
+			isGetDataFinish = true;
 		},
 		error : function() {
 			page = page;
@@ -118,8 +122,11 @@ $(document).scroll(function(){
 /*		console.log("현재 스크롤 위치 : " + currentScroll);
 		console.log("브라우저 창의 높이 : " + height);
 		console.log("전체 문서의 높이 : " +  documentHeight);*/
-		if((currentScroll + height) === documentHeight && isGetList === true) {
+		if(currentScroll + height + 1 >= documentHeight 
+		&& isGetList === true
+		&& isGetDataFinish === true) {
 			console.log("끝!");
+			isGetDataFinish = false;			// 데이터 가져오기 잠시 멈춤
 			getUserData($("select[name='searchCondition']").val(), $("input[name='searchKeyword']").val());
 		}
 	}
@@ -153,62 +160,5 @@ $("input[name='searchKeyword']").on("keypress", function(event) {
 
 // Debug
 console.log("listUser.js");
-
-
-
-
-/*
-// 처음 유저 버튼은 비활성화
-$("#userButton").addClass("disabled");
-
-$(".ct_list_pop td:nth-child(3)").on("click", function() {
-	var userId = $(this).text().trim();
-	
-	$.ajax({
-		url : "/rest/user/getUser/"+userId,
-		method : "POST",
-		dataType : "json",
-		header : {
-			"Accept" : "application/json",
-			"Content-Type" : "application/json"
-		},
-		success : function(JSONData, status) {
-			var display = 
-				"<h3>"
-				+ "아이디 : " + JSONData.userId + "<br/>"
-				+ "이름 : " +  JSONData.userName + "<br/>"
-				+ "비밀번호 : " +  JSONData.password + "<br/>"
-				+ "휴대폰 번호 : " +  JSONData.phone + "<br/>"
-				+ "주소 : " +  JSONData.addr + "<br/>"
-				+ "이메일 : " +  JSONData.email + "<br/>"
-				+ "<h3>";
-				
-			$("h3.infoFirst").remove();
-			$("#userInformation").html(display);
-		}
-	});
-	
-	$("#userId").val(userId);
-	$("#userButton").removeClass('disabled');
-});
-
-$(".ct_list_pop td:nth-child(3)").css("color", "blue");
-
-$("span.pageNavigator").on("click", function() {
-	fncGetUserList($(this).data("page"));
-});
-
-$("td.ct_btn01:contains('삭제')").on("click", function() {
-	result = window.confirm("정말로 탈퇴하시겠습니까?");
-	if(result) {
-		let url = "/user/deleteUser";
-		$("form[name='updateOrDeleteForm']").attr("method", "POST").attr("action", url).submit();
-	}
-});
-
-$("td.ct_btn01:contains('수정')").on("click", function() {
-	location.href = "/user/updateUserView/" + $("#userId").val();
-});
-*/
 
 

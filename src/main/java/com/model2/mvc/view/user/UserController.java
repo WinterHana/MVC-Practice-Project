@@ -90,6 +90,19 @@ public class UserController extends CommonController {
 		return modelAndView;
 	}	
 	
+	// Error 방지 GetMapping
+	@GetMapping(value = "getUser/{userId}")
+	public ModelAndView getUserMethodGet(@PathVariable("userId") String userId) {
+		
+		System.out.println("[UserController.getUser()] start");
+		
+		ModelAndView modelAndView = new ModelAndView("redirect:/");
+		
+		System.out.println("[UserController.getUser()] end");
+		
+		return modelAndView;
+	}	
+	
 	@PostMapping(value = "addUser")
 	public ModelAndView addUser(@ModelAttribute("user") UserVO user) {
 		System.out.println("[UserController.addUser()] start");

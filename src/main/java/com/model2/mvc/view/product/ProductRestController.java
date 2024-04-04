@@ -46,48 +46,9 @@ public class ProductRestController extends CommonController  {
 	@Autowired
 	@Qualifier("purchaseServiceImpl")
 	PurchaseService purchaseService;
-	
-	// Test
-	@RequestMapping(value = "/listAdminProduct/{page}")
-	public Map<String, Object> listAdminProduct(
-			@ModelAttribute("search") SearchVO search, 
-			@PathVariable("page") int page) {
-		System.out.println("[ProductController.listAdminProduct()] start");
 		
-		// 1. Page setting Default page = 1;
-		search.setPage(page);
-		if(search.getPage() == 0) {
-			search.setPage(1);
-		}
-		
-		search.setPageUnit(PAGE_UNIT); 
-		search.setPageSize(PAGE_SIZE);
-		
-		// 2. Get ProductList
-		Map<String, Object> map = productService.getProductList(search);
-		
-		Page resultPage	= new Page(
-				search.getPage(), 
-				((Integer)map.get("totalCount")).intValue(), 
-				PAGE_UNIT,
-				PAGE_SIZE
-		);
-		
-		// 3. Set ModelAndView
-		Map<String, Object> result = new HashMap<String, Object>();
-		result.put("path", "forward:/product/listAdminProduct.jsp");
-		result.put("list", map.get("list"));
-		result.put("resultPage", resultPage);
-		result.put("search", search);
-		result.put("getList", "fncGetProductList");
-		
-		System.out.println("[ProductController.listAdminProduct()] end");
-		
-		return result;
-	}
-	
-	// Test : 무한스크롤 테스트용
-	@RequestMapping(value = "/listUserProduct/{page}")
+	// 제품 리스트를 가져옴
+	@PostMapping(value = "/listProduct/{page}")
 	public Map<String, Object> listUserProduct(
 			@RequestBody SearchVO search,
 			@PathVariable("page") int page) {
@@ -100,7 +61,7 @@ public class ProductRestController extends CommonController  {
 		}
 		
 		search.setPageUnit(PAGE_UNIT); 
-		search.setPageSize(PAGE_SIZE);
+		search.setPageSize(8);
 		
 		// 2. Get ProductList
 		Map<String, Object> map = productService.getProductList(search);
@@ -109,7 +70,7 @@ public class ProductRestController extends CommonController  {
 				search.getPage(), 
 				((Integer)map.get("totalCount")).intValue(), 
 				PAGE_UNIT,
-				PAGE_SIZE
+				8
 		);
 		
 		// 3. Set ModelAndView
@@ -231,6 +192,7 @@ public class ProductRestController extends CommonController  {
 		return null;
 	}
 	
+	// AutoComplete method
 	@PostMapping(value = "getProdNames")
 	public List<String> getProdNames() {
 		System.out.println("[UserController.getProdNames()] start");

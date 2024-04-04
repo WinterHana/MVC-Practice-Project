@@ -48,6 +48,7 @@ public class PurchaseController extends CommonController {
 	@Qualifier("userServiceImpl")
 	UserService userService;
 	
+	// 개인 목록 확인 : role을 admin을 user로 바꿔서 검색한다.
 	@RequestMapping(value = "/listPurchase/{page}")
 	public ModelAndView listPurchase(
 			@ModelAttribute("search") SearchVO search, 
@@ -60,6 +61,78 @@ public class PurchaseController extends CommonController {
 		if(search.getPage() == 0) {
 			search.setPage(1);
 		}
+		
+		search.setPageUnit(PAGE_UNIT); 
+		search.setPageSize(PAGE_SIZE);
+		
+		// 2. Get purchaseList
+		boolean isAdmin = false;
+		UserVO user = (UserVO) session.getAttribute("user");			
+		
+		// 잠시 Role을 user로 바꾼 다음, 나중에 다시 admin으로 바꾼다.
+		Map<String, Object> map = null;
+		if (user.getRole().equals("admin")) {
+			user.setRole("user");
+			map = purchaseService.getPurchaseList(search, user);
+			user.setRole("admin");
+		} else {
+			map = purchaseService.getPurchaseList(search, user);
+		}
+		
+		Page resultPage	= new Page(
+				search.getPage(), 
+				((Integer)map.get("totalCount")).intValue(), 
+				PAGE_UNIT,
+				PAGE_SIZE
+		);
+		
+		// 3. Get Enum Message
+		List<PurchaseVO> list = (List<PurchaseVO>) map.get("list");
+		Map<Integer, String> messageMap = new HashMap<Integer, String>();
+		
+		Iterator<PurchaseVO> iterator = list.iterator();
+		while (iterator.hasNext()) {
+			PurchaseVO purchaseResult = iterator.next();
+			String tranCode = purchaseResult.getTranCode();
+			String message = TranStatusCodeUtil.getMessage(tranCode, isAdmin);
+			messageMap.put(purchaseResult.getTranNo(), message);
+		}
+		
+		String url = "forward:/purchase/listPurchase.jsp";
+		
+//		String url = null;
+//		if(isAdmin) {
+//			url = "forward:/purchase/listAdminPurchase.jsp";
+//		} else {
+//			url = "forward:/purchase/listUserPurchase.jsp";
+//		}
+		
+		ModelAndView modelAndView = new ModelAndView(url);
+		modelAndView.addObject("list", list);
+		modelAndView.addObject("resultPage", resultPage);
+		modelAndView.addObject("search", search);
+		modelAndView.addObject("getList", "fncGetPurchaseList");
+		modelAndView.addObject("messageMap", messageMap);
+		
+		System.out.println("[PurchaseController.listPurchase()] end");
+		
+		return modelAndView;
+	}
+	
+	
+	@RequestMapping(value = "/listAdminPurchase/{page}")
+	public ModelAndView listAdminPurchase(
+			@ModelAttribute("search") SearchVO search, 
+			@PathVariable("page") int page,
+			HttpSession session) {
+		System.out.println("[PurchaseController.listPurchase()] start");
+		
+		// Default page = 1;
+		search.setPage(page);
+		if(search.getPage() == 0) {
+			search.setPage(1);
+		}
+		
 		search.setPageUnit(PAGE_UNIT); 
 		search.setPageSize(PAGE_SIZE);
 		
@@ -91,12 +164,7 @@ public class PurchaseController extends CommonController {
 			messageMap.put(purchaseResult.getTranNo(), message);
 		}
 		
-		String url = null;
-		if(isAdmin) {
-			url = "forward:/purchase/listAdminPurchase.jsp";
-		} else {
-			url = "forward:/purchase/listUserPurchase.jsp";
-		}
+		String url = "forward:/purchase/listAdminPurchase.jsp";
 		
 		ModelAndView modelAndView = new ModelAndView(url);
 		modelAndView.addObject("list", list);
@@ -166,7 +234,7 @@ public class PurchaseController extends CommonController {
 		
 		purchaseService.addPurchase(purchase);
 		
-		ModelAndView modelAndView = new ModelAndView("forward:/purchase/addPurchase.jsp");
+		ModelAndView modelAndView = new ModelAndView("forward:/purchase/listPurchase/1");
 		modelAndView.addObject("purchase", purchase);
 		
 		System.out.println("[PurchaseController.addPurchase()] end");
@@ -174,10 +242,11 @@ public class PurchaseController extends CommonController {
 		return modelAndView;
 	}
 	
-	@RequestMapping(value = "/updateTranCode", method = RequestMethod.GET)
+	@RequestMapping(value = "/updateTranCode/{page}", method = RequestMethod.GET)
 	public ModelAndView updateTranCode(
 			@RequestParam("tranNo") String tranNo,
-			@RequestParam("updateTranCode") String tranCode) {
+			@RequestParam("updateTranCode") String tranCode,
+			@PathVariable("page") int page) {
 		System.out.println("[PurchaseController.updateTranCode()] start");
 		
 		// PurchaseVO
@@ -189,8 +258,26 @@ public class PurchaseController extends CommonController {
 		
 		System.out.println("[PurchaseController.updateTranCode()] end");
 		
-		return new ModelAndView("redirect:/purchase/listPurchase/1");
+		return new ModelAndView("redirect:/purchase/listAdminPurchase/" + page);
 	}
+	
+//	@RequestMapping(value = "/updateUserTranCode", method = RequestMethod.GET)
+//	public ModelAndView updateUserTranCode(
+//			@RequestParam("tranNo") String tranNo,
+//			@RequestParam("updateTranCode") String tranCode) {
+//		System.out.println("[PurchaseController.updateTranCode()] start");
+//		
+//		// PurchaseVO
+//		PurchaseVO purchaseVO = new PurchaseVO();
+//		purchaseVO.setTranCode(tranCode);
+//		purchaseVO.setTranNo(Integer.parseInt(tranNo));
+//		
+//		purchaseService.updateTranCode(purchaseVO);
+//		
+//		System.out.println("[PurchaseController.updateTranCode()] end");
+//		
+//		return new ModelAndView("redirect:/purchase/listPurchase/1");
+//	}
 	
 	@RequestMapping(value = "/updatePurchaseView/{tranNo}")
 	public ModelAndView updatePurchaseView(@PathVariable("tranNo") int tranNo) {
@@ -223,7 +310,7 @@ public class PurchaseController extends CommonController {
 			@ModelAttribute("product") ProductVO product) {
 		System.out.println("[PurchaseController.deletePurchase()] start");
 		
-		ModelAndView modelAndView = new ModelAndView("redirect:/purchase/listPurchase/1");
+		ModelAndView modelAndView = new ModelAndView("forward:/purchase/listPurchase/1");
 		purchase.setPurchaseProd(product);
 		purchaseService.deletePurchase(purchase);
 		

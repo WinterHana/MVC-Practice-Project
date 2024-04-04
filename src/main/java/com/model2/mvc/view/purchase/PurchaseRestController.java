@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -28,6 +29,7 @@ import com.model2.mvc.common.util.TranStatusCodeUtil;
 import com.model2.mvc.service.domain.ProductVO;
 import com.model2.mvc.service.domain.PurchaseVO;
 import com.model2.mvc.service.domain.RestApiCommonVO;
+import com.model2.mvc.service.domain.UpdateTranCodeVO;
 import com.model2.mvc.service.domain.UserVO;
 import com.model2.mvc.service.product.ProductService;
 import com.model2.mvc.service.purchase.PurchaseService;
@@ -194,21 +196,21 @@ public class PurchaseRestController extends CommonController {
 	}
 	
 	// Test
-	@RequestMapping(value = "/updateTranCode", method = RequestMethod.GET)
+	@PostMapping(value = "/updateTranCode/{page}")
 	public Map<String, Object> updateTranCode(
-			@RequestParam("tranNo") String tranNo,
-			@RequestParam("updateTranCode") String tranCode) {
+			@RequestBody UpdateTranCodeVO updateTranCode,
+			@PathVariable("page") int page) {
 		System.out.println("[PurchaseController.updateTranCode()] start");
 		
 		// PurchaseVO
 		PurchaseVO purchaseVO = new PurchaseVO();
-		purchaseVO.setTranCode(tranCode);
-		purchaseVO.setTranNo(Integer.parseInt(tranNo));
+		purchaseVO.setTranCode(updateTranCode.getTranCode());
+		purchaseVO.setTranNo(updateTranCode.getTranNo());
 		
 		purchaseService.updateTranCode(purchaseVO);
 		
 		Map<String, Object> result = new HashMap<String, Object>();
-		result.put("path", "redirect:/purchase/listPurchase/1");
+		result.put("path", "redirect:/purchase/listPurchase/" + page);
 		
 		System.out.println("[PurchaseController.updateTranCode()] end");
 		
